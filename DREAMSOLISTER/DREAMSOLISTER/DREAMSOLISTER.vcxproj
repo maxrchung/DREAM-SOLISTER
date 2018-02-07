@@ -125,6 +125,12 @@
   <ItemGroup>
     <None Include="DREAMSOLISTER.chai" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="test.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CameraValues.hpp" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
