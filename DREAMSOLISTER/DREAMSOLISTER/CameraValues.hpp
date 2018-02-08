@@ -1,9 +1,10 @@
 #pragma once
-#include "Vector3.hpp"
+#include "OsuukiSB/Vector2.hpp"
+#include "OsuukiSB/Vector3.hpp"
 struct CameraValues {
-	CameraValues(const Vector3& pPosition, const float pRoll, const float pScale)
-		: position{ pPosition }, roll{ pRoll }, scale{ pScale } {}
-	const Vector3 position;
+	CameraValues(const Vector2& pCoordinate, const float pRoll, const float pScale)
+		: position{ pCoordinate.x * pScale, pCoordinate.y * pScale }, roll{ pRoll }, scale{ pScale } {}
 	const float roll;
 	const float scale;
+	const Vector2 position;
 };

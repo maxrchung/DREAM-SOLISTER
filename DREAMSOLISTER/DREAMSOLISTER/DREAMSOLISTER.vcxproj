@@ -76,7 +76,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\Wax Chug da Gwad\Desktop\S2VX\Libraries\include;C:\Users\Wax Chug da Gwad\Desktop\OsuukiSB\OsuukiSB\OsuukiSB;C:\Users\Wax Chug da Gwad\Desktop\S2VX\S2VX</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Wax Chug da Gwad\Desktop\S2VX\Libraries\include;C:\Users\Wax Chug da Gwad\Desktop\OsuukiSB\OsuukiSB;C:\Users\Wax Chug da Gwad\Desktop\S2VX</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalDependencies>OsuukiSB.lib;opengl32.lib;glfw3.lib;S2VX.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -130,6 +130,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CameraValues.hpp" />
+    <ClInclude Include="SpriteBinding.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
