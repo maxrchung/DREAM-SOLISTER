@@ -1,6 +1,9 @@
 #include "CameraValues.hpp"
 #include "SpriteBinding.hpp"
 #include "S2VX/CameraCommand.hpp"
+#include "S2VX/CameraMoveCommand.hpp"
+#include "S2VX/CameraRotateCommand.hpp"
+#include "S2VX/CameraZoomCommand.hpp"
 #include "S2VX/Display.hpp"
 #include "S2VX/Scripting.hpp"
 #include "S2VX/Sprite.hpp"
@@ -12,19 +15,22 @@
 #include "OsuukiSB/Storyboard.hpp"
 #include <iostream>
 
-CameraValues getCameraValuesAtMilliseconds(S2VX::Camera& camera, const int time) {
-	for (const auto& command : camera.getCommands()) {
-		if (command->getStart() <= time) {
-			camera.update(command->getStart());
-		}
-		else {
-			break;
-		}
-	}
-	camera.update(time);
+// All images have the same fixed width
+float imageWidth = 100.0f;
 
-	auto cameraValues = CameraValues{ Vector2{ camera.getPosition().x, camera.getPosition().y}, camera.getRoll(), camera.getScale() };
-	return cameraValues;
+Vector2 convertglmvec2ToVector2(const glm::vec2& source) {
+	return Vector2{ source.x, source.y };
+}
+
+Vector2 convertCoordinatesToPosition(glm::vec2 coordinates, const CameraValues& cameraValues) {
+	auto position = convertglmvec2ToVector2(coordinates) * cameraValues.scale;
+	auto translatePosition = position - cameraValues.position;
+	auto rotatePosition = translatePosition.Rotate(cameraValues.roll);
+	return rotatePosition;
+}
+
+float convertDegreesToRadians(float radians) {
+	return radians * 3.14159f / 180.0f;
 }
 
 Easing convertS2VXEasingToOsuukiSBEasing(S2VX::EasingType source) {
@@ -100,23 +106,30 @@ Color convertS2VXColorToOsuukiSBColor(const glm::vec3& source) {
 	return Color{ 255.0f * source.x, 255.0f * source.y, 255.0f * source.z };
 }
 
-
-Vector2 convertglmvec2ToVector2(const glm::vec2& source) {
-	return Vector2{ source.x, source.y };
+std::vector<SpriteBinding> createSpriteBindings(const std::vector<std::unique_ptr<S2VX::Sprite>>& S2VXSprites) {
+	auto spriteBindings = std::vector<SpriteBinding>(S2VXSprites.size());
+	for (auto i = 0; i < spriteBindings.size(); ++i) {
+		spriteBindings[i] = SpriteBinding{ S2VXSprites[i].get() };
+	}
+	return spriteBindings;
 }
 
-Vector2 convertCoordinatesToPosition(glm::vec2 coordinates, const CameraValues& cameraValues) {
-	auto position = convertglmvec2ToVector2(coordinates) * cameraValues.scale;
-	auto translatePosition = position - cameraValues.position;
-	auto rotatePosition = translatePosition.Rotate(cameraValues.roll);
-	return rotatePosition;
+CameraValues getCameraValuesAtMilliseconds(S2VX::Camera& camera, const int time) {
+	for (const auto& command : camera.getCommands()) {
+		if (command->getStart() <= time) {
+			camera.update(command->getStart());
+		}
+		else {
+			break;
+		}
+	}
+	camera.update(time);
+
+	auto cameraValues = CameraValues{ Vector2{ camera.getPosition().x, camera.getPosition().y }, camera.getRoll(), camera.getScale() };
+	return cameraValues;
 }
 
-float convertDegreesToRadians(float radians) {
-	return radians * 3.14159f / 180.0f;
-}
-
-void convertS2VXSpritesToOsu(S2VX::Camera& camera, std::vector<SpriteBinding> spriteBindings) {
+void processS2VXSprites(S2VX::Camera& camera, const std::vector<SpriteBinding>& spriteBindings) {
 	for (auto binding: spriteBindings) {
 		auto S2VXSprite = binding.S2VXSprite;
 		auto sprite = binding.sprite;
@@ -124,8 +137,6 @@ void convertS2VXSpritesToOsu(S2VX::Camera& camera, std::vector<SpriteBinding> sp
 			auto easing = convertS2VXEasingToOsuukiSBEasing(command->getEasing());
 			auto start = command->getStart();
 			auto end = command->getEnd();
-			auto startCameraValues = getCameraValuesAtMilliseconds(camera, start);
-			auto endCameraValues = getCameraValuesAtMilliseconds(camera, end);
 
 			// yucklmao. I kind of regret using Command Pattern
 			auto commandPointer = command.get();
@@ -134,6 +145,7 @@ void convertS2VXSpritesToOsu(S2VX::Camera& camera, std::vector<SpriteBinding> sp
 				auto startColor = convertS2VXColorToOsuukiSBColor(color->getStartColor());
 				auto endColor = convertS2VXColorToOsuukiSBColor(color->getEndColor());
 				sprite->Color(start, end, startColor, endColor, easing);
+				continue;
 			}
 
 			auto fade = dynamic_cast<S2VX::SpriteFadeCommand*>(commandPointer);
@@ -144,46 +156,99 @@ void convertS2VXSpritesToOsu(S2VX::Camera& camera, std::vector<SpriteBinding> sp
 
 			auto move = dynamic_cast<S2VX::SpriteMoveCommand*>(commandPointer);
 			if (move != nullptr) {
+				auto startCameraValues = getCameraValuesAtMilliseconds(camera, move->getStart());
+				auto endCameraValues = getCameraValuesAtMilliseconds(camera, move->getEnd());
 				auto startPosition = convertCoordinatesToPosition(move->getStartCoordinate(), startCameraValues);
 				auto endPosition = convertCoordinatesToPosition(move->getEndCoordinate(), endCameraValues);
 
 				sprite->Move(start, end, startPosition, endPosition, easing);
 				continue;
 			}
+		}
+	}
+}
 
-			auto rotate = dynamic_cast<S2VX::SpriteRotateCommand*>(commandPointer);
-			if (rotate != nullptr) {
-				auto startRotation = convertDegreesToRadians(rotate->getStartRotation());
-				auto endRotation = convertDegreesToRadians(rotate->getEndRotation());
-				sprite->Rotate(start, end, startRotation, endRotation, easing);
+void processCamera(S2VX::Camera& camera, const std::vector<SpriteBinding>& spriteBindings) {
+	// Use ints so in order
+	std::set<int> actives;
+	int nextActive = 0;
+	for (auto& command : camera.getCommands()) {
+		auto start = command->getStart();
+		auto end = command->getEnd();
+
+		// Remove active binding if end < start
+		for (auto active = actives.begin(); active != actives.end(); ) {
+			auto S2VXSprite = spriteBindings[(*active)].S2VXSprite;
+			if (S2VXSprite->getEnd() < start) {
+				active = actives.erase(active);
+			}
+			else {
+				++active;
+			}
+		}
+
+		while (nextActive != spriteBindings.size() && spriteBindings[nextActive].S2VXSprite->getStart() <= start) {
+			actives.insert(nextActive++);
+		}
+
+		// Update sprites
+		auto commandPointer = command.get();
+		auto easing = convertS2VXEasingToOsuukiSBEasing(command->getEasing());
+		camera.update(command->getEnd());
+		auto cameraValues = CameraValues(Vector2{ camera.getPosition().x, camera.getPosition().y }, camera.getRoll(), camera.getScale());
+		for (auto active : actives) {
+			auto sprite = spriteBindings[active].sprite;
+
+			auto move = dynamic_cast<S2VX::CameraMoveCommand*>(commandPointer);
+			if (move != nullptr) {
+				auto distance = move->getEndCoordinate() - move->getStartCoordinate();
+				auto convertDistance = convertglmvec2ToVector2(distance);
+				auto scaleDistance = convertDistance * cameraValues.scale;
+				auto endPosition = sprite->position + scaleDistance;
+				sprite->Move(start, end, sprite->position, endPosition, easing);
 				continue;
 			}
 
-			auto scale = dynamic_cast<S2VX::SpriteScaleCommand*>(commandPointer);
-			if (scale != nullptr) {
-				sprite->Scale(start, end, scale->getStart(), scale->getEnd(), easing);
+			auto rotate = dynamic_cast<S2VX::CameraRotateCommand*>(commandPointer);
+			if (rotate != nullptr) {
+				// Local rotation
+				auto startRotation = convertDegreesToRadians(rotate->getStartRotation());
+				auto endRotation = convertDegreesToRadians(rotate->getEndRotation());
+				sprite->Rotate(start, end, startRotation, endRotation, easing);
+
+				// Movement adjustment
+				auto rotatedPosition = sprite->position.Rotate(endRotation);
+				sprite->Move(start, end, sprite->position, rotatedPosition, easing);
+				continue;
+			}
+
+			auto zoom = dynamic_cast<S2VX::CameraZoomCommand*>(commandPointer);
+			if (zoom != nullptr) {
+				// Local scale
+				auto startScale = zoom->getStartScale() / imageWidth;
+				auto endScale = zoom->getEndScale() / imageWidth;
+				sprite->Scale(start, end, startScale, endScale, easing);
+
+				// Movement adjustment
+				auto scaleFactor = endScale / startScale;
+				auto distance = sprite->position.Magnitude();
+				auto normalizedPosition = sprite->position.Normalize();
+				auto scaledPosition = normalizedPosition * (scaleFactor * distance);
+				sprite->Move(start, end, sprite->position, scaledPosition);
 				continue;
 			}
 		}
 	}
 }
 
-std::vector<SpriteBinding> createSpriteBindings(const std::vector<std::unique_ptr<S2VX::Sprite>>& S2VXSprites) {
-	auto spriteBindings = std::vector<SpriteBinding>(S2VXSprites.size());
-	for (auto i = 0; i < spriteBindings.size(); ++i) {
-		spriteBindings[i] = SpriteBinding{ S2VXSprites[i].get() };
-	}
-	return spriteBindings;
-}
-
-int main() {
+void main() {
 	S2VX::Display display;
 	S2VX::Scripting scripting{ display };
 	auto& elements = scripting.evaluate("DREAMSOLISTER.chai");
 	auto spriteBindings = createSpriteBindings(elements.getSprites().getSprites());
-	convertS2VXSpritesToOsu(elements.getCamera(), spriteBindings);
+	processS2VXSprites(elements.getCamera(), spriteBindings);
+	processCamera(elements.getCamera(), spriteBindings);
 
 	auto path = std::string(R"(X:\osu!\Songs\717639 TRUE - DREAM SOLISTER\TRUE - DREAM SOLISTER (Shiratoi).osb)");
 	Storyboard::Instance()->Write(path);
-	return 0;
 }
