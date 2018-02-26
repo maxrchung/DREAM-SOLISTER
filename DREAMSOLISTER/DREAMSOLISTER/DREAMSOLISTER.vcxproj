@@ -121,6 +121,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="DREAMSOLISTER.cpp" />
+    <ClCompile Include="SpriteGroup.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="DREAMSOLISTER.chai" />
@@ -131,6 +132,7 @@
   <ItemGroup>
     <ClInclude Include="CameraValues.hpp" />
     <ClInclude Include="SpriteBinding.hpp" />
+    <ClInclude Include="SpriteGroup.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,11 +1,14 @@
 #pragma once
+#include "SpriteGroup.hpp"
 #include "S2VX/Sprite.hpp"
 #include "S2VX/Texture.hpp"
+#include "S2VX/SpriteMoveCommand.hpp"
 #include "OsuukiSB/Sprite.hpp"
+
 struct SpriteBinding {
 	SpriteBinding() {}
-	SpriteBinding(S2VX::Sprite* pS2VXSprite)
-		: S2VXSprite{ pS2VXSprite }, sprite{ new Sprite{ S2VXSprite->getTexture().getPath()} } {}
+	explicit SpriteBinding(S2VX::Sprite* pS2VXSprite, const SpriteGroup& pSpriteGroup)
+		: S2VXSprite{ pS2VXSprite }, spriteGroup{ pSpriteGroup } {}
 	S2VX::Sprite* S2VXSprite;
-	Sprite* sprite;
+	SpriteGroup spriteGroup;
 };
