@@ -244,7 +244,7 @@ void processCamera(S2VX::Camera& camera, const std::vector<SpriteBinding>& sprit
 					const auto localRotatePosition = sprite->position.Rotate(endRotation);
 					sprite->Move(start, end, sprite->position, localRotatePosition, easing);
 
-					sprite->Rotate(start, end, sprite->rotation, sprite->rotation + rotation, easing);
+					sprite->Rotate(start, end, sprite->rotation, sprite->rotation + endRotation, easing);
 				}
 				const auto centerPosition = center + rotateDistance;
 				spriteGroup.center = centerPosition;
@@ -298,6 +298,8 @@ void main() {
 		auto spriteBindings = createSpriteBindings(elements.getSprites().getSprites(), elements.getCamera());
 		processS2VXSprites(elements.getCamera(), spriteBindings);
 		processCamera(elements.getCamera(), spriteBindings);
+		// Destroy sprite bindings
+		std::for_each(spriteBindings.begin(), spriteBindings.end(), [](SpriteBinding& binding) { binding.spriteGroup.destroy(); });
 
 		auto path = std::string(R"(X:\osu!\Songs\717639 TRUE - DREAM SOLISTER\TRUE - DREAM SOLISTER (Shiratoi).osb)");
 		Storyboard::Instance()->Write(path);

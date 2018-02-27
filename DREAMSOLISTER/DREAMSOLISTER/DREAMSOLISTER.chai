@@ -6,11 +6,14 @@ CameraMove(0,0, 1, 0,0, 3.5,0);
 CameraRotate(0,0, 1, 0,30);
 CameraZoom(0,0, 1, 100,80);
 
+CameraRotate(3000,4000, 1, 30,60);
+
+
 var lyric = "KANAETAI";
 for(var i = 0; i < lyric.size(); ++i) {
 	SpriteBind(to_string(lyric[i]));
-	SpriteMove(804,804,	1,	i,0,	i,0);
-	SpriteColor(804, 5116, 2,	1,0.82,0.86,	1,0.82,0.86);
+	SpriteMove(804,5116,	1,	i,0,	i,0);
+	SpriteColor(804, 804, 2,	1,0.82,0.86,	1,0.82,0.86);
 }
 
 BackColor(5000, 10000,1,0.0f,0.0f,0.0f,0.5f,0.5f,0.5f)
