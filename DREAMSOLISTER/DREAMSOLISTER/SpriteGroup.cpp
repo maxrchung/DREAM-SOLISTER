@@ -88,15 +88,15 @@ void SpriteGroup::destroy() {
 
 		const auto direction = rand() % 360;
 		const auto endPosition = sprite->position + Vector2(scale * overallScale * imageWidth, 0.0f).Rotate(direction * 3.14159f / 180.0f);
-		sprite->Move(end, endFade, sprite->position, endPosition);
+		sprite->Move(end, endFade, sprite->position, endPosition, Easing::EasingOut);
 
 		// Square
 		if (sprite->scaleVector != Vector2(1.0f, 1.0f)) {
 			auto min = std::min(sprite->scaleVector.x, sprite->scaleVector.y);
-			sprite->ScaleVector(end, endFade, sprite->scaleVector, Vector2(min, min));
+			sprite->ScaleVector(end, endFade, sprite->scaleVector, Vector2(min, min), Easing::EasingOut);
 		}
 
-		sprite->Rotate(end, endFade, sprite->rotation, 0);
+		sprite->Rotate(end, endFade, sprite->rotation, 0, Easing::EasingOut);
 	}
 }
 
@@ -117,20 +117,20 @@ void SpriteGroup::makeSpriteGroup(const std::vector<float>& linePoints, const st
 		const auto midPoint = (startPoint + endPoint) / 2.0f;
 
 		auto sprite = new Sprite("square.png", midPoint);
-		sprite->Fade(startFade, start, 0, 1.0f);
+		sprite->Fade(startFade, start, 0, 1.0f, Easing::EasingIn);
 
 		const auto direction = rand() % 360;
 		const auto startPosition = midPoint + Vector2(scale * overallScale * imageWidth, 0.0f).Rotate(direction * 3.14159f / 180.0f);
 
-		sprite->Move(startFade, start, startPosition, midPoint);
+		sprite->Move(startFade, start, startPosition, midPoint, Easing::EasingIn);
 		const auto difference = endPoint - startPoint;
 		const auto angleBetween = Vector2(1.0f, 0.0).AngleBetween(difference);
-		sprite->Rotate(startFade, start, 0, angleBetween);
+		sprite->Rotate(startFade, start, 0, angleBetween, Easing::EasingIn);
 
 		const auto distance = difference.Magnitude();
 		const auto scaleWidth = distance / imageWidth;
 		const auto spriteScale = Vector2(scaleWidth, scaleHeight);
-		sprite->ScaleVector(startFade, start, Vector2(scaleHeight, scaleHeight), spriteScale);
+		sprite->ScaleVector(startFade, start, Vector2(scaleHeight, scaleHeight), spriteScale, Easing::EasingIn);
 		sprites.push_back(sprite);
 	}
 
@@ -142,11 +142,11 @@ void SpriteGroup::makeSpriteGroup(const std::vector<float>& linePoints, const st
 		const auto position = center + Vector2(scaledPoints[i], scaledPoints[i + 1]).Rotate(rotation);
 
 		auto sprite = new Sprite("circle.png", position);
-		sprite->Fade(startFade, start, 0, 1.0f);
+		sprite->Fade(startFade, start, 0, 1.0f, Easing::EasingIn);
 
 		const auto direction = rand() % 360;
 		const auto startPosition = position + Vector2(scale * overallScale * imageWidth, 0.0f).Rotate(direction * 3.14159f / 180.0f);
-		sprite->Move(startFade, start, startPosition, position);
+		sprite->Move(startFade, start, startPosition, position, Easing::EasingIn);
 
 		sprite->Scale(startFade, start, circleWidth, circleWidth);
 		sprites.push_back(sprite);

@@ -1,5 +1,6 @@
 #include "CameraValues.hpp"
 #include "SpriteBinding.hpp"
+#include "S2VX/BackColorCommand.hpp"
 #include "S2VX/CameraCommand.hpp"
 #include "S2VX/CameraMoveCommand.hpp"
 #include "S2VX/CameraRotateCommand.hpp"
@@ -20,6 +21,16 @@
 int imageWidth = 100;
 // Quarter beat
 int quarter = 360;
+
+std::string addWithNewLine(const char* what) {
+	std::string message(what);
+	if (message.size() > 0 && message[message.size() - 1] == '\n') {
+		return message;
+	}
+	else {
+		return message + "\n";
+	}
+}
 
 Vector2 convertglmvec2ToVector2(const glm::vec2& source) {
 	return Vector2{ source.x, source.y };
@@ -107,6 +118,26 @@ Easing convertS2VXEasingToOsuukiSBEasing(const S2VX::EasingType source) {
 
 Color convertS2VXColorToOsuukiSBColor(const glm::vec3& source) {
 	return Color{ 255.0f * source.x, 255.0f * source.y, 255.0f * source.z };
+}
+
+void processBackground(const S2VX::Back& back) {
+	auto bg = new Sprite("square.png", Vector2::Zero, Layer::Background);
+	const auto bgScale = Vector2(Vector2::ScreenSize.x / imageWidth, Vector2::ScreenSize.y);
+	bg->ScaleVector(0, 0, bgScale, bgScale);
+	for (const auto& command : back.getCommands()) {
+		const auto start = command->getStart();
+		const auto end = command->getEnd();
+		const auto easing = convertS2VXEasingToOsuukiSBEasing(command->getEasing());
+
+		const auto commandPointer = command.get();
+		const auto color = dynamic_cast<S2VX::BackColorCommand*>(commandPointer);
+		if (color != nullptr) {
+			const auto startColor = convertS2VXColorToOsuukiSBColor(color->getStartColor());
+			const auto endColor = convertS2VXColorToOsuukiSBColor(color->getEndColor());
+			bg->Color(start, end, startColor, endColor, easing);
+			continue;
+		}
+	}
 }
 
 S2VX::SpriteMoveCommand* getS2VXMoveCommand(const std::vector<std::unique_ptr<S2VX::Command>>& commands) {
@@ -236,15 +267,15 @@ void processCamera(S2VX::Camera& camera, const std::vector<SpriteBinding>& sprit
 				const auto rotation = endRotation - startRotation;
 				
 				// Movement adjustment
-				const auto rotatePosition = center.Rotate(endRotation);
+				const auto rotatePosition = center.Rotate(rotation);
 				const auto rotateDistance = rotatePosition - center;
 
 				// Apply together
 				for (auto sprite : spriteGroup.sprites) {
-					const auto localRotatePosition = sprite->position.Rotate(endRotation);
+					const auto localRotatePosition = sprite->position.Rotate(rotation);
 					sprite->Move(start, end, sprite->position, localRotatePosition, easing);
 
-					sprite->Rotate(start, end, sprite->rotation, sprite->rotation + endRotation, easing);
+					sprite->Rotate(start, end, sprite->rotation, sprite->rotation + rotation, easing);
 				}
 				const auto centerPosition = center + rotateDistance;
 				spriteGroup.center = centerPosition;
@@ -275,26 +306,16 @@ void processCamera(S2VX::Camera& camera, const std::vector<SpriteBinding>& sprit
 	}
 }
 
-std::string addWithNewLine(const char* what) {
-	std::string message(what);
-	if (message.size() > 0 && message[message.size() - 1] == '\n') {
-		return message;
-	}
-	else {
-		return message + "\n";
-	}
-}
-
 void main() {
 	try {
 		srand(time(NULL));
-		auto bg = new Sprite("square.png", Vector2::Zero, Layer::Background);
-		auto bgScale = Vector2(Vector2::ScreenSize.x / imageWidth, Vector2::ScreenSize.y);
-		bg->ScaleVector(0, 360000, bgScale, bgScale);
 
 		S2VX::Display display;
 		S2VX::Scripting scripting{ display };
 		auto& elements = scripting.evaluate("DREAMSOLISTER.chai");
+
+		processBackground(elements.getBack());
+
 		auto spriteBindings = createSpriteBindings(elements.getSprites().getSprites(), elements.getCamera());
 		processS2VXSprites(elements.getCamera(), spriteBindings);
 		processCamera(elements.getCamera(), spriteBindings);
