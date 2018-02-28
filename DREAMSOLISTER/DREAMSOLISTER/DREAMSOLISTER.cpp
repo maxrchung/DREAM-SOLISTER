@@ -122,7 +122,7 @@ Color convertS2VXColorToOsuukiSBColor(const glm::vec3& source) {
 
 void processBackground(const S2VX::Back& back) {
 	auto bg = new Sprite("square.png", Vector2::Zero, Layer::Background);
-	const auto bgScale = Vector2(Vector2::ScreenSize.x / imageWidth, Vector2::ScreenSize.y);
+	const auto bgScale = Vector2(Vector2::ScreenSize.x / imageWidth, Vector2::ScreenSize.y / imageWidth);
 	bg->ScaleVector(0, 0, bgScale, bgScale);
 	for (const auto& command : back.getCommands()) {
 		const auto start = command->getStart();
@@ -138,6 +138,31 @@ void processBackground(const S2VX::Back& back) {
 			continue;
 		}
 	}
+}
+
+void setBorder() {
+	const auto borderOffset = 25.0f;
+	const auto halfSize = Vector2::ScreenSize / 2;
+	const auto color = Color(0.0f, 169.0f, 195.0f);
+	const auto width = 10.0f;
+	const auto horizontal = Vector2((Vector2::ScreenSize.x - 2 * borderOffset + width) / imageWidth, width / imageWidth);
+	const auto vertical = Vector2(width / imageWidth, (Vector2::ScreenSize.y - 2 * borderOffset + width) / imageWidth);
+
+	auto top = new Sprite("square.png", Vector2(0.0f, halfSize.y - borderOffset));
+	top->Color(0, 360000, color, color);
+	top->ScaleVector(0, 0, horizontal, horizontal);
+
+	auto bottom = new Sprite("square.png", Vector2(0.0f, -(halfSize.y - borderOffset)));
+	bottom->Color(0, 360000, color, color);
+	bottom->ScaleVector(0, 0, horizontal, horizontal);
+
+	auto right = new Sprite("square.png", Vector2(-(halfSize.x - borderOffset), 0.0f));
+	right->Color(0, 360000, color, color);
+	right->ScaleVector(0, 0, vertical, vertical);
+
+	auto left = new Sprite("square.png", Vector2(halfSize.x - borderOffset, 0.0f));
+	left->Color(0, 360000, color, color);
+	left->ScaleVector(0, 0, vertical, vertical);
 }
 
 S2VX::SpriteMoveCommand* getS2VXMoveCommand(const std::vector<std::unique_ptr<S2VX::Command>>& commands) {
@@ -315,6 +340,9 @@ void main() {
 		auto& elements = scripting.evaluate("DREAMSOLISTER.chai");
 
 		processBackground(elements.getBack());
+
+		// Blue line rectangle border
+		setBorder();
 
 		auto spriteBindings = createSpriteBindings(elements.getSprites().getSprites(), elements.getCamera());
 		processS2VXSprites(elements.getCamera(), spriteBindings);
