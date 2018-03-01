@@ -8,12 +8,39 @@ CameraZoom(0,0, 1, 100,80);
 
 CameraRotate(3000,4000, 1, 30,90);
 
-
 var lyric = "KANAETAI";
 for(var i = 0; i < lyric.size(); ++i) {
 	SpriteBind(to_string(lyric[i]));
 	SpriteMove(804,5116,	1,	i,0,	i,0);
-	SpriteColor(804, 804, 2,	0,0,0,	0,0,0);
+	SpriteColor(804, 804, 1,	0,0,0,	0,0,0);
 }
 
-BackColor(0,360000,	1,	1,0.82,0.86,	1,0.82,0.86)
+BackColor(0,360000,	1,	1,1,1,	1,1,1)
+
+// Logo shenanigans
+//var cyanR = 119.0f / 255
+//var cyanG = 1
+//var cyanB = 169.0f / 255
+//
+//var pinkR = 1
+//var pinkG = 0.82f
+//var pinkB = 0.86f
+//
+//CameraMove(0,0, 1, 0,0, 0.5,0.5);
+//var start = 804;
+//var end = 1882;
+//SpriteBind("S");
+//SpriteMove(start,end,	1,	0,1,	0,1);
+//SpriteColor(start,start, 1,	cyanR,cyanG,cyanB,	cyanR,cyanG,cyanB);
+//
+//SpriteBind("2")
+//SpriteMove(start,end,	1,	1,1,	1,1);
+//SpriteColor(start,start, 1,	pinkR,pinkG,pinkB,	pinkR,pinkG,pinkB);
+//
+//SpriteBind("V")
+//SpriteMove(start,end,	1,	0,0,	0,0);
+//SpriteColor(start,start, 1,	cyanR,cyanG,cyanB,	cyanR,cyanG,cyanB);
+//
+//SpriteBind("X")
+//SpriteMove(start,end,	1,	1,0,	1,0);
+//SpriteColor(start,start, 1,	cyanR,cyanG,cyanB,	cyanR,cyanG,cyanB);

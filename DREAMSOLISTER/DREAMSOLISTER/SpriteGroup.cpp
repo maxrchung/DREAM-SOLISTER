@@ -66,6 +66,22 @@ SpriteGroup::SpriteGroup(const std::string& path, const int pImageWidth, const i
 			1,-1
 		});
 	}
+	else if (path == "S") {
+		makeSpriteGroup({
+			1,1,	-1,1,
+			-1,1,	-1,0,
+			-1,0,	1,0,
+			1,0,	1,-1,
+			1,-1,	-1,-1
+		}, {
+			1,1,
+			-1,1,
+			-1,0,
+			1,0,
+			1,-1,
+			-1,-1
+		});
+	}
 	else if (path == "T") {
 		makeSpriteGroup({
 			-1,1,	1,1,
@@ -74,6 +90,43 @@ SpriteGroup::SpriteGroup(const std::string& path, const int pImageWidth, const i
 			-1,1,
 			1,1,
 			0,-1
+		});
+	}
+	else if (path == "V") {
+		makeSpriteGroup({
+			-1,1,	0,-1,
+			0,-1,	1,1
+		}, {
+			-1,1,
+			0,-1,
+			1,1
+		});
+	}
+	else if (path == "X") {
+		makeSpriteGroup({
+			-1,1,	1,-1,
+			1,1,	-1,-1
+		}, {
+			-1,1,
+			1,-1,
+			1,1,
+			-1,-1
+		});
+	}
+	else if (path == "2") {
+		makeSpriteGroup({
+			-1,1,	1,1,
+			1,1,	1,0,
+			1,0,	-1,0,
+			-1,0,	-1,-1,
+			-1,-1,	1,-1
+		}, {
+			-1,1,
+			1,1,
+			1,0,
+			-1,0,
+			-1,-1,
+			1,-1
 		});
 	}
 	else {
