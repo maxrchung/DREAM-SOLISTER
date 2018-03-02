@@ -3,17 +3,71 @@ CameraRotate(0,0, 1, 0,0);
 CameraZoom(0,0, 1, 100,100);
 CameraMove(0,0, 1, 0,0, 0,0);
 CameraMove(0,0, 1, 0,0, 3.5,0);
-CameraRotate(0,0, 1, 0,30);
-CameraZoom(0,0, 1, 100,80);
 
-CameraRotate(3000,4000, 1, 30,90);
+//CameraRotate(0,0, 1, 0,30);
+//CameraZoom(0,0, 1, 100,80);
+//CameraRotate(3000,4000, 1, 30,90);
 
-var lyric = "KANAETAI";
-for(var i = 0; i < lyric.size(); ++i) {
-	SpriteBind(to_string(lyric[i]));
-	SpriteMove(804,5116,	1,	i,0,	i,0);
-	SpriteColor(804, 804, 1,	0,0,0,	0,0,0);
-}
+CameraMove(0,0,	1,	0,0,	11,7.5);
+CameraZoom(0,0,	1,	100,80);
+
+SpriteBind("K");
+SpriteMove(30983,100000,	1,	7,9,	0,0);
+SpriteColor(30983,30983,	1,	0,0,0,	0,0,0);
+SpriteBind("A");
+SpriteMove(30983,100000,	1,	8,9,	0,0);
+SpriteColor(30983,30983,	1,	0,0,0,	0,0,0);
+
+SpriteBind("N");
+SpriteMove(31163,100000,	1,	9,9,	0,0);
+SpriteColor(31163,31163,	1,	0,0,0,	0,0,0);
+SpriteBind("A");
+SpriteMove(31163,100000,	1,	10,9,	0,0);
+SpriteColor(31163,31163,	1,	0,0,0,	0,0,0);
+
+SpriteBind("E");
+SpriteMove(31342,100000,	1,	11,9,	0,0);
+SpriteColor(31342,31342,	1,	0,0,0,	0,0,0);
+
+SpriteBind("T");
+SpriteMove(31522,100000,	1,	12,9,	0,0);
+SpriteColor(31522,31522,	1,	0,0,0,	0,0,0);
+SpriteBind("A");
+SpriteMove(31522,100000,	1,	13,9,	0,0);
+SpriteColor(31522,31522,	1,	0,0,0,	0,0,0);
+SpriteBind("I");
+SpriteMove(31522,100000,	1,	14,9,	0,0);
+SpriteColor(31522,31522,	1,	0,0,0,	0,0,0);
+
+SpriteBind("K");
+SpriteMove(31522,100000,	1,	7,8,	0,0);
+SpriteColor(31522,31522,	1,	0,0,0,	0,0,0);
+SpriteBind("O");
+SpriteMove(31522,100000,	1,	8,8,	0,0);
+SpriteColor(31522,31522,	1,	0,0,0,	0,0,0);
+
+SpriteBind("T");
+SpriteMove(31522,100000,	1,	9,8,	0,0);
+SpriteColor(31522,31522,	1,	0,0,0,	0,0,0);
+SpriteBind("O");
+SpriteMove(31522,100000,	1,	10,8,	0,0);
+SpriteColor(31522,31522,	1,	0,0,0,	0,0,0);
+
+SpriteBind("G");
+SpriteMove(31522,100000,	1,	12,8,	0,0);
+SpriteColor(31522,31522,	1,	0,0,0,	0,0,0);
+SpriteBind("A");
+SpriteMove(31522,100000,	1,	13,8,	0,0);
+SpriteColor(31522,31522,	1,	0,0,0,	0,0,0);
+
+SpriteBind("X");
+SpriteMove(31522,100000,	1,	7,7,	0,0);
+SpriteColor(31522,31522,	1,	0,0,0,	0,0,0);
+
+SpriteBind("X");
+SpriteMove(31522,100000,	1,	7,6,	0,0);
+SpriteColor(31522,31522,	1,	0,0,0,	0,0,0);
+
 
 BackColor(0,360000,	1,	1,1,1,	1,1,1)
 

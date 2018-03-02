@@ -226,11 +226,21 @@ void setS2VXBorder() {
 	left->Fade(end, fadeEnd, 1, 0, Easing::EasingOut);
 }
 
-S2VX::SpriteMoveCommand* getS2VXMoveCommand(const std::vector<std::unique_ptr<S2VX::Command>>& commands) {
+S2VX::SpriteMoveCommand* getFirstS2VXMoveCommand(const std::vector<std::unique_ptr<S2VX::Command>>& commands) {
 	for (const auto& command : commands) {
 		const auto move = dynamic_cast<S2VX::SpriteMoveCommand*>(command.get());
 		if (move != nullptr) {
 			return move;
+		}
+	}
+	return nullptr;
+}
+
+S2VX::SpriteRotateCommand* getFirstS2VXRotateCommand(const std::vector<std::unique_ptr<S2VX::Command>>& commands) {
+	for (const auto& command : commands) {
+		const auto rotate = dynamic_cast<S2VX::SpriteRotateCommand*>(command.get());
+		if (rotate != nullptr) {
+			return rotate;
 		}
 	}
 	return nullptr;
@@ -255,12 +265,17 @@ std::vector<SpriteBinding> createSpriteBindings(const std::vector<std::unique_pt
 	auto spriteBindings = std::vector<SpriteBinding>(S2VXSprites.size());
 	for (auto i = 0; i < spriteBindings.size(); ++i) {
 		const auto sprite = S2VXSprites[i].get();
-		const auto move = getS2VXMoveCommand(sprite->getCommands());
 		const auto path = sprite->getTexture().getPath();
 		const auto cameraValues = getCameraValuesAtMilliseconds(camera, sprite->getStart());
-		const auto center = convertCoordinatesToPosition(move->getStartCoordinate(), cameraValues);
 		const auto scale = cameraValues.scale / imageWidth;
-		const auto spriteGroup = SpriteGroup(path, imageWidth, move->getStart(), move->getEnd(), center, cameraValues.roll, scale, quarter * 2);
+		const auto move = getFirstS2VXMoveCommand(sprite->getCommands());
+		const auto center = convertCoordinatesToPosition(move->getStartCoordinate(), cameraValues);
+		auto rotation = cameraValues.roll;
+		const auto rotate = getFirstS2VXRotateCommand(sprite->getCommands());
+		if (rotate) {
+			rotation += convertDegreesToRadians(rotate->getStartRotation());
+		}
+		const auto spriteGroup = SpriteGroup(path, imageWidth, move->getStart(), move->getEnd(), center, rotation, scale, quarter * 2);
 		spriteBindings[i] = SpriteBinding{ S2VXSprites[i].get(), spriteGroup };
 	}
 	return spriteBindings;
