@@ -1,72 +1,113 @@
 // Default camera values so that getCameraValuesAtMilliseconds() has no issues
-CameraRotate(0,0, 1, 0,0);
-CameraZoom(0,0, 1, 100,100);
-CameraMove(0,0, 1, 0,0, 0,0);
-CameraMove(0,0, 1, 0,0, 3.5,0);
+CameraRotate(0,0,	1,	0,0);
+CameraZoom(0,0,	1,	100,100);
+CameraMove(0,0,	1,	0,0,	0,0);
+CameraMove(0,0,	1,	0,0,	3.5,0);
 
 //CameraRotate(0,0, 1, 0,30);
 //CameraZoom(0,0, 1, 100,80);
 //CameraRotate(3000,4000, 1, 30,90);
 
-CameraMove(0,0,	1,	0,0,	11,7.5);
-CameraZoom(0,0,	1,	100,80);
+CameraMove(0,0,	1,	0,0,	16,7.5);
+CameraZoom(0,0,	1,	100,70);
 
 SpriteBind("K");
-SpriteMove(30983,100000,	1,	7,9,	0,0);
+SpriteMove(30983,100000,	1,	12,9,	0,0);
 SpriteColor(30983,30983,	1,	0,0,0,	0,0,0);
 SpriteBind("A");
-SpriteMove(30983,100000,	1,	8,9,	0,0);
+SpriteMove(30983,100000,	1,	13,9,	0,0);
 SpriteColor(30983,30983,	1,	0,0,0,	0,0,0);
 
 SpriteBind("N");
-SpriteMove(31163,100000,	1,	9,9,	0,0);
+SpriteMove(31163,100000,	1,	14,9,	0,0);
 SpriteColor(31163,31163,	1,	0,0,0,	0,0,0);
 SpriteBind("A");
-SpriteMove(31163,100000,	1,	10,9,	0,0);
+SpriteMove(31163,100000,	1,	15,9,	0,0);
 SpriteColor(31163,31163,	1,	0,0,0,	0,0,0);
 
 SpriteBind("E");
-SpriteMove(31342,100000,	1,	11,9,	0,0);
+SpriteMove(31342,100000,	1,	16,9,	0,0);
 SpriteColor(31342,31342,	1,	0,0,0,	0,0,0);
 
 SpriteBind("T");
-SpriteMove(31522,100000,	1,	12,9,	0,0);
+SpriteMove(31522,100000,	1,	17,9,	0,0);
 SpriteColor(31522,31522,	1,	0,0,0,	0,0,0);
 SpriteBind("A");
-SpriteMove(31522,100000,	1,	13,9,	0,0);
+SpriteMove(31522,100000,	1,	18,9,	0,0);
 SpriteColor(31522,31522,	1,	0,0,0,	0,0,0);
 SpriteBind("I");
-SpriteMove(31522,100000,	1,	14,9,	0,0);
+SpriteMove(31522,100000,	1,	19,9,	0,0);
 SpriteColor(31522,31522,	1,	0,0,0,	0,0,0);
 
 SpriteBind("K");
-SpriteMove(31522,100000,	1,	7,8,	0,0);
-SpriteColor(31522,31522,	1,	0,0,0,	0,0,0);
+SpriteMove(32061,100000,	1,	12,8,	0,0);
+SpriteColor(32061,32061,	1,	0,0,0,	0,0,0);
 SpriteBind("O");
-SpriteMove(31522,100000,	1,	8,8,	0,0);
-SpriteColor(31522,31522,	1,	0,0,0,	0,0,0);
+SpriteMove(32061,100000,	1,	13,8,	0,0);
+SpriteColor(32061,32061,	1,	0,0,0,	0,0,0);
 
 SpriteBind("T");
-SpriteMove(31522,100000,	1,	9,8,	0,0);
-SpriteColor(31522,31522,	1,	0,0,0,	0,0,0);
+SpriteMove(32420,100000,	1,	14,8,	0,0);
+SpriteColor(32420,32420,	1,	0,0,0,	0,0,0);
 SpriteBind("O");
-SpriteMove(31522,100000,	1,	10,8,	0,0);
-SpriteColor(31522,31522,	1,	0,0,0,	0,0,0);
+SpriteMove(32420,100000,	1,	15,8,	0,0);
+SpriteColor(32420,32420,	1,	0,0,0,	0,0,0);
+SpriteBind("X");
+SpriteMove(32420,100000,	1,	16,8,	0,0);
+SpriteColor(32420,32420,	1,	0,0,0,	0,0,0);
 
 SpriteBind("G");
-SpriteMove(31522,100000,	1,	12,8,	0,0);
-SpriteColor(31522,31522,	1,	0,0,0,	0,0,0);
+SpriteMove(32600,100000,	1,	17,8,	0,0);
+SpriteColor(32600,32600,	1,	0,0,0,	0,0,0);
 SpriteBind("A");
-SpriteMove(31522,100000,	1,	13,8,	0,0);
-SpriteColor(31522,31522,	1,	0,0,0,	0,0,0);
+SpriteMove(32600,100000,	1,	18,8,	0,0);
+SpriteColor(32600,32600,	1,	0,0,0,	0,0,0);
 
-SpriteBind("X");
-SpriteMove(31522,100000,	1,	7,7,	0,0);
-SpriteColor(31522,31522,	1,	0,0,0,	0,0,0);
+SpriteBind("A");
+SpriteMove(32959,100000,	1,	12,7,	0,0);
+SpriteColor(32959,32959,	1,	0,0,0,	0,0,0);
 
-SpriteBind("X");
-SpriteMove(31522,100000,	1,	7,6,	0,0);
-SpriteColor(31522,31522,	1,	0,0,0,	0,0,0);
+SpriteBind("F");
+SpriteMove(33318,100000,	1,	13,7,	0,0);
+SpriteColor(33318,33318,	1,	0,0,0,	0,0,0);
+SpriteBind("U");
+SpriteMove(33318,100000,	1,	14,7,	0,0);
+SpriteColor(33318,33318,	1,	0,0,0,	0,0,0);
+
+SpriteBind("R");
+SpriteMove(33498,100000,	1,	15,7,	0,0);
+SpriteColor(33498,33498,	1,	0,0,0,	0,0,0);
+SpriteBind("E");
+SpriteMove(33498,100000,	1,	16,7,	0,0);
+SpriteColor(33498,33498,	1,	0,0,0,	0,0,0);
+
+SpriteBind("T");
+SpriteMove(33857,100000,	1,	17,7,	0,0);
+SpriteColor(33857,33857,	1,	0,0,0,	0,0,0);
+SpriteBind("E");
+SpriteMove(33857,100000,	1,	18,7,	0,0);
+SpriteColor(33857,33857,	1,	0,0,0,	0,0,0);
+
+SpriteBind("R");
+SpriteMove(34217,100000,	1,	19,7,	0,0);
+SpriteColor(34217,34217,	1,	0,0,0,	0,0,0);
+SpriteBind("U");
+SpriteMove(34217,100000,	1,	20,7,	0,0);
+SpriteColor(34217,34217,	1,	0,0,0,	0,0,0);
+
+SpriteBind("K");
+SpriteMove(34576,100000,	1,	12,6,	0,0);
+SpriteColor(34576,34576,	1,	0,0,0,	0,0,0);
+SpriteBind("A");
+SpriteMove(34576,100000,	1,	13,6,	0,0);
+SpriteColor(34576,34576,	1,	0,0,0,	0,0,0);
+
+SpriteBind("R");
+SpriteMove(34756,100000,	1,	14,6,	0,0);
+SpriteColor(34756,34756,	1,	0,0,0,	0,0,0);
+SpriteBind("A");
+SpriteMove(34756,100000,	1,	15,6,	0,0);
+SpriteColor(34756,34756,	1,	0,0,0,	0,0,0);
 
 
 BackColor(0,360000,	1,	1,1,1,	1,1,1)
