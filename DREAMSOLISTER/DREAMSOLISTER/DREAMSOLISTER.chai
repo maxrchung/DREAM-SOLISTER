@@ -11,6 +11,7 @@ CameraMove(0,0,	1,	0,0,	3.5,0);
 CameraMove(0,0,	1,	0,0,	16,7.5);
 CameraZoom(0,0,	1,	100,70);
 
+// KANAETAI KOTO GA AFURETERU KARA
 SpriteBind("K");
 SpriteMove(30983,100000,	1,	12,9,	0,0);
 SpriteColor(30983,30983,	1,	0,0,0,	0,0,0);
@@ -109,6 +110,156 @@ SpriteBind("A");
 SpriteMove(34756,100000,	1,	15,6,	0,0);
 SpriteColor(34756,34756,	1,	0,0,0,	0,0,0);
 
+CameraMove(35115,35833,	2,	16,7.5,	9.5,4.5)
+CameraRotate(35833,36372,	2,	0,-90)
+
+// TACHIDO MATTERU HIMA NANTE NAI YO NE
+SpriteBind("T");
+SpriteMove(36732,100000,	1,	11,9,	0,0);
+SpriteColor(36732,36732,	1,	0,0,0,	0,0,0);
+SpriteRotate(36732,36732,	1,	90,		0);
+SpriteBind("A");
+SpriteMove(36732,100000,	1,	11,8,	0,0);
+SpriteColor(36732,36732,	1,	0,0,0,	0,0,0);
+SpriteRotate(36732,36732,	1,	90,		0);
+
+SpriteBind("C");
+SpriteMove(36911,100000,	1,	11,7,	0,0);
+SpriteColor(36911,36911,	1,	0,0,0,	0,0,0);
+SpriteRotate(36911,36911,	1,	90,		0);
+SpriteBind("H");
+SpriteMove(36911,100000,	1,	11,6,	0,0);
+SpriteColor(36911,36911,	1,	0,0,0,	0,0,0);
+SpriteRotate(36911,36911,	1,	90,		0);
+SpriteBind("I");
+SpriteMove(36911,100000,	1,	11,5,	0,0);
+SpriteColor(36911,36911,	1,	0,0,0,	0,0,0);
+SpriteRotate(36911,36911,	1,	90,		0);
+
+SpriteBind("D");
+SpriteMove(37091,100000,	1,	11,4,	0,0);
+SpriteColor(37091,37091,	1,	0,0,0,	0,0,0);
+SpriteRotate(37091,37091,	1,	90,		0);
+SpriteBind("O");
+SpriteMove(37091,100000,	1,	11,3,	0,0);
+SpriteColor(37091,37091,	1,	0,0,0,	0,0,0);
+SpriteRotate(37091,37091,	1,	90,		0);
+
+SpriteBind("M");
+SpriteMove(37271,100000,	1,	10,9,	0,0);
+SpriteColor(37271,37271,	1,	0,0,0,	0,0,0);
+SpriteRotate(37271,37271,	1,	90,		0);
+SpriteBind("A");
+SpriteMove(37271,100000,	1,	10,8,	0,0);
+SpriteColor(37271,37271,	1,	0,0,0,	0,0,0);
+SpriteRotate(37271,37271,	1,	90,		0);
+
+SpriteBind("T");
+SpriteMove(37630,100000,	1,	10,7,	0,0);
+SpriteColor(37630,37630,	1,	0,0,0,	0,0,0);
+SpriteRotate(37630,37630,	1,	90,		0);
+SpriteBind("T");
+SpriteMove(37630,100000,	1,	10,6,	0,0);
+SpriteColor(37630,37630,	1,	0,0,0,	0,0,0);
+SpriteRotate(37630,37630,	1,	90,		0);
+SpriteBind("E");
+SpriteMove(37630,100000,	1,	10,5,	0,0);
+SpriteColor(37630,37630,	1,	0,0,0,	0,0,0);
+SpriteRotate(37630,37630,	1,	90,		0);
+
+SpriteBind("R");
+SpriteMove(37810,100000,	1,	10,4,	0,0);
+SpriteColor(37810,37810,	1,	0,0,0,	0,0,0);
+SpriteRotate(37810,37810,	1,	90,		0);
+SpriteBind("U");
+SpriteMove(37810,100000,	1,	10,3,	0,0);
+SpriteColor(37810,37810,	1,	0,0,0,	0,0,0);
+SpriteRotate(37810,37810,	1,	90,		0);
+
+SpriteBind("H");
+SpriteMove(38169,100000,	1,	9,9,	0,0);
+SpriteColor(38169,38169,	1,	0,0,0,	0,0,0);
+SpriteRotate(38169,38169,	1,	90,		0);
+SpriteBind("I");
+SpriteMove(38169,100000,	1,	9,8,	0,0);
+SpriteColor(38169,38169,	1,	0,0,0,	0,0,0);
+SpriteRotate(38169,38169,	1,	90,		0);
+
+SpriteBind("M");
+SpriteMove(38348,100000,	1,	9,7,	0,0);
+SpriteColor(38348,38348,	1,	0,0,0,	0,0,0);
+SpriteRotate(38348,38348,	1,	90,		0);
+SpriteBind("A");
+SpriteMove(38348,100000,	1,	9,6,	0,0);
+SpriteColor(38348,38348,	1,	0,0,0,	0,0,0);
+SpriteRotate(38348,38348,	1,	90,		0);
+SpriteBind("X");
+SpriteMove(38348,100000,	1,	9,5,	0,0);
+SpriteColor(38348,38348,	1,	0,0,0,	0,0,0);
+SpriteRotate(38348,38348,	1,	90,		0);
+
+SpriteBind("N");
+SpriteMove(38708,100000,	1,	9,4,	0,0);
+SpriteColor(38708,38708,	1,	0,0,0,	0,0,0);
+SpriteRotate(38708,38708,	1,	90,		0);
+SpriteBind("A");
+SpriteMove(38708,100000,	1,	9,3,	0,0);
+SpriteColor(38708,38708,	1,	0,0,0,	0,0,0);
+SpriteRotate(38708,38708,	1,	90,		0);
+SpriteBind("N");
+SpriteMove(38708,100000,	1,	9,2,	0,0);
+SpriteColor(38708,38708,	1,	0,0,0,	0,0,0);
+SpriteRotate(38708,38708,	1,	90,		0);
+
+SpriteBind("T");
+SpriteMove(39247,100000,	1,	9,1,	0,0);
+SpriteColor(39247,39247,	1,	0,0,0,	0,0,0);
+SpriteRotate(39247,39247,	1,	90,		0);
+SpriteBind("E");
+SpriteMove(39247,100000,	1,	9,0,	0,0);
+SpriteColor(39247,39247,	1,	0,0,0,	0,0,0);
+SpriteRotate(39247,39247,	1,	90,		0);
+
+SpriteBind("N");
+SpriteMove(39606,100000,	1,	8,9,	0,0);
+SpriteColor(39606,39606,	1,	0,0,0,	0,0,0);
+SpriteRotate(39606,39606,	1,	90,		0);
+SpriteBind("A");
+SpriteMove(39606,100000,	1,	8,8,	0,0);
+SpriteColor(39606,39606,	1,	0,0,0,	0,0,0);
+SpriteRotate(39606,39606,	1,	90,		0);
+
+SpriteBind("I");
+SpriteMove(39786,100000,	1,	8,7,	0,0);
+SpriteColor(39786,39786,	1,	0,0,0,	0,0,0);
+SpriteRotate(39786,39786,	1,	90,		0);
+SpriteBind("X");
+SpriteMove(39786,100000,	1,	8,6,	0,0);
+SpriteColor(39786,39786,	1,	0,0,0,	0,0,0);
+SpriteRotate(39786,39786,	1,	90,		0);
+
+
+SpriteBind("Y");
+SpriteMove(40324,100000,	1,	8,5,	0,0);
+SpriteColor(40324,40324,	1,	0,0,0,	0,0,0);
+SpriteRotate(40324,40324,	1,	90,		0);
+SpriteBind("O");
+SpriteMove(40324,100000,	1,	8,4,	0,0);
+SpriteColor(40324,40324,	1,	0,0,0,	0,0,0);
+SpriteRotate(40324,40324,	1,	90,		0);
+SpriteBind("X");
+SpriteMove(40324,100000,	1,	8,3,	0,0);
+SpriteColor(40324,40324,	1,	0,0,0,	0,0,0);
+SpriteRotate(40324,40324,	1,	90,		0);
+
+SpriteBind("N");
+SpriteMove(40504,100000,	1,	8,2,	0,0);
+SpriteColor(40504,40504,	1,	0,0,0,	0,0,0);
+SpriteRotate(40504,40504,	1,	90,		0);
+SpriteBind("E");
+SpriteMove(40504,100000,	1,	8,1,	0,0);
+SpriteColor(40504,40504,	1,	0,0,0,	0,0,0);
+SpriteRotate(40504,40504,	1,	90,		0);
 
 BackColor(0,360000,	1,	1,1,1,	1,1,1)
 

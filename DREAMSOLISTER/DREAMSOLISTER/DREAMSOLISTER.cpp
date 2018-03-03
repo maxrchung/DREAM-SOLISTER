@@ -21,6 +21,7 @@
 int imageWidth = 100;
 // Quarter beat
 int quarter = 360;
+int moveParallax = quarter / 4;
 
 std::string addWithNewLine(const char* what) {
 	std::string message(what);
@@ -125,8 +126,8 @@ void processBackground(const S2VX::Back& back) {
 
 	bg->ScaleVector(29187, 30624, Vector2(0,0), Vector2::ScreenSize, Easing::EasingIn);
 	bg->Fade(29187, 30624, 0, 1, Easing::EasingIn);
-	bg->ScaleVector(67989, 70863, Vector2::ScreenSize, Vector2(0, 0), Easing::EasingOut);
-	bg->Fade(67989, 70863, 1, 0, Easing::EasingOut);
+	bg->ScaleVector(67989, 70145, Vector2::ScreenSize, Vector2(0, 0), Easing::EasingOut);
+	bg->Fade(67989, 70145, 1, 0, Easing::EasingOut);
 
 	for (const auto& command : back.getCommands()) {
 		const auto start = command->getStart();
@@ -156,26 +157,26 @@ void setBorder() {
 	top->Color(29187, 29187, color, color);
 	top->ScaleVector(29187, 30624, Vector2(width, width), horizontal, Easing::EasingIn);
 	top->Fade(29187, 30624, 0, 1, Easing::EasingIn);
-	top->ScaleVector(67989, 70863, horizontal, Vector2(width, width), Easing::EasingOut);
-	top->Fade(67989, 70863, 1, 0, Easing::EasingOut);
+	top->ScaleVector(65115, 70145, horizontal, Vector2(width, width), Easing::EasingOut);
+	top->Fade(65115, 70145, 1, 0, Easing::EasingOut);
 
 	auto bottom = new Sprite("pixel.png", Vector2(0.0f, -(halfSize.y - borderOffset)));
 	bottom->Color(29187, 29187, color, color);
 	bottom->ScaleVector(29187, 30624, Vector2(width, width), horizontal, Easing::EasingIn);
-	bottom->ScaleVector(67989, 70863, horizontal, Vector2(width, width), Easing::EasingOut);
-	bottom->Fade(67989, 70863, 1, 0, Easing::EasingOut);
+	bottom->ScaleVector(65115, 70145, horizontal, Vector2(width, width), Easing::EasingOut);
+	bottom->Fade(65115, 70145, 1, 0, Easing::EasingOut);
 
 	auto right = new Sprite("pixel.png", Vector2(-(halfSize.x - borderOffset), 0.0f));
 	right->Color(29187, 29187, color, color);
 	right->ScaleVector(29187, 30624, Vector2(width, width), vertical, Easing::EasingIn);
-	right->ScaleVector(67989, 70863, vertical, Vector2(width, width), Easing::EasingOut);
-	right->Fade(67989, 70863, 1, 0, Easing::EasingOut);
+	right->ScaleVector(65115, 70145, vertical, Vector2(width, width), Easing::EasingOut);
+	right->Fade(65115, 70145, 1, 0, Easing::EasingOut);
 
 	auto left = new Sprite("pixel.png", Vector2(halfSize.x - borderOffset, 0.0f));
 	left->Color(29187, 29187, color, color);
 	left->ScaleVector(29187, 30624, Vector2(width, width), vertical, Easing::EasingIn);
-	left->ScaleVector(67989, 70863, vertical, Vector2(width, width), Easing::EasingOut);
-	left->Fade(67989, 70863, 1, 0, Easing::EasingOut);
+	left->ScaleVector(65115, 70145, vertical, Vector2(width, width), Easing::EasingOut);
+	left->Fade(65115, 70145, 1, 0, Easing::EasingOut);
 }
 
 void setS2VXBorder() {
@@ -353,7 +354,8 @@ void processCamera(S2VX::Camera& camera, const std::vector<SpriteBinding>& sprit
 				for (auto sprite : spriteGroup.sprites) {
 					// Minus to account for reverse
 					const auto movePosition = sprite->position - scaleDistance;
-					sprite->Move(start, end, sprite->position, movePosition, easing);
+					const auto parallaxEnd = end - rand() % moveParallax;
+					sprite->Move(start, parallaxEnd, sprite->position, movePosition, easing);
 				}
 				const auto centerPosition = center + scaleDistance;
 				spriteGroup.center = centerPosition;
@@ -373,10 +375,10 @@ void processCamera(S2VX::Camera& camera, const std::vector<SpriteBinding>& sprit
 
 				// Apply together
 				for (auto sprite : spriteGroup.sprites) {
+					const auto parallaxEnd = end - rand() % moveParallax;
 					const auto localRotatePosition = sprite->position.Rotate(rotation);
-					sprite->Move(start, end, sprite->position, localRotatePosition, easing);
-
-					sprite->Rotate(start, end, sprite->rotation, sprite->rotation + rotation, easing);
+					sprite->Move(start, parallaxEnd, sprite->position, localRotatePosition, easing);
+					sprite->Rotate(start, parallaxEnd, sprite->rotation, sprite->rotation + rotation, easing);
 				}
 				const auto centerPosition = center + rotateDistance;
 				spriteGroup.center = centerPosition;
@@ -393,12 +395,13 @@ void processCamera(S2VX::Camera& camera, const std::vector<SpriteBinding>& sprit
 				const auto scalePosition = normalizePosition * (scale * magnitude);
 
 				for (auto sprite : spriteGroup.sprites) {
-					sprite->Scale(start, end, sprite->scale, endScale, easing);
+					const auto parallaxEnd = end - rand() % moveParallax;
+					sprite->Scale(start, parallaxEnd, sprite->scale, endScale, easing);
 					const auto localDifference = sprite->position - center;
 					const auto localMagnitude = localDifference.Magnitude();
 					const auto localNormalize = localDifference.Normalize();
 					const auto spritePosition = scalePosition + localNormalize * (scale * localMagnitude);
-					sprite->Move(start, end, sprite->position, spritePosition, easing);
+					sprite->Move(start, parallaxEnd, sprite->position, spritePosition, easing);
 				}
 				spriteGroup.center = scalePosition;
 				continue;
@@ -410,6 +413,8 @@ void processCamera(S2VX::Camera& camera, const std::vector<SpriteBinding>& sprit
 void main() {
 	try {
 		srand(time(NULL));
+
+		Sprite* hideBackground = new Sprite("bg.jpg", Vector2::Zero, Layer::Background);
 
 		S2VX::Display display;
 		S2VX::Scripting scripting{ display };
