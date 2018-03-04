@@ -315,6 +315,10 @@ void processS2VXSprites(S2VX::Camera& camera, const std::vector<SpriteBinding>& 
 }
 
 void processCamera(S2VX::Camera& camera, const std::vector<SpriteBinding>& spriteBindings) {
+	// Reset camera
+	camera.reset();
+	camera.update(0);
+
 	// Use ints so in order
 	std::set<int> actives;
 	int nextActive = 0;
@@ -350,7 +354,8 @@ void processCamera(S2VX::Camera& camera, const std::vector<SpriteBinding>& sprit
 				const auto distance = move->getEndCoordinate() - move->getStartCoordinate();
 				const auto convertDistance = convertglmvec2ToVector2(distance);
 				const auto cameraValues = CameraValues(Vector2{ camera.getPosition().x, camera.getPosition().y }, camera.getRoll(), camera.getScale());
-				const auto scaleDistance = convertDistance * cameraValues.scale;
+				// Need to rotate to account for correct direction
+				const auto scaleDistance = (convertDistance * cameraValues.scale).Rotate(camera.getRoll());
 				for (auto sprite : spriteGroup.sprites) {
 					// Minus to account for reverse
 					const auto movePosition = sprite->position - scaleDistance;
@@ -390,13 +395,22 @@ void processCamera(S2VX::Camera& camera, const std::vector<SpriteBinding>& sprit
 				const auto startScale = zoom->getStartScale() / imageWidth;
 				const auto endScale = zoom->getEndScale() / imageWidth;
 				const auto scale = endScale / startScale;
+
 				const auto normalizePosition = center.Normalize();
 				const auto magnitude = center.Magnitude();
 				const auto scalePosition = normalizePosition * (scale * magnitude);
 
 				for (auto sprite : spriteGroup.sprites) {
 					const auto parallaxEnd = end - rand() % moveParallax;
-					sprite->Scale(start, parallaxEnd, sprite->scale, endScale, easing);
+
+					// Square
+					if (sprite->scaleVector != Vector2(1.0f, 1.0f)) {
+						sprite->ScaleVector(start, parallaxEnd, sprite->scaleVector, sprite->scaleVector * scale, easing);
+					}
+					// Circle
+					else {
+						sprite->Scale(start, parallaxEnd, sprite->scale, sprite->scale * scale, easing);
+					}
 					const auto localDifference = sprite->position - center;
 					const auto localMagnitude = localDifference.Magnitude();
 					const auto localNormalize = localDifference.Normalize();
