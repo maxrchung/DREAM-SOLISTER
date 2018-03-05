@@ -23,11 +23,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="DREAMSOLISTER.chai">
-      <Filter>Resource Files</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <Image Include="test.png">
       <Filter>Resource Files</Filter>
     </Image>
@@ -42,5 +37,13 @@
     <ClInclude Include="SpriteGroup.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="lyrics1.chai">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="lyrics2.chai">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

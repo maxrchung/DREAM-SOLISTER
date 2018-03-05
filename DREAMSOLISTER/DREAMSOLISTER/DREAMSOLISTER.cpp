@@ -247,6 +247,16 @@ S2VX::SpriteRotateCommand* getFirstS2VXRotateCommand(const std::vector<std::uniq
 	return nullptr;
 }
 
+S2VX::SpriteColorCommand* getFirstS2VXColorCommand(const std::vector<std::unique_ptr<S2VX::Command>>& commands) {
+	for (const auto& command : commands) {
+		const auto color = dynamic_cast<S2VX::SpriteColorCommand*>(command.get());
+		if (color != nullptr) {
+			return color;
+		}
+	}
+	return nullptr;
+}
+
 CameraValues getCameraValuesAtMilliseconds(S2VX::Camera& camera, const int time) {
 	for (const auto& command : camera.getCommands()) {
 		if (command->getStart() <= time) {
@@ -276,42 +286,12 @@ std::vector<SpriteBinding> createSpriteBindings(const std::vector<std::unique_pt
 		if (rotate) {
 			rotation += convertDegreesToRadians(rotate->getStartRotation());
 		}
-		const auto spriteGroup = SpriteGroup(path, imageWidth, move->getStart(), move->getEnd(), center, rotation, scale, quarter * 2);
+		const auto color = getFirstS2VXColorCommand(sprite->getCommands());
+		const auto convertColor = convertS2VXColorToOsuukiSBColor(color->getStartColor());
+		const auto spriteGroup = SpriteGroup(path, imageWidth, move->getStart(), move->getEnd(), center, rotation, scale, convertColor, quarter * 2);
 		spriteBindings[i] = SpriteBinding{ S2VXSprites[i].get(), spriteGroup };
 	}
 	return spriteBindings;
-}
-
-void processS2VXSprites(S2VX::Camera& camera, const std::vector<SpriteBinding>& spriteBindings) {
-	for (auto binding: spriteBindings) {
-		const auto S2VXSprite = binding.S2VXSprite;
-		auto spriteGroup = binding.spriteGroup;
-		for (const auto& command : S2VXSprite->getCommands()) {
-			const auto easing = convertS2VXEasingToOsuukiSBEasing(command->getEasing());
-			const auto start = command->getStart();
-			const auto end = command->getEnd();
-
-			// yucklmao. I kind of regret using Command Pattern
-			const auto commandPointer = command.get();
-			const auto color = dynamic_cast<S2VX::SpriteColorCommand*>(commandPointer);
-			if (color != nullptr) {
-				const auto startColor = convertS2VXColorToOsuukiSBColor(color->getStartColor());
-				const auto endColor = convertS2VXColorToOsuukiSBColor(color->getEndColor());
-				for (auto sprite : spriteGroup.sprites) {
-					sprite->Color(start, end, startColor, endColor, easing);
-				}
-				continue;
-			}
-
-			const auto fade = dynamic_cast<S2VX::SpriteFadeCommand*>(commandPointer);
-			if (fade != nullptr) {
-				for (auto sprite : spriteGroup.sprites) {
-					sprite->Fade(start, end, fade->getStartFade(), fade->getEndFade(), easing);
-				}
-				continue;
-			}
-		}
-	}
 }
 
 void processCamera(S2VX::Camera& camera, const std::vector<SpriteBinding>& spriteBindings) {
@@ -424,27 +404,30 @@ void processCamera(S2VX::Camera& camera, const std::vector<SpriteBinding>& sprit
 	}
 }
 
+void processScript(const std::string& path) {
+	S2VX::Display display;
+	S2VX::Scripting scripting{ display };
+	auto& elements = scripting.evaluate(path);
+	processBackground(elements.getBack());
+
+	auto spriteBindings = createSpriteBindings(elements.getSprites().getSprites(), elements.getCamera());
+	processCamera(elements.getCamera(), spriteBindings);
+	// Destroy sprite bindings
+	std::for_each(spriteBindings.begin(), spriteBindings.end(), [](SpriteBinding& binding) { binding.spriteGroup.destroy(); });
+
+	// Blue line rectangle border
+	setBorder();
+	//setS2VXBorder();
+}
+
 void main() {
 	try {
 		srand(time(NULL));
 
 		Sprite* hideBackground = new Sprite("bg.jpg", Vector2::Zero, Layer::Background);
 
-		S2VX::Display display;
-		S2VX::Scripting scripting{ display };
-		auto& elements = scripting.evaluate("DREAMSOLISTER.chai");
-
-		processBackground(elements.getBack());
-
-		// Blue line rectangle border
-		setBorder();
-		//setS2VXBorder();
-
-		auto spriteBindings = createSpriteBindings(elements.getSprites().getSprites(), elements.getCamera());
-		processS2VXSprites(elements.getCamera(), spriteBindings);
-		processCamera(elements.getCamera(), spriteBindings);
-		// Destroy sprite bindings
-		std::for_each(spriteBindings.begin(), spriteBindings.end(), [](SpriteBinding& binding) { binding.spriteGroup.destroy(); });
+		processScript("lyrics1.chai");
+		//processScript("lyrics2.chai");
 
 		auto path = std::string(R"(X:\osu!\Songs\717639 TRUE - DREAM SOLISTER\TRUE - DREAM SOLISTER (Shiratoi).osb)");
 		Storyboard::Instance()->Write(path);

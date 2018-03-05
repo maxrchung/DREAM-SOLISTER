@@ -1,8 +1,8 @@
 #include "SpriteGroup.hpp"
 #include <algorithm>
 
-SpriteGroup::SpriteGroup(const std::string& path, const int pImageWidth, const int pStart, const int pEnd, const Vector2& pCenter, const float pRotation, const float pScale, const int pOffset)
-	: imageWidth{ pImageWidth }, start{ pStart }, end{ pEnd }, center{ pCenter }, rotation{ pRotation }, scale{ pScale }, lineHeight{ 7.0f * pScale }, circleScale{ 2.0f }, overallScale{ 0.8f }, offset{ pOffset } {
+SpriteGroup::SpriteGroup(const std::string& path, const int pImageWidth, const int pStart, const int pEnd, const Vector2& pCenter, const float pRotation, const float pScale, const Color pColor, const int pOffset)
+	: imageWidth{ pImageWidth }, start{ pStart }, end{ pEnd }, center{ pCenter }, rotation{ pRotation }, scale{ pScale }, lineHeight{ 7.0f * pScale }, circleScale{ 2.0f }, overallScale{ 0.8f }, color{ pColor }, offset{ pOffset } {
 	if (path == "A") {
 		makeSpriteGroup({
 			-1,-1,	-1,1,
@@ -258,13 +258,13 @@ SpriteGroup::SpriteGroup(const std::string& path, const int pImageWidth, const i
 	}
 	else if (path == "X") {
 		makeSpriteGroup({
-			//-1,1,	1,-1,
-			//1,1,	-1,-1
+			-1,1,	1,-1,
+			1,1,	-1,-1
 		}, {
-			//-1,1,
-			//1,-1,
-			//1,1,
-			//-1,-1
+			-1,1,
+			1,-1,
+			1,1,
+			-1,-1
 		});
 	}
 	else if (path == "Y") {
@@ -335,6 +335,7 @@ void SpriteGroup::makeSpriteGroup(const std::vector<float>& linePoints, const st
 		const auto midPoint = (startPoint + endPoint) / 2.0f;
 
 		auto sprite = new Sprite("square.png", midPoint);
+		sprite->Color(startFade, startFade, color, color);
 		sprite->Fade(startFade, start, 0, 1.0f, Easing::EasingIn);
 
 		const auto direction = rand() % 360;
@@ -353,20 +354,21 @@ void SpriteGroup::makeSpriteGroup(const std::vector<float>& linePoints, const st
 	}
 
 	auto scaledPoints = points;
-	auto circleWidth = scaleHeight * circleScale;
+	const auto pointWidth = scaleHeight * circleScale;
 	std::for_each(scaledPoints.begin(), scaledPoints.end(), scalePointFunction);
 	for (auto i = 0; i < scaledPoints.size(); i += 2) {
 		const auto startFade = start - offset;
 		const auto position = center + Vector2(scaledPoints[i], scaledPoints[i + 1]).Rotate(rotation);
 
 		auto sprite = new Sprite("circle.png", position);
+		sprite->Color(startFade, startFade, color, color);
 		sprite->Fade(startFade, start, 0, 1.0f, Easing::EasingIn);
 
 		const auto direction = rand() % 360;
 		const auto startPosition = position + Vector2(scale * overallScale * imageWidth, 0.0f).Rotate(direction * 3.14159f / 180.0f);
 		sprite->Move(startFade, start, startPosition, position, Easing::EasingIn);
 
-		sprite->Scale(startFade, start, circleWidth, circleWidth);
+		sprite->Scale(startFade, start, pointWidth, pointWidth);
 		sprites.push_back(sprite);
 	}
 }

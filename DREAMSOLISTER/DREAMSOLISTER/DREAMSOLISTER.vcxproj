@@ -124,7 +124,8 @@
     <ClCompile Include="SpriteGroup.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="DREAMSOLISTER.chai" />
+    <None Include="lyrics1.chai" />
+    <None Include="lyrics2.chai" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="test.png" />
