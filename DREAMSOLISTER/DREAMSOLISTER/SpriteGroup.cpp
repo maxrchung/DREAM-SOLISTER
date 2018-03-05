@@ -258,13 +258,13 @@ SpriteGroup::SpriteGroup(const std::string& path, const int pImageWidth, const i
 	}
 	else if (path == "X") {
 		makeSpriteGroup({
-			-1,1,	1,-1,
-			1,1,	-1,-1
+			//-1,1,	1,-1,
+			//1,1,	-1,-1
 		}, {
-			-1,1,
-			1,-1,
-			1,1,
-			-1,-1
+			//-1,1,
+			//1,-1,
+			//1,1,
+			//-1,-1
 		});
 	}
 	else if (path == "Y") {
@@ -359,7 +359,7 @@ void SpriteGroup::makeSpriteGroup(const std::vector<float>& linePoints, const st
 		const auto startFade = start - offset;
 		const auto position = center + Vector2(scaledPoints[i], scaledPoints[i + 1]).Rotate(rotation);
 
-		auto sprite = new Sprite("circlex.png", position);
+		auto sprite = new Sprite("circle.png", position);
 		sprite->Fade(startFade, start, 0, 1.0f, Easing::EasingIn);
 
 		const auto direction = rand() % 360;
