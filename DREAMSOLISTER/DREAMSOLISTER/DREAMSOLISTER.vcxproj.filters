@@ -39,10 +39,13 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="lyrics1.chai">
+    <None Include="lyricSpin.chai">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="lyrics2.chai">
+    <None Include="lyricSprite.chai">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="swing.chai">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

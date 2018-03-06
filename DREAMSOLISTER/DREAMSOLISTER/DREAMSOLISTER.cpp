@@ -124,10 +124,26 @@ Color convertS2VXColorToOsuukiSBColor(const glm::vec3& source) {
 void processBackground(const S2VX::Back& back) {
 	auto bg = new Sprite("pixel.png", Vector2::Zero, Layer::Background);
 
-	bg->ScaleVector(29187, 30624, Vector2(0,0), Vector2::ScreenSize, Easing::EasingIn);
+	const auto screenSquare = Vector2(Vector2::ScreenSize.x, Vector2::ScreenSize.x);
+	bg->ScaleVector(29187, 30624, Vector2(0,0), screenSquare, Easing::EasingIn);
 	bg->Fade(29187, 30624, 0, 1, Easing::EasingIn);
-	bg->ScaleVector(67989, 70145, Vector2::ScreenSize, Vector2(0, 0), Easing::EasingOut);
+	bg->ScaleVector(67989, 70145, screenSquare, Vector2(0, 0), Easing::EasingOut);
 	bg->Fade(67989, 70145, 1, 0, Easing::EasingOut);
+
+	bg->ScaleVector(103738, 105354, Vector2(0, 0), screenSquare, Easing::EasingIn);
+	bg->Fade(103738, 105354, 0, 1, Easing::EasingIn);
+	bg->ScaleVector(147929, 150265, screenSquare, Vector2(0, 0), Easing::EasingOut);
+	bg->Fade(147929, 150265, 1, 0, Easing::EasingOut);
+
+	bg->ScaleVector(179187, 180444, Vector2(0, 0), screenSquare, Easing::EasingIn);
+	bg->Fade(179187, 180444, 0, 1, Easing::EasingIn);
+	bg->ScaleVector(200205, 203079, screenSquare, Vector2(0, 0), Easing::EasingOut);
+	bg->Fade(200205, 203079, 1, 0, Easing::EasingOut);
+
+	bg->ScaleVector(228947, 231103, Vector2(0, 0), screenSquare, Easing::EasingIn);
+	bg->Fade(228947, 231103, 0, 1, Easing::EasingIn);
+	bg->ScaleVector(279247, 280684, screenSquare, Vector2(0, 0), Easing::EasingOut);
+	bg->Fade(279247, 280684, 1, 0, Easing::EasingOut);
 
 	for (const auto& command : back.getCommands()) {
 		const auto start = command->getStart();
@@ -156,9 +172,23 @@ void setBorder() {
 	auto top = new Sprite("pixel.png", Vector2(0.0f, halfSize.y - borderOffset));
 	top->Color(29187, 29187, color, color);
 	top->ScaleVector(29187, 30624, Vector2(width, width), horizontal, Easing::EasingIn);
-	top->Fade(29187, 30624, 0, 1, Easing::EasingIn);
 	top->ScaleVector(65115, 70145, horizontal, Vector2(width, width), Easing::EasingOut);
 	top->Fade(65115, 70145, 1, 0, Easing::EasingOut);
+
+	top->ScaleVector(103738, 105354, Vector2(width, width), horizontal, Easing::EasingIn);
+	top->Fade(103738, 105354, 0, 1, Easing::EasingIn);
+	top->ScaleVector(145414, 150265, horizontal, Vector2(width, width), Easing::EasingOut);
+	top->Fade(145414, 150265, 1, 0, Easing::EasingOut);
+
+	top->ScaleVector(179187, 180444, Vector2(width, width), horizontal, Easing::EasingIn);
+	top->Fade(179187, 180444, 0, 1, Easing::EasingIn);
+	top->ScaleVector(200205, 203079, horizontal, Vector2(width, width), Easing::EasingOut);
+	top->Fade(200205, 203079, 1, 0, Easing::EasingOut);
+
+	top->ScaleVector(228947, 231103, Vector2(width, width), horizontal, Easing::EasingIn);
+	top->Fade(228947, 231103, 0, 1, Easing::EasingIn);
+	top->ScaleVector(279247, 280684, horizontal, Vector2(width, width), Easing::EasingOut);
+	top->Fade(279247, 280684, 1, 0, Easing::EasingOut);
 
 	auto bottom = new Sprite("pixel.png", Vector2(0.0f, -(halfSize.y - borderOffset)));
 	bottom->Color(29187, 29187, color, color);
@@ -166,17 +196,62 @@ void setBorder() {
 	bottom->ScaleVector(65115, 70145, horizontal, Vector2(width, width), Easing::EasingOut);
 	bottom->Fade(65115, 70145, 1, 0, Easing::EasingOut);
 
+	bottom->ScaleVector(103738, 105354, Vector2(width, width), horizontal, Easing::EasingIn);
+	bottom->Fade(103738, 105354, 0, 1, Easing::EasingIn);
+	bottom->ScaleVector(145414, 150265, horizontal, Vector2(width, width), Easing::EasingOut);
+	bottom->Fade(145414, 150265, 1, 0, Easing::EasingOut);
+
+	bottom->ScaleVector(179187, 180444, Vector2(width, width), horizontal, Easing::EasingIn);
+	bottom->Fade(179187, 180444, 0, 1, Easing::EasingIn);
+	bottom->ScaleVector(200205, 203079, horizontal, Vector2(width, width), Easing::EasingOut);
+	bottom->Fade(200205, 203079, 1, 0, Easing::EasingOut);
+
+	bottom->ScaleVector(228947, 231103, Vector2(width, width), horizontal, Easing::EasingIn);
+	bottom->Fade(228947, 231103, 0, 1, Easing::EasingIn);
+	bottom->ScaleVector(279247, 280684, horizontal, Vector2(width, width), Easing::EasingOut);
+	bottom->Fade(279247, 280684, 1, 0, Easing::EasingOut);
+
 	auto right = new Sprite("pixel.png", Vector2(-(halfSize.x - borderOffset), 0.0f));
 	right->Color(29187, 29187, color, color);
 	right->ScaleVector(29187, 30624, Vector2(width, width), vertical, Easing::EasingIn);
 	right->ScaleVector(65115, 70145, vertical, Vector2(width, width), Easing::EasingOut);
 	right->Fade(65115, 70145, 1, 0, Easing::EasingOut);
 
+	right->ScaleVector(103738, 105354, Vector2(width, width), vertical, Easing::EasingIn);
+	right->Fade(103738, 105354, 0, 1, Easing::EasingIn);
+	right->ScaleVector(145414, 150265, vertical, Vector2(width, width), Easing::EasingOut);
+	right->Fade(145414, 150265, 1, 0, Easing::EasingOut);
+
+	right->ScaleVector(179187, 180444, Vector2(width, width), vertical, Easing::EasingIn);
+	right->Fade(179187, 180444, 0, 1, Easing::EasingIn);
+	right->ScaleVector(200205, 203079, vertical, Vector2(width, width), Easing::EasingOut);
+	right->Fade(200205, 203079, 1, 0, Easing::EasingOut);
+
+	right->ScaleVector(228947, 231103, Vector2(width, width), vertical, Easing::EasingIn);
+	right->Fade(228947, 231103, 0, 1, Easing::EasingIn);
+	right->ScaleVector(279247, 280684, vertical, Vector2(width, width), Easing::EasingOut);
+	right->Fade(279247, 280684, 1, 0, Easing::EasingOut);
+
 	auto left = new Sprite("pixel.png", Vector2(halfSize.x - borderOffset, 0.0f));
 	left->Color(29187, 29187, color, color);
 	left->ScaleVector(29187, 30624, Vector2(width, width), vertical, Easing::EasingIn);
 	left->ScaleVector(65115, 70145, vertical, Vector2(width, width), Easing::EasingOut);
 	left->Fade(65115, 70145, 1, 0, Easing::EasingOut);
+
+	left->ScaleVector(103738, 105354, Vector2(width, width), vertical, Easing::EasingIn);
+	left->Fade(103738, 105354, 0, 1, Easing::EasingIn);
+	left->ScaleVector(145414, 150265, vertical, Vector2(width, width), Easing::EasingOut);
+	left->Fade(145414, 150265, 1, 0, Easing::EasingOut);
+
+	left->ScaleVector(179187, 180444, Vector2(width, width), vertical, Easing::EasingIn);
+	left->Fade(179187, 180444, 0, 1, Easing::EasingIn);
+	left->ScaleVector(200205, 203079, vertical, Vector2(width, width), Easing::EasingOut);
+	left->Fade(200205, 203079, 1, 0, Easing::EasingOut);
+
+	left->ScaleVector(228947, 231103, Vector2(width, width), vertical, Easing::EasingIn);
+	left->Fade(228947, 231103, 0, 1, Easing::EasingIn);
+	left->ScaleVector(279247, 280684, vertical, Vector2(width, width), Easing::EasingOut);
+	left->Fade(279247, 280684, 1, 0, Easing::EasingOut);
 }
 
 void setS2VXBorder() {
@@ -426,8 +501,9 @@ void main() {
 
 		Sprite* hideBackground = new Sprite("bg.jpg", Vector2::Zero, Layer::Background);
 
-		processScript("lyrics1.chai");
-		//processScript("lyrics2.chai");
+		//processScript("lyricSpin.chai");
+		//processScript("lyricSprite.chai");
+		processScript("swing.chai");
 
 		auto path = std::string(R"(X:\osu!\Songs\717639 TRUE - DREAM SOLISTER\TRUE - DREAM SOLISTER (Shiratoi).osb)");
 		Storyboard::Instance()->Write(path);

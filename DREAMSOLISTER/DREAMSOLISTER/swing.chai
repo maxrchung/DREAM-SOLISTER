@@ -1,0 +1,64 @@
+// Default camera values so that getCameraValuesAtMilliseconds() has no issues
+CameraRotate(0,0,	0,	0,0);
+CameraZoom(0,0,	0,	100,100);
+CameraMove(0,0,	0,	0,0,	0,0);
+
+CameraMove(0,0,	0,	0,0,	7,-3.5);
+CameraZoom(0,0,	0,	50,50);
+
+var colorOffset = 10.0f;
+var blueR = 0;
+var blueG = 169.0f;
+var blueB = 195.0f;
+
+for (var i = 0; i > -8; --i) {
+	var colorR = 0;
+	var colorG = (blueG + i * colorOffset) / 255.0f;
+	var colorB = (blueB + i * colorOffset) / 255.0f;
+
+	SpriteBind("W");
+	SpriteMove(180444,201642, 0, 0,i,	0,0);
+	SpriteColor(180444,180444, 0, colorR,colorG,colorB, 0,0,0);
+	SpriteBind("E");
+	SpriteMove(180444,201642, 0, 1,i,	0,0);
+	SpriteColor(180444,180444, 0, colorR,colorG,colorB, 0,0,0);
+	SpriteBind("X");
+	SpriteMove(180444,201642, 0, 2,i,	0,0);
+	SpriteColor(180444,180444, 0, colorR,colorG,colorB, 0,0,0);
+	SpriteBind("G");
+	SpriteMove(180444,201642, 0, 3,i,	0,0);
+	SpriteColor(180444,180444, 0, colorR,colorG,colorB, 0,0,0);
+	SpriteBind("A");
+	SpriteMove(180444,201642, 0, 4,i,	0,0);
+	SpriteColor(180444,180444, 0, colorR,colorG,colorB, 0,0,0);
+	SpriteBind("T");
+	SpriteMove(180444,201642, 0, 5,i,	0,0);
+	SpriteColor(180444,180444, 0, colorR,colorG,colorB, 0,0,0);
+	SpriteBind("T");
+	SpriteMove(180444,201642, 0, 6,i,	0,0);
+	SpriteColor(180444,180444, 0, colorR,colorG,colorB, 0,0,0);
+	SpriteBind("A");
+	SpriteMove(180444,201642, 0, 7,i,	0,0);
+	SpriteColor(180444,180444, 0, colorR,colorG,colorB, 0,0,0);
+	SpriteBind("X");
+	SpriteMove(180444,201642, 0, 8,i,	0,0);
+	SpriteColor(180444,180444, 0, colorR,colorG,colorB, 0,0,0);
+	SpriteBind("S");
+	SpriteMove(180444,201642, 0, 9,i,	0,0);
+	SpriteColor(180444,180444, 0, colorR,colorG,colorB, 0,0,0);
+	SpriteBind("W");
+	SpriteMove(180444,201642, 0, 10,i,	0,0);
+	SpriteColor(180444,180444, 0, colorR,colorG,colorB, 0,0,0);
+	SpriteBind("I");
+	SpriteMove(180444,201642, 0, 11,i,	0,0);
+	SpriteColor(180444,180444, 0, colorR,colorG,colorB, 0,0,0);
+	SpriteBind("N");
+	SpriteMove(180444,201642, 0, 12,i,	0,0);
+	SpriteColor(180444,180444, 0, colorR,colorG,colorB, 0,0,0);
+	SpriteBind("G");
+	SpriteMove(180444,201642, 0, 13,i,	0,0);
+	SpriteColor(180444,180444, 0, colorR,colorG,colorB, 0,0,0);
+	SpriteBind("!!!");
+	SpriteMove(180444,201642, 0, 14,i,	0,0);
+	SpriteColor(180444,180444, 0, colorR,colorG,colorB, 0,0,0);
+}
