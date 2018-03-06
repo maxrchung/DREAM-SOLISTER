@@ -11,54 +11,103 @@ var blueR = 0;
 var blueG = 169.0f;
 var blueB = 195.0f;
 
+var yellowR = 247.0f;
+var yellowG = 255.0f;
+var yellowB = 8.0f;
+
+var pinkR = 255.0f;
+var pinkG = 0.82f * 255.0f;
+var pinkB = 0.86f * 255.0f;
+
+var greenR = 119.0f;
+var greenG = 255.0f;
+var greenB = 169.0f;
+
+global easing = 1;
+
+global blueDR = blueR;
+global blueDG = blueG;
+global blueDB = blueB;
+
+global yellowDR = yellowR;
+global yellowDG = yellowG;
+global yellowDB = yellowB;
+
+global pinkDR = pinkR;
+global pinkDG = pinkG;
+global pinkDB = pinkB;
+
+global greenDR = greenR;
+global greenDG = greenG;
+global greenDB = greenB;
+
+def color() {
+	SpriteColor(180444,183678, easing, blueDR,blueDG,blueDB, yellowDR,yellowDG,yellowDB);
+	SpriteColor(186193,191223, easing, yellowDR,yellowDG,yellowDB, pinkDR,pinkDG,pinkDB);
+	SpriteColor(191941,195175, easing, pinkDR,pinkDG,pinkDB, greenDR,greenDG,greenDB);
+	SpriteColor(197690,201642, easing, greenDR,greenDG,greenDB, blueDR,blueDG,blueDB);
+}
+
 for (var i = 0; i > -8; --i) {
-	var colorR = 0;
-	var colorG = (blueG + i * colorOffset) / 255.0f;
-	var colorB = (blueB + i * colorOffset) / 255.0f;
+	blueDR = 0;
+	blueDG = (blueG + i * colorOffset) / 255.0f;
+	blueDB = (blueB + i * colorOffset) / 255.0f;
+
+	yellowDR = (yellowR + i * colorOffset) / 255.0f;
+	yellowDG = (yellowG + i * colorOffset) / 255.0f;
+	yellowDB = 0;
+
+	pinkDR = (pinkR + i * colorOffset) / 255.0f;
+	pinkDG = (pinkG + i * colorOffset) / 255.0f;
+	pinkDB = (pinkB + i * colorOffset) / 255.0f;
+	
+	greenDR = (greenR + i * colorOffset) / 255.0f;
+	greenDG = (greenG + i * colorOffset) / 255.0f;
+	greenDB = (greenB + i * colorOffset) / 255.0f;
 
 	SpriteBind("W");
 	SpriteMove(180444,201642, 0, 0,i,	0,0);
-	SpriteColor(180444,180444, 0, colorR,colorG,colorB, 0,0,0);
+	color();
 	SpriteBind("E");
 	SpriteMove(180444,201642, 0, 1,i,	0,0);
-	SpriteColor(180444,180444, 0, colorR,colorG,colorB, 0,0,0);
+	color();
 	SpriteBind("X");
 	SpriteMove(180444,201642, 0, 2,i,	0,0);
-	SpriteColor(180444,180444, 0, colorR,colorG,colorB, 0,0,0);
+	color();
 	SpriteBind("G");
 	SpriteMove(180444,201642, 0, 3,i,	0,0);
-	SpriteColor(180444,180444, 0, colorR,colorG,colorB, 0,0,0);
+	color();
 	SpriteBind("A");
 	SpriteMove(180444,201642, 0, 4,i,	0,0);
-	SpriteColor(180444,180444, 0, colorR,colorG,colorB, 0,0,0);
+	color();
 	SpriteBind("T");
 	SpriteMove(180444,201642, 0, 5,i,	0,0);
-	SpriteColor(180444,180444, 0, colorR,colorG,colorB, 0,0,0);
+	color();
 	SpriteBind("T");
 	SpriteMove(180444,201642, 0, 6,i,	0,0);
-	SpriteColor(180444,180444, 0, colorR,colorG,colorB, 0,0,0);
+	color();
 	SpriteBind("A");
 	SpriteMove(180444,201642, 0, 7,i,	0,0);
-	SpriteColor(180444,180444, 0, colorR,colorG,colorB, 0,0,0);
+	color();
 	SpriteBind("X");
 	SpriteMove(180444,201642, 0, 8,i,	0,0);
-	SpriteColor(180444,180444, 0, colorR,colorG,colorB, 0,0,0);
+	color();
 	SpriteBind("S");
 	SpriteMove(180444,201642, 0, 9,i,	0,0);
-	SpriteColor(180444,180444, 0, colorR,colorG,colorB, 0,0,0);
+	color();
 	SpriteBind("W");
 	SpriteMove(180444,201642, 0, 10,i,	0,0);
-	SpriteColor(180444,180444, 0, colorR,colorG,colorB, 0,0,0);
+	color();
 	SpriteBind("I");
 	SpriteMove(180444,201642, 0, 11,i,	0,0);
-	SpriteColor(180444,180444, 0, colorR,colorG,colorB, 0,0,0);
+	color();
 	SpriteBind("N");
 	SpriteMove(180444,201642, 0, 12,i,	0,0);
-	SpriteColor(180444,180444, 0, colorR,colorG,colorB, 0,0,0);
+	color();
 	SpriteBind("G");
 	SpriteMove(180444,201642, 0, 13,i,	0,0);
-	SpriteColor(180444,180444, 0, colorR,colorG,colorB, 0,0,0);
+	color();
 	SpriteBind("!!!");
 	SpriteMove(180444,201642, 0, 14,i,	0,0);
-	SpriteColor(180444,180444, 0, colorR,colorG,colorB, 0,0,0);
+	color();
 }

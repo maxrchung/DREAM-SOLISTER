@@ -137,8 +137,8 @@ void processBackground(const S2VX::Back& back) {
 
 	bg->ScaleVector(179187, 180444, Vector2(0, 0), screenSquare, Easing::EasingIn);
 	bg->Fade(179187, 180444, 0, 1, Easing::EasingIn);
-	bg->ScaleVector(200205, 203079, screenSquare, Vector2(0, 0), Easing::EasingOut);
-	bg->Fade(200205, 203079, 1, 0, Easing::EasingOut);
+	bg->ScaleVector(201642, 203079, screenSquare, Vector2(0, 0), Easing::EasingOut);
+	bg->Fade(201642, 203079, 1, 0, Easing::EasingOut);
 
 	bg->ScaleVector(228947, 231103, Vector2(0, 0), screenSquare, Easing::EasingIn);
 	bg->Fade(228947, 231103, 0, 1, Easing::EasingIn);
@@ -369,6 +369,38 @@ std::vector<SpriteBinding> createSpriteBindings(const std::vector<std::unique_pt
 	return spriteBindings;
 }
 
+void processS2VXSprites(S2VX::Camera& camera, const std::vector<SpriteBinding>& spriteBindings) {
+	for (auto binding : spriteBindings) {
+		const auto S2VXSprite = binding.S2VXSprite;
+		auto spriteGroup = binding.spriteGroup;
+		for (const auto& command : S2VXSprite->getCommands()) {
+			const auto easing = convertS2VXEasingToOsuukiSBEasing(command->getEasing());
+			const auto start = command->getStart();
+			const auto end = command->getEnd();
+
+			// yucklmao. I kind of regret using Command Pattern
+			const auto commandPointer = command.get();
+			const auto color = dynamic_cast<S2VX::SpriteColorCommand*>(commandPointer);
+			if (color != nullptr) {
+				const auto startColor = convertS2VXColorToOsuukiSBColor(color->getStartColor());
+				const auto endColor = convertS2VXColorToOsuukiSBColor(color->getEndColor());
+				for (auto sprite : spriteGroup.sprites) {
+					sprite->Color(start, end, startColor, endColor, easing);
+				}
+				continue;
+			}
+
+			const auto fade = dynamic_cast<S2VX::SpriteFadeCommand*>(commandPointer);
+			if (fade != nullptr) {
+				for (auto sprite : spriteGroup.sprites) {
+					sprite->Fade(start, end, fade->getStartFade(), fade->getEndFade(), easing);
+				}
+				continue;
+			}
+		}
+	}
+}
+
 void processCamera(S2VX::Camera& camera, const std::vector<SpriteBinding>& spriteBindings) {
 	// Reset camera
 	camera.reset();
@@ -486,6 +518,7 @@ void processScript(const std::string& path) {
 	processBackground(elements.getBack());
 
 	auto spriteBindings = createSpriteBindings(elements.getSprites().getSprites(), elements.getCamera());
+	processS2VXSprites(elements.getCamera(), spriteBindings);
 	processCamera(elements.getCamera(), spriteBindings);
 	// Destroy sprite bindings
 	std::for_each(spriteBindings.begin(), spriteBindings.end(), [](SpriteBinding& binding) { binding.spriteGroup.destroy(); });
