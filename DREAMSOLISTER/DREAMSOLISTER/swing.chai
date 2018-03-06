@@ -23,7 +23,7 @@ var greenR = 119.0f;
 var greenG = 255.0f;
 var greenB = 169.0f;
 
-global easing = 1;
+global easing = 0;
 
 global blueDR = blueR;
 global blueDG = blueG;
