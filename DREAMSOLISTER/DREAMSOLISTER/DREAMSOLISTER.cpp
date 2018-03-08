@@ -121,9 +121,7 @@ Color convertS2VXColorToOsuukiSBColor(const glm::vec3& source) {
 	return Color{ 255.0f * source.x, 255.0f * source.y, 255.0f * source.z };
 }
 
-void processBackground(const S2VX::Back& back) {
-	auto bg = new Sprite("pixel.png", Vector2::Zero, Layer::Background);
-
+void processBackground(const S2VX::Back& back, Sprite* const bg) {
 	const auto screenSquare = Vector2(Vector2::ScreenSize.x, Vector2::ScreenSize.x);
 	bg->ScaleVector(29187, 30624, Vector2(0,0), screenSquare, Easing::EasingIn);
 	bg->Fade(29187, 30624, 0, 1, Easing::EasingIn);
@@ -169,7 +167,7 @@ void setBorder() {
 	const auto horizontal = Vector2(Vector2::ScreenSize.x - 2 * borderOffset + width, width);
 	const auto vertical = Vector2(width, Vector2::ScreenSize.y - 2 * borderOffset + width);
 
-	auto top = new Sprite("pixel.png", Vector2(0.0f, halfSize.y - borderOffset));
+	auto const top = new Sprite("pixel.png", Vector2(0.0f, halfSize.y - borderOffset));
 	top->Color(29187, 29187, color, color);
 	top->ScaleVector(29187, 30624, Vector2(width, width), horizontal, Easing::EasingIn);
 	top->ScaleVector(65115, 70145, horizontal, Vector2(width, width), Easing::EasingOut);
@@ -190,7 +188,7 @@ void setBorder() {
 	top->ScaleVector(279247, 280684, horizontal, Vector2(width, width), Easing::EasingOut);
 	top->Fade(279247, 280684, 1, 0, Easing::EasingOut);
 
-	auto bottom = new Sprite("pixel.png", Vector2(0.0f, -(halfSize.y - borderOffset)));
+	auto const bottom = new Sprite("pixel.png", Vector2(0.0f, -(halfSize.y - borderOffset)));
 	bottom->Color(29187, 29187, color, color);
 	bottom->ScaleVector(29187, 30624, Vector2(width, width), horizontal, Easing::EasingIn);
 	bottom->ScaleVector(65115, 70145, horizontal, Vector2(width, width), Easing::EasingOut);
@@ -211,7 +209,7 @@ void setBorder() {
 	bottom->ScaleVector(279247, 280684, horizontal, Vector2(width, width), Easing::EasingOut);
 	bottom->Fade(279247, 280684, 1, 0, Easing::EasingOut);
 
-	auto right = new Sprite("pixel.png", Vector2(-(halfSize.x - borderOffset), 0.0f));
+	auto const right = new Sprite("pixel.png", Vector2(-(halfSize.x - borderOffset), 0.0f));
 	right->Color(29187, 29187, color, color);
 	right->ScaleVector(29187, 30624, Vector2(width, width), vertical, Easing::EasingIn);
 	right->ScaleVector(65115, 70145, vertical, Vector2(width, width), Easing::EasingOut);
@@ -232,7 +230,7 @@ void setBorder() {
 	right->ScaleVector(279247, 280684, vertical, Vector2(width, width), Easing::EasingOut);
 	right->Fade(279247, 280684, 1, 0, Easing::EasingOut);
 
-	auto left = new Sprite("pixel.png", Vector2(halfSize.x - borderOffset, 0.0f));
+	auto const left = new Sprite("pixel.png", Vector2(halfSize.x - borderOffset, 0.0f));
 	left->Color(29187, 29187, color, color);
 	left->ScaleVector(29187, 30624, Vector2(width, width), vertical, Easing::EasingIn);
 	left->ScaleVector(65115, 70145, vertical, Vector2(width, width), Easing::EasingOut);
@@ -267,34 +265,34 @@ void setS2VXBorder() {
 	const auto end = 1882;
 	const auto fadeEnd = end + quarter * 2;
 
-	auto bg = new Sprite("pixel.png", Vector2::Zero, Layer::Background);
+	auto const bg = new Sprite("pixel.png", Vector2::Zero, Layer::Background);
 	bg->Scale(fadeStart, start, 0, horizontal.x, Easing::EasingIn);
 	bg->Fade(fadeStart, start, 0, 1, Easing::EasingIn);
 	bg->Scale(end, fadeEnd, horizontal.x, 0, Easing::EasingOut);
 	bg->Fade(end, fadeEnd, 1, 0, Easing::EasingOut);
 
-	auto top = new Sprite("pixel.png", Vector2(0.0f, halfSize.y - borderOffset));
+	auto const top = new Sprite("pixel.png", Vector2(0.0f, halfSize.y - borderOffset));
 	top->Color(0, 0, color, color);
 	top->ScaleVector(fadeStart, start, Vector2(width, width), horizontal, Easing::EasingIn);
 	top->Fade(fadeStart, start, 0, 1, Easing::EasingIn);
 	top->ScaleVector(end, fadeEnd, horizontal, Vector2(width, width), Easing::EasingOut);
 	top->Fade(end, fadeEnd, 1, 0, Easing::EasingOut);
 
-	auto bottom = new Sprite("pixel.png", Vector2(0.0f, -(halfSize.y - borderOffset)));
+	auto const bottom = new Sprite("pixel.png", Vector2(0.0f, -(halfSize.y - borderOffset)));
 	bottom->Color(0, 0, color, color);
 	bottom->ScaleVector(fadeStart, start, Vector2(width, width), horizontal, Easing::EasingIn);
 	bottom->Fade(fadeStart, start, 0, 1, Easing::EasingIn);
 	bottom->ScaleVector(end, fadeEnd, horizontal, Vector2(width, width), Easing::EasingOut);
 	bottom->Fade(end, fadeEnd, 1, 0, Easing::EasingOut);
 
-	auto right = new Sprite("pixel.png", Vector2(-(halfSize.x - borderOffset), 0.0f));
+	auto const right = new Sprite("pixel.png", Vector2(-(halfSize.x - borderOffset), 0.0f));
 	right->Color(0, 0, color, color);
 	right->ScaleVector(fadeStart, start, Vector2(width, width), vertical, Easing::EasingIn);
 	right->Fade(fadeStart, start, 0, 1, Easing::EasingIn);
 	right->ScaleVector(end, fadeEnd, vertical, Vector2(width, width), Easing::EasingOut);
 	right->Fade(end, fadeEnd, 1, 0, Easing::EasingOut);
 
-	auto left = new Sprite("pixel.png", Vector2(halfSize.x - borderOffset, 0.0f));
+	auto const left = new Sprite("pixel.png", Vector2(halfSize.x - borderOffset, 0.0f));
 	left->Color(0, 0, color, color);
 	left->ScaleVector(fadeStart, start, Vector2(width, width), vertical, Easing::EasingIn);
 	left->Fade(fadeStart, start, 0, 1, Easing::EasingIn);
@@ -511,32 +509,33 @@ void processCamera(S2VX::Camera& camera, const std::vector<SpriteBinding>& sprit
 	}
 }
 
-void processScript(const std::string& path) {
+void processScript(const std::string& path, Sprite* const bg) {
 	S2VX::Display display;
 	S2VX::Scripting scripting{ display };
 	auto& elements = scripting.evaluate(path);
-	processBackground(elements.getBack());
+	processBackground(elements.getBack(), bg);
 
 	auto spriteBindings = createSpriteBindings(elements.getSprites().getSprites(), elements.getCamera());
 	processS2VXSprites(elements.getCamera(), spriteBindings);
 	processCamera(elements.getCamera(), spriteBindings);
 	// Destroy sprite bindings
 	std::for_each(spriteBindings.begin(), spriteBindings.end(), [](SpriteBinding& binding) { binding.spriteGroup.destroy(); });
-
-	// Blue line rectangle border
-	setBorder();
-	//setS2VXBorder();
 }
 
 void main() {
 	try {
 		srand(time(NULL));
 
-		Sprite* hideBackground = new Sprite("bg.jpg", Vector2::Zero, Layer::Background);
+		auto const hideBackground = new const Sprite("bg.jpg", Vector2::Zero, Layer::Background);
+		auto const bg = new Sprite("pixel.png", Vector2::Zero, Layer::Background);
 
-		processScript("lyricSpin.chai");
+		processScript("lyricSpin.chai", bg);
 		//processScript("lyricSprite.chai");
-		processScript("swing.chai");
+		processScript("swing.chai", bg);
+
+		// Blue line rectangle border
+		setBorder();
+		//setS2VXBorder();
 
 		auto path = std::string(R"(X:\osu!\Songs\717639 TRUE - DREAM SOLISTER\TRUE - DREAM SOLISTER (Shiratoi).osb)");
 		Storyboard::Instance()->Write(path);

@@ -351,7 +351,7 @@ void SpriteGroup::makeSpriteGroup(const std::vector<float>& linePoints, const st
 		const auto endPoint = center + Vector2(scaledLinePoints[i + 2], scaledLinePoints[i + 3]).Rotate(rotation);
 		const auto midPoint = (startPoint + endPoint) / 2.0f;
 
-		auto sprite = new Sprite("square.png", midPoint);
+		auto const sprite = new Sprite("square.png", midPoint);
 		sprite->Color(startFade, startFade, color, color);
 		sprite->Fade(startFade, start, 0, 1.0f, Easing::EasingIn);
 
@@ -377,7 +377,7 @@ void SpriteGroup::makeSpriteGroup(const std::vector<float>& linePoints, const st
 		const auto startFade = start - offset;
 		const auto position = center + Vector2(scaledPoints[i], scaledPoints[i + 1]).Rotate(rotation);
 
-		auto sprite = new Sprite("circle.png", position);
+		auto const sprite = new Sprite("circle.png", position);
 		sprite->Color(startFade, startFade, color, color);
 		sprite->Fade(startFade, start, 0, 1.0f, Easing::EasingIn);
 
