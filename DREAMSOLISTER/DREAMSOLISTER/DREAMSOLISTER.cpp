@@ -534,7 +534,7 @@ void main() {
 
 		Sprite* hideBackground = new Sprite("bg.jpg", Vector2::Zero, Layer::Background);
 
-		//processScript("lyricSpin.chai");
+		processScript("lyricSpin.chai");
 		//processScript("lyricSprite.chai");
 		processScript("swing.chai");
 

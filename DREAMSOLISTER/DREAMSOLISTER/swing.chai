@@ -43,9 +43,9 @@ global greenDB = greenB;
 
 def color() {
 	SpriteColor(180444,183678, easing, blueDR,blueDG,blueDB, yellowDR,yellowDG,yellowDB);
-	SpriteColor(186193,191223, easing, yellowDR,yellowDG,yellowDB, pinkDR,pinkDG,pinkDB);
+	SpriteColor(186193,188708, easing, yellowDR,yellowDG,yellowDB, pinkDR,pinkDG,pinkDB);
 	SpriteColor(191941,195175, easing, pinkDR,pinkDG,pinkDB, greenDR,greenDG,greenDB);
-	SpriteColor(197690,201642, easing, greenDR,greenDG,greenDB, blueDR,blueDG,blueDB);
+	SpriteColor(197690,200205, easing, greenDR,greenDG,greenDB, blueDR,blueDG,blueDB);
 }
 
 for (var i = 0; i > -8; --i) {
@@ -107,7 +107,9 @@ for (var i = 0; i > -8; --i) {
 	SpriteBind("G");
 	SpriteMove(180444,201642, 0, 13,i,	0,0);
 	color();
-	SpriteBind("!!!");
-	SpriteMove(180444,201642, 0, 14,i,	0,0);
-	color();
+	if (i % 2 == 0) {
+		SpriteBind("!!!");
+		SpriteMove(180444,201642, 0, 14,i,	0,0);
+		color();
+	}
 }
