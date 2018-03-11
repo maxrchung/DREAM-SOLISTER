@@ -159,6 +159,50 @@ void processBackground(const S2VX::Back& back, Sprite* const bg) {
 	}
 }
 
+void setDotBackground() {
+	const auto numDots = 50;
+	const auto dotDistance = 200;
+	const auto ellipseFactor = 1.6f;
+
+	const auto startFadeIn = 62241;
+	const auto endFadeIn = 65115;
+	const auto startFadeOut = 67989;
+	const auto endFadeOut = 69786;
+	const auto timeStep = quarter / 8;
+
+	const auto fade = 0.5f;
+
+	const auto scaleFactor = 8;
+	const auto scaleMinimum = 8.0f;
+
+	for (auto i = 0; i < numDots; i++) {
+		auto const sprite = new Sprite("circle.png");
+		sprite->Fade(startFadeIn, endFadeIn, 0.0f, fade, Easing::EasingIn);
+		sprite->Fade(startFadeOut, endFadeOut, fade, 0.0f, Easing::EasingOut);
+
+		for (auto i = startFadeIn; i < endFadeOut; i += timeStep) {
+			Vector2 position;
+			auto withinBounds = true;
+			while (withinBounds) {
+				const auto x = rand() % static_cast<int>(Vector2::ScreenSize.x) - Vector2::ScreenSize.x / 2;
+				const auto y = rand() % static_cast<int>(Vector2::ScreenSize.y) - Vector2::ScreenSize.y / 2;
+				const auto ellipse = Vector2(x / ellipseFactor, y);
+				if (ellipse.Magnitude() > dotDistance) {
+					withinBounds = false;
+					position = Vector2(x, y);
+				}
+			}
+			sprite->Move(i, i, position, position);
+
+			const auto color = Color(rand() % 255, rand() % 255, rand() % 255);
+			sprite->Color(i, i, color, color);
+
+			const auto scale = (rand() % scaleFactor + scaleMinimum) / imageWidth;
+			sprite->Scale(i, i, scale, scale);
+		}
+	}
+}
+
 void setBorder() {
 	const auto borderOffset = 25.0f;
 	const auto halfSize = Vector2::ScreenSize / 2;
@@ -532,6 +576,8 @@ void main() {
 		processScript("lyricSpin.chai", bg);
 		//processScript("lyricSprite.chai");
 		processScript("swing.chai", bg);
+
+		setDotBackground();
 
 		// Blue line rectangle border
 		setBorder();
