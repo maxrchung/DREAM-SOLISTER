@@ -439,7 +439,7 @@ void SpriteGroup::makeMusicNote() {
 	auto point = notePoint;
 	const auto noteScale = notePointScale * scaleHeight;
 	std::for_each(point.begin(), point.end(), scalePointFunction);
-	const auto position = center + Vector2(notePoint[0], notePoint[1]).Rotate(rotation);
+	const auto position = center + Vector2(point[0], point[1]).Rotate(rotation);
 
 	auto const note = new Sprite("circle.png", position);
 	note->Color(startFade, startFade, color, color);
