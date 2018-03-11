@@ -140,7 +140,7 @@ SpriteBind("O");
 SpriteMove(32420,51821, 0, 15,8,	0,0);
 SpriteColor(32420,32420, 0, blueDR,blueDG,blueDB, blueDR,blueDG,blueDB);
 
-SpriteBind("X");
+SpriteBind("MusicNote");
 SpriteMove(32420,51821, 0, 16,8,	0,0);
 SpriteColor(32420,32420, 0, blueDDR,blueDDG,blueDDB, blueDDR,blueDDG,blueDDB);
 
@@ -278,7 +278,7 @@ SpriteMove(38348,51821, 0, 9,6,	0,0);
 SpriteColor(38348,38348, 0, yellowDR,yellowDG,yellowDB, yellowDR,yellowDG,yellowDB);
 SpriteRotate(38348,38348, 0, 90,		0);
 
-SpriteBind("X");
+SpriteBind("MusicNote");
 SpriteMove(38348,51821, 0, 9,5,	0,0);
 SpriteColor(38348,38348, 0, yellowR,yellowG,yellowB, yellowR,yellowG,yellowB);
 SpriteRotate(38348,38348, 0, 90,		0);
@@ -319,7 +319,7 @@ SpriteMove(39786,51821, 0, 8,7,	0,0);
 SpriteColor(39786,39786, 0, yellowR,yellowG,yellowB, yellowR,yellowG,yellowB);
 SpriteRotate(39786,39786, 0, 90,		0);
 
-SpriteBind("X");
+SpriteBind("MusicNote");
 SpriteMove(39786,51821, 0, 8,6,	0,0);
 SpriteColor(39786,39786, 0, yellowDR,yellowDG,yellowDB, yellowDR,yellowDG,yellowDB);
 SpriteRotate(39786,39786, 0, 90,		0);
@@ -333,7 +333,7 @@ SpriteMove(40324,51821, 0, 8,4,	0,0);
 SpriteColor(40324,40324, 0, yellowDDR,yellowDDG,yellowDDB, yellowDDR,yellowDDG,yellowDDB);
 SpriteRotate(40324,40324, 0, 90,		0);
 
-SpriteBind("X");
+SpriteBind("MusicNote");
 SpriteMove(40324,51821, 0, 8,3,	0,0);
 SpriteColor(40324,40324, 0, yellowDR,yellowDG,yellowDB, yellowDR,yellowDG,yellowDB);
 SpriteRotate(40324,40324, 0, 90,		0);
@@ -366,7 +366,7 @@ SpriteMove(41762,51821, 0, 8,10,	0,0);
 SpriteColor(41762,41762, 0, pinkDR,pinkDG,pinkDB, pinkDR,pinkDG,pinkDB);
 SpriteRotate(41762,41762, 0, 180,		0);
 
-SpriteBind("X");
+SpriteBind("MusicNote");
 SpriteMove(41762,51821, 0, 7,10,	0,0);
 SpriteColor(41762,41762, 0, pinkDDR,pinkDDG,pinkDDB, pinkDDR,pinkDDG,pinkDDB);
 SpriteRotate(41762,41762, 0, 180,		0);
@@ -439,7 +439,7 @@ SpriteMove(43917,51821, 0, 5,12,	0,0);
 SpriteColor(43917,43917, 0, pinkDDR,pinkDDG,pinkDDB, pinkDDR,pinkDDG,pinkDDB);
 SpriteRotate(43917,43917, 0, 180,		0);
 
-SpriteBind("X");
+SpriteBind("MusicNote");
 SpriteMove(43917,51821, 0, 4,12,	0,0);
 SpriteColor(43917,43917, 0, pinkDR,pinkDG,pinkDB, pinkDR,pinkDG,pinkDB);
 SpriteRotate(43917,43917, 0, 180,		0);
@@ -511,7 +511,7 @@ SpriteMove(45714,51821, 0, 10,14,	0,0);
 SpriteColor(45714,45714, 0, pinkDDR,pinkDDG,pinkDDB, pinkDDR,pinkDDG,pinkDDB);
 SpriteRotate(45714,45714, 0, 180,		0);
 
-SpriteBind("X");
+SpriteBind("MusicNote");
 SpriteMove(45714,51821, 0, 9,14,	0,0);
 SpriteColor(45714,45714, 0, pinkDR,pinkDG,pinkDB, pinkDR,pinkDG,pinkDB);
 SpriteRotate(45714,45714, 0, 180,		0);
@@ -628,7 +628,7 @@ SpriteMove(49486,51821, 0, 14,11,	0,0);
 SpriteColor(49486,49486, 0, greenDDR,greenDDG,greenDDB, greenDDR,greenDDG,greenDDB);
 SpriteRotate(49486,49486, 0, 270,		0);
 
-SpriteBind("X");
+SpriteBind("MusicNote");
 SpriteMove(49486,51821, 0, 14,12,	0,0);
 SpriteColor(49486,49486, 0, greenDR,greenDG,greenDB, greenDR,greenDG,greenDB);
 SpriteRotate(49486,49486, 0, 270,		0);
@@ -651,7 +651,7 @@ SpriteMove(50025,51821, 0, 14,16,	0,0);
 SpriteColor(50025,50025, 0, greenDR,greenDG,greenDB, greenDR,greenDG,greenDB);
 SpriteRotate(50025,50025, 0, 270,		0);
 
-SpriteBind("X");
+SpriteBind("MusicNote");
 SpriteMove(50025,51821, 0, 14,17,	0,0);
 SpriteColor(50025,50025, 0, greenDDR,greenDDG,greenDDB, greenDDR,greenDDG,greenDDB);
 SpriteRotate(50025,50025, 0, 270,		0);
@@ -687,6 +687,6 @@ BackColor(0,0, 0, 1,1,1,	1,1,1)
 //SpriteMove(start,end, 0, 0,0,	0,0);
 //SpriteColor(start,start, 1,	cyanR,cyanG,cyanB,	cyanR,cyanG,cyanB);
 //
-//SpriteBind("X")
+//SpriteBind("MusicNote")
 //SpriteMove(start,end, 0, 1,0,	1,0);
 //SpriteColor(start,start, 1,	cyanR,cyanG,cyanB,	cyanR,cyanG,cyanB);

@@ -71,7 +71,7 @@ for (var i = 0; i > -8; --i) {
 	SpriteBind("E");
 	SpriteMove(180444,201642, 0, 1,i,	0,0);
 	color();
-	SpriteBind("X");
+	SpriteBind("MusicNote");
 	SpriteMove(180444,201642, 0, 2,i,	0,0);
 	color();
 	SpriteBind("G");
@@ -89,7 +89,7 @@ for (var i = 0; i > -8; --i) {
 	SpriteBind("A");
 	SpriteMove(180444,201642, 0, 7,i,	0,0);
 	color();
-	SpriteBind("X");
+	SpriteBind("MusicNote");
 	SpriteMove(180444,201642, 0, 8,i,	0,0);
 	color();
 	SpriteBind("S");
@@ -109,6 +109,11 @@ for (var i = 0; i > -8; --i) {
 	color();
 	if (i % 2 == 0) {
 		SpriteBind("!!!");
+		SpriteMove(180444,201642, 0, 14,i,	0,0);
+		color();
+	}
+	else {
+		SpriteBind("MusicNote");
 		SpriteMove(180444,201642, 0, 14,i,	0,0);
 		color();
 	}

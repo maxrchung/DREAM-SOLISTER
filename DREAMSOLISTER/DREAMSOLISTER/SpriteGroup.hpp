@@ -11,15 +11,22 @@ public:
 	Vector2 center;
 private:
 	Color color;
-	int imageWidth;
-	int start;
 	int end;
-	float lineHeight;
+	int imageWidth;
 	int offset;
-	float circleScale;
+	int start;
+	int startFade;
+	float lineHeight;
 	float overallScale;
 	float rotation;
 	float scale;
-	void makeSpriteGroup(const std::vector<float>& linePoints, const std::vector<float>& points);
+	static const float circleScale;
+	static const float noteRotation;
+	static const std::vector<float> noteLinePoints;
+	static const float noteLineScale;
+	static const std::vector<float> notePoint;
+	static const Vector2 notePointScale;
+	void makeGridSpriteGroup(const std::vector<float>& linePoints, const std::vector<float>& points);
+	void makeMusicNote();
 	void scalePoint(float& value);
 };
