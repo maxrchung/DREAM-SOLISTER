@@ -162,7 +162,7 @@ void processBackground(const S2VX::Back& back, Sprite* const bg) {
 void setDotBackground() {
 	const auto numDots = 50;
 	const auto dotDistance = 200;
-	const auto ellipseFactor = 1.6f;
+	const auto ellipseFactor = 1.7f;
 
 	const auto startFadeIn = 62241;
 	const auto endFadeIn = 65115;
@@ -170,12 +170,32 @@ void setDotBackground() {
 	const auto endFadeOut = 69786;
 	const auto timeStep = quarter / 8;
 
-	const auto fade = 0.5f;
+	const auto fade = 0.3f;
 
 	const auto scaleFactor = 8;
 	const auto scaleMinimum = 8.0f;
 
-	for (auto i = 0; i < numDots; i++) {
+	const auto colorOffset = 30;
+	const auto colorOffset2 = colorOffset * 2;
+	auto colors = std::vector<Color>({
+		Color(0, 169,195),
+		Color(0, 169 - colorOffset, 195 - colorOffset),
+		Color(0, 169 - colorOffset2, 195 - colorOffset2),
+
+		Color(247, 255, 8),
+		Color(247 - colorOffset, 255 - colorOffset, 8),
+		Color(247 - colorOffset2, 255 - colorOffset2, 8),
+
+		Color(255, 209, 219),
+		Color(255 - colorOffset, 209 - colorOffset, 219 - colorOffset),
+		Color(255 - colorOffset2, 209 - colorOffset2, 219 - colorOffset2),
+
+		Color(119, 255, 169),
+		Color(119 - colorOffset, 255 - colorOffset, 169 - colorOffset),
+		Color(119 - colorOffset2, 255 - colorOffset2, 169 - colorOffset2)
+	});
+
+	for (auto i = 0; i < numDots; ++i) {
 		auto const sprite = new Sprite("circle.png");
 		sprite->Fade(startFadeIn, endFadeIn, 0.0f, fade, Easing::EasingIn);
 		sprite->Fade(startFadeOut, endFadeOut, fade, 0.0f, Easing::EasingOut);
@@ -194,7 +214,7 @@ void setDotBackground() {
 			}
 			sprite->Move(i, i, position, position);
 
-			const auto color = Color(rand() % 255, rand() % 255, rand() % 255);
+			const auto color = colors[rand() % colors.size()];
 			sprite->Color(i, i, color, color);
 
 			const auto scale = (rand() % scaleFactor + scaleMinimum) / imageWidth;
