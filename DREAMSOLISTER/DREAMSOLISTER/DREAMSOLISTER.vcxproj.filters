@@ -21,6 +21,9 @@
     <ClCompile Include="SpriteGroup.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="MusicSheet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="test.png">
@@ -37,6 +40,9 @@
     <ClInclude Include="SpriteGroup.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="MusicSheet.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="lyricSpin.chai">
@@ -46,6 +52,9 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="swing.chai">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="voice.MusicSheet">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

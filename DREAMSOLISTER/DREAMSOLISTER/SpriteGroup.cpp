@@ -370,7 +370,7 @@ void SpriteGroup::makeGridSpriteGroup(const std::vector<float>& linePoints, cons
 		const auto endPoint = center + Vector2(scaledLinePoints[i + 2], scaledLinePoints[i + 3]).Rotate(rotation);
 		const auto midPoint = (startPoint + endPoint) / 2.0f;
 
-		auto const sprite = new Sprite("square.png", midPoint);
+		auto const sprite = new Sprite("square", midPoint);
 		sprite->Color(startFade, startFade, color, color);
 		sprite->Fade(startFade, start, 0, 1.0f, Easing::EasingIn);
 
@@ -395,7 +395,7 @@ void SpriteGroup::makeGridSpriteGroup(const std::vector<float>& linePoints, cons
 		const auto startFade = start - offset;
 		const auto position = center + Vector2(scaledPoints[i], scaledPoints[i + 1]).Rotate(rotation);
 
-		auto const sprite = new Sprite("circle.png", position);
+		auto const sprite = new Sprite("circle", position);
 		sprite->Color(startFade, startFade, color, color);
 		sprite->Fade(startFade, start, 0, 1.0f, Easing::EasingIn);
 
@@ -419,7 +419,7 @@ void SpriteGroup::makeMusicNote() {
 	const auto endPoint = center + Vector2(linePoints[2], linePoints[3]).Rotate(rotation);
 	const auto midPoint = (startPoint + endPoint) / 2.0f;
 
-	auto const sprite = new Sprite("square.png", midPoint);
+	auto const sprite = new Sprite("square", midPoint);
 	sprite->Color(startFade, startFade, color, color);
 	sprite->Fade(startFade, start, 0, 1.0f, Easing::EasingIn);
 
@@ -441,7 +441,7 @@ void SpriteGroup::makeMusicNote() {
 	std::for_each(point.begin(), point.end(), scalePointFunction);
 	const auto position = center + Vector2(point[0], point[1]).Rotate(rotation);
 
-	auto const note = new Sprite("circle.png", position);
+	auto const note = new Sprite("circle", position);
 	note->Color(startFade, startFade, color, color);
 	note->Fade(startFade, start, 0, 1.0f, Easing::EasingIn);;
 	note->Rotate(startFade, start, 0, rotation + noteRotation, Easing::EasingIn);
