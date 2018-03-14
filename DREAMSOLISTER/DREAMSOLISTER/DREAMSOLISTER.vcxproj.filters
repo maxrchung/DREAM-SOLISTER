@@ -57,5 +57,11 @@
     <None Include="voice.MusicSheet">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="wind.MusicSheet">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="drum.MusicSheet">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

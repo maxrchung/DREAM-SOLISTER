@@ -125,10 +125,12 @@
     <ClCompile Include="SpriteGroup.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="drum.MusicSheet" />
     <None Include="voice.MusicSheet" />
     <None Include="lyricSpin.chai" />
     <None Include="lyricSprite.chai" />
     <None Include="swing.chai" />
+    <None Include="wind.MusicSheet" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="test.png" />

@@ -598,7 +598,9 @@ int main() {
 		//processScript("lyricSprite.chai");
 		//processScript("swing.chai", bg);
 
-		MusicSheet("voice.MusicSheet", 0, imageWidth);
+		MusicSheet("voice.MusicSheet", 100, imageWidth);
+		MusicSheet("wind.MusicSheet", 0, imageWidth);
+		MusicSheet("drum.MusicSheet", -100, imageWidth);
 
 		//setDotBackground();
 
