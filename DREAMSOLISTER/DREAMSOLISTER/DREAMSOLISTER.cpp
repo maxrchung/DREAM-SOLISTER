@@ -45,8 +45,8 @@ Vector2 convertCoordinatesToPosition(const glm::vec2& coordinates, const CameraV
 	return rotatePosition;
 }
 
-float convertDegreesToRadians(const float radians) {
-	return radians * 3.14159f / 180.0f;
+float convertDegreesToRadians(const float degrees) {
+	return degrees * 3.14159f / 180.0f;
 }
 
 Easing convertS2VXEasingToOsuukiSBEasing(const S2VX::EasingType source) {

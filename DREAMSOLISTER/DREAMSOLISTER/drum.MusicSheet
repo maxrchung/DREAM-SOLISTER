@@ -1,4 +1,4 @@
-r	r	1	r
+r	r	1	quarterSubtract	crash	7	r
 -3	r	1	r
 -3	-3	1	-3
 r	-3	1	r
@@ -6,7 +6,7 @@ r	-3	1	r
 -3	r	1	r
 -3	-3	1	-3
 r	-3	1	r
--3	r	1	r
+-3	r	1	quarterSubtract	crash	7	r
 -3	r	1	r
 -3	-3	1	r
 -3	r	1	r
@@ -15,14 +15,14 @@ r	-3	1	r
 -3	-3	1	-3
 r	-3	1	r
 -3	1	eighthLine	1	eighthSubtract	1	eighthLine	1	eighthLine	1	eighthLine	1
--3	r	1	r
+-3	r	1	quarterSubtract	crash	7	r
 -3	-3	1	-3
 r	-3	1	r
 -3	-3	1	r
 -3	r	1	r
 -3	-3	1	-3
 r	-3	1	r
--3	r	1	r
+flipNote	-3	quarterSubtract	crash	7	r	1	quarterSubtract	crash	7	r
 -3	-3	1	-3
 1	-3	1	-3
 r	-3	1	-3
@@ -30,11 +30,11 @@ r	-3	1	-3
 -3	-3	1	-3
 1	-3	1	-3
 r	-3	1	r
--3	r	-3	-3
+flipNote	-3	quarterSubtract	crash	7	r	flipNote	-3	quarterSubtract	crash	7	flipNote	-3	quarterSubtract	crash	7	
 -3	-3	1	-3
 r	-3	1	r
 -3	-3	1	-3
 r	-3	1	-3
 1	-3	1	-3
 1	-3	1	-3
-r	1	r	r
+r	1	quarterSubtract	crash	7	r	r

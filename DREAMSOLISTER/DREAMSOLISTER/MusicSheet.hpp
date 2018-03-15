@@ -4,7 +4,7 @@
 
 class MusicSheet {
 public:
-	MusicSheet(const std::string& path, float pHeight, int pImageWidth);
+	MusicSheet(const std::string& path, const float pHeight, const int pImageWidth);
 private:
 	float height;
 	int imageWidth;
@@ -17,4 +17,5 @@ private:
 	static const float lineSpace;
 	static const float lineHeight;
 	static const float noteRotation;
+	static const float xRotation;
 };
