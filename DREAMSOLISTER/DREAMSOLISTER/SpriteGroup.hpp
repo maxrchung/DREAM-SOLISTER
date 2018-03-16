@@ -10,6 +10,12 @@ public:
 	std::vector<Sprite*> sprites;
 	Vector2 center;
 private:
+	void makeGridSpriteGroup(const std::vector<float>& linePoints, const std::vector<float>& points);
+	void makeMusicNote();
+	void makeLine(float x1, float y1, float x2, float y2, float scaleHeight);
+	void makePoint(float x, float y, float pointWidth);
+	void makeNote(float x, float y, Vector2 noteScale);
+	void scalePoint(float& value);
 	Color color;
 	int end;
 	int imageWidth;
@@ -26,7 +32,5 @@ private:
 	static const float noteLineScale;
 	static const std::vector<float> notePoint;
 	static const Vector2 notePointScale;
-	void makeGridSpriteGroup(const std::vector<float>& linePoints, const std::vector<float>& points);
-	void makeMusicNote();
-	void scalePoint(float& value);
+
 };
