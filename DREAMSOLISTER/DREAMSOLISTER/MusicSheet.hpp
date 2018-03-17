@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <vector>
 
 class MusicSheet {
 public:
@@ -13,12 +14,12 @@ private:
 	int imageWidth;
 
 	void makeNote(int time, int heightIndex);
-	void makeXNote(int time, float y, int trackStart);
-	void makeNoteCenter(int time, float y, int trackStart);
-	void makeNoteLineTop(int time, float y, int trackStart);
-	void makeNoteLineBottom(int time, float y, int trackStart);
-	void makeFlat(int time, int heightIndex);
-	void makeNeutral(int time, int heightIndex);
+	void makeXNote(int trackStart, int time, float y);
+	void makeNoteCenter(int trackStart, int time, float y);
+	void makeNoteLineTop(int trackStart, int time, float y);
+	void makeNoteLineBottom(int trackStart, int time, float y);
+
+	void makeLinePoints(const std::vector<float>& lines, int trackStart, int time, float y);
 
 	void resetFlags();
 	bool crashNote = false;

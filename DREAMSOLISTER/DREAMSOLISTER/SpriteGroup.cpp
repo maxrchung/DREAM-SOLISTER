@@ -20,319 +20,17 @@ SpriteGroup::SpriteGroup(const std::string& path, const int pImageWidth, const i
 	color{ pColor }, 
 	offset{ pOffset },
 	startFade{ pStart - pOffset } {
-	if (path == "A") {
-		makeGridSpriteGroup({
-			-1,-1,	-1,1,
-			-1,1,	1,1,
-			1,1,	1,-1,
-			-1,0,	1,0
-		}, {
-			-1,-1,
-			-1,1,
-			1,1,
-			1,-1
-		});
-	}
-	else if (path == "B") {
-		makeGridSpriteGroup({
-			-1,1,	-1,-1,
-			-1,1,	0,1,
-			0,1,	1,0.5,
-			1,0.5,	0,0,
-			0,0,	-1,0,
-			0,0,	1,-0.5,
-			1,-0.5,	0,-1,
-			0,-1,	-1,-1
-		}, {
-			-1,1,
-			-1,-1,
-			0,1,
-			1,0.5,
-			1,-0.5,
-			0,-1,
-		});
-	}
-	else if (path == "C") {
-		makeGridSpriteGroup({
-			1,1,	-1,1,
-			-1,1,	-1,-1,
-			-1,-1,	1,-1
-		}, {
-			1,1,
-			-1,1,
-			-1,-1,
-			1,-1
-		});
-	}
-	else if (path == "D") {
-		makeGridSpriteGroup({
-			-1,1,	-1,-1,
-			-1,1,	0,1,
-			0,1,	1,0,
-			1,0,	0,-1,
-			0,-1,	-1,-1
-		}, {
-			-1,1,
-			0,1,
-			1,0,
-			0,-1,
-			-1,-1
-		});
-	}
-	else if (path == "E") {
-		makeGridSpriteGroup({
-			-1,1,	-1,-1,
-			-1,1,	1,1,
-			-1,0,	1,0,
-			-1,-1,	1,-1
-		}, {
-			-1,1,
-			-1,-1,
-			1,1,
-			1,0,
-			1,-1
-		});
-	}
-	else if (path == "F") {
-		makeGridSpriteGroup({
-			-1,1,	1,1,
-			-1,1,	-1,-1,
-			-1,0,	1,0,
-		}, {
-			-1,1,
-			1,1,
-			-1,-1,
-			1,0
-		});
-	}
-	else if (path == "G") {
-		makeGridSpriteGroup({
-			1,1,	-1,1,
-			-1,1,	-1,-1,
-			-1,-1,	1,-1,
-			1,-1,	1,0,
-			1,0,	0,0
-		}, {
-			1,1,
-			-1,1,
-			-1,-1,
-			1,-1,
-			1,0,
-			0,0
-		});
-	}
-	else if (path == "H") {
-		makeGridSpriteGroup({
-			-1,1,	-1,-1,
-			-1,0,	1,0,
-			1,1,	1,-1,
-		}, {
-			-1,1,
-			-1,-1,
-			1,1,
-			1,-1
-		});
-	}
-	else if (path == "I") {
-		makeGridSpriteGroup({
-			-1,1,	1,1,
-			0,1,	0,-1,
-			-1,-1,	1,-1
-		}, {
-			-1,1,
-			1,1,
-			-1,-1,
-			1,-1
-		});
-	}
-	else if (path == "K") {
-		makeGridSpriteGroup({
-			-1,1,	-1,-1,
-			1,1,	-1,0,
-			-1,0,	1,-1
-		}, {
-			-1,1,
-			-1,-1,
-			1,1,
-			1,-1
-		});
-	}
-	else if (path == "M") {
-		makeGridSpriteGroup({
-			-1,1,	-1,-1,
-			-1,1,	0,0,
-			0,0,	1,1,
-			1,1,	1,-1
-		}, {
-			-1,1,
-			-1,-1,
-			0,0,
-			1,1,
-			1,-1
-		});
-	}
-	else if (path == "N") {
-		makeGridSpriteGroup({
-			-1,1,	-1,-1,
-			-1,1,	1,-1,
-			1,1,	1,-1
-		}, {
-			-1,1,
-			-1,-1,
-			1,1,
-			1,-1
-		});
-	}
-	else if (path == "O") {
-		makeGridSpriteGroup({
-			-1,1,	-1,-1,
-			-1,-1,	1,-1,
-			1,-1,	1,1,
-			1,1,	-1,1
-		}, {
-			-1,1,
-			-1,-1,
-			1,-1,
-			1,1
-		});
-	}
-	else if (path == "R") {
-		makeGridSpriteGroup({
-			-1,1,	-1,-1,
-			-1,1,	1,1,
-			1,1,	1,0,
-			1,0,	-1,0,
-			-1,0,	1,-1
-		}, {
-			-1,1,
-			-1,-1,
-			1,1,
-			1,0,
-			1,-1
-		});
-	}
-	else if (path == "S") {
-		makeGridSpriteGroup({
-			1,1,	-1,1,
-			-1,1,	-1,0,
-			-1,0,	1,0,
-			1,0,	1,-1,
-			1,-1,	-1,-1
-		}, {
-			1,1,
-			-1,1,
-			-1,0,
-			1,0,
-			1,-1,
-			-1,-1
-		});
-	}
-	else if (path == "T") {
-		makeGridSpriteGroup({
-			-1,1,	1,1,
-			0,1,	0,-1
-		}, {
-			-1,1,
-			1,1,
-			0,-1
-		});
-	}
-	else if (path == "U") {
-		makeGridSpriteGroup({
-			-1,1,	-1,-1,
-			-1,-1,	1,-1,
-			1,-1,	1,1
-		}, {
-			-1,1,
-			-1,-1,
-			1,-1,
-			1,1
-		});
-	}
-	else if (path == "V") {
-		makeGridSpriteGroup({
-			-1,1,	0,-1,
-			0,-1,	1,1
-		}, {
-			-1,1,
-			0,-1,
-			1,1
-		});
-	}
-	else if (path == "W") {
-		makeGridSpriteGroup({
-			-1,1,	-1,-1,
-			-1,-1,	0,0,
-			0,0,	1,-1,
-			1,-1,	1,1
-		}, {
-			-1,1,
-			-1,-1,
-			0,0,
-			1,-1,
-			1,1
-		});
-	}
-	else if (path == "X") {
-		makeGridSpriteGroup({
-			-1,1,	1,-1,
-			1,1,	-1,-1
-		}, {
-			-1,1,
-			1,-1,
-			1,1,
-			-1,-1
-		});
-	}
-	else if (path == "Y") {
-		makeGridSpriteGroup({
-			-1,1,	0,0,
-			1,1,	0,0,
-			0,0,	0,-1
-		}, {
-			-1,1,
-			1,1,
-			0,-1
-		});
-	}
-	else if (path == "2") {
-		makeGridSpriteGroup({
-			-1,1,	1,1,
-			1,1,	1,0,
-			1,0,	-1,0,
-			-1,0,	-1,-1,
-			-1,-1,	1,-1
-		}, {
-			-1,1,
-			1,1,
-			1,0,
-			-1,0,
-			-1,-1,
-			1,-1
-		});
-	}
-	else if (path == "!!!") {
-		makeGridSpriteGroup({
-			-1,1,	-1,0,
-			0,1,	0,0,
-			1,1,	1,0
-		}, {
-			-1,1,
-			-1,0,
-			-1,-1,
-			0,1,
-			0,0,
-			0,-1,
-			1,1,
-			1,0,
-			1,-1
-		});
-	}
-	else if (path == "MusicNote") {
-		makeMusicNote();
+	const auto linePoints = LinePoints(path);
+	if (linePoints.isEmpty()) {
+		if (path == "MusicNote") {
+			makeMusicNote();
+		}
+		else {
+			sprites = { new Sprite(path, center) };
+		}
 	}
 	else {
-		sprites = { new Sprite(path, center) };
+		makeLinePoints(linePoints);
 	}
 }
 
@@ -390,9 +88,9 @@ void SpriteGroup::makePoint(float x, float y, float pointWidth) {
 	sprites.push_back(sprite);
 }
 
-void SpriteGroup::makeGridSpriteGroup(const std::vector<float>& linePoints, const std::vector<float>& points) {
+void SpriteGroup::makeLinePoints(const LinePoints& linePoints) {
 	// Perform a copy so we can format in constructor easier
-	auto scaledLinePoints = linePoints;
+	auto scaledLinePoints = linePoints.lines;
 	const auto scaleHeight = lineHeight * overallScale / imageWidth;
 
 	// The fuck am I doing
@@ -404,7 +102,7 @@ void SpriteGroup::makeGridSpriteGroup(const std::vector<float>& linePoints, cons
 		makeLine(scaledLinePoints[i], scaledLinePoints[i + 1], scaledLinePoints[i + 2], scaledLinePoints[i + 3], scaleHeight);
 	}
 
-	auto scaledPoints = points;
+	auto scaledPoints = linePoints.points;
 	const auto pointWidth = scaleHeight * circleScale;
 	std::for_each(scaledPoints.begin(), scaledPoints.end(), scalePointFunction);
 	for (auto i = 0; i < scaledPoints.size(); i += 2) {
@@ -412,7 +110,7 @@ void SpriteGroup::makeGridSpriteGroup(const std::vector<float>& linePoints, cons
 	}
 }
 
-void SpriteGroup::makeNote(float x, float y, Vector2 noteScale) {
+void SpriteGroup::makeNote(float x, float y, const Vector2& noteScale) {
 	const auto position = center + Vector2(x, y).Rotate(rotation);
 	const auto direction = rand() % 360;
 	const auto startPosition = position + Vector2(scale * overallScale * imageWidth, 0.0f).Rotate(direction * 3.14159f / 180.0f);

@@ -1,4 +1,5 @@
 #include "MusicSheet.hpp"
+#include "LinePoints.hpp"
 #include "OsuukiSB/Sprite.hpp"
 #include <fstream>
 #include <sstream>
@@ -66,15 +67,11 @@ MusicSheet::MusicSheet(const std::string& path, const float pHeight, const int p
 	}
 }
 
-void MusicSheet::makeFlat(int time, int heightIndex) {
+void MusicSheet::makeLinePoints(const std::vector<float>& lines, int trackStart, int time, float y) {
 
 }
 
-void MusicSheet::makeNeutral(int time, int heightIndex) {
-
-}
-
-void MusicSheet::makeXNote(int time, float y, int trackStart) {
+void MusicSheet::makeXNote(int trackStart, int time, float y) {
 	// Square root of 2
 	const auto length = lineSpace * 1.414f;
 	const auto scale = Vector2(length, lineHeight);
@@ -94,7 +91,7 @@ void MusicSheet::makeXNote(int time, float y, int trackStart) {
 	}
 }
 
-void MusicSheet::makeNoteCenter(int time, float y, int trackStart) {
+void MusicSheet::makeNoteCenter(int trackStart, int time, float y) {
 	const auto lineSpaceScale = lineSpace / imageWidth * 1.3f;
 	const auto scale = Vector2(lineSpaceScale, lineSpaceScale * 0.8f);
 
@@ -105,7 +102,7 @@ void MusicSheet::makeNoteCenter(int time, float y, int trackStart) {
 	note->ScaleVector(trackStart, trackStart, scale, scale);
 }
 
-void MusicSheet::makeNoteLineBottom(int time, float y, int trackStart) {
+void MusicSheet::makeNoteLineBottom(int trackStart, int time, float y) {
 	const auto stretch = Vector2(lineSpace * 2, lineHeight);
 	auto const centerLine = new Sprite("pixel");
 	centerLine->Move(trackStart, time, Vector2(right, y), Vector2(left, y));
@@ -113,7 +110,7 @@ void MusicSheet::makeNoteLineBottom(int time, float y, int trackStart) {
 	centerLine->Color(trackStart, trackStart, Color(0), Color(0));
 }
 
-void MusicSheet::makeNoteLineTop(int time, float y, int trackStart) {
+void MusicSheet::makeNoteLineTop(int trackStart, int time, float y) {
 	const auto stretch = Vector2(lineSpace * 2, lineHeight);
 	auto const centerLine = new Sprite("pixel");
 	centerLine->Move(trackStart, time, Vector2(right, y - 0.5f * lineSpace), Vector2(left, y - 0.5f * lineSpace));
@@ -126,12 +123,14 @@ void MusicSheet::makeNote(int time, int heightIndex) {
 	const auto trackStart = time - timeOffset;
 	
 	if (flat) {
-		makeFlat(time, heightIndex);
+		auto lines = LinePoints("flat").lines;
+		makeLinePoints(lines, trackStart, time, y);
 		flat = false;
 	}
 
 	if (neutral) {
-		makeNeutral(time, heightIndex);
+		auto lines = LinePoints("neutral").lines;
+		makeLinePoints(lines, trackStart, time, y);
 		neutral = false;
 	}
 
@@ -155,7 +154,7 @@ void MusicSheet::makeNote(int time, int heightIndex) {
 	}
 
 	if (crashNote) {
-		makeXNote(time, y, trackStart);
+		makeXNote(trackStart, time, y);
 
 		float previousHeightOffset = y - previousHeight;
 		stem->Move(trackStart, time, Vector2(right + lineRightOffset, y - 0.5f * lineSpace), Vector2(left + lineRightOffset, y - 0.5f * lineSpace));
@@ -164,7 +163,7 @@ void MusicSheet::makeNote(int time, int heightIndex) {
 		crashNote = false;
 	}
 	else {
-		makeNoteCenter(time, y, trackStart);
+		makeNoteCenter(trackStart, time, y);
 		stem->Move(trackStart, time, Vector2(right + lineRightOffset, y), Vector2(left + lineRightOffset, y));
 		stem->ScaleVector(trackStart, trackStart, Vector2(lineHeight, 3.5f * lineSpace), Vector2(lineHeight, 3.5f * lineSpace));
 	}
@@ -172,10 +171,10 @@ void MusicSheet::makeNote(int time, int heightIndex) {
 
 	// Hardcode
 	if (heightIndex == -6) {
-		makeNoteLineBottom(time, y, trackStart);
+		makeNoteLineBottom(trackStart, time, y);
 	}
 	else if (heightIndex == 7) {
-		makeNoteLineTop(time, y, trackStart);
+		makeNoteLineTop(trackStart, time, y);
 	}
 
 	previousHeight = y;

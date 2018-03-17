@@ -121,6 +121,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="DREAMSOLISTER.cpp" />
+    <ClCompile Include="LinePoints.cpp" />
     <ClCompile Include="MusicSheet.cpp" />
     <ClCompile Include="SpriteGroup.cpp" />
   </ItemGroup>
@@ -137,6 +138,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CameraValues.hpp" />
+    <ClInclude Include="LinePoints.hpp" />
     <ClInclude Include="MusicSheet.hpp" />
     <ClInclude Include="SpriteBinding.hpp" />
     <ClInclude Include="SpriteGroup.hpp" />
