@@ -334,16 +334,20 @@ LinePoints::LinePoints(const std::string& path) {
 	}
 	else if (path == "flat") {
 		lines = std::vector<float>({
-			-1,1,	-1,0,
-			0,1,	0,0,
-			1,1,	1,0
+			-0.25f,1.15f,	-0.25f,-0.4f,
+			-0.25f,0.25f,	0,0.4f,
+			0,0.4f,	0.2f,0,
+			0.2f,0,	-0.25f,-0.4f
 		}); 
 	}
 	else if (path == "neutral") {
 		lines = std::vector<float>({
-			-1,1,	-1,0,
-			0,1,	0,0,
-			1,1,	1,0
+			-0.2f,0.8f,	-0.2f,-0.5f,
+			-0.2f,-0.5f,	0.2f,-0.3f,
+			-0.2f,-0.4f,	0.2f,-0.2f,
+			-0.2f,0.2f,	0.2f,0.4f,
+			-0.2f,0.3f,	0.2f,0.5f,
+			0.2f,0.5f,	0.2f,-0.8f
 		}); 
 	}
 }

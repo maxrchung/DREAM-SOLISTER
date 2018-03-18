@@ -5,8 +5,10 @@
 
 class MusicSheet {
 public:
-	MusicSheet(const std::string& path, const float pHeight, const int pImageWidth);
+	MusicSheet(const std::string& path, const float pHeight, const int pImageWidth, const std::string& lyricsPath = "");
 private:
+	void makeLyrics();
+
 	void makeSheetLines();
 	void makeEighthLine(int time);
 	void makeMeasureLine(int time);
@@ -14,12 +16,12 @@ private:
 	int imageWidth;
 
 	void makeNote(int time, int heightIndex);
-	void makeXNote(int trackStart, int time, float y);
-	void makeNoteCenter(int trackStart, int time, float y);
-	void makeNoteLineTop(int trackStart, int time, float y);
-	void makeNoteLineBottom(int trackStart, int time, float y);
+	void makeXNote(int start, int end, float y);
+	void makeNoteCenter(int start, int end, float y);
+	void makeNoteLineTop(int start, int end, float y);
+	void makeNoteLineBottom(int start, int end, float y);
 
-	void makeLinePoints(const std::vector<float>& lines, int trackStart, int time, float y);
+	void makeLinePoints(const std::vector<float>& lines, int start, int end, float y);
 
 	void resetFlags();
 	bool crashNote = false;
@@ -38,4 +40,5 @@ private:
 	static const float lineHeight;
 	static const float noteRotation;
 	static const float xRotation;
+	static const float modifierOffset;
 };
