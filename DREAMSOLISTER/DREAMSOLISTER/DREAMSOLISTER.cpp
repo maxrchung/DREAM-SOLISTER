@@ -24,16 +24,6 @@ int imageWidth = 100;
 int quarter = 360;
 int moveParallax = quarter / 4;
 
-std::string addWithNewLine(const char* what) {
-	std::string message(what);
-	if (message.size() > 0 && message[message.size() - 1] == '\n') {
-		return message;
-	}
-	else {
-		return message + "\n";
-	}
-}
-
 Vector2 convertglmvec2ToVector2(const glm::vec2& source) {
 	return Vector2{ source.x, source.y };
 }
@@ -588,7 +578,6 @@ void processScript(const std::string& path, Sprite* const bg) {
 }
 
 int main() {
-	try {
 		srand(time(NULL));
 
 		auto const hideBackground = new const Sprite("bg.jpg", Vector2::Zero, Layer::Background);
@@ -610,18 +599,5 @@ int main() {
 
 		auto path = std::string(R"(X:\osu!\Songs\717639 TRUE - DREAM SOLISTER\TRUE - DREAM SOLISTER (Shiratoi).osb)");
 		Storyboard::Instance()->Write(path);
-	}
-	catch (const chaiscript::exception::eval_error &e) {
-		std::cout << "ChaiScript Exception" << std::endl << addWithNewLine(e.pretty_print().c_str());
-		std::cin.get();
-	}
-	catch (const S2VX::ScriptError &e) {
-		std::cout << "Script Error" << std::endl << addWithNewLine(e.what());
-		std::cin.get();
-	}
-	catch (const std::exception &e) {
-		std::cout << "General Exception" << std::endl << addWithNewLine(e.what());
-		std::cin.get();
-	}
 	return 0;
 }

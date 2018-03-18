@@ -7,27 +7,28 @@ class MusicSheet {
 public:
 	MusicSheet(const std::string& path, const float pHeight, const int pImageWidth, const std::string& lyricsPath = "");
 private:
-	void makeLyrics();
+	void makeLyrics(const std::string& lyricsPath);
 
 	void makeSheetLines();
-	void makeEighthLine(int time);
-	void makeMeasureLine(int time);
+	void makeEighthLine(const int time);
+	void makeMeasureLine(const int time);
 	float height;
 	int imageWidth;
 
-	void makeNote(int time, int heightIndex);
-	void makeXNote(int start, int end, float y);
-	void makeNoteCenter(int start, int end, float y);
-	void makeNoteLineTop(int start, int end, float y);
-	void makeNoteLineBottom(int start, int end, float y);
+	void makeNote(const int time, const int heightIndex);
+	void makeXNote(const int start, const int end, const float y);
+	void makeNoteCenter(const int start, const int end, const float y);
+	void makeNoteLineTop(const int start, const int end, const float y);
+	void makeNoteLineBottom(const int start, const int end, const float y);
 
-	void makeLinePoints(const std::vector<float>& lines, int start, int end, float y);
+	void makeLinePoints(const std::vector<float>& lines, const int start, const int end, const float xOffset, const float y);
 
 	void resetFlags();
-	bool crashNote = false;
-	bool flipNote = false;
-	bool flat = false;
-	bool neutral = false;
+	bool crashNote;
+	bool eighth;
+	bool flipNote;
+	bool flat;
+	bool neutral;
 	float previousHeight;
 
 	static const float left;

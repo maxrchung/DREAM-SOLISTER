@@ -127,6 +127,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="drum.MusicSheet" />
+    <None Include="lyric.MusicSheet" />
     <None Include="voice.MusicSheet" />
     <None Include="lyricSpin.chai" />
     <None Include="lyricSprite.chai" />

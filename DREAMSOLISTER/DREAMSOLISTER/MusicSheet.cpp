@@ -19,7 +19,7 @@ const float MusicSheet::modifierOffset = 15.0f;
 MusicSheet::MusicSheet(const std::string& path, const float pHeight, const int pImageWidth, const std::string& lyricsPath)
 	: height{ pHeight }, imageWidth{ pImageWidth } {
 	if (!lyricsPath.empty()) {
-		makeLyrics();
+		makeLyrics(lyricsPath);
 	}
 
 	makeSheetLines();
@@ -28,11 +28,12 @@ MusicSheet::MusicSheet(const std::string& path, const float pHeight, const int p
 	if (fileStream.is_open()) {
 		auto line = std::string();
 		auto time = start;
-		resetFlags();
 
 		while (std::getline(fileStream, line)) {
 			auto stringStream = std::stringstream(line);
 			auto token = std::string();
+
+			resetFlags();
 
 			while (stringStream >> token) {
 				if (token == "r") {
@@ -51,6 +52,7 @@ MusicSheet::MusicSheet(const std::string& path, const float pHeight, const int p
 					time -= timeStep;
 				}
 				else if (token == "eighthSubtract") {
+					eighth = true;
 					time -= timeStep / 2;
 				}
 				else if (token == "crash") {
@@ -72,11 +74,11 @@ MusicSheet::MusicSheet(const std::string& path, const float pHeight, const int p
 	}
 }
 
-void MusicSheet::makeLyrics() {
+void MusicSheet::makeLyrics(const std::string& lyricsPath) {
 
 }
 
-void MusicSheet::makeLinePoints(const std::vector<float>& lines, int start, int end, float y) {
+void MusicSheet::makeLinePoints(const std::vector<float>& lines, const int start, const int end, const float xOffset, const float y) {
 	for (auto i = 0; i < lines.size(); i += 4) {
 		const auto startPoint = Vector2(right - modifierOffset, y) + Vector2(lines[i], lines[i + 1]) * lineSpace * 1.5f;
 		const auto endPoint = Vector2(right - modifierOffset, y) + Vector2(lines[i + 2], lines[i + 3]) * lineSpace * 1.5f;
@@ -96,19 +98,19 @@ void MusicSheet::makeLinePoints(const std::vector<float>& lines, int start, int 
 	}
 }
 
-void MusicSheet::makeNote(int time, int heightIndex) {
+void MusicSheet::makeNote(const int time, const int heightIndex) {
 	const auto y = height + heightIndex * lineSpace * 0.5f;
 	const auto start = time - timeOffset;
 
 	if (flat) {
 		const auto lines = LinePoints("flat").lines;
-		makeLinePoints(lines, start, time, y);
+		makeLinePoints(lines, start, time, 0, y);
 		flat = false;
 	}
 
 	if (neutral) {
 		const auto lines = LinePoints("neutral").lines;
-		makeLinePoints(lines, start, time, y);
+		makeLinePoints(lines, start, time, 0, y);
 		neutral = false;
 	}
 
@@ -161,13 +163,14 @@ void MusicSheet::makeNote(int time, int heightIndex) {
 
 void MusicSheet::resetFlags() {
 	crashNote = false;
+	eighth = false;
 	flipNote = false;
 	flat = false;
 	neutral = false;
-	previousHeight;
+	previousHeight = 0.0f;
 }
 
-void MusicSheet::makeXNote(int start, int end, float y) {
+void MusicSheet::makeXNote(const int start, const int end, const float y) {
 	// Square root of 2
 	const auto length = lineSpace * 1.414f;
 	const auto scale = Vector2(length, lineHeight);
@@ -187,7 +190,7 @@ void MusicSheet::makeXNote(int start, int end, float y) {
 	}
 }
 
-void MusicSheet::makeNoteCenter(int start, int end, float y) {
+void MusicSheet::makeNoteCenter(const int start, const int end, const float y) {
 	const auto lineSpaceScale = lineSpace / imageWidth * 1.3f;
 	const auto scale = Vector2(lineSpaceScale, lineSpaceScale * 0.8f);
 
@@ -198,7 +201,7 @@ void MusicSheet::makeNoteCenter(int start, int end, float y) {
 	note->ScaleVector(start, start, scale, scale);
 }
 
-void MusicSheet::makeNoteLineBottom(int start, int end, float y) {
+void MusicSheet::makeNoteLineBottom(const int start, const int end, const float y) {
 	const auto stretch = Vector2(lineSpace * 2, lineHeight);
 	auto const centerLine = new Sprite("pixel");
 	centerLine->Move(start, end, Vector2(right, y), Vector2(left, y));
@@ -206,7 +209,7 @@ void MusicSheet::makeNoteLineBottom(int start, int end, float y) {
 	centerLine->Color(start, start, Color(0), Color(0));
 }
 
-void MusicSheet::makeNoteLineTop(int start, int end, float y) {
+void MusicSheet::makeNoteLineTop(const int start, const int end, const float y) {
 	const auto stretch = Vector2(lineSpace * 2, lineHeight);
 	auto const centerLine = new Sprite("pixel");
 	centerLine->Move(start, end, Vector2(right, y - 0.5f * lineSpace), Vector2(left, y - 0.5f * lineSpace));
@@ -224,7 +227,7 @@ void MusicSheet::makeSheetLines() {
 	}
 }
 
-void MusicSheet::makeEighthLine(int time) {
+void MusicSheet::makeEighthLine(const int time) {
 	const auto previousTime = time - timeStep;
 	const auto previousLineOffset = -lineSpace / 2 - lineHeight / 2;
 	const auto noteHeight = height - 3.0f * lineSpace;
@@ -238,8 +241,14 @@ void MusicSheet::makeEighthLine(int time) {
 	line->Color(start, start, Color(0), Color(0));
 }
 
-void MusicSheet::makeMeasureLine(int time) {
-	const auto measureLineEnd = time - timeStep / 2;
+void MusicSheet::makeMeasureLine(const int time) {
+	float measureLineEnd;
+	if (eighth) {
+		measureLineEnd = time - timeStep / 4;
+	}
+	else {
+		measureLineEnd = time - timeStep / 2;
+	}
 	const auto measureLineStart = measureLineEnd - timeOffset;
 	// + lineHeight to account for edges
 	const auto scale = Vector2(lineHeight * 1.5f, lineSpace * 4 + lineHeight);

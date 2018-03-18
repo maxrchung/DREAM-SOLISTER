@@ -53,7 +53,7 @@ void SpriteGroup::destroy() {
 	}
 }
 
-void SpriteGroup::makeLine(float x1, float y1, float x2, float y2, float scaleHeight) {
+void SpriteGroup::makeLine(const float x1, const float y1, const float x2, const float y2, const float scaleHeight) {
 	const auto startPoint = center + Vector2(x1, y1).Rotate(rotation);
 	const auto endPoint = center + Vector2(x2, y2).Rotate(rotation);
 	const auto midPoint = (startPoint + endPoint) / 2.0f;
@@ -74,7 +74,7 @@ void SpriteGroup::makeLine(float x1, float y1, float x2, float y2, float scaleHe
 	sprites.push_back(sprite);
 }
 
-void SpriteGroup::makePoint(float x, float y, float pointWidth) {
+void SpriteGroup::makePoint(const float x, const float y, const float pointWidth) {
 	const auto startFade = start - offset;
 	const auto position = center + Vector2(x, y).Rotate(rotation);
 	const auto direction = rand() % 360;
@@ -110,7 +110,7 @@ void SpriteGroup::makeLinePoints(const LinePoints& linePoints) {
 	}
 }
 
-void SpriteGroup::makeNote(float x, float y, const Vector2& noteScale) {
+void SpriteGroup::makeNote(const float x, const float y, const Vector2& noteScale) {
 	const auto position = center + Vector2(x, y).Rotate(rotation);
 	const auto direction = rand() % 360;
 	const auto startPosition = position + Vector2(scale * overallScale * imageWidth, 0.0f).Rotate(direction * 3.14159f / 180.0f);

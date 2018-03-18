@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Resource Files\chai">
+      <UniqueIdentifier>{cf35c614-e3e0-4de8-a936-2d3ec272782e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\MusicSheet">
+      <UniqueIdentifier>{002f5c7b-389c-460e-b26f-7f85bd378c8c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DREAMSOLISTER.cpp">
@@ -51,23 +57,26 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="lyricSpin.chai">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="lyricSprite.chai">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="swing.chai">
-      <Filter>Resource Files</Filter>
+    <None Include="drum.MusicSheet">
+      <Filter>Resource Files\MusicSheet</Filter>
     </None>
     <None Include="voice.MusicSheet">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\MusicSheet</Filter>
     </None>
     <None Include="wind.MusicSheet">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\MusicSheet</Filter>
     </None>
-    <None Include="drum.MusicSheet">
-      <Filter>Resource Files</Filter>
+    <None Include="lyric.MusicSheet">
+      <Filter>Resource Files\MusicSheet</Filter>
+    </None>
+    <None Include="swing.chai">
+      <Filter>Resource Files\chai</Filter>
+    </None>
+    <None Include="lyricSpin.chai">
+      <Filter>Resource Files\chai</Filter>
+    </None>
+    <None Include="lyricSprite.chai">
+      <Filter>Resource Files\chai</Filter>
     </None>
   </ItemGroup>
 </Project>
