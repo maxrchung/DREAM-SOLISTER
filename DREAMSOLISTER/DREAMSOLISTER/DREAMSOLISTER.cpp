@@ -21,7 +21,7 @@
 // All images have the same fixed width
 int imageWidth = 100;
 // Quarter beat
-int quarter = 360;
+int quarter = 360; // 359.28144f
 int moveParallax = quarter / 4;
 
 Vector2 convertglmvec2ToVector2(const glm::vec2& source) {
@@ -582,14 +582,16 @@ int main() {
 
 		auto const hideBackground = new const Sprite("bg.jpg", Vector2::Zero, Layer::Background);
 		auto const bg = new Sprite("pixel", Vector2::Zero, Layer::Background);
+		// For testing
+		bg->ScaleVector(0, 300000, Vector2::ScreenSize, Vector2::ScreenSize);
 
-		processScript("lyricSpin.chai", bg);
+		//processScript("lyricSpin.chai", bg);
 		//processScript("lyricSprite.chai");
 		//processScript("swing.chai", bg);
 
-		MusicSheet("voice.MusicSheet", 100, imageWidth);
-		MusicSheet("wind.MusicSheet", 0, imageWidth);
-		MusicSheet("drum.MusicSheet", -100, imageWidth);
+		MusicSheet("voice.MusicSheet", 100, imageWidth, "lyric.MusicSheet");
+		MusicSheet("wind.MusicSheet", 0, imageWidth, "");
+		MusicSheet("drum.MusicSheet", -100, imageWidth, "");
 
 		//setDotBackground();
 

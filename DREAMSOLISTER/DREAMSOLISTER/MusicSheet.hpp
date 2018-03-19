@@ -1,27 +1,31 @@
 #pragma once
 
+#include "LinePoints.hpp"
 #include <string>
 #include <vector>
 
 class MusicSheet {
 public:
-	MusicSheet(const std::string& path, const float pHeight, const int pImageWidth, const std::string& lyricsPath = "");
+	MusicSheet(const std::string& musicSheetPath, const float pHeight, const int pImageWidth, const std::string& lyricsPath);
 private:
-	void makeLyrics(const std::string& lyricsPath);
+	void makeLyrics(const std::string& path);
+	void makeLyric(const std::string& lyric, const float time);
 
 	void makeSheetLines();
-	void makeEighthLine(const int time);
-	void makeMeasureLine(const int time);
-	float height;
-	int imageWidth;
+	void makeEighthLine(const float time);
+	void makeMeasureLine(const float time);
 
-	void makeNote(const int time, const int heightIndex);
-	void makeXNote(const int start, const int end, const float y);
-	void makeNoteCenter(const int start, const int end, const float y);
-	void makeNoteLineTop(const int start, const int end, const float y);
-	void makeNoteLineBottom(const int start, const int end, const float y);
+	void makeMusicSheet(const std::string& path);
 
-	void makeLinePoints(const std::vector<float>& lines, const int start, const int end, const float xOffset, const float y);
+	void makeNote(const float time, const int heightIndex);
+	void makeXNote(const int startTime, const int endTime, const float y);
+	void makeNoteCenter(const int startTime, const int endTime, const float y);
+	void makeNoteLineTop(const int startTime, const int endTime, const float y);
+	void makeNoteLineBottom(const int startTime, const int endTime, const float y);
+
+	void makeLinePoints(const LinePoints& linePoints, const int startTime, const int endTime, const float offsetX, const float centerY, const float scale);
+	void makeLine(const float x1, const float y1, const float x2, const float y2, const int startTime, const float endTime, const float offsetX, const float centerY, const float scale);
+	void makePoint(const float x, const float y, const int startTime, const float endTime, const float offsetX, const float centerY, const float scale);
 
 	void resetFlags();
 	bool crashNote;
@@ -31,15 +35,25 @@ private:
 	bool neutral;
 	float previousHeight;
 
+	float height;
+	int imageWidth;
+
 	static const float left;
 	static const float right;
 	static const int start;
+	static const int startSheetLines;
 	static const int end;
-	static const int timeOffset;
+	static const int endSheetLines;
 	static const float timeStep;
+	static const float timeOffset;
 	static const float lineSpace;
 	static const float lineHeight;
 	static const float noteRotation;
 	static const float xRotation;
 	static const float modifierOffset;
+	static const float modifierScale;
+	static const float lyricHeight;
+	static const float lyricSpace;
+	static const float lyricScale;
+	static const float pointScale;
 };
