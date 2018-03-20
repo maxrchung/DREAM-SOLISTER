@@ -1,5 +1,6 @@
 #pragma once
 
+#include "OsuukiSB/Vector2.hpp"
 #include "LinePoints.hpp"
 #include <string>
 #include <vector>
@@ -8,6 +9,9 @@ class MusicSheet {
 public:
 	MusicSheet(const std::string& musicSheetPath, const float pHeight, const int pImageWidth, const std::string& lyricsPath);
 private:
+	Vector2 getSpawnPosition(const Vector2& position);
+	Vector2 getDespawnPosition(const Vector2& position);
+
 	void makeLyrics(const std::string& path);
 	void makeLyric(const std::string& lyric, const float time);
 
@@ -56,4 +60,8 @@ private:
 	static const float lyricSpace;
 	static const float lyricScale;
 	static const float pointScale;
+	static const int spawnDegrees;
+	static const float spawnDistance;
+	static const float spawnTime;
+	static const int lastNoteTime;
 };
