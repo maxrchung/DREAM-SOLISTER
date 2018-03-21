@@ -204,17 +204,17 @@ void MusicSheet::makePoint(const float x, const float y, const int startTime, co
 
 void MusicSheet::makeNote(const float time, const int heightIndex) {
 	const auto y = height + heightIndex * lineSpace * 0.5f;
-	const auto start = time - timeOffset;
+	const auto startTime = time - timeOffset;
 
 	if (flat) {
 		const auto linePoints = LinePoints("flat");
-		makeLinePoints(linePoints, start, time, -modifierOffset, y, modifierScale);
+		makeLinePoints(linePoints, startTime, time, -modifierOffset, y, modifierScale);
 		flat = false;
 	}
 
 	if (neutral) {
 		const auto linePoints = LinePoints("neutral");
-		makeLinePoints(linePoints, start, time, -modifierOffset, y, modifierScale);
+		makeLinePoints(linePoints, startTime, time, -modifierOffset, y, modifierScale);
 		neutral = false;
 	}
 
@@ -238,27 +238,58 @@ void MusicSheet::makeNote(const float time, const int heightIndex) {
 	}
 
 	if (crashNote) {
-		makeXNote(start, time, y);
+		makeXNote(startTime, time, y);
 
-		float previousHeightOffset = y - previousHeight;
-		stem->Move(start, time, Vector2(right + lineRightOffset, y - 0.5f * lineSpace), Vector2(left + lineRightOffset, y - 0.5f * lineSpace));
-		stem->ScaleVector(start, start, Vector2(lineHeight, previousHeightOffset), Vector2(lineHeight, previousHeightOffset));
+		const auto startPosition = Vector2(right + lineRightOffset, y - 0.5f * lineSpace);
+		const auto spawnPosition = getSpawnPosition(startPosition);
+		const auto endPosition = Vector2(left + lineRightOffset, y - 0.5f * lineSpace);
+		const auto despawnPosition = getDespawnPosition(endPosition);
+
+		const auto previousHeightOffset = y - previousHeight;
+		const auto scaleVector = Vector2(lineHeight, previousHeightOffset);
+		const auto minScaleVector = Vector2(lineHeight, lineHeight);
+
+
+		stem->Move(startTime - spawnTime, startTime, spawnPosition, startPosition, Easing::EasingIn);
+		stem->Move(startTime, time, startPosition, endPosition);
+		stem->Move(time, time + spawnTime, endPosition, despawnPosition, Easing::EasingOut);
+
+		stem->ScaleVector(startTime - spawnTime, startTime, minScaleVector, scaleVector, Easing::EasingIn);
+		stem->ScaleVector(time, time + spawnTime, scaleVector, minScaleVector, Easing::EasingOut);
 
 		crashNote = false;
 	}
 	else {
-		makeNoteCenter(start, time, y);
-		stem->Move(start, time, Vector2(right + lineRightOffset, y), Vector2(left + lineRightOffset, y));
-		stem->ScaleVector(start, start, Vector2(lineHeight, 3.5f * lineSpace), Vector2(lineHeight, 3.5f * lineSpace));
+		makeNoteCenter(startTime, time, y);
+
+		const auto startPosition = Vector2(right + lineRightOffset, y);
+		const auto spawnPosition = getSpawnPosition(startPosition);
+		const auto endPosition = Vector2(left + lineRightOffset, y);
+		const auto despawnPosition = getDespawnPosition(endPosition);
+
+		const auto scaleVector = Vector2(lineHeight, 3.5f * lineSpace);
+		const auto minScaleVector = Vector2(lineHeight, lineHeight);
+
+		stem->Move(startTime - spawnTime, startTime, spawnPosition, startPosition, Easing::EasingIn);
+		stem->Move(startTime, time, startPosition, endPosition);
+		stem->Move(time, time + spawnTime, endPosition, despawnPosition, Easing::EasingOut);
+
+		stem->ScaleVector(startTime - spawnTime, startTime, minScaleVector, scaleVector, Easing::EasingIn);
+		stem->ScaleVector(time, time + spawnTime, scaleVector, minScaleVector, Easing::EasingOut);
 	}
-	stem->Color(start, start, Color(0), Color(0));
+	stem->Rotate(startTime - spawnTime, startTime, 90 * 3.14159f / 180.0f, 0, Easing::EasingIn);
+	stem->Rotate(time, time + spawnTime, 0, 90 * 3.14159f / 180.0f, Easing::EasingOut);
+
+	stem->Fade(startTime - spawnTime, startTime, 0, 1, Easing::EasingIn);
+	stem->Fade(time, time + spawnTime, 1, 0, Easing::EasingOut);
+	stem->Color(startTime, startTime, Color(0), Color(0));
 
 	// Hardcode
 	if (heightIndex == -6) {
-		makeNoteLineBottom(start, time, y);
+		makeNoteLineBottom(startTime, time, y);
 	}
 	else if (heightIndex == 7) {
-		makeNoteLineTop(start, time, y);
+		makeNoteLineTop(startTime, time, y);
 	}
 
 	previousHeight = y;
@@ -277,47 +308,113 @@ void MusicSheet::resetFlags() {
 void MusicSheet::makeXNote(const int startTime, const int endTime, const float y) {
 	// Square root of 2
 	const auto length = lineSpace * 1.414f;
-	const auto scale = Vector2(length, lineHeight);
+	const auto scaleVector = Vector2(length, lineHeight);
+	const auto minScaleVector = Vector2(lineHeight, lineHeight);
 
 	for (auto i = 0; i < 2; ++i) {
+		const auto startPosition = Vector2(right, y);
+		const auto spawnPosition = getSpawnPosition(startPosition);
+		const auto endPosition = Vector2(left, y);
+		const auto despawnPosition = getDespawnPosition(endPosition);
+
 		auto const diagonal = new Sprite("pixel");
-		diagonal->Move(startTime, endTime, Vector2(right, y), Vector2(left, y));
+		diagonal->Fade(startTime - spawnTime, startTime, 0, 1, Easing::EasingIn);
+		diagonal->Fade(endTime, endTime + spawnTime, 1, 0, Easing::EasingOut);
+
+		diagonal->Move(startTime - spawnTime, startTime, spawnPosition, startPosition, Easing::EasingIn);
+		diagonal->Move(startTime, endTime, startPosition, endPosition);
+		diagonal->Move(endTime, endTime + spawnTime, endPosition, despawnPosition, Easing::EasingOut);
 		diagonal->Color(startTime, startTime, Color(0), Color(0));
-		diagonal->ScaleVector(startTime, startTime, scale, scale);
+
+		diagonal->ScaleVector(startTime - spawnTime, startTime, minScaleVector, scaleVector, Easing::EasingIn);
+		diagonal->ScaleVector(endTime, endTime + spawnTime, scaleVector, minScaleVector, Easing::EasingOut);
 
 		if (i % 2 == 0) {
-			diagonal->Rotate(startTime, startTime, xRotation, xRotation);
+			diagonal->Rotate(startTime - spawnTime, startTime, 0, xRotation, Easing::EasingIn);
+			diagonal->Rotate(endTime, endTime + spawnTime, xRotation, 0, Easing::EasingOut);
 		}
 		else {
-			diagonal->Rotate(startTime, startTime, -xRotation, -xRotation);
+			diagonal->Rotate(startTime - spawnTime, startTime, 0, -xRotation, Easing::EasingIn);
+			diagonal->Rotate(endTime, endTime + spawnTime, -xRotation, 0, Easing::EasingOut);
 		}
 	}
 }
 
 void MusicSheet::makeNoteCenter(const int startTime, const int endTime, const float y) {
 	const auto lineSpaceScale = lineSpace / imageWidth * 1.3f;
-	const auto scale = Vector2(lineSpaceScale, lineSpaceScale * 0.8f);
+	const auto scaleVector = Vector2(lineSpaceScale, lineSpaceScale * 0.8f);
+	const auto minScaleVector = Vector2(lineSpaceScale * 0.8f, lineSpaceScale * 0.8f);
+	const auto startPosition = Vector2(right, y);
+	const auto spawnPosition = getSpawnPosition(startPosition);
+	const auto endPosition = Vector2(left, y);
+	const auto despawnPosition = getDespawnPosition(endPosition);
 
 	auto const note = new Sprite("circle");
-	note->Move(startTime, endTime, Vector2(right, y), Vector2(left, y));
+	note->Fade(startTime - spawnTime, startTime, 0, 1, Easing::EasingIn);
+	note->Fade(endTime, endTime + spawnTime, 1, 0, Easing::EasingOut);
+
+	note->Move(startTime - spawnTime, startTime, spawnPosition, startPosition, Easing::EasingIn);
+	note->Move(startTime, endTime, startPosition, endPosition);
+	note->Move(endTime, endTime + spawnTime, endPosition, despawnPosition, Easing::EasingOut);
+
+	note->Rotate(startTime - spawnTime, startTime, 0, noteRotation, Easing::EasingIn);
+	note->Rotate(endTime, endTime + spawnTime, noteRotation, 0, Easing::EasingOut);
+
+	note->ScaleVector(startTime - spawnTime, startTime, minScaleVector, scaleVector, Easing::EasingIn);
+	note->ScaleVector(endTime, endTime + spawnTime, scaleVector, minScaleVector, Easing::EasingOut);
+
 	note->Color(startTime, startTime, Color(0), Color(0));
-	note->Rotate(startTime, startTime, noteRotation, noteRotation);
-	note->ScaleVector(startTime, startTime, scale, scale);
 }
 
 void MusicSheet::makeNoteLineBottom(const int startTime, const int endTime, const float y) {
-	const auto stretch = Vector2(lineSpace * 2, lineHeight);
+	const auto startPosition = Vector2(right, y);
+	const auto spawnPosition = getSpawnPosition(startPosition);
+	const auto endPosition = Vector2(left, y);
+	const auto despawnPosition = getDespawnPosition(endPosition);
+
+	const auto scaleVector = Vector2(lineSpace * 2, lineHeight);
+	const auto minScaleVector = Vector2(lineHeight, lineHeight);
+
 	auto const centerLine = new Sprite("pixel");
-	centerLine->Move(startTime, endTime, Vector2(right, y), Vector2(left, y));
-	centerLine->ScaleVector(startTime, startTime, stretch, stretch);
+	centerLine->Fade(startTime - spawnTime, startTime, 0,1, Easing::EasingIn);
+	centerLine->Fade(endTime, endTime + spawnTime, 1, 0, Easing::EasingOut);
+
+	centerLine->Move(startTime - spawnTime, startTime, spawnPosition, startPosition, Easing::EasingIn);
+	centerLine->Move(startTime, endTime, startPosition, endPosition);
+	centerLine->Move(endTime, endTime + spawnTime, endPosition, despawnPosition, Easing::EasingIn);
+
+	centerLine->Rotate(startTime - spawnTime, startTime, 90 * 3.14159f / 180.0f, 0, Easing::EasingIn);
+	centerLine->Rotate(endTime, endTime + spawnTime, 0, 90 * 3.14159f / 180.0f, Easing::EasingOut);
+
+	centerLine->ScaleVector(startTime - spawnTime, startTime, minScaleVector, scaleVector, Easing::EasingIn);
+	centerLine->ScaleVector(endTime, endTime + spawnTime, scaleVector, minScaleVector, Easing::EasingOut);
+
 	centerLine->Color(startTime, startTime, Color(0), Color(0));
 }
 
 void MusicSheet::makeNoteLineTop(const int startTime, const int endTime, const float y) {
-	const auto stretch = Vector2(lineSpace * 2, lineHeight);
+	const auto startPosition = Vector2(right, y - 0.5f * lineSpace);
+	const auto spawnPosition = getSpawnPosition(startPosition);
+	const auto endPosition = Vector2(left, y - 0.5f * lineSpace);
+	const auto despawnPosition = getDespawnPosition(endPosition);
+
+	const auto scaleVector = Vector2(lineSpace * 2, lineHeight);
+	const auto minScaleVector = Vector2(lineHeight, lineHeight);
+
 	auto const centerLine = new Sprite("pixel");
-	centerLine->Move(startTime, endTime, Vector2(right, y - 0.5f * lineSpace), Vector2(left, y - 0.5f * lineSpace));
-	centerLine->ScaleVector(startTime, startTime, stretch, stretch);
+	centerLine->Fade(startTime - spawnTime, startTime, 0, 1, Easing::EasingIn);
+	centerLine->Fade(endTime, endTime + spawnTime, 1, 0, Easing::EasingOut);
+
+	centerLine->Move(startTime - spawnTime, startTime, spawnPosition, startPosition, Easing::EasingIn);
+	centerLine->Move(startTime, endTime, startPosition, endPosition);
+	centerLine->Move(endTime, endTime + spawnTime, endPosition, despawnPosition, Easing::EasingIn);
+
+	centerLine->Rotate(startTime - spawnTime, startTime, 90 * 3.14159f / 180.0f, 0, Easing::EasingIn);
+	centerLine->Rotate(endTime, endTime + spawnTime, 0, 90 * 3.14159f / 180.0f, Easing::EasingOut);
+
+	centerLine->ScaleVector(startTime - spawnTime, startTime, minScaleVector, scaleVector, Easing::EasingIn);
+	centerLine->ScaleVector(endTime, endTime + spawnTime, scaleVector, minScaleVector, Easing::EasingOut);
+
 	centerLine->Color(startTime, startTime, Color(0), Color(0));
 }
 
@@ -339,33 +436,66 @@ void MusicSheet::makeSheetLines() {
 }
 
 void MusicSheet::makeEighthLine(const float time) {
-	const auto previousTime = time - timeStep;
+	const auto endTime = time - timeStep;
 	const auto previousLineOffset = -lineSpace / 2 - lineHeight / 2;
 	const auto noteHeight = height - 3.0f * lineSpace;
-	const auto start = previousTime - timeOffset;
+	const auto startTime = endTime - timeOffset;
 	const auto distance = (timeStep / 2) / timeOffset * (right - left);
-	const auto scale = Vector2(distance + lineHeight, lineHeight);
+	const auto scaleVector = Vector2(distance + lineHeight, lineHeight);
+	const auto minScaleVector = Vector2(lineHeight, lineHeight);
+	const auto startPosition = Vector2(right + previousLineOffset, noteHeight);
+	const auto spawnPosition = getSpawnPosition(startPosition);
+	const auto endPosition = Vector2(left + previousLineOffset, noteHeight);
+	const auto despawnPosition = getDespawnPosition(endPosition);
 
 	const auto line = new Sprite("pixel", Vector2::Zero, Layer::Foreground, Origin::CentreLeft);
-	line->Move(start, previousTime, Vector2(right + previousLineOffset, noteHeight), Vector2(left + previousLineOffset, noteHeight));
-	line->ScaleVector(start, start, scale, scale);
-	line->Color(start, start, Color(0), Color(0));
+	line->Fade(startTime - spawnTime, startTime, 0, 1, Easing::EasingIn);
+	line->Fade(endTime, endTime + spawnTime, 1, 0, Easing::EasingOut);
+
+	line->Move(startTime - spawnTime, startTime, spawnPosition, startPosition, Easing::EasingIn);
+	line->Move(startTime, endTime, startPosition, endPosition);
+	line->Move(endTime, endTime + spawnTime, endPosition, despawnPosition, Easing::EasingOut);
+
+	line->Rotate(startTime - spawnTime, startTime, 90 * 3.14159f / 180.0f, 0, Easing::EasingIn);
+	line->Rotate(endTime, endTime + spawnTime, 0, 90 * 3.14159f / 180.0f, Easing::EasingOut);
+
+	line->ScaleVector(startTime - spawnTime, startTime, minScaleVector, scaleVector, Easing::EasingIn);
+	line->ScaleVector(endTime, endTime + spawnTime, scaleVector, minScaleVector, Easing::EasingOut);
+
+	line->Color(startTime, startTime, Color(0), Color(0));
 }
 
 void MusicSheet::makeMeasureLine(const float time) {
-	float measureLineEnd;
+	float endTime;
 	if (eighth) {
-		measureLineEnd = time - timeStep / 4;
+		endTime = time - timeStep / 4;
 	}
 	else {
-		measureLineEnd = time - timeStep / 2;
+		endTime = time - timeStep / 2;
 	}
-	const auto measureLineStart = measureLineEnd - timeOffset;
+	const auto startTime = endTime - timeOffset;
 	// + lineHeight to account for edges
-	const auto scale = Vector2(lineHeight * 1.5f, lineSpace * 4 + lineHeight);
+	const auto scaleVector = Vector2(lineHeight * 1.5f, lineSpace * 4 + lineHeight);
+	const auto minScaleVector = Vector2(lineHeight * 1.5f, lineHeight * 1.5f);
+
+	const auto startPosition = Vector2(right, height);
+	const auto spawnPosition = getSpawnPosition(startPosition);
+	const auto endPosition = Vector2(left, height);
+	const auto despawnPosition = getDespawnPosition(endPosition);
 
 	auto const sprite = new Sprite("pixel");
-	sprite->Move(measureLineStart, measureLineEnd, Vector2(right, height), Vector2(left, height));
-	sprite->ScaleVector(measureLineStart, measureLineStart, scale, scale);
-	sprite->Color(measureLineStart, measureLineStart, Color(0), Color(0));
+	sprite->Fade(startTime - spawnTime, startTime, 0, 1, Easing::EasingIn);
+	sprite->Fade(endTime, endTime + spawnTime, 1, 0, Easing::EasingOut);
+
+	sprite->Move(startTime - spawnTime, startTime, spawnPosition, startPosition, Easing::EasingIn);
+	sprite->Move(startTime, endTime, startPosition, endPosition);
+	sprite->Move(endTime, endTime + spawnTime, endPosition, despawnPosition, Easing::EasingOut);
+
+	sprite->Rotate(startTime - spawnTime, startTime, 90 * 3.14159f / 180.0f, 0, Easing::EasingIn);
+	sprite->Rotate(time, time + spawnTime, 0, 90 * 3.14159f / 180.0f, Easing::EasingOut);
+
+	sprite->ScaleVector(startTime - spawnTime, startTime, minScaleVector, scaleVector, Easing::EasingIn);
+	sprite->ScaleVector(endTime, endTime + spawnTime, scaleVector, minScaleVector, Easing::EasingOut);
+
+	sprite->Color(startTime, startTime, Color(0), Color(0));
 }
