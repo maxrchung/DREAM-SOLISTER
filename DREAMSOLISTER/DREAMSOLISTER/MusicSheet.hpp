@@ -1,13 +1,14 @@
 #pragma once
 
 #include "OsuukiSB/Vector2.hpp"
+#include "OsuukiSB/Color.hpp"
 #include "LinePoints.hpp"
 #include <string>
 #include <vector>
 
 class MusicSheet {
 public:
-	MusicSheet(const std::string& musicSheetPath, const float pHeight, const int pImageWidth, const std::string& lyricsPath);
+	MusicSheet(const std::string& musicSheetPath, const float pHeight, const int pImageWidth, const Color& pColor, const std::string& lyricsPath, bool swapColors);
 private:
 	Vector2 getSpawnPosition(const Vector2& position);
 	Vector2 getDespawnPosition(const Vector2& position);
@@ -30,6 +31,19 @@ private:
 	void makeLinePoints(const LinePoints& linePoints, const int startTime, const int endTime, const float offsetX, const float centerY, const float scale);
 	void makeLine(const float x1, const float y1, const float x2, const float y2, const int startTime, const float endTime, const float offsetX, const float centerY, const float scale);
 	void makePoint(const float x, const float y, const int startTime, const float endTime, const float offsetX, const float centerY, const float scale);
+
+	Color getDarkerColor(const Color& color);
+	Color color;
+	Color darkerColor;
+	Color darkestColor;
+	Color getNextLyricColor();
+	Color lyricColor;
+	std::vector<Color> lyricColors;
+	int lyricColorIndex;
+	bool swappedColor;
+	Color green;
+	Color darkerGreen;
+	Color darkestGreen;
 
 	void resetFlags();
 	bool crashNote;

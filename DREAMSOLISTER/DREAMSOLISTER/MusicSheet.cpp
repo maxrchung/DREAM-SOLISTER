@@ -5,8 +5,8 @@
 #include <fstream>
 #include <sstream>
 
-const float MusicSheet::left = -300.0f;
-const float MusicSheet::right = 300.0f;
+const float MusicSheet::left = -250.0f;
+const float MusicSheet::right = 350.0f;
 const int MusicSheet::start = 231103;
 const int MusicSheet::startSheetLines = 228947;
 const int MusicSheet::end = 259307;
@@ -28,14 +28,38 @@ const float MusicSheet::spawnDistance = lineSpace * 3;
 const float MusicSheet::spawnTime = timeStep * 2;
 const int MusicSheet::lastNoteTime = 259307;
 
-MusicSheet::MusicSheet(const std::string& musicSheetPath, const float pHeight, const int pImageWidth, const std::string& lyricsPath)
-	: height{ pHeight }, imageWidth{ pImageWidth } {
+MusicSheet::MusicSheet(const std::string& musicSheetPath, const float pHeight, const int pImageWidth, const Color& pColor, const std::string& lyricsPath)
+	: height{ pHeight },
+	imageWidth{ pImageWidth },
+	color{ pColor },
+	darkerColor{ getDarkerColor(color) },
+	darkestColor{ getDarkerColor(darkerColor) },
+	lyricColors { color, darkerColor, darkestColor, darkerColor } {
 	makeSheetLines();
 	if (!lyricsPath.empty()) {
 		makeLyrics(lyricsPath);
 	}
 	makeMusicSheet(musicSheetPath);
 }
+
+Color MusicSheet::getDarkerColor(const Color& color) {
+	auto darker = color - Color(30);
+	if (darker.r < 0) {
+		darker.r = 0;
+	}
+	if (darker.g < 0) {
+		darker.g = 0;
+	}
+	if (darker.b < 0) {
+		darker.b = 0;
+	}
+	return darker;
+}
+
+Color MusicSheet::getNextLyricColor() {
+	return lyricColors[lyricColorIndex++ % lyricColors.size()];
+}
+
 
 Vector2 MusicSheet::getSpawnPosition(const Vector2& position) {
 	const auto direction = rand() % spawnDegrees - spawnDegrees / 2;
@@ -77,6 +101,8 @@ void MusicSheet::makeLyrics(const std::string& path) {
 void MusicSheet::makeLyric(const std::string& lyric, const float time) {
 	auto startOffsetX = -lyricSpace * ((lyric.size() - 1) / 2.0f);
 	auto absoluteHeight = height + lyricHeight;
+
+	lyricColor = getNextLyricColor();
 
 	for (auto i = 0; i < lyric.size(); ++i) {
 		const auto character = std::string(1, lyric[i]);
@@ -179,7 +205,7 @@ void MusicSheet::makeLine(const float x1, const float y1, const float x2, const 
 	sprite->ScaleVector(startTime - spawnTime, startTime, minScaleVector, scaleVector);
 	sprite->ScaleVector(endTime, endTime + spawnTime, scaleVector, minScaleVector);
 
-	sprite->Color(startTime, startTime, Color(0), Color(0));
+	sprite->Color(startTime, startTime, lyricColor, lyricColor);
 }
 
 void MusicSheet::makePoint(const float x, const float y, const int startTime, const float endTime, const float offsetX, const float centerY, const float scale) {
@@ -198,8 +224,7 @@ void MusicSheet::makePoint(const float x, const float y, const int startTime, co
 	sprite->Move(endTime, endTime + spawnTime, endPosition, despawnPosition, Easing::EasingOut);
 
 	sprite->Scale(startTime, startTime, pointWidth, pointWidth);
-	sprite->Color(startTime, startTime, Color(0), Color(0));
-
+	sprite->Color(startTime, startTime, lyricColor, lyricColor);
 }
 
 void MusicSheet::makeNote(const float time, const int heightIndex) {
@@ -282,7 +307,7 @@ void MusicSheet::makeNote(const float time, const int heightIndex) {
 
 	stem->Fade(startTime - spawnTime, startTime, 0, 1, Easing::EasingIn);
 	stem->Fade(time, time + spawnTime, 1, 0, Easing::EasingOut);
-	stem->Color(startTime, startTime, Color(0), Color(0));
+	stem->Color(startTime, startTime, darkestColor, darkestColor);
 
 	// Hardcode
 	if (heightIndex == -6) {
@@ -324,7 +349,7 @@ void MusicSheet::makeXNote(const int startTime, const int endTime, const float y
 		diagonal->Move(startTime - spawnTime, startTime, spawnPosition, startPosition, Easing::EasingIn);
 		diagonal->Move(startTime, endTime, startPosition, endPosition);
 		diagonal->Move(endTime, endTime + spawnTime, endPosition, despawnPosition, Easing::EasingOut);
-		diagonal->Color(startTime, startTime, Color(0), Color(0));
+		diagonal->Color(startTime, startTime, darkestColor, darkestColor);
 
 		diagonal->ScaleVector(startTime - spawnTime, startTime, minScaleVector, scaleVector, Easing::EasingIn);
 		diagonal->ScaleVector(endTime, endTime + spawnTime, scaleVector, minScaleVector, Easing::EasingOut);
@@ -363,7 +388,7 @@ void MusicSheet::makeNoteCenter(const int startTime, const int endTime, const fl
 	note->ScaleVector(startTime - spawnTime, startTime, minScaleVector, scaleVector, Easing::EasingIn);
 	note->ScaleVector(endTime, endTime + spawnTime, scaleVector, minScaleVector, Easing::EasingOut);
 
-	note->Color(startTime, startTime, Color(0), Color(0));
+	note->Color(startTime, startTime, darkestColor, darkestColor);
 }
 
 void MusicSheet::makeNoteLineBottom(const int startTime, const int endTime, const float y) {
@@ -389,7 +414,7 @@ void MusicSheet::makeNoteLineBottom(const int startTime, const int endTime, cons
 	centerLine->ScaleVector(startTime - spawnTime, startTime, minScaleVector, scaleVector, Easing::EasingIn);
 	centerLine->ScaleVector(endTime, endTime + spawnTime, scaleVector, minScaleVector, Easing::EasingOut);
 
-	centerLine->Color(startTime, startTime, Color(0), Color(0));
+	centerLine->Color(startTime, startTime, darkestColor, darkestColor);
 }
 
 void MusicSheet::makeNoteLineTop(const int startTime, const int endTime, const float y) {
@@ -415,7 +440,7 @@ void MusicSheet::makeNoteLineTop(const int startTime, const int endTime, const f
 	centerLine->ScaleVector(startTime - spawnTime, startTime, minScaleVector, scaleVector, Easing::EasingIn);
 	centerLine->ScaleVector(endTime, endTime + spawnTime, scaleVector, minScaleVector, Easing::EasingOut);
 
-	centerLine->Color(startTime, startTime, Color(0), Color(0));
+	centerLine->Color(startTime, startTime, darkestColor, darkestColor);
 }
 
 void MusicSheet::makeSheetLines() {
@@ -431,7 +456,7 @@ void MusicSheet::makeSheetLines() {
 		sprite->ScaleVector(startSheetLines - timeOffset, startSheetLines, startScale, endScale);
 		sprite->ScaleVector(endSheetLines - timeOffset, endSheetLines, endScale, startScale);
 		sprite->MoveX(endSheetLines - timeOffset, endSheetLines, right, left);
-		sprite->Color(start, start, Color(0), Color(0));
+		sprite->Color(start, start, color, color);
 	}
 }
 
@@ -462,7 +487,7 @@ void MusicSheet::makeEighthLine(const float time) {
 	line->ScaleVector(startTime - spawnTime, startTime, minScaleVector, scaleVector, Easing::EasingIn);
 	line->ScaleVector(endTime, endTime + spawnTime, scaleVector, minScaleVector, Easing::EasingOut);
 
-	line->Color(startTime, startTime, Color(0), Color(0));
+	line->Color(startTime, startTime, darkestColor, darkestColor);
 }
 
 void MusicSheet::makeMeasureLine(const float time) {
@@ -497,5 +522,5 @@ void MusicSheet::makeMeasureLine(const float time) {
 	sprite->ScaleVector(startTime - spawnTime, startTime, minScaleVector, scaleVector, Easing::EasingIn);
 	sprite->ScaleVector(endTime, endTime + spawnTime, scaleVector, minScaleVector, Easing::EasingOut);
 
-	sprite->Color(startTime, startTime, Color(0), Color(0));
+	sprite->Color(startTime, startTime, darkerColor, darkerColor);
 }
