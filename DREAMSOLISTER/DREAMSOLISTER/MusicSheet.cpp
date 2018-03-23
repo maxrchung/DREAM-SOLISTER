@@ -27,19 +27,43 @@ const int MusicSheet::spawnDegrees = 60;
 const float MusicSheet::spawnDistance = lineSpace * 3;
 const float MusicSheet::spawnTime = timeStep * 2;
 const int MusicSheet::lastNoteTime = 259307;
+const int MusicSheet::swapTime = timeStep * 3;
+const int MusicSheet::swapEndTime = 242241;
+const Color MusicSheet::green = Color(119, 255, 169);
+const Color MusicSheet::darkerGreen = Color(119 - 30, 255 - 30, 169 - 30);
+const Color MusicSheet::darkestGreen = Color(119 - 60, 255 - 60, 169 - 60);
 
-MusicSheet::MusicSheet(const std::string& musicSheetPath, const float pHeight, const int pImageWidth, const Color& pColor, const std::string& lyricsPath)
+MusicSheet::MusicSheet(const std::string& musicSheetPath, const float pHeight, const int pImageWidth, const Color& pColor, const std::string& lyricsPath, bool pSwapColor)
 	: height{ pHeight },
 	imageWidth{ pImageWidth },
 	color{ pColor },
 	darkerColor{ getDarkerColor(color) },
 	darkestColor{ getDarkerColor(darkerColor) },
-	lyricColors { color, darkerColor, darkestColor, darkerColor } {
+	lyricColors { color, darkerColor, darkestColor, darkerColor },
+	swapColor{ pSwapColor },
+	swappedColor{ false } {
 	makeSheetLines();
 	if (!lyricsPath.empty()) {
 		makeLyrics(lyricsPath);
 	}
 	makeMusicSheet(musicSheetPath);
+}
+
+void MusicSheet::colorSprite(Sprite* const sprite, const int startTime, const int endTime, const Color& color, const Color& greenColor) {
+	if (swapColor) {
+		if (startTime > swapEndTime - swapTime - timeOffset && startTime < swapEndTime - swapTime) {
+			sprite->Color(swapEndTime - swapTime, swapEndTime, color, greenColor, Easing::EasingIn);
+		}
+		else if (endTime < swapEndTime - swapTime) {
+			sprite->Color(endTime, endTime, color, color);
+		}
+		else if (endTime > swapEndTime) {
+			sprite->Color(endTime, endTime, greenColor, greenColor);
+		}
+	}
+	else {
+		sprite->Color(endTime, endTime, color, color);
+	}
 }
 
 Color MusicSheet::getDarkerColor(const Color& color) {
@@ -307,7 +331,7 @@ void MusicSheet::makeNote(const float time, const int heightIndex) {
 
 	stem->Fade(startTime - spawnTime, startTime, 0, 1, Easing::EasingIn);
 	stem->Fade(time, time + spawnTime, 1, 0, Easing::EasingOut);
-	stem->Color(startTime, startTime, darkestColor, darkestColor);
+	colorSprite(stem, startTime, time, darkestColor, darkestGreen);
 
 	// Hardcode
 	if (heightIndex == -6) {
@@ -349,7 +373,7 @@ void MusicSheet::makeXNote(const int startTime, const int endTime, const float y
 		diagonal->Move(startTime - spawnTime, startTime, spawnPosition, startPosition, Easing::EasingIn);
 		diagonal->Move(startTime, endTime, startPosition, endPosition);
 		diagonal->Move(endTime, endTime + spawnTime, endPosition, despawnPosition, Easing::EasingOut);
-		diagonal->Color(startTime, startTime, darkestColor, darkestColor);
+		colorSprite(diagonal, startTime, endTime, darkestColor, darkestGreen);
 
 		diagonal->ScaleVector(startTime - spawnTime, startTime, minScaleVector, scaleVector, Easing::EasingIn);
 		diagonal->ScaleVector(endTime, endTime + spawnTime, scaleVector, minScaleVector, Easing::EasingOut);
@@ -388,7 +412,7 @@ void MusicSheet::makeNoteCenter(const int startTime, const int endTime, const fl
 	note->ScaleVector(startTime - spawnTime, startTime, minScaleVector, scaleVector, Easing::EasingIn);
 	note->ScaleVector(endTime, endTime + spawnTime, scaleVector, minScaleVector, Easing::EasingOut);
 
-	note->Color(startTime, startTime, darkestColor, darkestColor);
+	colorSprite(note, startTime, endTime, darkestColor, darkestGreen);
 }
 
 void MusicSheet::makeNoteLineBottom(const int startTime, const int endTime, const float y) {
@@ -414,7 +438,7 @@ void MusicSheet::makeNoteLineBottom(const int startTime, const int endTime, cons
 	centerLine->ScaleVector(startTime - spawnTime, startTime, minScaleVector, scaleVector, Easing::EasingIn);
 	centerLine->ScaleVector(endTime, endTime + spawnTime, scaleVector, minScaleVector, Easing::EasingOut);
 
-	centerLine->Color(startTime, startTime, darkestColor, darkestColor);
+	colorSprite(centerLine, startTime, endTime, darkestColor, darkestGreen);
 }
 
 void MusicSheet::makeNoteLineTop(const int startTime, const int endTime, const float y) {
@@ -440,7 +464,7 @@ void MusicSheet::makeNoteLineTop(const int startTime, const int endTime, const f
 	centerLine->ScaleVector(startTime - spawnTime, startTime, minScaleVector, scaleVector, Easing::EasingIn);
 	centerLine->ScaleVector(endTime, endTime + spawnTime, scaleVector, minScaleVector, Easing::EasingOut);
 
-	centerLine->Color(startTime, startTime, darkestColor, darkestColor);
+	colorSprite(centerLine, startTime, endTime, darkestColor, darkestGreen);
 }
 
 void MusicSheet::makeSheetLines() {
@@ -456,7 +480,13 @@ void MusicSheet::makeSheetLines() {
 		sprite->ScaleVector(startSheetLines - timeOffset, startSheetLines, startScale, endScale);
 		sprite->ScaleVector(endSheetLines - timeOffset, endSheetLines, endScale, startScale);
 		sprite->MoveX(endSheetLines - timeOffset, endSheetLines, right, left);
-		sprite->Color(start, start, color, color);
+
+		if (swapColor) {
+			sprite->Color(swapEndTime - swapTime, swapEndTime, color, green, Easing::EasingIn);
+		}
+		else {
+			sprite->Color(start, start, color, color);
+		}
 	}
 }
 
@@ -487,7 +517,7 @@ void MusicSheet::makeEighthLine(const float time) {
 	line->ScaleVector(startTime - spawnTime, startTime, minScaleVector, scaleVector, Easing::EasingIn);
 	line->ScaleVector(endTime, endTime + spawnTime, scaleVector, minScaleVector, Easing::EasingOut);
 
-	line->Color(startTime, startTime, darkestColor, darkestColor);
+	colorSprite(line, startTime, endTime, darkestColor, darkestGreen);
 }
 
 void MusicSheet::makeMeasureLine(const float time) {
@@ -522,5 +552,10 @@ void MusicSheet::makeMeasureLine(const float time) {
 	sprite->ScaleVector(startTime - spawnTime, startTime, minScaleVector, scaleVector, Easing::EasingIn);
 	sprite->ScaleVector(endTime, endTime + spawnTime, scaleVector, minScaleVector, Easing::EasingOut);
 
-	sprite->Color(startTime, startTime, darkerColor, darkerColor);
+	if (swapColor) {
+		sprite->Color(swapEndTime - swapTime, swapEndTime, darkerColor, darkerGreen);
+	}
+	else {
+		sprite->Color(start, start, darkerColor, darkerColor);
+	}
 }

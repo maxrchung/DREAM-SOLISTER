@@ -1,5 +1,6 @@
 #pragma once
 
+#include "OsuukiSB/Sprite.hpp"
 #include "OsuukiSB/Vector2.hpp"
 #include "OsuukiSB/Color.hpp"
 #include "LinePoints.hpp"
@@ -8,7 +9,7 @@
 
 class MusicSheet {
 public:
-	MusicSheet(const std::string& musicSheetPath, const float pHeight, const int pImageWidth, const Color& pColor, const std::string& lyricsPath, bool swapColors);
+	MusicSheet(const std::string& musicSheetPath, const float pHeight, const int pImageWidth, const Color& pColor, const std::string& lyricsPath, const bool pSwapColor);
 private:
 	Vector2 getSpawnPosition(const Vector2& position);
 	Vector2 getDespawnPosition(const Vector2& position);
@@ -40,10 +41,15 @@ private:
 	Color lyricColor;
 	std::vector<Color> lyricColors;
 	int lyricColorIndex;
+
+	void colorSprite(Sprite* const sprite, const int startTime, const int endTime, const Color& color, const Color& greenColor);
+	bool swapColor;
 	bool swappedColor;
-	Color green;
-	Color darkerGreen;
-	Color darkestGreen;
+	static const int swapTime;
+	static const int swapEndTime;
+	static const Color green;
+	static const Color darkerGreen;
+	static const Color darkestGreen;
 
 	void resetFlags();
 	bool crashNote;
