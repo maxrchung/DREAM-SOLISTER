@@ -123,6 +123,9 @@
     <ClCompile Include="DREAMSOLISTER.cpp" />
     <ClCompile Include="LinePoints.cpp" />
     <ClCompile Include="MusicSheet.cpp" />
+    <None Include="musicSheet.chai">
+      <FileType>Document</FileType>
+    </None>
     <ClCompile Include="SpriteGroup.cpp" />
   </ItemGroup>
   <ItemGroup>

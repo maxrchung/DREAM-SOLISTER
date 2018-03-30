@@ -5,7 +5,7 @@
 #include <fstream>
 #include <sstream>
 
-const float MusicSheet::left = -250.0f;
+const float MusicSheet::left = -230.0f;
 const float MusicSheet::right = 350.0f;
 const int MusicSheet::start = 231103;
 const int MusicSheet::startSheetLines = 228947;
@@ -13,15 +13,15 @@ const int MusicSheet::end = 259307;
 const int MusicSheet::endSheetLines = 259756;
 const float MusicSheet::timeStep = 179.64072f;
 const float MusicSheet::timeOffset = timeStep * 10.0f;
-const float MusicSheet::lineSpace = 10.0f;
-const float MusicSheet::lineHeight = 2.0f;
+const float MusicSheet::lineSpace = 12.0f;
+const float MusicSheet::lineHeight = 3.0f;
 const float MusicSheet::noteRotation = -25 * 3.14159f / 180;
 const float MusicSheet::xRotation = 3.14159f / 4.0f;
-const float MusicSheet::modifierOffset = 15.0f;
+const float MusicSheet::modifierOffset = 17.0f;
 const float MusicSheet::modifierScale = lineSpace * 1.5f;
-const float MusicSheet::lyricHeight = 45.0f;
-const float MusicSheet::lyricSpace = 15.0f;
-const float MusicSheet::lyricScale = 5.0f;
+const float MusicSheet::lyricHeight = 53.0f;
+const float MusicSheet::lyricSpace = 21.0f;
+const float MusicSheet::lyricScale = 7.0f;
 const float MusicSheet::pointScale = 1.6f;
 const int MusicSheet::spawnDegrees = 60;
 const float MusicSheet::spawnDistance = lineSpace * 3;
@@ -498,7 +498,7 @@ void MusicSheet::makeEighthLine(const float time) {
 	const auto distance = (timeStep / 2) / timeOffset * (right - left);
 	const auto scaleVector = Vector2(distance + lineHeight, lineHeight);
 	const auto minScaleVector = Vector2(lineHeight, lineHeight);
-	const auto startPosition = Vector2(right + previousLineOffset, noteHeight);
+	const auto startPosition = Vector2(right + previousLineOffset - lineHeight / 3.0f, noteHeight);
 	const auto spawnPosition = getSpawnPosition(startPosition);
 	const auto endPosition = Vector2(left + previousLineOffset, noteHeight);
 	const auto despawnPosition = getDespawnPosition(endPosition);
@@ -521,13 +521,10 @@ void MusicSheet::makeEighthLine(const float time) {
 }
 
 void MusicSheet::makeMeasureLine(const float time) {
-	float endTime;
 	if (eighth) {
-		endTime = time - timeStep / 4;
+		return;
 	}
-	else {
-		endTime = time - timeStep / 2;
-	}
+	const auto endTime = time - timeStep / 2;
 	const auto startTime = endTime - timeOffset;
 	// + lineHeight to account for edges
 	const auto scaleVector = Vector2(lineHeight * 1.5f, lineSpace * 4 + lineHeight);

@@ -78,5 +78,8 @@
     <None Include="lyricSprite.chai">
       <Filter>Resource Files\chai</Filter>
     </None>
+    <None Include="musicSheet.chai">
+      <Filter>Resource Files\chai</Filter>
+    </None>
   </ItemGroup>
 </Project>

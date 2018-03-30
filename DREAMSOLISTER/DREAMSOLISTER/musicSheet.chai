@@ -1,0 +1,25 @@
+// Default camera values so that getCameraValuesAtMilliseconds() has no issues
+CameraRotate(0,0,	0,	0,0);
+CameraMove(0,0,	0,	0,0,	0,0);
+CameraZoom(0,0,	0,	110,110);
+
+var start = 231103;
+var end = 259307;
+
+var x = -3;
+var y = 1.27;
+
+SpriteBind("X");
+SpriteMove(start,end, 0, x,y,	x,y);
+SpriteColor(start,start, 0, 0,0,0, 0,0,0);
+
+SpriteBind("X");
+SpriteMove(start,end, 0, x,0,	x,0);
+SpriteColor(start,start, 0, 0,0,0, 0,0,0);
+SpriteBind("X");
+SpriteMove(start,end, 0, x,0,	x,0);
+SpriteColor(start,start, 0, 0,0,0, 0,0,0);
+
+SpriteBind("X");
+SpriteMove(start,end, 0, x,-y,	x,-y);
+SpriteColor(start,start, 0, 0,0,0, 0,0,0);
