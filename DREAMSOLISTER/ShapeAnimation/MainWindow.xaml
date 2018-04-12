@@ -6,7 +6,21 @@
         xmlns:local="clr-namespace:ShapeAnimation"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
-    </Grid>
+    <Window.Resources>
+        <local:SAShapes x:Key="shapes" />
+        <DataTemplate DataType="{x:Type local:SARectangle}">
+            <Polygon Points="{Binding points}" Fill="Black"/>
+        </DataTemplate>
+    </Window.Resources>
+    <Canvas>
+        <ItemsControl ItemsSource="{Binding Source={StaticResource shapes}}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Canvas Height="214" Width="374" Background="#FFF56C6C"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
+        <Button Content="Button" Canvas.Left="432" Canvas.Top="10" Width="75" Click="Button_Click"/>
+        <Polygon Points="10,10 30,30 10,30" Fill="Black"/>
+    </Canvas>
 </Window>

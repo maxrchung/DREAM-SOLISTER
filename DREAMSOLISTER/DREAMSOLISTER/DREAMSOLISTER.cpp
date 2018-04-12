@@ -585,9 +585,9 @@ int main() {
 		// For testing
 		bg->ScaleVector(0, 300000, Vector2::ScreenSize, Vector2::ScreenSize);
 
-		//processScript("lyricSpin.chai", bg);
-		//processScript("lyricSprite.chai");
-		//processScript("swing.chai", bg);
+		processScript("lyricSpin.chai", bg);
+		processScript("lyricSprite.chai", bg);
+		processScript("swing.chai", bg);
 		processScript("musicSheet.chai", bg);
 
 		MusicSheet("voice.MusicSheet", 122, imageWidth, Color(0, 169, 195), "lyric.MusicSheet", false);

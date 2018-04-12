@@ -5,21 +5,23 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace ShapeAnimation {
-    struct Angle {
+    public struct Angle {
         public const float PI = 3.1416f;
 
+        private float _degree;
         public float degree {
-            get { return degree; }
+            get { return _degree; }
             set {
-                degree = value;
-                radian = convertDegreeToRadian(value);
+                _degree = value;
+                _radian = convertDegreeToRadian(value);
             }
         }
+        private float _radian;
         public float radian {
-            get { return radian; }
+            get { return _radian; }
             set {
-                radian = value;
-                degree = convertRadianToDegree(value);
+                _radian = value;
+                _degree = convertRadianToDegree(value);
             }
         }
 
