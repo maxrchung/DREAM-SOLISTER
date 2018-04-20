@@ -8,9 +8,34 @@
         Title="MainWindow" Height="350" Width="525">
     <Window.Resources>
         <local:SAShapes x:Key="shapes" />
+        
         <DataTemplate DataType="{x:Type local:SARectangle}">
-            <Polygon Points="{Binding points}" Fill="Black"/>
+            <Polygon Points="{Binding points}" Fill="{Binding Color}"/>
         </DataTemplate>
+
+        <DataTemplate DataType="{x:Type local:SATriangle}">
+            <Polygon Points="{Binding points}" Fill="{Binding Color}"/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type local:SAEllipse}">
+            <Ellipse Width="{Binding Size.X}" Height="{Binding Size.Y}" Fill="{Binding Color}">
+                <Ellipse.RenderTransform>
+                    <TranslateTransform X="{Binding translation.X}" Y="{Binding translation.Y}" />
+                </Ellipse.RenderTransform>
+            </Ellipse>
+        </DataTemplate>
+        
+        <DataTemplate DataType="{x:Type local:SASemicircle}">
+            <Ellipse Width="{Binding Size.X}" Height="{Binding Size.Y}" Fill="{Binding Color}">
+                <Ellipse.Clip>
+                    <RectangleGeometry Rect="{Binding clip}"/>
+                </Ellipse.Clip>
+                <Ellipse.RenderTransform>
+                    <TranslateTransform X="{Binding translation.X}" Y="{Binding translation.Y}" />
+                </Ellipse.RenderTransform>
+            </Ellipse>
+        </DataTemplate>
+        
     </Window.Resources>
     <Canvas>
         <ItemsControl ItemsSource="{Binding Source={StaticResource shapes}}">
@@ -20,7 +45,5 @@
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
         </ItemsControl>
-        <Button Content="Button" Canvas.Left="432" Canvas.Top="10" Width="75" Click="Button_Click"/>
-        <Polygon Points="10,10 30,30 10,30" Fill="Black"/>
     </Canvas>
 </Window>

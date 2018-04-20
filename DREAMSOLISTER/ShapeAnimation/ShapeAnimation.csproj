@@ -55,7 +55,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="SAShapes.cs" />
+    <Compile Include="SA\SAEllipse.cs" />
+    <Compile Include="SA\SASemicircle.cs" />
+    <Compile Include="SA\SAShapes.cs" />
+    <Compile Include="SA\SATriangle.cs" />
+    <Compile Include="SA\SAVector2.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -65,8 +69,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="SARectangle.cs" />
-    <Compile Include="SAShape.cs" />
+    <Compile Include="SA\SARectangle.cs" />
+    <Compile Include="SA\SAShape.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

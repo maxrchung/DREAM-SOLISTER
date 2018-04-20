@@ -6,12 +6,12 @@ namespace ShapeAnimation {
     public class SARectangle : SAShape {
         public PointCollection points {
             get {
-                var halfFixed = getFixedScaleVector() / 2;
+                var half = size / 2;
                 var collection = new PointCollection() {
-                    new Point(position.X - halfFixed.X, position.Y - halfFixed.Y),
-                    new Point(position.X + halfFixed.X, position.Y - halfFixed.Y),
-                    new Point(position.X + halfFixed.X, position.Y + halfFixed.Y),
-                    new Point(position.X - halfFixed.X, position.Y + halfFixed.Y),
+                    new Point(position.X - half.X, position.Y - half.Y),
+                    new Point(position.X + half.X, position.Y - half.Y),
+                    new Point(position.X + half.X, position.Y + half.Y),
+                    new Point(position.X - half.X, position.Y + half.Y),
                 };
                 return collection;
             }
