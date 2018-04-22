@@ -2,7 +2,7 @@
 
 namespace ShapeAnimation {
     public class SAVector2 {
-        private Vector2 wrapped;
+        public Vector2 wrapped;
         public float X {
             get {
                 return wrapped.X;

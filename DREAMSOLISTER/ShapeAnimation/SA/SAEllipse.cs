@@ -15,12 +15,6 @@ namespace ShapeAnimation {
             }
         }
 
-        public SAVector2 translation {
-            get {
-                return new SAVector2(new Vector2(position.X - size.X / 2, position.Y - size.Y / 2));
-            }
-        }
-
         public SAEllipse(Vector2 position, Angle rotation, Vector2 scaleVector, float fade, Color color)
             : base(position, rotation, scaleVector, fade, color) {}
 

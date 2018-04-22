@@ -8,7 +8,33 @@
         Title="MainWindow" Height="350" Width="525">
     <Window.Resources>
         <local:SAShapes x:Key="shapes" />
-        
+
+        <DataTemplate x:Key="corner">
+            <Ellipse Width="{StaticResource cornerWidth}" Height="{StaticResource cornerWidth}" Fill="Red">
+                <Ellipse.RenderTransform>
+                    <TranslateTransform X="{Binding X}" Y="{Binding Y}" />
+                </Ellipse.RenderTransform>
+            </Ellipse>
+        </DataTemplate>
+
+        <DataTemplate x:Key="shape">
+            <Canvas>
+                <Rectangle Width="{Binding Size.X}" Height="{Binding Size.Y}" Fill="Black" Opacity="0.1">
+                    <Rectangle.RenderTransform>
+                        <TranslateTransform X="{Binding translation.X}" Y="{Binding translation.Y}" />
+                    </Rectangle.RenderTransform>
+                </Rectangle>
+                <ContentPresenter Content="{Binding}"/>
+                <ItemsControl ItemsSource="{Binding corners}" ItemTemplate="{StaticResource corner}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <Canvas />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+            </Canvas>
+        </DataTemplate>
+
         <DataTemplate DataType="{x:Type local:SARectangle}">
             <Polygon Points="{Binding points}" Fill="{Binding Color}"/>
         </DataTemplate>
@@ -26,7 +52,7 @@
         </DataTemplate>
         
         <DataTemplate DataType="{x:Type local:SASemicircle}">
-            <Ellipse Width="{Binding Size.X}" Height="{Binding Size.Y}" Fill="{Binding Color}">
+            <Ellipse Width="{Binding Size.X}" Height="{Binding doubleHeight}" Fill="{Binding Color}">
                 <Ellipse.Clip>
                     <RectangleGeometry Rect="{Binding clip}"/>
                 </Ellipse.Clip>
@@ -38,10 +64,10 @@
         
     </Window.Resources>
     <Canvas>
-        <ItemsControl ItemsSource="{Binding Source={StaticResource shapes}}">
+        <ItemsControl ItemsSource="{Binding Source={StaticResource shapes}}" ItemTemplate="{StaticResource shape}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <Canvas Height="214" Width="374" Background="#FFF56C6C"/>
+                    <Canvas />
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
         </ItemsControl>

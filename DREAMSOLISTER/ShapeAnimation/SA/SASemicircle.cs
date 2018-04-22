@@ -6,14 +6,14 @@ namespace ShapeAnimation {
     class SASemicircle : SAShape {
         public Rect clip {
             get {
-                var boundaries = new Size(size.X, size.Y / 2.0f);
+                var boundaries = new Size(size.X, size.Y);
                 return new Rect(boundaries);
             }
         }
 
-        public SAVector2 translation {
+        public float doubleHeight {
             get {
-                return new SAVector2(new Vector2(position.X - size.X / 2, position.Y - size.Y / 4));
+                return size.Y * 2;
             }
         }
 
