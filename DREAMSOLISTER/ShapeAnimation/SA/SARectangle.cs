@@ -1,5 +1,4 @@
-﻿using System.Numerics;
-using System.Windows.Media;
+﻿using System.Windows.Media;
 using System.Windows;
 
 namespace ShapeAnimation {
@@ -8,19 +7,19 @@ namespace ShapeAnimation {
             get {
                 var half = size / 2;
                 var collection = new PointCollection() {
-                    new Point(position.X - half.X, position.Y - half.Y),
-                    new Point(position.X + half.X, position.Y - half.Y),
-                    new Point(position.X + half.X, position.Y + half.Y),
-                    new Point(position.X - half.X, position.Y + half.Y),
+                    new Point(position.x - half.x, position.y - half.y),
+                    new Point(position.x + half.x, position.y - half.y),
+                    new Point(position.x + half.x, position.y + half.y),
+                    new Point(position.x - half.x, position.y + half.y),
                 };
                 return collection;
             }
         }
 
-        public SARectangle(Vector2 position, Angle rotation, Vector2 scaleVector, float fade, Color color)
+        public SARectangle(Vector position, Angle rotation, Vector scaleVector, float fade, Color color)
             : base(position, rotation, scaleVector, fade, color) {}
 
         public SARectangle()
-            : base(new Vector2(), Angle.createDefaultAngle(), new Vector2(1.0f), 1.0f, Colors.Black) {}
+            : base() {}
     }
 }
