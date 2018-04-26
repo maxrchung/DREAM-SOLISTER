@@ -7,9 +7,9 @@ namespace ShapeAnimation {
             get {
                 var half = size / 2;
                 var collection = new PointCollection() {
-                    new Point(position.x - half.x, position.y + half.y),
-                    new Point(position.x, position.y - half.y),
-                    new Point(position.x + half.x, position.y + half.y)
+                    new Vector(position.x - half.x, position.y + half.y).rotate(rotation.radian, position).toPoint(),
+                    new Vector(position.x, position.y - half.y).rotate(rotation.radian, position).toPoint(),
+                    new Vector(position.x + half.x, position.y + half.y).rotate(rotation.radian, position).toPoint()
                 };
                 return collection;
             }

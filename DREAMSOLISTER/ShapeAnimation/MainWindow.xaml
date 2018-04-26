@@ -19,9 +19,12 @@
 
         <DataTemplate x:Key="shape">
             <Canvas>
-                <Rectangle Width="{Binding size.x}" Height="{Binding size.y}" Fill="Black" Opacity="0.1">
+                <Rectangle Width="{Binding size.x}" Height="{Binding size.y}" Fill="Black" Opacity="0.1" RenderTransformOrigin="0.5, 0.5">
                     <Rectangle.RenderTransform>
-                        <TranslateTransform X="{Binding translation.x}" Y="{Binding translation.y}" />
+                        <TransformGroup>
+                            <RotateTransform Angle="{Binding rotation.degree}"/>
+                            <TranslateTransform X="{Binding translation.x}" Y="{Binding translation.y}" />
+                        </TransformGroup>
                     </Rectangle.RenderTransform>
                 </Rectangle>
                 <ContentPresenter Content="{Binding}"/>
@@ -44,20 +47,26 @@
         </DataTemplate>
 
         <DataTemplate DataType="{x:Type local:SAEllipse}">
-            <Ellipse Width="{Binding size.x}" Height="{Binding size.y}" Fill="{Binding brush}">
+            <Ellipse Width="{Binding size.x}" Height="{Binding size.y}" Fill="{Binding brush}" RenderTransformOrigin="0.5, 0.5">
                 <Ellipse.RenderTransform>
-                    <TranslateTransform X="{Binding translation.x}" Y="{Binding translation.y}" />
+                    <TransformGroup>
+                        <RotateTransform Angle="{Binding rotation.degree}"/>
+                        <TranslateTransform X="{Binding translation.x}" Y="{Binding translation.y}" />
+                    </TransformGroup>
                 </Ellipse.RenderTransform>
             </Ellipse>
         </DataTemplate>
         
         <DataTemplate DataType="{x:Type local:SASemicircle}">
-            <Ellipse Width="{Binding size.x}" Height="{Binding doubleHeight}" Fill="{Binding brush}">
+            <Ellipse Width="{Binding size.x}" Height="{Binding doubleHeight}" Fill="{Binding brush}" RenderTransformOrigin="0.5, 0.25">
                 <Ellipse.Clip>
                     <RectangleGeometry Rect="{Binding clip}"/>
                 </Ellipse.Clip>
                 <Ellipse.RenderTransform>
-                    <TranslateTransform X="{Binding translation.x}" Y="{Binding translation.y}" />
+                    <TransformGroup>
+                        <RotateTransform Angle="{Binding rotation.degree}"/>
+                        <TranslateTransform X="{Binding translation.x}" Y="{Binding translation.y}" />
+                    </TransformGroup>
                 </Ellipse.RenderTransform>
             </Ellipse>
         </DataTemplate>

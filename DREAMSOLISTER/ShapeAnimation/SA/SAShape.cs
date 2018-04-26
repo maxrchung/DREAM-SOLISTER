@@ -28,21 +28,23 @@ namespace ShapeAnimation {
 
         public Vector translation {
             get {
-                return new Vector(position.x - size.x / 2, position.y - size.y / 2);
+                return new Vector(position.x, position.y) - size / 2;
             }
         }
 
         public List<Vector> corners {
             get {
                 var width = Application.Current.FindResource("cornerWidth");
-                var radius = Convert.ToSingle(width) / 2;
+                // width is object so must use Convert.ToSingle
+                var radius = new Vector(Convert.ToSingle(width) / 2);
                 var half = size / 2;
-                return new List<Vector> {
-                    new Vector(position.x - half.x - radius, position.y - half.y - radius),
-                    new Vector(position.x - half.x - radius, position.y + half.y - radius),
-                    new Vector(position.x + half.x - radius, position.y - half.y - radius),
-                    new Vector(position.x + half.x - radius, position.y + half.y - radius),
+                var v = new List<Vector> {
+                    new Vector(position.x - half.x, position.y - half.y).rotate(rotation.radian, position) - radius,
+                    new Vector(position.x - half.x, position.y + half.y).rotate(rotation.radian, position) - radius,
+                    new Vector(position.x + half.x, position.y - half.y).rotate(rotation.radian, position) - radius,
+                    new Vector(position.x + half.x, position.y + half.y).rotate(rotation.radian, position) - radius
                 };
+                return v;
             }
         }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 
 namespace ShapeAnimation {
     public class Vector {
@@ -59,9 +60,13 @@ namespace ShapeAnimation {
             return new Vector(x, y);
         }
 
+        public Point toPoint() {
+            return new Point(x, y);
+        }
+
         public Vector rotate(float rotation) {
             var rotatedX = x * Math.Cos(rotation) - y * Math.Sin(rotation);
-            var rotatedY = x * Math.Sin(rotation) + y * Math.Sin(rotation);
+            var rotatedY = x * Math.Sin(rotation) + y * Math.Cos(rotation);
             var rotated = new Vector((float)rotatedX, (float)rotatedY);
             return rotated;
         }
