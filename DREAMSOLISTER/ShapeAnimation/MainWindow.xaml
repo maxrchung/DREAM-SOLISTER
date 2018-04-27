@@ -6,11 +6,20 @@
         xmlns:local="clr-namespace:ShapeAnimation"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
+    <Window.DataContext>
+        <local:ShapesViewModel />
+    </Window.DataContext>
     <Window.Resources>
-        <local:SAShapes x:Key="shapes" />
+        <DataTemplate x:Key="rotateCorner">
+            <Ellipse Width="{StaticResource rotateCornerWidth}" Height="{StaticResource rotateCornerWidth}">
+                <Ellipse.RenderTransform>
+                    <TranslateTransform X="{Binding x}" Y="{Binding y}" />
+                </Ellipse.RenderTransform>
+            </Ellipse>
+        </DataTemplate>
 
-        <DataTemplate x:Key="corner">
-            <Ellipse Width="{StaticResource cornerWidth}" Height="{StaticResource cornerWidth}" Fill="Red">
+        <DataTemplate x:Key="scaleCorner">
+            <Ellipse Width="{StaticResource scaleCornerWidth}" Height="{StaticResource scaleCornerWidth}" Fill="Red" MouseDown="scaleCornerMouseDown">
                 <Ellipse.RenderTransform>
                     <TranslateTransform X="{Binding x}" Y="{Binding y}" />
                 </Ellipse.RenderTransform>
@@ -28,7 +37,14 @@
                     </Rectangle.RenderTransform>
                 </Rectangle>
                 <ContentPresenter Content="{Binding}"/>
-                <ItemsControl ItemsSource="{Binding corners}" ItemTemplate="{StaticResource corner}">
+                <ItemsControl ItemsSource="{Binding rotateCorners}" ItemTemplate="{StaticResource rotateCorner}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <Canvas />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+                <ItemsControl ItemsSource="{Binding scaleCorners}" ItemTemplate="{StaticResource scaleCorner}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <Canvas />
@@ -73,7 +89,7 @@
         
     </Window.Resources>
     <Canvas>
-        <ItemsControl ItemsSource="{Binding Source={StaticResource shapes}}" ItemTemplate="{StaticResource shape}">
+        <ItemsControl ItemsSource="{Binding shapes}" ItemTemplate="{StaticResource shape}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Canvas />

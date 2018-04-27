@@ -8,5 +8,9 @@ namespace ShapeAnimation {
         public MainWindow() {
             InitializeComponent();
         }
+
+        private void scaleCornerMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
+
+        }
     }
 }

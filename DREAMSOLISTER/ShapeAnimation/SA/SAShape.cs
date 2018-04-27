@@ -32,9 +32,25 @@ namespace ShapeAnimation {
             }
         }
 
-        public List<Vector> corners {
+        public List<Vector> rotateCorners {
             get {
-                var width = Application.Current.FindResource("cornerWidth");
+                var width = Application.Current.FindResource("rotateCornerWidth");
+                // width is object so must use Convert.ToSingle
+                var radius = new Vector(Convert.ToSingle(width) / 2);
+                var half = size / 2;
+                var v = new List<Vector> {
+                    new Vector(position.x - half.x, position.y - half.y).rotate(rotation.radian, position) - radius,
+                    new Vector(position.x - half.x, position.y + half.y).rotate(rotation.radian, position) - radius,
+                    new Vector(position.x + half.x, position.y - half.y).rotate(rotation.radian, position) - radius,
+                    new Vector(position.x + half.x, position.y + half.y).rotate(rotation.radian, position) - radius
+                };
+                return v;
+            }
+        }
+
+        public List<Vector> scaleCorners {
+            get {
+                var width = Application.Current.FindResource("scaleCornerWidth");
                 // width is object so must use Convert.ToSingle
                 var radius = new Vector(Convert.ToSingle(width) / 2);
                 var half = size / 2;

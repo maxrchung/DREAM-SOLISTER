@@ -4,6 +4,7 @@
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-        <sys:Double x:Key="cornerWidth">8</sys:Double>
+        <sys:Double x:Key="scaleCornerWidth">8</sys:Double>
+        <sys:Double x:Key="rotateCornerWidth">32</sys:Double>
     </Application.Resources>
 </Application>
