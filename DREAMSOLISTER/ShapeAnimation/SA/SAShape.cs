@@ -2,9 +2,16 @@
 using System.Windows;
 using System.Collections.Generic;
 using System;
+using System.ComponentModel;
+using System.Diagnostics;
 
 namespace ShapeAnimation {
-    public class SAShape {
+    public class SAShape : INotifyPropertyChanged {
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void NotifyPropertyChanged(string name) {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
+
         public const float fixedSize = 100.0f;
 
         public Angle rotation { get; set; }
@@ -18,7 +25,20 @@ namespace ShapeAnimation {
             }
         }
 
-        public Vector position { get; set; }
+        private Vector _position;
+        public Vector position {
+            get {
+                return _position;
+            }
+            set {
+                _position = value;
+                NotifyPropertyChanged("translation");
+                NotifyPropertyChanged("points");
+                NotifyPropertyChanged("position");
+                NotifyPropertyChanged("rotateCorners");
+                NotifyPropertyChanged("scaleCorners");
+            }
+        }
 
         public Vector size {
             get {

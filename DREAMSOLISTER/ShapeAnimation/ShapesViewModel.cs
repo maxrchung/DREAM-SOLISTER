@@ -3,7 +3,7 @@
 namespace ShapeAnimation {
     public class ShapesViewModel {
         public ObservableCollection<SAShape> shapes { get; set; }
-        public SAShape selectedShape { get; set; }
+        public SAShape selected { get; set; }
 
         public ShapesViewModel() {
             shapes = new ObservableCollection<SAShape>();
@@ -34,6 +34,7 @@ namespace ShapeAnimation {
                 scaleVector = new Vector(2, 1)
             };
             shapes.Add(triangle);
+            selected = triangle;
         }
     }
 }
