@@ -24,22 +24,27 @@ namespace ShapeAnimation {
                 _degree = convertRadianToDegree(value);
             }
         }
+        
+        public static Angle operator +(Angle left, Angle right) {
+            return fromRadian(left.radian + right.radian);
+        }
+        public static Angle operator -(Angle left, Angle right) {
+            return fromRadian(left.radian - right.radian);
+        }
 
-        public static Angle createDefaultAngle() {
+        public static Angle fromDefault() {
             var angle = new Angle {
                 degree = 0
             };
             return angle;
         }
-
-        public static Angle createFromDegree(float pDegree) {
+        public static Angle fromDegree(float pDegree) {
             var angle = new Angle {
                 degree = pDegree
             };
             return angle;
         }
-
-        public static Angle createFromRadian(float pRadian) {
+        public static Angle fromRadian(float pRadian) {
             var angle = new Angle {
                 radian = pRadian
             };
@@ -49,7 +54,6 @@ namespace ShapeAnimation {
         public static float convertDegreeToRadian(float degree) {
             return degree * PI / 180.0f;
         }
-
         public static float convertRadianToDegree(float radian) {
             return radian * 180.0f / PI;
         }

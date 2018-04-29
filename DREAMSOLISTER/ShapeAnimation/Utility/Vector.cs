@@ -6,29 +6,30 @@ namespace ShapeAnimation {
         public float x { get; set; }
         public float y { get; set; }
 
+        public Angle angle {
+            get {
+                return Angle.fromRadian((float)Math.Atan2(y, x));
+            }
+        }
+
         public static readonly Vector zero = new Vector();
         public static readonly Vector unit = new Vector(1, 0);
 
         public static Vector operator +(Vector left, Vector right) {
             return new Vector(left.x + right.x, left.y + right.y);
         }
-
         public static Vector operator -(Vector left, Vector right) {
             return new Vector(left.x - right.x, left.y - right.y);
         }
-
         public static Vector operator *(Vector left, float right) {
             return new Vector(left.x * right, left.y * right);
         }
-
         public static Vector operator *(float left, Vector right) {
             return new Vector(left * right.x, left * right.y);
         }
-
         public static Vector operator /(Vector left, float right) {
             return new Vector(left.x / right, left.y / right);
         }
-
         public static Vector operator /(float left, Vector right) {
             return new Vector(left / right.x, left / right.y);
         }
@@ -37,12 +38,10 @@ namespace ShapeAnimation {
             x = 0;
             y = 0;
         }
-
         public Vector(float value) {
             x = value;
             y = value;
         }
-
         public Vector(float pX, float pY) {
             x = pX;
             y = pY;
@@ -51,7 +50,6 @@ namespace ShapeAnimation {
         public float lengthSquared() {
             return x * x + y * y;
         }
-
         public float length() {
             return (float)Math.Sqrt(lengthSquared());
         }
@@ -70,11 +68,10 @@ namespace ShapeAnimation {
             var rotated = new Vector((float)rotatedX, (float)rotatedY);
             return rotated;
         }
-
-        public Vector rotate(float rotation, Vector rotateFrom) {
-            var repositioned = this - rotateFrom;
+        public Vector rotateFrom(float rotation, Vector from) {
+            var repositioned = this - from;
             var rotated = repositioned.rotate(rotation);
-            var positioned = rotated + rotateFrom;
+            var positioned = rotated + from;
             return positioned;
         }
     }

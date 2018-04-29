@@ -12,14 +12,14 @@
     
     <Window.Resources>
         <DataTemplate x:Key="rotateCorner">
-            <Ellipse Width="{StaticResource rotateCornerWidth}" Height="{StaticResource rotateCornerWidth}">
+            <Ellipse Width="{StaticResource rotateCornerWidth}" Height="{StaticResource rotateCornerWidth}" Fill="Blue" Opacity="0.1" MouseDown="rotateMouseDown">
                 <Ellipse.RenderTransform>
                     <TranslateTransform X="{Binding x}" Y="{Binding y}" />
                 </Ellipse.RenderTransform>
             </Ellipse>
         </DataTemplate>
         <DataTemplate x:Key="scaleCorner">
-            <Ellipse Width="{StaticResource scaleCornerWidth}" Height="{StaticResource scaleCornerWidth}" Fill="Red" MouseDown="scaleCornerMouseDown">
+            <Ellipse Width="{StaticResource scaleCornerWidth}" Height="{StaticResource scaleCornerWidth}" Fill="Red" MouseDown="scaleMouseDown">
                 <Ellipse.RenderTransform>
                     <TranslateTransform X="{Binding x}" Y="{Binding y}" />
                 </Ellipse.RenderTransform>
@@ -27,13 +27,13 @@
         </DataTemplate>
 
         <DataTemplate DataType="{x:Type local:SARectangle}">
-            <Polygon IsHitTestVisible="False" Points="{Binding points}" Fill="{Binding brush}"/>
+            <Polygon Points="{Binding points}" Fill="{Binding brush}"/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type local:SATriangle}">
-            <Polygon IsHitTestVisible="False" Points="{Binding points}" Fill="{Binding brush}"/>
+            <Polygon Points="{Binding points}" Fill="{Binding brush}" MouseDown="shapeMouseDown"/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type local:SAEllipse}">
-            <Ellipse IsHitTestVisible="False" Width="{Binding size.x}" Height="{Binding size.y}" Fill="{Binding brush}" RenderTransformOrigin="0.5, 0.5">
+            <Ellipse Width="{Binding size.x}" Height="{Binding size.y}" Fill="{Binding brush}" RenderTransformOrigin="0.5, 0.5">
                 <Ellipse.RenderTransform>
                     <TransformGroup>
                         <RotateTransform Angle="{Binding rotation.degree}"/>
@@ -43,7 +43,7 @@
             </Ellipse>
         </DataTemplate>
         <DataTemplate DataType="{x:Type local:SASemicircle}">
-            <Ellipse IsHitTestVisible="False" Width="{Binding size.x}" Height="{Binding doubleHeight}" Fill="{Binding brush}" RenderTransformOrigin="0.5, 0.25">
+            <Ellipse Width="{Binding size.x}" Height="{Binding doubleHeight}" Fill="{Binding brush}" RenderTransformOrigin="0.5, 0.25">
                 <Ellipse.Clip>
                     <RectangleGeometry Rect="{Binding clip}"/>
                 </Ellipse.Clip>
@@ -57,8 +57,8 @@
         </DataTemplate>
     </Window.Resources>
     
-    <Canvas>
-        <Rectangle Width="{Binding selected.size.x}" Height="{Binding selected.size.y}" Fill="Black" Opacity="0.1" RenderTransformOrigin="0.5, 0.5" MouseDown="moveMouseDown" MouseUp="moveMouseUp">
+    <Canvas Background="Transparent" MouseUp="backgroundMouseUp">
+        <Rectangle x:Name="selection"  Width="{Binding selected.size.x}" Height="{Binding selected.size.y}" Fill="Black" Opacity="0.1" RenderTransformOrigin="0.5, 0.5" MouseDown="selectionMouseDown">
             <Rectangle.RenderTransform>
                 <TransformGroup>
                     <RotateTransform Angle="{Binding selected.rotation.degree}"/>
