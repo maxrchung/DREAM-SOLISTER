@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
     <Window.DataContext>
-        <local:ShapesViewModel />
+        <local:ViewModel />
     </Window.DataContext>
     
     <Window.Resources>
@@ -27,13 +27,13 @@
         </DataTemplate>
 
         <DataTemplate DataType="{x:Type local:SARectangle}">
-            <Polygon Points="{Binding points}" Fill="{Binding brush}"/>
+            <Polygon Points="{Binding points}" Fill="{Binding brush}" MouseDown="shapeMouseDown"/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type local:SATriangle}">
             <Polygon Points="{Binding points}" Fill="{Binding brush}" MouseDown="shapeMouseDown"/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type local:SAEllipse}">
-            <Ellipse Width="{Binding size.x}" Height="{Binding size.y}" Fill="{Binding brush}" RenderTransformOrigin="0.5, 0.5">
+            <Ellipse Width="{Binding size.x}" Height="{Binding size.y}" Fill="{Binding brush}" RenderTransformOrigin="0.5, 0.5" MouseDown="shapeMouseDown">
                 <Ellipse.RenderTransform>
                     <TransformGroup>
                         <RotateTransform Angle="{Binding rotation.degree}"/>
@@ -43,7 +43,7 @@
             </Ellipse>
         </DataTemplate>
         <DataTemplate DataType="{x:Type local:SASemicircle}">
-            <Ellipse Width="{Binding size.x}" Height="{Binding doubleHeight}" Fill="{Binding brush}" RenderTransformOrigin="0.5, 0.25">
+            <Ellipse Width="{Binding size.x}" Height="{Binding doubleHeight}" Fill="{Binding brush}" RenderTransformOrigin="0.5, 0.25" MouseDown="shapeMouseDown">
                 <Ellipse.Clip>
                     <RectangleGeometry Rect="{Binding clip}"/>
                 </Ellipse.Clip>
@@ -67,7 +67,7 @@
             </Rectangle.RenderTransform>
         </Rectangle>
         
-        <ItemsControl ItemsSource="{Binding shapes}">
+        <ItemsControl ItemsSource="{Binding shapes}" x:Name="shapesItems">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Canvas x:Name="shapesCanvas"/>

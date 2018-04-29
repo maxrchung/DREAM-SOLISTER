@@ -63,6 +63,8 @@ namespace ShapeAnimation {
                 NotifyPropertyChanged("points");
                 NotifyPropertyChanged("rotateCorners");
                 NotifyPropertyChanged("scaleCorners");
+                NotifyPropertyChanged("doubleHeight");
+                NotifyPropertyChanged("clip");
             }
         }
 

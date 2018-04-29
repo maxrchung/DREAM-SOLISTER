@@ -1,11 +1,26 @@
 ﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 namespace ShapeAnimation {
-    public class ShapesViewModel {
-        public ObservableCollection<SAShape> shapes { get; set; }
-        public SAShape selected { get; set; }
+    public class ViewModel : INotifyPropertyChanged {
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void NotifyPropertyChanged(string name) {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
 
-        public ShapesViewModel() {
+        public ObservableCollection<SAShape> shapes { get; set; }
+        private SAShape _selected;
+        public SAShape selected {
+            get {
+                return _selected;
+            }
+            set {
+                _selected = value;
+                NotifyPropertyChanged("selected");
+            }
+        }
+
+        public ViewModel() {
             shapes = new ObservableCollection<SAShape>();
             //var rectangle = new SARectangle() {
             //    position = new Vector(100, 100),
@@ -34,7 +49,6 @@ namespace ShapeAnimation {
                 scaleVector = new Vector(2, 1)
             };
             shapes.Add(triangle);
-            selected = triangle;
         }
     }
 }

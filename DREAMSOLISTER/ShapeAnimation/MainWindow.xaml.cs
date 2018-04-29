@@ -1,13 +1,17 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Shapes;
 using System.Windows.Threading;
 
 namespace ShapeAnimation {
     public partial class MainWindow : Window {
-        private SAShape selected;
+        #region Variables
+        private ViewModel viewModel;
         private Canvas shapesCanvas;
 
         private TimeSpan timerInterval = TimeSpan.FromMilliseconds(15);
@@ -16,7 +20,10 @@ namespace ShapeAnimation {
         private DispatcherTimer rotateTimer = new DispatcherTimer(DispatcherPriority.Render);
         private Angle previousRotation;
         private DispatcherTimer scaleTimer = new DispatcherTimer(DispatcherPriority.Render);
+        private Vector scaleOffset;
+        #endregion
 
+        #region Initialization
         public MainWindow() {
             moveTimer.Interval = timerInterval;
             moveTimer.Tick += new EventHandler(moveTimerTick);
@@ -30,49 +37,69 @@ namespace ShapeAnimation {
             InitializeComponent();
 
             // These require InitializeComponent() to be called first
-            var viewModel = (ShapesViewModel)DataContext;
-            selected = viewModel.selected;
+            viewModel = (ViewModel)DataContext;
             shapesCanvas = (Canvas)FindName("shapesCanvas");
         }
+        #endregion
 
+        #region Helpers
         private Vector getMousePosition() {
             var mousePosition = Mouse.GetPosition(shapesCanvas);
             return new Vector((float)mousePosition.X, (float)mousePosition.Y);
         }
+        #endregion
 
+        #region Timer Tick Events
         private void moveTimerTick(object sender, EventArgs e) {
-            selected.position = getMousePosition() - moveOffset;
+            viewModel.selected.position = getMousePosition() - moveOffset;
         }
         private void rotateTimerTick(object sender, EventArgs e) {
-            var rotation = (getMousePosition() - selected.position).angle;
+            var rotation = (getMousePosition() - viewModel.selected.position).angle;
             var rotateOffset = rotation - previousRotation;
             previousRotation = rotation;
-            selected.rotation += rotateOffset;
+            viewModel.selected.rotation += rotateOffset;
         }
         private void scaleTimerTick(object sender, EventArgs e) {
-            var mousePosition = getMousePosition() - selected.position;
-            var unrotate = mousePosition.rotate(-selected.rotation.radian);
+            var position = getMousePosition() - viewModel.selected.position - scaleOffset;
+            var unrotate = position.rotate(-viewModel.selected.rotation.radian);
             var scaleVector = new Vector(Math.Abs(unrotate.x), Math.Abs(unrotate.y)) / SAShape.fixedSize * 2;
-            selected.scaleVector = scaleVector;
+            viewModel.selected.scaleVector = scaleVector;
         }
+        #endregion
 
-        private void rotateMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            if (!rotateTimer.IsEnabled) {
-                rotateTimer.Start();
-                previousRotation = (getMousePosition() - selected.position).angle;
+        #region Mouse Events
+        private void shapeMouseDown(object sender, MouseButtonEventArgs e) {
+            if (viewModel.selected == null) {
+                var shape = (Shape)sender;
+                var contentPresenter = (ContentPresenter)shape.TemplatedParent;
+                var canvas = (Canvas)VisualTreeHelper.GetParent(contentPresenter);
+                var index = canvas.Children.IndexOf(contentPresenter);
+                viewModel.selected = viewModel.shapes[index];
             }
-        }
-        private void scaleMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            scaleTimer.Start();
-        }
 
-        private void shapeMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
+            // Pass event to sibling
             selection.RaiseEvent(e);
         }
-        private void selectionMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            if (!moveTimer.IsEnabled) {
+        private void rotateMouseDown(object sender, MouseButtonEventArgs e) {
+            if (viewModel.selected != null && !rotateTimer.IsEnabled) {
+                rotateTimer.Start();
+                previousRotation = (getMousePosition() - viewModel.selected.position).angle;
+            }
+        }
+        private void scaleMouseDown(object sender, MouseButtonEventArgs e) {
+            if (viewModel.selected != null && !scaleTimer.IsEnabled) {
+                scaleTimer.Start();
+                var corner = (Ellipse)sender;
+                var translateTransform = (TranslateTransform)corner.RenderTransform;
+                var topLeft = new Vector((float)translateTransform.X, (float)translateTransform.Y);
+                var center = topLeft + new Vector((float)corner.Width) / 2;
+                scaleOffset = getMousePosition() - center;
+            }
+        }
+        private void selectionMouseDown(object sender, MouseButtonEventArgs e) {
+            if (viewModel.selected != null && !moveTimer.IsEnabled) {
                 moveTimer.Start();
-                moveOffset = getMousePosition() - selected.position;
+                moveOffset = getMousePosition() - viewModel.selected.position;
             }
         }
         private void backgroundMouseUp(object sender, MouseButtonEventArgs e) {
@@ -80,5 +107,6 @@ namespace ShapeAnimation {
             rotateTimer.Stop();
             scaleTimer.Stop();
         }
+        #endregion
     }
 }
