@@ -18,31 +18,16 @@
         <KeyBinding Key="Esc" Command="local:Command.deselect" />
         <KeyBinding Key="Return" Command="local:Command.deselect" />
     </Window.InputBindings>
-    
-    <Window.Resources>
-        <DataTemplate x:Key="rotateCorner">
-            <Ellipse Width="{StaticResource rotateCornerWidth}" Height="{StaticResource rotateCornerWidth}" Fill="Blue" Opacity="0.1" MouseDown="rotateMouseDown">
-                <Ellipse.RenderTransform>
-                    <TranslateTransform X="{Binding x}" Y="{Binding y}" />
-                </Ellipse.RenderTransform>
-            </Ellipse>
-        </DataTemplate>
-        <DataTemplate x:Key="scaleCorner">
-            <Ellipse Width="{StaticResource scaleCornerWidth}" Height="{StaticResource scaleCornerWidth}" Fill="Red" MouseDown="scaleMouseDown">
-                <Ellipse.RenderTransform>
-                    <TranslateTransform X="{Binding x}" Y="{Binding y}" />
-                </Ellipse.RenderTransform>
-            </Ellipse>
-        </DataTemplate>
 
+    <Window.Resources>
         <DataTemplate DataType="{x:Type local:SARectangle}">
-            <Polygon Points="{Binding points}" Fill="{Binding brush}" MouseDown="shapeMouseDown"/>
+            <Polygon Points="{Binding points}" Fill="{Binding brush}" MouseLeftButtonDown="shapeMouseLeftButtonDown"/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type local:SATriangle}">
-            <Polygon Points="{Binding points}" Fill="{Binding brush}" MouseDown="shapeMouseDown"/>
+            <Polygon Points="{Binding points}" Fill="{Binding brush}" MouseLeftButtonDown="shapeMouseLeftButtonDown"/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type local:SAEllipse}">
-            <Ellipse Width="{Binding size.x}" Height="{Binding size.y}" Fill="{Binding brush}" RenderTransformOrigin="0.5, 0.5" MouseDown="shapeMouseDown">
+            <Ellipse Width="{Binding size.x}" Height="{Binding size.y}" Fill="{Binding brush}" RenderTransformOrigin="0.5, 0.5" MouseLeftButtonDown="shapeMouseLeftButtonDown">
                 <Ellipse.RenderTransform>
                     <TransformGroup>
                         <RotateTransform Angle="{Binding rotation.degree}"/>
@@ -52,7 +37,7 @@
             </Ellipse>
         </DataTemplate>
         <DataTemplate DataType="{x:Type local:SASemicircle}">
-            <Ellipse Width="{Binding size.x}" Height="{Binding doubleHeight}" Fill="{Binding brush}" RenderTransformOrigin="0.5, 0.25" MouseDown="shapeMouseDown">
+            <Ellipse Width="{Binding size.x}" Height="{Binding doubleHeight}" Fill="{Binding brush}" RenderTransformOrigin="0.5, 0.25" MouseLeftButtonDown="shapeMouseLeftButtonDown">
                 <Ellipse.Clip>
                     <RectangleGeometry Rect="{Binding clip}"/>
                 </Ellipse.Clip>
@@ -64,10 +49,25 @@
                 </Ellipse.RenderTransform>
             </Ellipse>
         </DataTemplate>
+
+        <DataTemplate x:Key="rotateCorner">
+            <Ellipse Width="{StaticResource rotateCornerWidth}" Height="{StaticResource rotateCornerWidth}" Fill="Blue" Opacity="0.1" MouseLeftButtonDown="rotateMouseLeftButtonDown" MouseLeftButtonUp="rotateMouseLeftButtonUp">
+                <Ellipse.RenderTransform>
+                    <TranslateTransform X="{Binding x}" Y="{Binding y}" />
+                </Ellipse.RenderTransform>
+            </Ellipse>
+        </DataTemplate>
+        <DataTemplate x:Key="scaleCorner">
+            <Ellipse Width="{StaticResource scaleCornerWidth}" Height="{StaticResource scaleCornerWidth}" Fill="Red" MouseLeftButtonDown="scaleMouseLeftButtonDown" MouseLeftButtonUp="scaleMouseLeftButtonUp">
+                <Ellipse.RenderTransform>
+                    <TranslateTransform X="{Binding x}" Y="{Binding y}" />
+                </Ellipse.RenderTransform>
+            </Ellipse>
+        </DataTemplate>
     </Window.Resources>
     
-    <Canvas Background="Transparent" MouseUp="backgroundMouseUp">
-        <Rectangle x:Name="selection"  Width="{Binding selected.size.x}" Height="{Binding selected.size.y}" Fill="Black" Opacity="0.1" RenderTransformOrigin="0.5, 0.5" MouseDown="selectionMouseDown">
+    <Canvas Background="Transparent" MouseLeftButtonUp="backgroundMouseLeftButtonUp">
+        <Rectangle x:Name="selection"  Width="{Binding selected.size.x}" Height="{Binding selected.size.y}" Fill="Black" Opacity="0.1" RenderTransformOrigin="0.5, 0.5" MouseLeftButtonDown="selectionMouseLeftButtonDown">
             <Rectangle.RenderTransform>
                 <TransformGroup>
                     <RotateTransform Angle="{Binding selected.rotation.degree}"/>

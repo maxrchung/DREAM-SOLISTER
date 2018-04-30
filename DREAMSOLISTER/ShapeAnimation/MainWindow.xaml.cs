@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -72,7 +73,7 @@ namespace ShapeAnimation {
         #endregion
 
         #region Mouse Events
-        private void shapeMouseDown(object sender, MouseButtonEventArgs e) {
+        private void shapeMouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
             if (viewModel.selected == null) {
                 var shape = (Shape)sender;
                 var contentPresenter = (ContentPresenter)shape.TemplatedParent;
@@ -80,35 +81,40 @@ namespace ShapeAnimation {
                 var index = canvas.Children.IndexOf(contentPresenter);
                 viewModel.selected = viewModel.shapes[index];
             }
-
             // Pass event to sibling
             selection.RaiseEvent(e);
         }
-        private void rotateMouseDown(object sender, MouseButtonEventArgs e) {
+        private void rotateMouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
             if (viewModel.selected != null && !rotateTimer.IsEnabled) {
-                rotateTimer.Start();
                 previousRotation = (getMousePosition() - viewModel.selected.position).angle;
+                rotateTimer.Start();
             }
         }
-        private void scaleMouseDown(object sender, MouseButtonEventArgs e) {
+        private void scaleMouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
             if (viewModel.selected != null && !scaleTimer.IsEnabled) {
-                scaleTimer.Start();
                 var corner = (Ellipse)sender;
                 var translateTransform = (TranslateTransform)corner.RenderTransform;
                 var topLeft = new Vector((float)translateTransform.X, (float)translateTransform.Y);
                 var center = topLeft + new Vector((float)corner.Width) / 2;
                 scaleOffset = getMousePosition() - center;
+                scaleTimer.Start();
             }
         }
-        private void selectionMouseDown(object sender, MouseButtonEventArgs e) {
+        private void selectionMouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
             if (viewModel.selected != null && !moveTimer.IsEnabled) {
-                moveTimer.Start();
                 moveOffset = getMousePosition() - viewModel.selected.position;
+                moveTimer.Start();
             }
         }
-        private void backgroundMouseUp(object sender, MouseButtonEventArgs e) {
+        private void backgroundMouseLeftButtonUp(object sender, MouseButtonEventArgs e) {
             moveTimer.Stop();
             rotateTimer.Stop();
+            scaleTimer.Stop();
+        }
+        private void rotateMouseLeftButtonUp(object sender, MouseButtonEventArgs e) {
+            rotateTimer.Stop();
+        }
+        private void scaleMouseLeftButtonUp(object sender, MouseButtonEventArgs e) {
             scaleTimer.Stop();
         }
         #endregion
