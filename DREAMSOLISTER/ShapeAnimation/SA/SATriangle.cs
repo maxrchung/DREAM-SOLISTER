@@ -1,5 +1,4 @@
 ﻿using System.Windows.Media;
-using System.Windows;
 
 namespace ShapeAnimation {
     class SATriangle : SAShape {

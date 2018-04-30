@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -46,6 +44,12 @@ namespace ShapeAnimation {
         private Vector getMousePosition() {
             var mousePosition = Mouse.GetPosition(shapesCanvas);
             return new Vector((float)mousePosition.X, (float)mousePosition.Y);
+        }
+        #endregion
+
+        #region Commands
+        private void deselect(object sender, ExecutedRoutedEventArgs args) {
+            viewModel.selected = null;
         }
         #endregion
 

@@ -54,6 +54,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Command.cs" />
     <Compile Include="SA\SAEllipse.cs" />
     <Compile Include="SA\SASemicircle.cs" />
     <Compile Include="Utility\ViewModel.cs" />

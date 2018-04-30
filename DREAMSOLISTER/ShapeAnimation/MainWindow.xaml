@@ -9,6 +9,15 @@
     <Window.DataContext>
         <local:ViewModel />
     </Window.DataContext>
+
+    <Window.CommandBindings>
+        <CommandBinding Command="local:Command.deselect" Executed="deselect"/>
+    </Window.CommandBindings>
+
+    <Window.InputBindings>
+        <KeyBinding Key="Esc" Command="local:Command.deselect" />
+        <KeyBinding Key="Return" Command="local:Command.deselect" />
+    </Window.InputBindings>
     
     <Window.Resources>
         <DataTemplate x:Key="rotateCorner">

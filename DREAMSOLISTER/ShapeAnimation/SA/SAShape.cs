@@ -3,7 +3,6 @@ using System.Windows;
 using System.Collections.Generic;
 using System;
 using System.ComponentModel;
-using System.Diagnostics;
 
 namespace ShapeAnimation {
     public class SAShape : INotifyPropertyChanged {
