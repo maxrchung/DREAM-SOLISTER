@@ -5,13 +5,15 @@ using System;
 using System.ComponentModel;
 
 namespace ShapeAnimation {
-    public class SAShape : INotifyPropertyChanged {
+    public abstract class SAShape : INotifyPropertyChanged {
         public event PropertyChangedEventHandler PropertyChanged;
         protected void NotifyPropertyChanged(string name) {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
         public const float fixedSize = 100.0f;
+
+        public SAShapeType type { get; set; }
 
         public float fade { get; set; }
 
@@ -123,5 +125,7 @@ namespace ShapeAnimation {
             fade = 1.0f;
             color = Colors.Black;
         }
+
+        abstract public SAShape copy();
     }
 }

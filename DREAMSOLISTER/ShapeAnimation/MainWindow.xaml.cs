@@ -11,7 +11,6 @@ namespace ShapeAnimation {
     public partial class MainWindow : Window {
         #region Variables
         private ViewModel viewModel;
-        private Canvas shapesCanvas;
 
         private TimeSpan timerInterval = TimeSpan.FromMilliseconds(15);
         private DispatcherTimer moveTimer = new DispatcherTimer(DispatcherPriority.Render);
@@ -37,7 +36,6 @@ namespace ShapeAnimation {
 
             // These require InitializeComponent() to be called first
             viewModel = (ViewModel)DataContext;
-            shapesCanvas = (Canvas)FindName("shapesCanvas");
         }
         #endregion
 
@@ -51,6 +49,44 @@ namespace ShapeAnimation {
         #region Commands
         private void deselect(object sender, ExecutedRoutedEventArgs args) {
             viewModel.selected = null;
+        }
+        private void delete(object sender, ExecutedRoutedEventArgs args) {
+            if (viewModel.selected != null) {
+                viewModel.shapes.Remove(viewModel.selected);
+                viewModel.selected = null;
+            }
+        }
+        private void createRectangle(object sender, ExecutedRoutedEventArgs args) {
+            var shape = new SARectangle();
+            shape.position = getMousePosition();
+            viewModel.shapes.Add(shape);
+            viewModel.selected = shape;
+        }
+        private void createTriangle(object sender, ExecutedRoutedEventArgs args) {
+            var shape = new SATriangle();
+            shape.position = getMousePosition();
+            viewModel.shapes.Add(shape);
+            viewModel.selected = shape;
+        }
+        private void createEllipse(object sender, ExecutedRoutedEventArgs args) {
+            var shape = new SAEllipse();
+            shape.position = getMousePosition();
+            viewModel.shapes.Add(shape);
+            viewModel.selected = shape;
+        }
+        private void createSemicircle(object sender, ExecutedRoutedEventArgs args) {
+            var shape = new SASemicircle();
+            shape.position = getMousePosition();
+            viewModel.shapes.Add(shape);
+            viewModel.selected = shape;
+        }
+        private void copy(object sender, ExecutedRoutedEventArgs args) {
+            if (viewModel.selected != null) {
+                var shape = viewModel.selected.copy();
+                shape.position = getMousePosition();
+                viewModel.shapes.Add(shape);
+                viewModel.selected = shape;
+            }
         }
         #endregion
 
@@ -82,7 +118,7 @@ namespace ShapeAnimation {
                 viewModel.selected = viewModel.shapes[index];
             }
             // Pass event to sibling
-            selection.RaiseEvent(e);
+            //selection.RaiseEvent(e);
         }
         private void rotateMouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
             if (viewModel.selected != null && !rotateTimer.IsEnabled) {

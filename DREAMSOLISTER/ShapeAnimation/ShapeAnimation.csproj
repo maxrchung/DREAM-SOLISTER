@@ -57,7 +57,8 @@
     <Compile Include="Command.cs" />
     <Compile Include="SA\SAEllipse.cs" />
     <Compile Include="SA\SASemicircle.cs" />
-    <Compile Include="Utility\ViewModel.cs" />
+    <Compile Include="SA\SAShapeType.cs" />
+    <Compile Include="ViewModel.cs" />
     <Compile Include="SA\SATriangle.cs" />
     <Compile Include="Utility\Vector.cs" />
     <Page Include="MainWindow.xaml">

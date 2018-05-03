@@ -5,98 +5,131 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ShapeAnimation"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Width="Auto"
+        Height="Auto"
+        SizeToContent="WidthAndHeight"
+        Title="MainWindow" >
     <Window.DataContext>
         <local:ViewModel />
     </Window.DataContext>
 
     <Window.CommandBindings>
         <CommandBinding Command="local:Command.deselect" Executed="deselect"/>
+        <CommandBinding Command="local:Command.delete" Executed="delete"/>
+        <CommandBinding Command="local:Command.createRectangle" Executed="createRectangle"/>
+        <CommandBinding Command="local:Command.createTriangle" Executed="createTriangle"/>
+        <CommandBinding Command="local:Command.createEllipse" Executed="createEllipse"/>
+        <CommandBinding Command="local:Command.createSemicircle" Executed="createSemicircle"/>
+        <CommandBinding Command="local:Command.copy" Executed="copy"/>
     </Window.CommandBindings>
 
     <Window.InputBindings>
         <KeyBinding Key="Esc" Command="local:Command.deselect" />
         <KeyBinding Key="Return" Command="local:Command.deselect" />
+        <KeyBinding Key="Delete" Command="local:Command.delete" />
+        <KeyBinding Key="D1" Command="local:Command.createRectangle" />
+        <KeyBinding Key="D2" Command="local:Command.createTriangle" />
+        <KeyBinding Key="D3" Command="local:Command.createEllipse" />
+        <KeyBinding Key="D4" Command="local:Command.createSemicircle" />
+        <KeyBinding Key="V" Modifiers="Ctrl" Command="local:Command.copy" />
     </Window.InputBindings>
 
     <Window.Resources>
-        <DataTemplate DataType="{x:Type local:SARectangle}">
-            <Polygon Points="{Binding points}" Fill="{Binding brush}" MouseLeftButtonDown="shapeMouseLeftButtonDown"/>
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type local:SATriangle}">
-            <Polygon Points="{Binding points}" Fill="{Binding brush}" MouseLeftButtonDown="shapeMouseLeftButtonDown"/>
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type local:SAEllipse}">
-            <Ellipse Width="{Binding size.x}" Height="{Binding size.y}" Fill="{Binding brush}" RenderTransformOrigin="0.5, 0.5" MouseLeftButtonDown="shapeMouseLeftButtonDown">
-                <Ellipse.RenderTransform>
-                    <TransformGroup>
-                        <RotateTransform Angle="{Binding rotation.degree}"/>
-                        <TranslateTransform X="{Binding translation.x}" Y="{Binding translation.y}" />
-                    </TransformGroup>
-                </Ellipse.RenderTransform>
-            </Ellipse>
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type local:SASemicircle}">
-            <Ellipse Width="{Binding size.x}" Height="{Binding doubleHeight}" Fill="{Binding brush}" RenderTransformOrigin="0.5, 0.25" MouseLeftButtonDown="shapeMouseLeftButtonDown">
-                <Ellipse.Clip>
-                    <RectangleGeometry Rect="{Binding clip}"/>
-                </Ellipse.Clip>
-                <Ellipse.RenderTransform>
-                    <TransformGroup>
-                        <RotateTransform Angle="{Binding rotation.degree}"/>
-                        <TranslateTransform X="{Binding translation.x}" Y="{Binding translation.y}" />
-                    </TransformGroup>
-                </Ellipse.RenderTransform>
-            </Ellipse>
-        </DataTemplate>
-
-        <DataTemplate x:Key="rotateCorner">
-            <Ellipse Width="{StaticResource rotateCornerWidth}" Height="{StaticResource rotateCornerWidth}" Fill="Blue" Opacity="0.1" MouseLeftButtonDown="rotateMouseLeftButtonDown" MouseLeftButtonUp="rotateMouseLeftButtonUp">
-                <Ellipse.RenderTransform>
-                    <TranslateTransform X="{Binding x}" Y="{Binding y}" />
-                </Ellipse.RenderTransform>
-            </Ellipse>
-        </DataTemplate>
-        <DataTemplate x:Key="scaleCorner">
-            <Ellipse Width="{StaticResource scaleCornerWidth}" Height="{StaticResource scaleCornerWidth}" Fill="Red" MouseLeftButtonDown="scaleMouseLeftButtonDown" MouseLeftButtonUp="scaleMouseLeftButtonUp">
-                <Ellipse.RenderTransform>
-                    <TranslateTransform X="{Binding x}" Y="{Binding y}" />
-                </Ellipse.RenderTransform>
-            </Ellipse>
-        </DataTemplate>
     </Window.Resources>
-    
-    <Canvas Background="Transparent" MouseLeftButtonUp="backgroundMouseLeftButtonUp">
-        <Rectangle x:Name="selection"  Width="{Binding selected.size.x}" Height="{Binding selected.size.y}" Fill="Black" Opacity="0.1" RenderTransformOrigin="0.5, 0.5" MouseLeftButtonDown="selectionMouseLeftButtonDown">
-            <Rectangle.RenderTransform>
-                <TransformGroup>
-                    <RotateTransform Angle="{Binding selected.rotation.degree}"/>
-                    <TranslateTransform X="{Binding selected.translation.x}" Y="{Binding selected.translation.y}" />
-                </TransformGroup>
-            </Rectangle.RenderTransform>
-        </Rectangle>
-        
-        <ItemsControl ItemsSource="{Binding shapes}" x:Name="shapesItems">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <Canvas x:Name="shapesCanvas"/>
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-        </ItemsControl>
-        
-        <ItemsControl ItemsSource="{Binding selected.rotateCorners}" ItemTemplate="{StaticResource rotateCorner}">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <Canvas />
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-        </ItemsControl>
-        <ItemsControl ItemsSource="{Binding selected.scaleCorners}" ItemTemplate="{StaticResource scaleCorner}">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <Canvas />
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-        </ItemsControl>
+
+    <Canvas Background="LightGray" Height="920" Width="1700">
+        <Canvas x:Name="shapesCanvas" Background="White" MouseLeftButtonUp="backgroundMouseLeftButtonUp" Height="900" Width="1440" Canvas.Left="10" Canvas.Top="10">
+            <Rectangle x:Name="selection"  Width="{Binding selected.size.x}" Height="{Binding selected.size.y}" Fill="Black" Opacity="0.1" RenderTransformOrigin="0.5, 0.5" MouseLeftButtonDown="selectionMouseLeftButtonDown">
+                <Rectangle.RenderTransform>
+                    <TransformGroup>
+                        <RotateTransform Angle="{Binding selected.rotation.degree}"/>
+                        <TranslateTransform X="{Binding selected.translation.x}" Y="{Binding selected.translation.y}" />
+                    </TransformGroup>
+                </Rectangle.RenderTransform>
+            </Rectangle>
+
+            <ItemsControl ItemsSource="{Binding shapes}" x:Name="shapesItems">
+                <ItemsControl.Resources>
+                    <DataTemplate DataType="{x:Type local:SARectangle}">
+                        <Polygon Points="{Binding points}" Fill="{Binding brush}" MouseLeftButtonDown="shapeMouseLeftButtonDown"/>
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type local:SATriangle}">
+                        <Polygon Points="{Binding points}" Fill="{Binding brush}" MouseLeftButtonDown="shapeMouseLeftButtonDown"/>
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type local:SAEllipse}">
+                        <Ellipse Width="{Binding size.x}" Height="{Binding size.y}" Fill="{Binding brush}" RenderTransformOrigin="0.5, 0.5" MouseLeftButtonDown="shapeMouseLeftButtonDown">
+                            <Ellipse.RenderTransform>
+                                <TransformGroup>
+                                    <RotateTransform Angle="{Binding rotation.degree}"/>
+                                    <TranslateTransform X="{Binding translation.x}" Y="{Binding translation.y}" />
+                                </TransformGroup>
+                            </Ellipse.RenderTransform>
+                        </Ellipse>
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type local:SASemicircle}">
+                        <Ellipse Width="{Binding size.x}" Height="{Binding doubleHeight}" Fill="{Binding brush}" RenderTransformOrigin="0.5, 0.25" MouseLeftButtonDown="shapeMouseLeftButtonDown">
+                            <Ellipse.Clip>
+                                <RectangleGeometry Rect="{Binding clip}"/>
+                            </Ellipse.Clip>
+                            <Ellipse.RenderTransform>
+                                <TransformGroup>
+                                    <RotateTransform Angle="{Binding rotation.degree}"/>
+                                    <TranslateTransform X="{Binding translation.x}" Y="{Binding translation.y}" />
+                                </TransformGroup>
+                            </Ellipse.RenderTransform>
+                        </Ellipse>
+                    </DataTemplate>
+                </ItemsControl.Resources>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <Canvas />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+
+            <ItemsControl ItemsSource="{Binding selected.rotateCorners}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Ellipse Width="{StaticResource rotateCornerWidth}" Height="{StaticResource rotateCornerWidth}" Fill="Blue" Opacity="0.1" MouseLeftButtonDown="rotateMouseLeftButtonDown" MouseLeftButtonUp="rotateMouseLeftButtonUp">
+                            <Ellipse.RenderTransform>
+                                <TranslateTransform X="{Binding x}" Y="{Binding y}" />
+                            </Ellipse.RenderTransform>
+                        </Ellipse>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <Canvas />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+            <ItemsControl ItemsSource="{Binding selected.scaleCorners}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Ellipse Width="{StaticResource scaleCornerWidth}" Height="{StaticResource scaleCornerWidth}" Fill="Red" MouseLeftButtonDown="scaleMouseLeftButtonDown" MouseLeftButtonUp="scaleMouseLeftButtonUp">
+                            <Ellipse.RenderTransform>
+                                <TranslateTransform X="{Binding x}" Y="{Binding y}" />
+                            </Ellipse.RenderTransform>
+                        </Ellipse>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <Canvas />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </Canvas>
+        <ListView Height="474" Canvas.Left="1455" Canvas.Top="436" Width="235" ItemsSource="{Binding shapes}" SelectedItem="{Binding selected}"
+    IsSynchronizedWithCurrentItem="True">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock HorizontalAlignment="Left" Text="{Binding type}"></TextBlock>
+                        <Ellipse HorizontalAlignment="Right" Margin="4 0 0 0" Width="12" Height="12" Fill="{Binding brush}"></Ellipse>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </Canvas>
 </Window>
