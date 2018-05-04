@@ -117,13 +117,12 @@ namespace ShapeAnimation {
                 var index = canvas.Children.IndexOf(contentPresenter);
                 viewModel.selected = viewModel.shapes[index];
             }
-            // Pass event to sibling
-            //selection.RaiseEvent(e);
         }
         private void rotateMouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
             if (viewModel.selected != null && !rotateTimer.IsEnabled) {
                 previousRotation = (getMousePosition() - viewModel.selected.position).angle;
                 rotateTimer.Start();
+                e.Handled = true;
             }
         }
         private void scaleMouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
@@ -134,9 +133,10 @@ namespace ShapeAnimation {
                 var center = topLeft + new Vector((float)corner.Width) / 2;
                 scaleOffset = getMousePosition() - center;
                 scaleTimer.Start();
+                e.Handled = true;
             }
         }
-        private void selectionMouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
+        private void backgroundMouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
             if (viewModel.selected != null && !moveTimer.IsEnabled) {
                 moveOffset = getMousePosition() - viewModel.selected.position;
                 moveTimer.Start();

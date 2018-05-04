@@ -8,7 +8,8 @@
         Width="Auto"
         Height="Auto"
         SizeToContent="WidthAndHeight"
-        Title="MainWindow" >
+        Title="ShapeAnimation" 
+        ResizeMode="CanMinimize">
     <Window.DataContext>
         <local:ViewModel />
     </Window.DataContext>
@@ -38,8 +39,8 @@
     </Window.Resources>
 
     <Canvas Background="LightGray" Height="920" Width="1700">
-        <Canvas x:Name="shapesCanvas" Background="White" MouseLeftButtonUp="backgroundMouseLeftButtonUp" Height="900" Width="1440" Canvas.Left="10" Canvas.Top="10">
-            <Rectangle x:Name="selection"  Width="{Binding selected.size.x}" Height="{Binding selected.size.y}" Fill="Black" Opacity="0.1" RenderTransformOrigin="0.5, 0.5" MouseLeftButtonDown="selectionMouseLeftButtonDown">
+        <Canvas x:Name="shapesCanvas" Background="White" MouseLeftButtonDown="backgroundMouseLeftButtonDown" MouseLeftButtonUp="backgroundMouseLeftButtonUp" Height="900" Width="1440" Canvas.Left="10" Canvas.Top="10">
+            <Rectangle Width="{Binding selected.size.x}" Height="{Binding selected.size.y}" Fill="Black" Opacity="0.1" RenderTransformOrigin="0.5, 0.5">
                 <Rectangle.RenderTransform>
                     <TransformGroup>
                         <RotateTransform Angle="{Binding selected.rotation.degree}"/>
@@ -120,7 +121,24 @@
                 </ItemsControl.ItemsPanel>
             </ItemsControl>
         </Canvas>
-        <ListView Height="474" Canvas.Left="1455" Canvas.Top="436" Width="235" ItemsSource="{Binding shapes}" SelectedItem="{Binding selected}"
+
+        <Button Content="Load" Canvas.Left="1455" Canvas.Top="10" Width="75"/>
+        <Button Content="Open" Canvas.Left="1535" Canvas.Top="10" Width="75"/>
+        <Button Content="Save" Canvas.Left="1615" Canvas.Top="10" Width="75"/>
+
+        <CheckBox Content="Background" Canvas.Left="1455" Canvas.Top="35" Height="18"/>
+
+        <Label Content="R" Canvas.Left="1455" Canvas.Top="83" Padding="0" Height="20"/>
+        <TextBox Height="20" Canvas.Left="1467" TextWrapping="Wrap" Text="0" Canvas.Top="81" Width="26" VerticalContentAlignment="Center"/>
+        <Slider Canvas.Left="1498" Canvas.Top="81" Height="20" Width="192"/>
+        <Label Content="G" Canvas.Left="1455" Canvas.Top="108" Padding="0" Height="20"/>
+        <TextBox Height="20" Canvas.Left="1467" TextWrapping="Wrap" Text="0" Canvas.Top="106" Width="26" VerticalContentAlignment="Center"/>
+        <Slider Canvas.Left="1498" Canvas.Top="106" Height="20" Width="192"/>
+        <Label Content="B" Canvas.Left="1455" Canvas.Top="133" Padding="0" Height="20"/>
+        <TextBox Height="20" Canvas.Left="1467" TextWrapping="Wrap" Text="0" Canvas.Top="131" Width="26" VerticalContentAlignment="Center"/>
+        <Slider Canvas.Left="1498" Canvas.Top="131" Height="20" Width="192"/>
+
+        <ListView Height="752" Canvas.Left="1455" Canvas.Top="158" Width="235" ItemsSource="{Binding shapes}" SelectedItem="{Binding selected}"
     IsSynchronizedWithCurrentItem="True">
             <ListView.ItemTemplate>
                 <DataTemplate>
@@ -131,5 +149,8 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+        <Slider Canvas.Left="1543" Canvas.Top="35" Width="147"/>
+        <CheckBox Content="Shapes" Canvas.Left="1455" Canvas.Top="58" Height="18"/>
+        <Slider Canvas.Left="1543" Canvas.Top="58" Width="147"/>
     </Canvas>
 </Window>
