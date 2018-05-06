@@ -92,7 +92,10 @@ namespace ShapeAnimation {
 
         #region Timer Tick Events
         private void moveTimerTick(object sender, EventArgs e) {
-            viewModel.selected.position = getMousePosition() - moveOffset;
+            // Timers may be off from event
+            if (viewModel.selected != null) {
+                viewModel.selected.position = getMousePosition() - moveOffset;
+            }
         }
         private void rotateTimerTick(object sender, EventArgs e) {
             var rotation = (getMousePosition() - viewModel.selected.position).angle;
@@ -154,5 +157,42 @@ namespace ShapeAnimation {
             scaleTimer.Stop();
         }
         #endregion
+
+        private void redValueTextChanged(object sender, TextChangedEventArgs e) {
+            //if (viewModel.selected != null) {
+            //    //    var color = viewModel.selected.color;
+            //    //    viewModel.selected.color = Color.FromRgb(Convert.ToByte(redValue.Text), color.G, color.B);
+            //}
+        }
+        private void redSliderValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e) {
+            if (viewModel.selected != null) {
+                var color = viewModel.selected.color;
+                viewModel.selected.color = Color.FromRgb(Convert.ToByte(redSlider.Value), color.G, color.B);
+            }
+        }
+        //private void greenValueTextChanged(object sender, TextChangedEventArgs e) {
+        //    if (viewModel.selected != null) {
+        //        var color = viewModel.selected.color;
+        //        viewModel.selected.color = Color.FromRgb(color.R, Convert.ToByte(greenValue.Text), color.B);
+        //    }
+        //}
+        //private void greenSliderValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e) {
+        //    if (viewModel.selected != null) {
+        //        var color = viewModel.selected.color;
+        //        viewModel.selected.color = Color.FromRgb(color.R, Convert.ToByte(greenSlider.Value), color.B);
+        //    }
+        //}
+        //private void blueValueTextChanged(object sender, TextChangedEventArgs e) {
+        //    if (viewModel.selected != null) {
+        //        var color = viewModel.selected.color;
+        //        viewModel.selected.color = Color.FromRgb(color.R, color.G, Convert.ToByte(blueValue.Text));
+        //    }
+        //}
+        //private void blueSliderValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e) {
+        //    if (viewModel.selected != null) {
+        //        var color = viewModel.selected.color;
+        //        viewModel.selected.color = Color.FromRgb(color.R, color.G, Convert.ToByte(blueSlider.Value));
+        //    }
+        //}
     }
 }

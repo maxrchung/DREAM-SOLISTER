@@ -17,7 +17,17 @@ namespace ShapeAnimation {
 
         public float fade { get; set; }
 
-        public Color color { get; set; }
+        private Color _color;
+        public Color color {
+            get {
+                return _color;
+            }
+            set {
+                _color = value;
+                NotifyPropertyChanged("color");
+                NotifyPropertyChanged("brush");
+            }
+        }
         public Brush brush {
             get {
                 return new SolidColorBrush(color);
