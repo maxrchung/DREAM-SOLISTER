@@ -1,9 +1,11 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 
@@ -44,6 +46,13 @@ namespace ShapeAnimation {
             var mousePosition = Mouse.GetPosition(shapesCanvas);
             return new Vector((float)mousePosition.X, (float)mousePosition.Y);
         }
+        // Issue with binding color to slider and moving it
+        private void setSelected(SAShape shape) {
+            viewModel.selected = shape;
+            redSlider.Value = shape.color.R;
+            greenSlider.Value = shape.color.G;
+            blueSlider.Value = shape.color.B;
+        }
         #endregion
 
         #region Commands
@@ -60,32 +69,31 @@ namespace ShapeAnimation {
             var shape = new SARectangle();
             shape.position = getMousePosition();
             viewModel.shapes.Add(shape);
-            viewModel.selected = shape;
+            setSelected(shape);
         }
         private void createTriangle(object sender, ExecutedRoutedEventArgs args) {
             var shape = new SATriangle();
             shape.position = getMousePosition();
             viewModel.shapes.Add(shape);
-            viewModel.selected = shape;
+            setSelected(shape);
         }
         private void createEllipse(object sender, ExecutedRoutedEventArgs args) {
             var shape = new SAEllipse();
             shape.position = getMousePosition();
             viewModel.shapes.Add(shape);
-            viewModel.selected = shape;
+            setSelected(shape);
         }
         private void createSemicircle(object sender, ExecutedRoutedEventArgs args) {
             var shape = new SASemicircle();
             shape.position = getMousePosition();
             viewModel.shapes.Add(shape);
-            viewModel.selected = shape;
+            setSelected(shape);
         }
         private void copy(object sender, ExecutedRoutedEventArgs args) {
             if (viewModel.selected != null) {
                 var shape = viewModel.selected.copy();
-                shape.position = getMousePosition();
                 viewModel.shapes.Add(shape);
-                viewModel.selected = shape;
+                setSelected(shape);
             }
         }
         #endregion
@@ -118,7 +126,7 @@ namespace ShapeAnimation {
                 var contentPresenter = (ContentPresenter)shape.TemplatedParent;
                 var canvas = (Canvas)VisualTreeHelper.GetParent(contentPresenter);
                 var index = canvas.Children.IndexOf(contentPresenter);
-                viewModel.selected = viewModel.shapes[index];
+                setSelected(viewModel.shapes[index]);
             }
         }
         private void rotateMouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
@@ -158,41 +166,50 @@ namespace ShapeAnimation {
         }
         #endregion
 
-        private void redValueTextChanged(object sender, TextChangedEventArgs e) {
-            //if (viewModel.selected != null) {
-            //    //    var color = viewModel.selected.color;
-            //    //    viewModel.selected.color = Color.FromRgb(Convert.ToByte(redValue.Text), color.G, color.B);
-            //}
-        }
-        private void redSliderValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e) {
+        #region Slider Events
+        private void redSliderValueChanged(object sender, RoutedEventArgs e) {
             if (viewModel.selected != null) {
                 var color = viewModel.selected.color;
                 viewModel.selected.color = Color.FromRgb(Convert.ToByte(redSlider.Value), color.G, color.B);
             }
         }
-        //private void greenValueTextChanged(object sender, TextChangedEventArgs e) {
-        //    if (viewModel.selected != null) {
-        //        var color = viewModel.selected.color;
-        //        viewModel.selected.color = Color.FromRgb(color.R, Convert.ToByte(greenValue.Text), color.B);
-        //    }
-        //}
-        //private void greenSliderValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e) {
-        //    if (viewModel.selected != null) {
-        //        var color = viewModel.selected.color;
-        //        viewModel.selected.color = Color.FromRgb(color.R, Convert.ToByte(greenSlider.Value), color.B);
-        //    }
-        //}
-        //private void blueValueTextChanged(object sender, TextChangedEventArgs e) {
-        //    if (viewModel.selected != null) {
-        //        var color = viewModel.selected.color;
-        //        viewModel.selected.color = Color.FromRgb(color.R, color.G, Convert.ToByte(blueValue.Text));
-        //    }
-        //}
-        //private void blueSliderValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e) {
-        //    if (viewModel.selected != null) {
-        //        var color = viewModel.selected.color;
-        //        viewModel.selected.color = Color.FromRgb(color.R, color.G, Convert.ToByte(blueSlider.Value));
-        //    }
-        //}
+        private void greenSliderValueChanged(object sender, RoutedEventArgs e) {
+            if (viewModel.selected != null) {
+                var color = viewModel.selected.color;
+                viewModel.selected.color = Color.FromRgb(color.R, Convert.ToByte(greenSlider.Value), color.B);
+            }
+        }
+        private void blueSliderValueChanged(object sender, RoutedEventArgs e) {
+            if (viewModel.selected != null) {
+                var color = viewModel.selected.color;
+                var b = Convert.ToByte(blueSlider.Value);
+                viewModel.selected.color = Color.FromRgb(color.R, color.G, Convert.ToByte(blueSlider.Value));
+            }
+        }
+        #endregion
+
+        #region Dialogs
+        private void loadClick(object sender, RoutedEventArgs e) {
+            var dialog = new OpenFileDialog();
+            if (dialog.ShowDialog() == true) {
+                var bitmap = new BitmapImage(new Uri(dialog.FileName));
+                
+            }
+        }
+        private void openClick(object sender, RoutedEventArgs e) {
+            var dialog = new OpenFileDialog();
+            dialog.Filter = "ShapeAnimation file (*.shan)|*.shan";
+            if (dialog.ShowDialog() == true) {
+
+            }
+        }
+        private void saveClick(object sender, RoutedEventArgs e) {
+            var dialog = new SaveFileDialog();
+            dialog.Filter = "ShapeAnimation file (*.shan)|*.shan";
+            if (dialog.ShowDialog() == true) {
+
+            }
+        }
+        #endregion
     }
 }

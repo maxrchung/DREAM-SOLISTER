@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Windows.Media;
 
 namespace ShapeAnimation {
     public class ViewModel : INotifyPropertyChanged {
@@ -25,6 +26,7 @@ namespace ShapeAnimation {
             var rectangle = new SARectangle() {
                 position = new Vector(100, 100),
                 rotation = Angle.fromRadian(1.0f),
+                color = Color.FromRgb(255, 120, 20),
                 scaleVector = new Vector(1, 2)
             };
             shapes.Add(rectangle);

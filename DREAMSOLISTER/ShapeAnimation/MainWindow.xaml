@@ -16,7 +16,7 @@
 
     <Window.CommandBindings>
         <CommandBinding Command="local:Command.deselect" Executed="deselect"/>
-        <CommandBinding Command="local:Command.delete" Executed="delete"/>
+        <CommandBinding Command="local:Command.delete" Executed="delete"/>  
         <CommandBinding Command="local:Command.createRectangle" Executed="createRectangle"/>
         <CommandBinding Command="local:Command.createTriangle" Executed="createTriangle"/>
         <CommandBinding Command="local:Command.createEllipse" Executed="createEllipse"/>
@@ -28,10 +28,10 @@
         <KeyBinding Key="Esc" Command="local:Command.deselect" />
         <KeyBinding Key="Return" Command="local:Command.deselect" />
         <KeyBinding Key="Delete" Command="local:Command.delete" />
-        <KeyBinding Key="D1" Command="local:Command.createRectangle" />
-        <KeyBinding Key="D2" Command="local:Command.createTriangle" />
-        <KeyBinding Key="D3" Command="local:Command.createEllipse" />
-        <KeyBinding Key="D4" Command="local:Command.createSemicircle" />
+        <KeyBinding Key="D1" Modifiers="Ctrl" Command="local:Command.createRectangle" />
+        <KeyBinding Key="D2" Modifiers="Ctrl" Command="local:Command.createTriangle" />
+        <KeyBinding Key="D3" Modifiers="Ctrl" Command="local:Command.createEllipse" />
+        <KeyBinding Key="D4" Modifiers="Ctrl" Command="local:Command.createSemicircle" />
         <KeyBinding Key="V" Modifiers="Ctrl" Command="local:Command.copy" />
     </Window.InputBindings>
 
@@ -41,6 +41,8 @@
 
     <Canvas Background="LightGray" Height="920" Width="1700">
         <Canvas x:Name="shapesCanvas" Background="White" MouseLeftButtonDown="backgroundMouseLeftButtonDown" MouseLeftButtonUp="backgroundMouseLeftButtonUp" Height="900" Width="1440" Canvas.Left="10" Canvas.Top="10">
+            <Image Height="900" Width="900" Visibility="{Binding ElementName=backgroundVisibility, Path=IsChecked, Converter={StaticResource booleanToVisibility}}" Opacity="{Binding ElementName=backgroundOpacity, Path=Value}" />
+
             <Rectangle Width="{Binding selected.size.x}" Height="{Binding selected.size.y}" Fill="Black" Opacity="0.1" RenderTransformOrigin="0.5, 0.5" Visibility="{Binding ElementName=shapesVisibility, Path=IsChecked, Converter={StaticResource booleanToVisibility}}">
                 <Rectangle.RenderTransform>
                     <TransformGroup>
@@ -123,24 +125,24 @@
             </ItemsControl>
         </Canvas>
 
-        <Button Content="Load" Canvas.Left="1455" Canvas.Top="10" Width="75"/>
-        <Button Content="Open" Canvas.Left="1535" Canvas.Top="10" Width="75"/>
-        <Button Content="Save" Canvas.Left="1615" Canvas.Top="10" Width="75"/>
+        <Button x:Name="load" Content="Load" Canvas.Left="1455" Canvas.Top="10" Width="75" Click="loadClick"/>
+        <Button x:Name="open" Content="Open" Canvas.Left="1535" Canvas.Top="10" Width="75" Click="openClick"/>
+        <Button x:Name="save" Content="Save" Canvas.Left="1615" Canvas.Top="10" Width="75" Click="saveClick"/>
 
-        <CheckBox Content="Background" Canvas.Left="1455" Canvas.Top="35" Height="18" IsChecked="True"/>
-        <Slider Canvas.Left="1543" Canvas.Top="35" Width="147" Maximum="1" LargeChange="0.01" SmallChange="0.01" Value="1"/>
+        <CheckBox x:Name="backgroundVisibility" Content="Background" Canvas.Left="1455" Canvas.Top="35" Height="18" IsChecked="True"/>
+        <Slider x:Name="backgroundOpacity"  Canvas.Left="1543" Canvas.Top="35" Width="147" Maximum="1" LargeChange="0.01" SmallChange="0.01" Value="1"/>
         <CheckBox x:Name="shapesVisibility" Content="Shapes" Canvas.Left="1455" Canvas.Top="58" Height="18" IsChecked="True"/>
         <Slider x:Name="shapesOpacity" Canvas.Left="1543" Canvas.Top="58" Width="147" Maximum="1" Value="1" LargeChange="0.01" SmallChange="0.01"/>
 
         <Label Content="R" Canvas.Left="1455" Canvas.Top="83" Padding="0" Height="20"/>
-        <TextBox x:Name="redValue" Height="20" Canvas.Left="1467" TextWrapping="Wrap" Text="0" Canvas.Top="81" Width="26" VerticalContentAlignment="Center" TextChanged="redValueTextChanged"/>
-        <Slider x:Name="redSlider" Canvas.Left="1498" Canvas.Top="81" Height="20" Width="192" Maximum="255" SmallChange="1" ValueChanged="redSliderValueChanged"/>
-        <!--<Label Content="G" Canvas.Left="1455" Canvas.Top="108" Padding="0" Height="20"/>
-        <TextBox x:Name="greenValue" Height="20" Canvas.Left="1467" TextWrapping="Wrap" Text="0" Canvas.Top="106" Width="26" VerticalContentAlignment="Center" TextChanged="greenValueTextChanged"/>
-        <Slider x:Name="greenSlider" Canvas.Left="1498" Canvas.Top="106" Height="20" Width="192" Maximum="255" SmallChange="1" ValueChanged="greenSliderValueChanged"/>
+        <Label Content="{Binding selected.color.R}" Canvas.Left="1467" Canvas.Top="83" Padding="0" Height="20" Width="26"/>
+        <Slider x:Name="redSlider" Canvas.Left="1498" Canvas.Top="81" Height="20" Width="192" Maximum="255" Minimum="0" SmallChange="1" ValueChanged="redSliderValueChanged" />
+        <Label Content="G" Canvas.Left="1455" Canvas.Top="108" Padding="0" Height="20"/>
+        <Label Content="{Binding selected.color.G}" Canvas.Left="1468" Canvas.Top="108" Padding="0" Height="20" Width="25"/>
+        <Slider x:Name="greenSlider" Canvas.Left="1498" Canvas.Top="106" Height="20" Width="192" Maximum="255" Minimum="0" SmallChange="1" ValueChanged="greenSliderValueChanged" />
         <Label Content="B" Canvas.Left="1455" Canvas.Top="133" Padding="0" Height="20"/>
-        <TextBox x:Name="blueValue" Height="20" Canvas.Left="1467" TextWrapping="Wrap" Text="0" Canvas.Top="131" Width="26" VerticalContentAlignment="Center" TextChanged="blueValueTextChanged"/>
-        <Slider x:Name="blueSlider" Canvas.Left="1498" Canvas.Top="131" Height="20" Width="192" ValueChanged="blueSliderValueChanged" Maximum="255" SmallChange="1"/>-->
+        <Label Content="{Binding selected.color.B}" Canvas.Left="1467" Canvas.Top="133" Padding="0" Height="20" Width="25"/>
+        <Slider x:Name="blueSlider" Canvas.Left="1498" Canvas.Top="131" Height="20" Width="192" ValueChanged="blueSliderValueChanged" Maximum="255" Minimum="0" SmallChange="1" />
 
         <ListView Height="752" Canvas.Left="1455" Canvas.Top="158" Width="235" ItemsSource="{Binding shapes}" SelectedItem="{Binding selected}"
     IsSynchronizedWithCurrentItem="True">
