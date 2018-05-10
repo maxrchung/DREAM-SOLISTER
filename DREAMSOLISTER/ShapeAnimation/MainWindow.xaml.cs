@@ -1,6 +1,9 @@
 ﻿using Microsoft.Win32;
 using System;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO;
+using System.Runtime.Serialization.Json;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -191,23 +194,40 @@ namespace ShapeAnimation {
         #region Dialogs
         private void loadClick(object sender, RoutedEventArgs e) {
             var dialog = new OpenFileDialog();
+            dialog.Filter = "Image Files (*.png, *.jpg, *.jpeg, *.gif, *.bmp)|*.png;*.jpg;*.jpeg;*.gif;*.bmp|All Files (*.*)|*.*";
             if (dialog.ShowDialog() == true) {
-                var bitmap = new BitmapImage(new Uri(dialog.FileName));
-                
+                try {
+                    var bitmap = new BitmapImage(new Uri(dialog.FileName));
+                    image.Source = bitmap;
+                }
+                catch (Exception exception) {
+                    Debug.WriteLine(exception.ToString());
+                }
             }
         }
         private void openClick(object sender, RoutedEventArgs e) {
             var dialog = new OpenFileDialog();
             dialog.Filter = "ShapeAnimation file (*.shan)|*.shan";
             if (dialog.ShowDialog() == true) {
-
+                try {
+                }
+                catch (Exception exception) {
+                    Debug.WriteLine(exception.ToString());
+                }
             }
         }
         private void saveClick(object sender, RoutedEventArgs e) {
             var dialog = new SaveFileDialog();
             dialog.Filter = "ShapeAnimation file (*.shan)|*.shan";
             if (dialog.ShowDialog() == true) {
-
+                try {
+                    var file = new FileStream(dialog.FileName, FileMode.Create);
+                    var serializer = new DataContractJsonSerializer(typeof(ObservableCollection<SAShape>));
+                    serializer.WriteObject(file, viewModel.shapes);
+                }
+                catch (Exception exception) {
+                    Debug.WriteLine(exception.ToString());
+                }
             }
         }
         #endregion

@@ -1,7 +1,9 @@
-﻿using System.Windows.Media;
-using System.Windows;
+﻿using System.Windows;
+using System.Windows.Media;
+using System.Runtime.Serialization;
 
 namespace ShapeAnimation {
+    [DataContract]
     class SASemicircle : SAShape {
         public Rect clip {
             get {

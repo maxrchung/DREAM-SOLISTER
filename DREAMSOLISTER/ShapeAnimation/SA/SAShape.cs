@@ -1,10 +1,16 @@
-﻿using System.Windows.Media;
-using System.Windows;
+﻿using System;
 using System.Collections.Generic;
-using System;
 using System.ComponentModel;
+using System.Runtime.Serialization;
+using System.Windows;
+using System.Windows.Media;
 
 namespace ShapeAnimation {
+    [DataContract]
+    [KnownType(typeof(SAEllipse))]
+    [KnownType(typeof(SARectangle))]
+    [KnownType(typeof(SASemicircle))]
+    [KnownType(typeof(SATriangle))]
     public abstract class SAShape : INotifyPropertyChanged {
         public event PropertyChangedEventHandler PropertyChanged;
         protected void NotifyPropertyChanged(string name) {
@@ -17,6 +23,7 @@ namespace ShapeAnimation {
 
         public float fade { get; set; }
 
+        [DataMember]
         private Color _color;
         public Color color {
             get {

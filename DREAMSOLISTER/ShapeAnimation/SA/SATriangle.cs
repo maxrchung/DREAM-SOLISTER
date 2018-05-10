@@ -1,6 +1,8 @@
-﻿using System.Windows.Media;
+﻿using System.Runtime.Serialization;
+using System.Windows.Media;
 
 namespace ShapeAnimation {
+    [DataContract]
     class SATriangle : SAShape {
         public PointCollection points {
             get {

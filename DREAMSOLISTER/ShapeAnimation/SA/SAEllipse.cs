@@ -1,6 +1,8 @@
-﻿using System.Windows.Media;
+﻿using System.Runtime.Serialization;
+using System.Windows.Media;
 
 namespace ShapeAnimation {
+    [DataContract]
     class SAEllipse : SAShape {
         public SAEllipse(Vector position, Angle rotation, Vector scaleVector, float fade, Color color)
             : base(position, rotation, scaleVector, fade, color) {

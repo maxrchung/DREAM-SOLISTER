@@ -39,18 +39,10 @@
         <BooleanToVisibilityConverter x:Key="booleanToVisibility" />
     </Window.Resources>
 
-    <Canvas Background="LightGray" Height="920" Width="1700">
-        <Canvas x:Name="shapesCanvas" Background="White" MouseLeftButtonDown="backgroundMouseLeftButtonDown" MouseLeftButtonUp="backgroundMouseLeftButtonUp" Height="900" Width="1440" Canvas.Left="10" Canvas.Top="10">
-            <Image Height="900" Width="900" Visibility="{Binding ElementName=backgroundVisibility, Path=IsChecked, Converter={StaticResource booleanToVisibility}}" Opacity="{Binding ElementName=backgroundOpacity, Path=Value}" />
-
-            <Rectangle Width="{Binding selected.size.x}" Height="{Binding selected.size.y}" Fill="Black" Opacity="0.1" RenderTransformOrigin="0.5, 0.5" Visibility="{Binding ElementName=shapesVisibility, Path=IsChecked, Converter={StaticResource booleanToVisibility}}">
-                <Rectangle.RenderTransform>
-                    <TransformGroup>
-                        <RotateTransform Angle="{Binding selected.rotation.degree}" />
-                        <TranslateTransform X="{Binding selected.translation.x}" Y="{Binding selected.translation.y}" />
-                    </TransformGroup>
-                </Rectangle.RenderTransform>
-            </Rectangle>
+    <Canvas Background="White" Height="920" Width="1700">
+        <Canvas x:Name="shapesCanvas" Background="DarkGray" MouseLeftButtonDown="backgroundMouseLeftButtonDown" MouseLeftButtonUp="backgroundMouseLeftButtonUp" Height="900" Width="1440" Canvas.Left="10" Canvas.Top="10">
+            <Canvas Background="Gray" Height="900" Width="900" />
+            <Image x:Name="image" Height="900" Width="900" Visibility="{Binding ElementName=backgroundVisibility, Path=IsChecked, Converter={StaticResource booleanToVisibility}}" Opacity="{Binding ElementName=backgroundOpacity, Path=Value}" />
 
             <ItemsControl ItemsSource="{Binding shapes}" x:Name="shapesItems" Visibility="{Binding ElementName=shapesVisibility, Path=IsChecked, Converter={StaticResource booleanToVisibility}}" Opacity="{Binding ElementName=shapesOpacity, Path=Value}">
                 <ItemsControl.Resources>
