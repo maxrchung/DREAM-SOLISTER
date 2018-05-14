@@ -1,7 +1,7 @@
 #include "LinePoints.hpp"
 
-LinePoints::LinePoints(const std::string& path) {
-	if (path == "A") {
+LinePoints::LinePoints(const std::string& ID) {
+	if (ID == "A") {
 		lines = std::vector<float>({
 			-1,-1,	-1,1,
 			-1,1,	1,1,
@@ -15,7 +15,7 @@ LinePoints::LinePoints(const std::string& path) {
 			1,-1
 		});
 	}
-	else if (path == "B") {
+	else if (ID == "B") {
 		lines = std::vector<float>({
 			-1,1,	-1,-1,
 			-1,1,	0,1,
@@ -35,7 +35,7 @@ LinePoints::LinePoints(const std::string& path) {
 			0,-1,
 		});
 	}
-	else if (path == "C") {
+	else if (ID == "C") {
 		lines = std::vector<float>({
 			1,1,	-1,1,
 			-1,1,	-1,-1,
@@ -48,7 +48,7 @@ LinePoints::LinePoints(const std::string& path) {
 			1,-1
 		});
 	}
-	else if (path == "D") {
+	else if (ID == "D") {
 		lines = std::vector<float>({
 			-1,1,	-1,-1,
 			-1,1,	0,1,
@@ -64,7 +64,7 @@ LinePoints::LinePoints(const std::string& path) {
 			-1,-1
 		});
 	}
-	else if (path == "E") {
+	else if (ID == "E") {
 		lines = std::vector<float>({
 			-1,1,	-1,-1,
 			-1,1,	1,1,
@@ -79,7 +79,7 @@ LinePoints::LinePoints(const std::string& path) {
 			1,-1
 		});
 	}
-	else if (path == "F") {
+	else if (ID == "F") {
 		lines = std::vector<float>({
 			-1,1,	1,1,
 			-1,1,	-1,-1,
@@ -92,7 +92,7 @@ LinePoints::LinePoints(const std::string& path) {
 			1,0
 		});
 	}
-	else if (path == "G") {
+	else if (ID == "G") {
 		lines = std::vector<float>({
 			1,1,	-1,1,
 			-1,1,	-1,-1,
@@ -109,7 +109,7 @@ LinePoints::LinePoints(const std::string& path) {
 			0,0
 		});
 	}
-	else if (path == "H") {
+	else if (ID == "H") {
 		lines = std::vector<float>({
 			-1,1,	-1,-1,
 			-1,0,	1,0,
@@ -122,7 +122,7 @@ LinePoints::LinePoints(const std::string& path) {
 			1,-1
 		});
 	}
-	else if (path == "I") {
+	else if (ID == "I") {
 		lines = std::vector<float>({
 			-1,1,	1,1,
 			0,1,	0,-1,
@@ -135,7 +135,7 @@ LinePoints::LinePoints(const std::string& path) {
 			1,-1
 		});
 	}
-	else if (path == "K") {
+	else if (ID == "K") {
 		lines = std::vector<float>({
 			-1,1,	-1,-1,
 			1,1,	-1,0,
@@ -148,7 +148,7 @@ LinePoints::LinePoints(const std::string& path) {
 			1,-1
 		});
 	}
-	else if (path == "M") {
+	else if (ID == "M") {
 		lines = std::vector<float>({
 			-1,1,	-1,-1,
 			-1,1,	0,0,
@@ -163,7 +163,7 @@ LinePoints::LinePoints(const std::string& path) {
 			1,-1
 		});
 	}
-	else if (path == "N") {
+	else if (ID == "N") {
 		lines = std::vector<float>({
 			-1,1,	-1,-1,
 			-1,1,	1,-1,
@@ -176,7 +176,7 @@ LinePoints::LinePoints(const std::string& path) {
 			1,-1
 		});
 	}
-	else if (path == "O") {
+	else if (ID == "O") {
 		lines = std::vector<float>({
 			-1,1,	-1,-1,
 			-1,-1,	1,-1,
@@ -190,7 +190,7 @@ LinePoints::LinePoints(const std::string& path) {
 			1,1
 		});
 	}
-	else if (path == "R") {
+	else if (ID == "R") {
 		lines = std::vector<float>({
 			-1,1,	-1,-1,
 			-1,1,	1,1,
@@ -206,7 +206,7 @@ LinePoints::LinePoints(const std::string& path) {
 			1,-1
 		});
 	}
-	else if (path == "S") {
+	else if (ID == "S") {
 		lines = std::vector<float>({
 			1,1,	-1,1,
 			-1,1,	-1,0,
@@ -223,7 +223,7 @@ LinePoints::LinePoints(const std::string& path) {
 			-1,-1
 		});
 	}
-	else if (path == "T") {
+	else if (ID == "T") {
 		lines = std::vector<float>({
 			-1,1,	1,1,
 			0,1,	0,-1
@@ -234,7 +234,7 @@ LinePoints::LinePoints(const std::string& path) {
 			0,-1
 		});
 	}
-	else if (path == "U") {
+	else if (ID == "U") {
 		lines = std::vector<float>({
 			-1,1,	-1,-1,
 			-1,-1,	1,-1,
@@ -247,7 +247,7 @@ LinePoints::LinePoints(const std::string& path) {
 			1,1
 		});
 	}
-	else if (path == "V") {
+	else if (ID == "V") {
 		lines = std::vector<float>({
 			-1,1,	0,-1,
 			0,-1,	1,1
@@ -258,7 +258,7 @@ LinePoints::LinePoints(const std::string& path) {
 			1,1
 		});
 	}
-	else if (path == "W") {
+	else if (ID == "W") {
 		lines = std::vector<float>({
 			-1,1,	-1,-1,
 			-1,-1,	0,0,
@@ -273,7 +273,7 @@ LinePoints::LinePoints(const std::string& path) {
 			1,1
 		});
 	}
-	else if (path == "X") {
+	else if (ID == "X") {
 		lines = std::vector<float>({
 			-1,1,	1,-1,
 			1,1,	-1,-1
@@ -285,7 +285,7 @@ LinePoints::LinePoints(const std::string& path) {
 			-1,-1
 		});
 	}
-	else if (path == "Y") {
+	else if (ID == "Y") {
 		lines = std::vector<float>({
 			-1,1,	0,0,
 			1,1,	0,0,
@@ -297,7 +297,7 @@ LinePoints::LinePoints(const std::string& path) {
 			0,-1
 		});
 	}
-	else if (path == "2") {
+	else if (ID == "2") {
 		lines = std::vector<float>({
 			-1,1,	1,1,
 			1,1,	1,0,
@@ -314,7 +314,7 @@ LinePoints::LinePoints(const std::string& path) {
 			1,-1
 		});
 	}
-	else if (path == "!!!") {
+	else if (ID == "!!!") {
 		lines = std::vector<float>({
 			-1,1,	-1,0,
 			0,1,	0,0,
@@ -332,7 +332,7 @@ LinePoints::LinePoints(const std::string& path) {
 			1,-1
 		});
 	}
-	else if (path == "flat") {
+	else if (ID == "flat") {
 		lines = std::vector<float>({
 			-0.25f,1.15f,	-0.25f,-0.4f,
 			-0.25f,0.25f,	0,0.4f,
@@ -340,7 +340,7 @@ LinePoints::LinePoints(const std::string& path) {
 			0.2f,0,	-0.25f,-0.4f
 		}); 
 	}
-	else if (path == "neutral") {
+	else if (ID == "neutral") {
 		lines = std::vector<float>({
 			-0.2f,0.8f,	-0.2f,-0.5f,
 			-0.2f,-0.5f,	0.2f,-0.3f,

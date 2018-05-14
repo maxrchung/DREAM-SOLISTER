@@ -20,8 +20,15 @@ SpriteGroup::SpriteGroup(const std::string& ID, const int pImageWidth, const int
 	color{ pColor }, 
 	offset{ pOffset },
 	startFade{ pStart - pOffset } {
+	const auto shapes = ShapeAnimation(ID);
+	if (!shapes.isEmpty()) {
+		makeShapes(shapes);
+		return;
+	}
+
 	const auto linePoints = LinePoints(ID);
 	if (linePoints.isEmpty()) {
+		// Specially handle music note
 		if (ID == "MusicNote") {
 			makeMusicNote();
 		}

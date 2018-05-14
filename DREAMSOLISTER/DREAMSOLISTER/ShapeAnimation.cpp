@@ -1,25 +1,42 @@
 #include "ShapeAnimation.hpp"
 
-std::unordered_map<std::string, std::vector<ShapeConfiguration>> ShapeAnimation::cache;
+std::unordered_map<std::string, std::vector<Shape>> ShapeAnimation::cache;
 const std::string& ShapeAnimation::extension = ".shan";
 
-std::vector<ShapeConfiguration> ShapeAnimation::get(const std::string& identifier) {
-	if (cache.find(identifier) != cache.end()) {
-		return cache[identifier];
+ShapeAnimation::ShapeAnimation(const std::string& ID) 
+	: shapes{ getShapes(ID) } {}
+
+bool ShapeAnimation::isEmpty() const {
+	return shapes.empty();
+}
+
+std::vector<Shape> ShapeAnimation::getShapes(const std::string& ID) {
+	// Load if not in cache
+	if (cache.find(ID) == cache.end()) {
+		return loadShapes(ID);
 	}
 	else {
-		return loadShapeConfigurations(identifier);
+		return cache[ID];
 	}
 }
 
-std::vector<ShapeConfiguration> ShapeAnimation::loadShapeConfigurations(const std::string& identifier) {
-	const auto path = identifier + extension;
+std::vector<Shape> ShapeAnimation::loadShapes(const std::string& ID) {
+	const auto path = ID + extension;
 	const auto data = loadJSON(path);
-	const auto JSON = nlohmann::json::parse(data);
-	std::vector<ShapeConfiguration> shapeConfigurations;
-	shapeConfigurations.reserve(JSON.size());
-	for (const auto& shape : JSON) {
-		const auto __type = shape["__type"].get<std::string>();
+
+	std::vector<Shape> shapes;
+	nlohmann::json JSON;
+	try {
+		JSON = nlohmann::json::parse(data);
+	}
+	// Return empty if JSON failed to parse
+	catch (const std::exception& e) {
+		return shapes;
+	}
+
+	shapes.reserve(JSON.size());
+	for (const auto& SAShape : JSON) {
+		const auto __type = SAShape["__type"].get<std::string>();
 		ShapeType type;
 		if (__type == "SAEllipse:#ShapeAnimation") {
 			type = ShapeType::Ellipse;
@@ -34,29 +51,31 @@ std::vector<ShapeConfiguration> ShapeAnimation::loadShapeConfigurations(const st
 			type = ShapeType::Triangle;
 		}
 
-		const auto _position = shape["_position"];
+		const auto _position = SAShape["_position"];
 		const auto position = Vector2(_position["x"].get<float>(), _position["y"].get<float>());
 
-		const auto rotation = shape["_rotation"]["radian"].get<float>();
+		const auto rotation = SAShape["_rotation"]["radian"].get<float>();
 
-		const auto _scaleVector = shape["_scaleVector"];
+		const auto _scaleVector = SAShape["_scaleVector"];
 		const auto scaleVector = Vector2(_scaleVector["x"].get<float>(), _scaleVector["y"].get<float>());
 
-		const auto shapeConfiguration = ShapeConfiguration(type, position, rotation, scaleVector);
-		shapeConfigurations.push_back(shapeConfiguration);
+		const auto shape = Shape(type, position, rotation, scaleVector);
+		shapes.push_back(shape);
 	}
-	cache[identifier] = shapeConfigurations;
-	return shapeConfigurations;
+	cache[ID] = shapes;
+	return shapes;
 }
 
 std::string ShapeAnimation::loadJSON(const std::string& path) {
 	// Hmm http://insanecoding.blogspot.com/2011/11/how-to-read-in-file-in-c.html
 	auto in = std::ifstream(path, std::ifstream::binary);
 	std::string data;
-	in.seekg(0, std::ifstream::end);
-	data.resize(in.tellg());
-	in.seekg(0, std::ifstream::beg);
-	in.read(&data[0], data.size());
+	if (in) {
+		in.seekg(0, std::ifstream::end);
+		data.resize(in.tellg());
+		in.seekg(0, std::ifstream::beg);
+		in.read(&data[0], data.size());
+	}
 	return data;
 }
 

@@ -2,6 +2,7 @@
 #include "CameraValues.hpp"
 #include "LinePoints.hpp"
 #include "OsuukiSB/Sprite.hpp"
+#include "ShapeAnimation.hpp"
 #include "S2VX/SpriteMoveCommand.hpp"
 class SpriteGroup {
 public:
@@ -11,6 +12,7 @@ public:
 	std::vector<Sprite*> sprites;
 	Vector2 center;
 private:
+	void makeShapes(const ShapeAnimation& shapes);
 	void makeLinePoints(const LinePoints& linePoints);
 	void makeMusicNote();
 	void makeLine(const float x1, const float y1, const float x2, const float y2, const float scaleHeight);
