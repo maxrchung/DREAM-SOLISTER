@@ -8,7 +8,7 @@ const float SpriteGroup::noteLineScale = 0.7f;
 const std::vector<float> SpriteGroup::notePoint = std::vector<float>({ 0.0f,-0.5f });
 const Vector2 SpriteGroup::notePointScale = Vector2(5.1f, 4.0f);
 
-SpriteGroup::SpriteGroup(const std::string& path, const int pImageWidth, const int pStart, const int pEnd, const Vector2& pCenter, const float pRotation, const float pScale, const Color pColor, const int pOffset)
+SpriteGroup::SpriteGroup(const std::string& ID, const int pImageWidth, const int pStart, const int pEnd, const Vector2& pCenter, const float pRotation, const float pScale, const Color pColor, const int pOffset)
 	: imageWidth{ pImageWidth }, 
 	start{ pStart }, 
 	end{ pEnd }, 
@@ -20,13 +20,13 @@ SpriteGroup::SpriteGroup(const std::string& path, const int pImageWidth, const i
 	color{ pColor }, 
 	offset{ pOffset },
 	startFade{ pStart - pOffset } {
-	const auto linePoints = LinePoints(path);
+	const auto linePoints = LinePoints(ID);
 	if (linePoints.isEmpty()) {
-		if (path == "MusicNote") {
+		if (ID == "MusicNote") {
 			makeMusicNote();
 		}
 		else {
-			sprites = { new Sprite(path, center) };
+			sprites = { new Sprite(ID, center) };
 		}
 	}
 	else {

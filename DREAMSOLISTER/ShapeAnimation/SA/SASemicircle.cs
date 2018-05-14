@@ -18,8 +18,8 @@ namespace ShapeAnimation {
             }
         }
 
-        public SASemicircle(Vector position, Angle rotation, Vector scaleVector, float fade, Color color)
-            : base(position, rotation, scaleVector, fade, color) {
+        public SASemicircle(Vector position, Angle rotation, Vector scaleVector, Color color)
+            : base(position, rotation, scaleVector, color) {
             type = SAShapeType.Semicircle;
         }
 
@@ -29,7 +29,7 @@ namespace ShapeAnimation {
         }
 
         public override SAShape copy() {
-            return new SASemicircle(position, rotation, scaleVector, fade, color);
+            return new SASemicircle(position, rotation, scaleVector, color);
         }
     }
 }

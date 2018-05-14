@@ -17,6 +17,8 @@ namespace ShapeAnimation {
         #region Variables
         private ViewModel viewModel;
 
+        private DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(ObservableCollection<SAShape>));
+
         private TimeSpan timerInterval = TimeSpan.FromMilliseconds(15);
         private DispatcherTimer moveTimer = new DispatcherTimer(DispatcherPriority.Render);
         private Vector moveOffset;
@@ -210,6 +212,9 @@ namespace ShapeAnimation {
             dialog.Filter = "ShapeAnimation file (*.shan)|*.shan";
             if (dialog.ShowDialog() == true) {
                 try {
+                    var file = new FileStream(dialog.FileName, FileMode.Open);
+                    viewModel.shapes = (ObservableCollection<SAShape>)serializer.ReadObject(file);
+                    viewModel.selected = null;
                 }
                 catch (Exception exception) {
                     Debug.WriteLine(exception.ToString());
@@ -222,7 +227,6 @@ namespace ShapeAnimation {
             if (dialog.ShowDialog() == true) {
                 try {
                     var file = new FileStream(dialog.FileName, FileMode.Create);
-                    var serializer = new DataContractJsonSerializer(typeof(ObservableCollection<SAShape>));
                     serializer.WriteObject(file, viewModel.shapes);
                 }
                 catch (Exception exception) {

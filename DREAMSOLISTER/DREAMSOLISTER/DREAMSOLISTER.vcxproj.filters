@@ -19,6 +19,9 @@
     <Filter Include="Resource Files\MusicSheet">
       <UniqueIdentifier>{002f5c7b-389c-460e-b26f-7f85bd378c8c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\ShapeAnimation">
+      <UniqueIdentifier>{310d9eaa-da20-46c2-a7e2-b13993ad4e66}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DREAMSOLISTER.cpp">
@@ -31,6 +34,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="LinePoints.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ShapeAnimation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -54,6 +60,18 @@
     </ClInclude>
     <ClInclude Include="LinePoints.hpp">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="json.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ShapeAnimation.hpp">
+      <Filter>Header Files\ShapeAnimation</Filter>
+    </ClInclude>
+    <ClInclude Include="ShapeType.hpp">
+      <Filter>Header Files\ShapeAnimation</Filter>
+    </ClInclude>
+    <ClInclude Include="ShapeConfiguration.hpp">
+      <Filter>Header Files\ShapeAnimation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

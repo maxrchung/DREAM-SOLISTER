@@ -16,8 +16,8 @@ namespace ShapeAnimation {
             }
         }
 
-        public SATriangle(Vector position, Angle rotation, Vector scaleVector, float fade, Color color)
-            : base(position, rotation, scaleVector, fade, color) {
+        public SATriangle(Vector position, Angle rotation, Vector scaleVector, Color color)
+            : base(position, rotation, scaleVector, color) {
             type = SAShapeType.Triangle;
         }
 
@@ -27,7 +27,7 @@ namespace ShapeAnimation {
         }
 
         public override SAShape copy() {
-            return new SATriangle(position, rotation, scaleVector, fade, color);
+            return new SATriangle(position, rotation, scaleVector, color);
         }
     }
 }

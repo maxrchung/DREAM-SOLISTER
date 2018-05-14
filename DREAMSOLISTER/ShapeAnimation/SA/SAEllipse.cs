@@ -4,8 +4,8 @@ using System.Windows.Media;
 namespace ShapeAnimation {
     [DataContract]
     class SAEllipse : SAShape {
-        public SAEllipse(Vector position, Angle rotation, Vector scaleVector, float fade, Color color)
-            : base(position, rotation, scaleVector, fade, color) {
+        public SAEllipse(Vector position, Angle rotation, Vector scaleVector, Color color)
+            : base(position, rotation, scaleVector, color) {
             type = SAShapeType.Ellipse;
         }
 
@@ -15,7 +15,7 @@ namespace ShapeAnimation {
         }
 
         public override SAShape copy() {
-            return new SAEllipse(position, rotation, scaleVector, fade, color);
+            return new SAEllipse(position, rotation, scaleVector, color);
         }
     }
 }

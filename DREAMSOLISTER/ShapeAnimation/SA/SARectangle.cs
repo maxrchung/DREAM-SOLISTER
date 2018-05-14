@@ -17,8 +17,8 @@ namespace ShapeAnimation {
             }
         }
 
-        public SARectangle(Vector position, Angle rotation, Vector scaleVector, float fade, Color color)
-            : base(position, rotation, scaleVector, fade, color) {
+        public SARectangle(Vector position, Angle rotation, Vector scaleVector, Color color)
+            : base(position, rotation, scaleVector, color) {
             type = SAShapeType.Rectangle;
         }
 
@@ -28,7 +28,7 @@ namespace ShapeAnimation {
         }
 
         public override SAShape copy() {
-            return new SARectangle(position, rotation, scaleVector, fade, color);
+            return new SARectangle(position, rotation, scaleVector, color);
         }
     }
 }

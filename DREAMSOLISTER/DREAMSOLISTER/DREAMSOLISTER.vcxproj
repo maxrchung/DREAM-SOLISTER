@@ -126,6 +126,7 @@
     <None Include="musicSheet.chai">
       <FileType>Document</FileType>
     </None>
+    <ClCompile Include="ShapeAnimation.cpp" />
     <ClCompile Include="SpriteGroup.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -142,8 +143,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CameraValues.hpp" />
+    <ClInclude Include="ShapeType.hpp" />
+    <ClInclude Include="json.hpp" />
     <ClInclude Include="LinePoints.hpp" />
     <ClInclude Include="MusicSheet.hpp" />
+    <ClInclude Include="ShapeAnimation.hpp" />
+    <ClInclude Include="ShapeConfiguration.hpp" />
     <ClInclude Include="SpriteBinding.hpp" />
     <ClInclude Include="SpriteGroup.hpp" />
   </ItemGroup>

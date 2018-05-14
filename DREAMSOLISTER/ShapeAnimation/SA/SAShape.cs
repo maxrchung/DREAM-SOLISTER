@@ -19,9 +19,8 @@ namespace ShapeAnimation {
 
         public const float fixedSize = 100.0f;
 
+        [DataMember]
         public SAShapeType type { get; set; }
-
-        public float fade { get; set; }
 
         [DataMember]
         private Color _color;
@@ -41,6 +40,7 @@ namespace ShapeAnimation {
             }
         }
 
+        [DataMember]
         private Vector _position;
         public Vector position {
             get {
@@ -55,6 +55,7 @@ namespace ShapeAnimation {
                 NotifyPropertyChanged("scaleCorners");
             }
         }
+        [DataMember]
         private Angle _rotation;
         public Angle rotation {
             get {
@@ -69,6 +70,7 @@ namespace ShapeAnimation {
                 NotifyPropertyChanged("scaleCorners");
             }
         }
+        [DataMember]
         private Vector _scaleVector;
         public Vector scaleVector {
             get {
@@ -127,11 +129,10 @@ namespace ShapeAnimation {
             }
         }
 
-        public SAShape(Vector pPosition, Angle pRotation, Vector pScaleVector, float pFade, Color pColor) {
+        public SAShape(Vector pPosition, Angle pRotation, Vector pScaleVector, Color pColor) {
             position = pPosition;
             rotation = pRotation;
             scaleVector = pScaleVector;
-            fade = pFade;
             color = pColor;
         }
 
@@ -139,7 +140,6 @@ namespace ShapeAnimation {
             position = new Vector();
             rotation = Angle.fromDefault();
             scaleVector = new Vector(1.0f);
-            fade = 1.0f;
             color = Colors.Black;
         }
 

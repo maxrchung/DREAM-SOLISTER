@@ -1,6 +1,7 @@
 #include "CameraValues.hpp"
 #include "MusicSheet.hpp"
 #include "SpriteBinding.hpp"
+#include "ShapeAnimation.hpp"
 #include "S2VX/BackColorCommand.hpp"
 #include "S2VX/CameraCommand.hpp"
 #include "S2VX/CameraMoveCommand.hpp"
@@ -404,7 +405,7 @@ std::vector<SpriteBinding> createSpriteBindings(const std::vector<std::unique_pt
 	auto spriteBindings = std::vector<SpriteBinding>(S2VXSprites.size());
 	for (auto i = 0; i < spriteBindings.size(); ++i) {
 		const auto sprite = S2VXSprites[i].get();
-		const auto path = sprite->getTexture().getPath();
+		const auto ID = sprite->getTexture().getPath();
 		const auto cameraValues = getCameraValuesAtMilliseconds(camera, sprite->getStart());
 		const auto scale = cameraValues.scale / imageWidth;
 		const auto move = getFirstS2VXMoveCommand(sprite->getCommands());
@@ -416,7 +417,7 @@ std::vector<SpriteBinding> createSpriteBindings(const std::vector<std::unique_pt
 		}
 		const auto color = getFirstS2VXColorCommand(sprite->getCommands());
 		const auto convertColor = convertS2VXColorToOsuukiSBColor(color->getStartColor());
-		const auto spriteGroup = SpriteGroup(path, imageWidth, move->getStart(), move->getEnd(), center, rotation, scale, convertColor, quarter * 2);
+		const auto spriteGroup = SpriteGroup(ID, imageWidth, move->getStart(), move->getEnd(), center, rotation, scale, convertColor, quarter * 2);
 		spriteBindings[i] = SpriteBinding{ S2VXSprites[i].get(), spriteGroup };
 	}
 	return spriteBindings;
@@ -585,14 +586,16 @@ int main() {
 		// For testing
 		bg->ScaleVector(0, 300000, Vector2::ScreenSize, Vector2::ScreenSize);
 
-		processScript("lyricSpin.chai", bg);
-		processScript("lyricSprite.chai", bg);
-		processScript("swing.chai", bg);
-		processScript("musicSheet.chai", bg);
+		auto shapeAnimation = ShapeAnimation::getConfiguration("test");
 
-		MusicSheet("voice.MusicSheet", 122, imageWidth, Color(0, 169, 195), "lyric.MusicSheet", false);
-		MusicSheet("wind.MusicSheet", 0, imageWidth, Color(247, 255, 8), "", true);
-		MusicSheet("drum.MusicSheet", -140, imageWidth, Color(255, 209, 219), "", false);
+		//processScript("lyricSpin.chai", bg);
+		//processScript("lyricSprite.chai", bg);
+		//processScript("swing.chai", bg);
+		//processScript("musicSheet.chai", bg);
+
+		//MusicSheet("voice.MusicSheet", 122, imageWidth, Color(0, 169, 195), "lyric.MusicSheet", false);
+		//MusicSheet("wind.MusicSheet", 0, imageWidth, Color(247, 255, 8), "", true);
+		//MusicSheet("drum.MusicSheet", -140, imageWidth, Color(255, 209, 219), "", false);
 
 		//setDotBackground();
 
