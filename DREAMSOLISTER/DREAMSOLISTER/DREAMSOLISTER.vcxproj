@@ -148,7 +148,7 @@
     <ClInclude Include="LinePoints.hpp" />
     <ClInclude Include="MusicSheet.hpp" />
     <ClInclude Include="ShapeAnimation.hpp" />
-    <ClInclude Include="ShapeConfiguration.hpp" />
+    <ClInclude Include="Shape.hpp" />
     <ClInclude Include="SpriteBinding.hpp" />
     <ClInclude Include="SpriteGroup.hpp" />
   </ItemGroup>

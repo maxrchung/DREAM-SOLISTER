@@ -70,7 +70,7 @@
     <ClInclude Include="ShapeType.hpp">
       <Filter>Header Files\ShapeAnimation</Filter>
     </ClInclude>
-    <ClInclude Include="ShapeConfiguration.hpp">
+    <ClInclude Include="Shape.hpp">
       <Filter>Header Files\ShapeAnimation</Filter>
     </ClInclude>
   </ItemGroup>
