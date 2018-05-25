@@ -1,6 +1,6 @@
 #pragma once
 
-#include "OsuukiSB/Vector2.hpp"
+#include "S2RYBRUH/Vector2.hpp"
 #include "ShapeType.hpp"
 
 struct Shape {

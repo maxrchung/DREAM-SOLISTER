@@ -3,7 +3,7 @@
 #include "S2VX/Sprite.hpp"
 #include "S2VX/Texture.hpp"
 #include "S2VX/SpriteMoveCommand.hpp"
-#include "OsuukiSB/Sprite.hpp"
+#include "S2RYBRUH/Sprite.hpp"
 
 struct SpriteBinding {
 	SpriteBinding() {}

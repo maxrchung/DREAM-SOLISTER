@@ -1,4 +1,5 @@
 #include "SpriteGroup.hpp"
+#include "S2RYBRUH/Storyboard.hpp"
 #include <algorithm>
 
 const float SpriteGroup::circleScale = 2.0f;
@@ -33,7 +34,7 @@ SpriteGroup::SpriteGroup(const std::string& ID, const int pImageWidth, const int
 			makeMusicNote();
 		}
 		else {
-			sprites = { new Sprite(ID, center) };
+			sprites = { Storyboard::CreateSprite(ID, center) };
 		}
 	}
 	else {
@@ -60,6 +61,10 @@ void SpriteGroup::destroy() {
 	}
 }
 
+void SpriteGroup::makeShapes(const ShapeAnimation& shapes) {
+}
+
+
 void SpriteGroup::makeLine(const float x1, const float y1, const float x2, const float y2, const float scaleHeight) {
 	const auto startPoint = center + Vector2(x1, y1).Rotate(rotation);
 	const auto endPoint = center + Vector2(x2, y2).Rotate(rotation);
@@ -72,7 +77,7 @@ void SpriteGroup::makeLine(const float x1, const float y1, const float x2, const
 	const auto direction = rand() % 360;
 	const auto startPosition = midPoint + Vector2(scale * overallScale * imageWidth, 0.0f).Rotate(direction * 3.14159f / 180.0f);
 
-	auto const sprite = new Sprite("square", midPoint);
+	auto const sprite = Storyboard::CreateSprite("square", midPoint);
 	sprite->Color(startFade, startFade, color, color);
 	sprite->Fade(startFade, start, 0, 1.0f, Easing::EasingIn);
 	sprite->Move(startFade, start, startPosition, midPoint, Easing::EasingIn);
@@ -87,7 +92,7 @@ void SpriteGroup::makePoint(const float x, const float y, const float pointWidth
 	const auto direction = rand() % 360;
 	const auto startPosition = position + Vector2(scale * overallScale * imageWidth, 0.0f).Rotate(direction * 3.14159f / 180.0f);
 
-	auto const sprite = new Sprite("circle", position);
+	auto const sprite = Storyboard::CreateSprite("circle", position);
 	sprite->Color(startFade, startFade, color, color);
 	sprite->Fade(startFade, start, 0, 1.0f, Easing::EasingIn);
 	sprite->Move(startFade, start, startPosition, position, Easing::EasingIn);
@@ -122,7 +127,7 @@ void SpriteGroup::makeNote(const float x, const float y, const Vector2& noteScal
 	const auto direction = rand() % 360;
 	const auto startPosition = position + Vector2(scale * overallScale * imageWidth, 0.0f).Rotate(direction * 3.14159f / 180.0f);
 
-	auto const note = new Sprite("circle", position);
+	auto const note = Storyboard::CreateSprite("circle", position);
 	note->Color(startFade, startFade, color, color);
 	note->Fade(startFade, start, 0, 1.0f, Easing::EasingIn);;
 	note->Rotate(startFade, start, 0, rotation + noteRotation, Easing::EasingIn);

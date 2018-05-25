@@ -1,6 +1,5 @@
 #pragma once
-#include "OsuukiSB/Vector2.hpp"
-#include "OsuukiSB/Vector3.hpp"
+#include "S2RYBRUH/Vector2.hpp"
 struct CameraValues {
 	explicit CameraValues(const Vector2& pCoordinate, const float pRoll, const float pScale)
 		: position{ pCoordinate.x * pScale, pCoordinate.y * pScale }, roll{ pRoll }, scale{ pScale } {}

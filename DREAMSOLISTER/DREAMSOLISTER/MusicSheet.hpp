@@ -1,8 +1,8 @@
 #pragma once
 
-#include "OsuukiSB/Sprite.hpp"
-#include "OsuukiSB/Vector2.hpp"
-#include "OsuukiSB/Color.hpp"
+#include "S2RYBRUH/Sprite.hpp"
+#include "S2RYBRUH/Vector2.hpp"
+#include "S2RYBRUH/Color.hpp"
 #include "LinePoints.hpp"
 #include <string>
 #include <vector>
@@ -29,8 +29,8 @@ private:
 	void makeNoteLineTop(const int startTime, const int endTime, const float y);
 	void makeNoteLineBottom(const int startTime, const int endTime, const float y);
 
-	void makeLinePoints(const LinePoints& linePoints, const int startTime, const int endTime, const float offsetX, const float centerY, const float scale);
-	void makeLine(const float x1, const float y1, const float x2, const float y2, const int startTime, const float endTime, const float offsetX, const float centerY, const float scale);
+	void makeLinePoints(const LinePoints& linePoints, const int startTime, const int endTime, const float offsetX, const float centerY, const float scale, const float lineThickness);
+	void makeLine(const float x1, const float y1, const float x2, const float y2, const int startTime, const float endTime, const float offsetX, const float centerY, const float scale, const float lineThickness);
 	void makePoint(const float x, const float y, const int startTime, const float endTime, const float offsetX, const float centerY, const float scale);
 
 	Color getDarkerColor(const Color& color);
@@ -79,6 +79,7 @@ private:
 	static const float lyricHeight;
 	static const float lyricSpace;
 	static const float lyricScale;
+	static const float lyricThickness;
 	static const float pointScale;
 	static const int spawnDegrees;
 	static const float spawnDistance;

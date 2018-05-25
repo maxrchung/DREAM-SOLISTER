@@ -76,10 +76,10 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\Wax Chug da Gwad\Desktop\S2VX\Libraries\include;C:\Users\Wax Chug da Gwad\Desktop\OsuukiSB\OsuukiSB;C:\Users\Wax Chug da Gwad\Desktop\S2VX</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Wax Chug da Gwad\Desktop\S2VX\Libraries\include;C:\Users\Wax Chug da Gwad\Desktop\OsuukiSB\S2RYBRUH;C:\Users\Wax Chug da Gwad\Desktop\S2VX</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>OsuukiSB.lib;opengl32.lib;glfw3.lib;S2VX.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>S2RYBRUH.lib;opengl32.lib;glfw3.lib;S2VX.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>C:\Users\Wax Chug da Gwad\Desktop\S2VX\Libraries\lib;C:\Users\Wax Chug da Gwad\Desktop\DREAMSOLISTER\DREAMSOLISTER\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>

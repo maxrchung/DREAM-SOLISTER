@@ -1,6 +1,6 @@
 #include "MusicSheet.hpp"
 #include "LinePoints.hpp"
-#include "OsuukiSB/Sprite.hpp"
+#include "S2RYBRUH/Storyboard.hpp"
 #include <algorithm>
 #include <fstream>
 #include <sstream>
@@ -22,7 +22,8 @@ const float MusicSheet::modifierScale = lineSpace * 1.5f;
 const float MusicSheet::lyricHeight = 53.0f;
 const float MusicSheet::lyricSpace = 21.0f;
 const float MusicSheet::lyricScale = 7.0f;
-const float MusicSheet::pointScale = 1.6f;
+const float MusicSheet::lyricThickness = 2.5f;
+const float MusicSheet::pointScale = 1.4f;
 const int MusicSheet::spawnDegrees = 60;
 const float MusicSheet::spawnDistance = lineSpace * 3;
 const float MusicSheet::spawnTime = timeStep * 2;
@@ -132,7 +133,7 @@ void MusicSheet::makeLyric(const std::string& lyric, const float time) {
 		const auto character = std::string(1, lyric[i]);
 		const auto linePoints = LinePoints(character);
 		const auto offsetX = startOffsetX + lyricSpace * i;
-		makeLinePoints(linePoints, time - timeOffset, time, offsetX, absoluteHeight, lyricScale);
+		makeLinePoints(linePoints, time - timeOffset, time, offsetX, absoluteHeight, lyricScale, lyricThickness);
 	}
 }
 
@@ -189,10 +190,10 @@ void MusicSheet::makeMusicSheet(const std::string& path) {
 	}
 }
 
-void MusicSheet::makeLinePoints(const LinePoints& linePoints, const int startTime, const int endTime, const float offsetX, const float centerY, const float scale) {
+void MusicSheet::makeLinePoints(const LinePoints& linePoints, const int startTime, const int endTime, const float offsetX, const float centerY, const float scale, const float lineThickness) {
 	const auto lines = linePoints.lines;
 	for (auto i = 0; i < lines.size(); i += 4) {
-		makeLine(lines[i], lines[i + 1], lines[i + 2], lines[i + 3], startTime, endTime, offsetX, centerY, scale);
+		makeLine(lines[i], lines[i + 1], lines[i + 2], lines[i + 3], startTime, endTime, offsetX, centerY, scale, lineThickness);
 	}
 
 	const auto points = linePoints.points;
@@ -201,7 +202,7 @@ void MusicSheet::makeLinePoints(const LinePoints& linePoints, const int startTim
 	}
 }
 
-void MusicSheet::makeLine(const float x1, const float y1, const float x2, const float y2, const int startTime, const float endTime, const float offsetX, const float centerY, const float scale) {
+void MusicSheet::makeLine(const float x1, const float y1, const float x2, const float y2, const int startTime, const float endTime, const float offsetX, const float centerY, const float scale, const float lineThickness) {
 	const auto startPoint = Vector2(right + offsetX, centerY) + Vector2(x1, y1) * scale;
 	const auto endPoint = Vector2(right + offsetX, centerY) + Vector2(x2, y2) * scale;
 	const auto startPosition = (startPoint + endPoint) / 2.0f;
@@ -212,10 +213,10 @@ void MusicSheet::makeLine(const float x1, const float y1, const float x2, const 
 	const auto difference = endPoint - startPoint;
 	const auto distance = difference.Magnitude();
 	const auto angleBetween = Vector2(1.0f, 0.0).AngleBetween(difference);
-	const auto scaleVector = Vector2(distance + lineHeight, lineHeight) / imageWidth;
+	const auto scaleVector = Vector2(distance + lineThickness, lineThickness) / imageWidth;
 	const auto minScaleVector = Vector2(lineHeight, lineHeight) / imageWidth;
 
-	auto const sprite = new Sprite("square", startPosition);
+	auto const sprite = Storyboard::CreateSprite("square", startPosition);
 	sprite->Fade(startTime - spawnTime, startTime, 0, 1, Easing::EasingIn);
 	sprite->Fade(endTime, endTime + spawnTime, 1, 0, Easing::EasingOut);
 
@@ -239,7 +240,7 @@ void MusicSheet::makePoint(const float x, const float y, const int startTime, co
 	const auto despawnPosition = getDespawnPosition(endPosition);
 	const auto pointWidth = lineHeight * pointScale / imageWidth;
 
-	auto const sprite = new Sprite("circle", startPosition);
+	auto const sprite = Storyboard::CreateSprite("circle", startPosition);
 	sprite->Fade(startTime - spawnTime, startTime, 0, 1, Easing::EasingIn);
 	sprite->Fade(endTime, endTime + spawnTime, 1, 0, Easing::EasingOut);
 
@@ -257,13 +258,13 @@ void MusicSheet::makeNote(const float time, const int heightIndex) {
 
 	if (flat) {
 		const auto linePoints = LinePoints("flat");
-		makeLinePoints(linePoints, startTime, time, -modifierOffset, y, modifierScale);
+		makeLinePoints(linePoints, startTime, time, -modifierOffset, y, modifierScale, lineHeight);
 		flat = false;
 	}
 
 	if (neutral) {
 		const auto linePoints = LinePoints("neutral");
-		makeLinePoints(linePoints, startTime, time, -modifierOffset, y, modifierScale);
+		makeLinePoints(linePoints, startTime, time, -modifierOffset, y, modifierScale, lineHeight);
 		neutral = false;
 	}
 
@@ -278,11 +279,11 @@ void MusicSheet::makeNote(const float time, const int heightIndex) {
 	}
 
 	if (noteIsRight) {
-		stem = new Sprite("pixel", Vector2::Zero, Layer::Foreground, Origin::BottomCentre);
+		stem = Storyboard::CreateSprite("pixel", Vector2::Zero, Layer::Foreground, Origin::BottomCentre);
 		lineRightOffset = lineSpace / 2;
 	}
 	else {
-		stem = new Sprite("pixel", Vector2::Zero, Layer::Foreground, Origin::TopCentre);
+		stem = Storyboard::CreateSprite("pixel", Vector2::Zero, Layer::Foreground, Origin::TopCentre);
 		lineRightOffset = -lineSpace / 2;
 	}
 
@@ -366,7 +367,7 @@ void MusicSheet::makeXNote(const int startTime, const int endTime, const float y
 		const auto endPosition = Vector2(left, y);
 		const auto despawnPosition = getDespawnPosition(endPosition);
 
-		auto const diagonal = new Sprite("pixel");
+		auto const diagonal = Storyboard::CreateSprite("pixel");
 		diagonal->Fade(startTime - spawnTime, startTime, 0, 1, Easing::EasingIn);
 		diagonal->Fade(endTime, endTime + spawnTime, 1, 0, Easing::EasingOut);
 
@@ -398,7 +399,7 @@ void MusicSheet::makeNoteCenter(const int startTime, const int endTime, const fl
 	const auto endPosition = Vector2(left, y);
 	const auto despawnPosition = getDespawnPosition(endPosition);
 
-	auto const note = new Sprite("circle");
+	auto const note = Storyboard::CreateSprite("circle");
 	note->Fade(startTime - spawnTime, startTime, 0, 1, Easing::EasingIn);
 	note->Fade(endTime, endTime + spawnTime, 1, 0, Easing::EasingOut);
 
@@ -424,7 +425,7 @@ void MusicSheet::makeNoteLineBottom(const int startTime, const int endTime, cons
 	const auto scaleVector = Vector2(lineSpace * 2, lineHeight);
 	const auto minScaleVector = Vector2(lineHeight, lineHeight);
 
-	auto const centerLine = new Sprite("pixel");
+	auto const centerLine = Storyboard::CreateSprite("pixel");
 	centerLine->Fade(startTime - spawnTime, startTime, 0,1, Easing::EasingIn);
 	centerLine->Fade(endTime, endTime + spawnTime, 1, 0, Easing::EasingOut);
 
@@ -450,7 +451,7 @@ void MusicSheet::makeNoteLineTop(const int startTime, const int endTime, const f
 	const auto scaleVector = Vector2(lineSpace * 2, lineHeight);
 	const auto minScaleVector = Vector2(lineHeight, lineHeight);
 
-	auto const centerLine = new Sprite("pixel");
+	auto const centerLine = Storyboard::CreateSprite("pixel");
 	centerLine->Fade(startTime - spawnTime, startTime, 0, 1, Easing::EasingIn);
 	centerLine->Fade(endTime, endTime + spawnTime, 1, 0, Easing::EasingOut);
 
@@ -470,7 +471,7 @@ void MusicSheet::makeNoteLineTop(const int startTime, const int endTime, const f
 void MusicSheet::makeSheetLines() {
 	for (auto i = -2; i <= 2; ++i) {
 		const auto y = height + i * lineSpace;
-		auto const sprite = new Sprite("pixel", Vector2(right, y), Layer::Foreground, Origin::CentreRight);
+		auto const sprite = Storyboard::CreateSprite("pixel", Vector2(right, y), Layer::Foreground, Origin::CentreRight);
 		auto const startScale = Vector2(lineHeight, lineHeight);
 		auto const endScale = Vector2(right - left, lineHeight);
 
@@ -503,7 +504,7 @@ void MusicSheet::makeEighthLine(const float time) {
 	const auto endPosition = Vector2(left + previousLineOffset, noteHeight);
 	const auto despawnPosition = getDespawnPosition(endPosition);
 
-	const auto line = new Sprite("pixel", Vector2::Zero, Layer::Foreground, Origin::CentreLeft);
+	const auto line = Storyboard::CreateSprite("pixel", Vector2::Zero, Layer::Foreground, Origin::CentreLeft);
 	line->Fade(startTime - spawnTime, startTime, 0, 1, Easing::EasingIn);
 	line->Fade(endTime, endTime + spawnTime, 1, 0, Easing::EasingOut);
 
@@ -535,7 +536,7 @@ void MusicSheet::makeMeasureLine(const float time) {
 	const auto endPosition = Vector2(left, height);
 	const auto despawnPosition = getDespawnPosition(endPosition);
 
-	auto const sprite = new Sprite("pixel");
+	auto const sprite = Storyboard::CreateSprite("pixel");
 	sprite->Fade(startTime - spawnTime, startTime, 0, 1, Easing::EasingIn);
 	sprite->Fade(endTime, endTime + spawnTime, 1, 0, Easing::EasingOut);
 

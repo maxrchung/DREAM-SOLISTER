@@ -1,7 +1,7 @@
 #pragma once
 
 #include "json.hpp"
-#include "OsuukiSB/Sprite.hpp"
+#include "S2RYBRUH/Sprite.hpp"
 #include "Shape.hpp"
 #include <string>
 #include <vector>

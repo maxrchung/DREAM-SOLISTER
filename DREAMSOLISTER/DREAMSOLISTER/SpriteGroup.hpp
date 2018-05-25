@@ -1,8 +1,8 @@
 #pragma once
 #include "CameraValues.hpp"
 #include "LinePoints.hpp"
-#include "OsuukiSB/Sprite.hpp"
 #include "ShapeAnimation.hpp"
+#include "S2RYBRUH/Sprite.hpp"
 #include "S2VX/SpriteMoveCommand.hpp"
 class SpriteGroup {
 public:
