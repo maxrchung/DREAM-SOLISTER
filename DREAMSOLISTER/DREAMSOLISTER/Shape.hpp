@@ -5,8 +5,9 @@
 
 struct Shape {
 	Shape() {}
-	Shape(ShapeType pType, const Vector2& pPosition, const float pRotation, const Vector2& pScaleVector)
-		: type{ pType }, position{ pPosition }, rotation{ pRotation }, scaleVector{ pScaleVector } {}
+	Shape(ShapeType pType, const Vector2& pPosition, const float pRotation, const Vector2& pScaleVector, const Color pColor)
+		: type{ pType }, position{ pPosition }, rotation{ pRotation }, scaleVector{ pScaleVector }, color{ pColor } {}
+	Color color;
 	ShapeType type;
 	Vector2 position;
 	float rotation;

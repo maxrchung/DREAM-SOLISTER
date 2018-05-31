@@ -9,21 +9,23 @@ const float SpriteGroup::noteLineScale = 0.7f;
 const std::vector<float> SpriteGroup::notePoint = std::vector<float>({ 0.0f,-0.5f });
 const Vector2 SpriteGroup::notePointScale = Vector2(5.1f, 4.0f);
 
-SpriteGroup::SpriteGroup(const std::string& ID, const int pImageWidth, const int pStart, const int pEnd, const Vector2& pCenter, const float pRotation, const float pScale, const Color pColor, const int pOffset)
+SpriteGroup::SpriteGroup(const std::string& ID, const int pImageWidth, const int pStart, const int pEnd, const Vector2& pCenter, const float pRotation, const float pCameraScale, const Color pColor, const int pOffset)
 	: imageWidth{ pImageWidth }, 
 	start{ pStart }, 
 	end{ pEnd }, 
 	center{ pCenter }, 
 	rotation{ pRotation }, 
-	scale{ pScale }, 
-	lineHeight{ 7.0f * pScale }, 
-	overallScale{ 0.8f }, 
+	cameraScale{ pCameraScale },
+	lineHeight{ 7.0f * pCameraScale },
+	scale{ 0.8f }, 
 	color{ pColor }, 
 	offset{ pOffset },
-	startFade{ pStart - pOffset } {
-	const auto shapes = ShapeAnimation(ID);
-	if (!shapes.isEmpty()) {
-		makeShapes(shapes);
+	startOffset{ pStart - pOffset },
+	startScale{ lineHeight * scale / imageWidth },
+	endOffset{ pEnd + pOffset } {
+	const auto shapeAnimation = ShapeAnimation(ID);
+	if (!shapeAnimation.isEmpty()) {
+		makeShapes(shapeAnimation);
 		return;
 	}
 
@@ -44,26 +46,55 @@ SpriteGroup::SpriteGroup(const std::string& ID, const int pImageWidth, const int
 
 void SpriteGroup::destroy() {
 	for (auto sprite : sprites) {
-		auto endFade = end + offset;
-		sprite->Fade(end, endFade, 1.0f, 0.0f);
+		sprite->Fade(end, endOffset, 1.0f, 0.0f);
 
 		const auto direction = rand() % 360;
-		const auto endPosition = sprite->position + Vector2(scale * overallScale * imageWidth, 0.0f).Rotate(direction * 3.14159f / 180.0f);
-		sprite->Move(end, endFade, sprite->position, endPosition, Easing::EasingOut);
+		const auto endPosition = sprite->position + Vector2(cameraScale * scale * imageWidth, 0.0f).Rotate(direction * 3.14159f / 180.0f);
+		sprite->Move(end, endOffset, sprite->position, endPosition, Easing::EasingOut);
 
 		// Readjust scale vector
 		if (sprite->scaleVector != Vector2(1.0f, 1.0f)) {
 			auto min = std::min(sprite->scaleVector.x, sprite->scaleVector.y);
-			sprite->ScaleVector(end, endFade, sprite->scaleVector, Vector2(min, min), Easing::EasingOut);
+			sprite->ScaleVector(end, endOffset, sprite->scaleVector, Vector2(min, min), Easing::EasingOut);
 		}
 
-		sprite->Rotate(end, endFade, sprite->rotation, 0, Easing::EasingOut);
+		sprite->Rotate(end, endOffset, sprite->rotation, 0, Easing::EasingOut);
 	}
 }
 
-void SpriteGroup::makeShapes(const ShapeAnimation& shapes) {
-}
+void SpriteGroup::makeShapes(const ShapeAnimation& shapeAnimation) {
+	for (const auto& shape : shapeAnimation.shapes) {
+		std::string path;
+		switch (shape.type) {
+			case ShapeType::Ellipse:
+				path = "ellipse.png";
+				break;
+			case ShapeType::Rectangle:
+				path = "rectangle.png";
+				break;
+			case ShapeType::Semicircle:
+				path = "semicircle.png";
+				break;
+			case ShapeType::Triangle:
+				path = "triangle.png";
+				break;
+		}
 
+		const auto scaledPosition = shape.position * cameraScale * scale * imageWidth;
+		const auto position = center + scaledPosition.Rotate(rotation);
+		const auto direction = rand() % 360;
+		const auto startPosition = position + Vector2(cameraScale * scale * imageWidth, 0.0f).Rotate(direction * 3.14159f / 180.0f);
+		const auto endScale = Vector2(shape.scaleVector) / imageWidth;
+
+		auto const sprite = Storyboard::CreateSprite(path);
+		sprite->Color(startOffset, startOffset, color, color);
+		sprite->Fade(startOffset, start, 0, 1.0f, Easing::EasingIn);
+		sprite->Move(startOffset, start, startPosition, position, Easing::EasingIn);
+		sprite->Rotate(startOffset, start, 0, shape.rotation, Easing::EasingIn);
+		sprite->ScaleVector(startOffset, start, Vector2(startScale, startScale), endScale, Easing::EasingIn);
+		sprites.push_back(sprite);
+	}
+}
 
 void SpriteGroup::makeLine(const float x1, const float y1, const float x2, const float y2, const float scaleHeight) {
 	const auto startPoint = center + Vector2(x1, y1).Rotate(rotation);
@@ -73,16 +104,16 @@ void SpriteGroup::makeLine(const float x1, const float y1, const float x2, const
 	const auto distance = difference.Magnitude();
 	const auto angleBetween = Vector2(1.0f, 0.0).AngleBetween(difference);
 	const auto scaleWidth = distance / imageWidth;
-	const auto spriteScale = Vector2(scaleWidth, scaleHeight);
+	const auto endScale = Vector2(scaleWidth, startScale);
 	const auto direction = rand() % 360;
-	const auto startPosition = midPoint + Vector2(scale * overallScale * imageWidth, 0.0f).Rotate(direction * 3.14159f / 180.0f);
+	const auto startPosition = midPoint + Vector2(cameraScale * scale * imageWidth, 0.0f).Rotate(direction * 3.14159f / 180.0f);
 
 	auto const sprite = Storyboard::CreateSprite("square", midPoint);
-	sprite->Color(startFade, startFade, color, color);
-	sprite->Fade(startFade, start, 0, 1.0f, Easing::EasingIn);
-	sprite->Move(startFade, start, startPosition, midPoint, Easing::EasingIn);
-	sprite->Rotate(startFade, start, 0, angleBetween, Easing::EasingIn);
-	sprite->ScaleVector(startFade, start, Vector2(scaleHeight, scaleHeight), spriteScale, Easing::EasingIn);
+	sprite->Color(startOffset, startOffset, color, color);
+	sprite->Fade(startOffset, start, 0, 1.0f, Easing::EasingIn);
+	sprite->Move(startOffset, start, startPosition, midPoint, Easing::EasingIn);
+	sprite->Rotate(startOffset, start, 0, angleBetween, Easing::EasingIn);
+	sprite->ScaleVector(startOffset, start, Vector2(scaleHeight, scaleHeight), endScale, Easing::EasingIn);
 	sprites.push_back(sprite);
 }
 
@@ -90,7 +121,7 @@ void SpriteGroup::makePoint(const float x, const float y, const float pointWidth
 	const auto startFade = start - offset;
 	const auto position = center + Vector2(x, y).Rotate(rotation);
 	const auto direction = rand() % 360;
-	const auto startPosition = position + Vector2(scale * overallScale * imageWidth, 0.0f).Rotate(direction * 3.14159f / 180.0f);
+	const auto startPosition = position + Vector2(cameraScale * scale * imageWidth, 0.0f).Rotate(direction * 3.14159f / 180.0f);
 
 	auto const sprite = Storyboard::CreateSprite("circle", position);
 	sprite->Color(startFade, startFade, color, color);
@@ -103,7 +134,6 @@ void SpriteGroup::makePoint(const float x, const float y, const float pointWidth
 void SpriteGroup::makeLinePoints(const LinePoints& linePoints) {
 	// Perform a copy so we can format in constructor easier
 	auto scaledLinePoints = linePoints.lines;
-	const auto scaleHeight = lineHeight * overallScale / imageWidth;
 
 	// The fuck am I doing
 	// https://stackoverflow.com/questions/18006685/call-a-member-function-using-for-each
@@ -111,11 +141,11 @@ void SpriteGroup::makeLinePoints(const LinePoints& linePoints) {
 	std::for_each(scaledLinePoints.begin(), scaledLinePoints.end(), scalePointFunction);
 
 	for (auto i = 0; i < scaledLinePoints.size(); i += 4) {
-		makeLine(scaledLinePoints[i], scaledLinePoints[i + 1], scaledLinePoints[i + 2], scaledLinePoints[i + 3], scaleHeight);
+		makeLine(scaledLinePoints[i], scaledLinePoints[i + 1], scaledLinePoints[i + 2], scaledLinePoints[i + 3], startScale);
 	}
 
 	auto scaledPoints = linePoints.points;
-	const auto pointWidth = scaleHeight * circleScale;
+	const auto pointWidth = startScale * circleScale;
 	std::for_each(scaledPoints.begin(), scaledPoints.end(), scalePointFunction);
 	for (auto i = 0; i < scaledPoints.size(); i += 2) {
 		makePoint(scaledPoints[i], scaledPoints[i + 1], pointWidth);
@@ -125,20 +155,20 @@ void SpriteGroup::makeLinePoints(const LinePoints& linePoints) {
 void SpriteGroup::makeNote(const float x, const float y, const Vector2& noteScale) {
 	const auto position = center + Vector2(x, y).Rotate(rotation);
 	const auto direction = rand() % 360;
-	const auto startPosition = position + Vector2(scale * overallScale * imageWidth, 0.0f).Rotate(direction * 3.14159f / 180.0f);
+	const auto startPosition = position + Vector2(cameraScale * scale * imageWidth, 0.0f).Rotate(direction * 3.14159f / 180.0f);
 
 	auto const note = Storyboard::CreateSprite("circle", position);
-	note->Color(startFade, startFade, color, color);
-	note->Fade(startFade, start, 0, 1.0f, Easing::EasingIn);;
-	note->Rotate(startFade, start, 0, rotation + noteRotation, Easing::EasingIn);
+	note->Color(startOffset, startOffset, color, color);
+	note->Fade(startOffset, start, 0, 1.0f, Easing::EasingIn);;
+	note->Rotate(startOffset, start, 0, rotation + noteRotation, Easing::EasingIn);
 
-	note->Move(startFade, start, startPosition, position, Easing::EasingIn);
-	note->ScaleVector(startFade, start, Vector2(noteScale.y, noteScale.y), noteScale);
+	note->Move(startOffset, start, startPosition, position, Easing::EasingIn);
+	note->ScaleVector(startOffset, start, Vector2(noteScale.y, noteScale.y), noteScale);
 	sprites.push_back(note);
 }
 
 void SpriteGroup::makeMusicNote() {
-	const auto scaleHeight = lineHeight * overallScale / imageWidth * noteLineScale;
+	const auto scaleHeight = lineHeight * scale / imageWidth * noteLineScale;
 
 	auto linePoints = noteLinePoints;
 	auto scalePointFunction = std::bind(&SpriteGroup::scalePoint, this, std::placeholders::_1);
@@ -152,5 +182,5 @@ void SpriteGroup::makeMusicNote() {
 }
 
 void SpriteGroup::scalePoint(float& value) {
-	value *= scale * overallScale * imageWidth / 2;
+	value *= cameraScale * scale * imageWidth / 2;
 }
