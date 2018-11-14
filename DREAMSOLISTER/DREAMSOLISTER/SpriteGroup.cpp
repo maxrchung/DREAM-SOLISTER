@@ -25,7 +25,7 @@ SpriteGroup::SpriteGroup(const std::string& ID, const int pImageWidth, const int
 	endOffset{ pEnd + pOffset } {
 	const auto shapeAnimation = ShapeAnimation(ID);
 	if (!shapeAnimation.isEmpty()) {
-		makeShapes(shapeAnimation);
+		makeShapeAnimation(shapeAnimation);
 		return;
 	}
 
@@ -62,7 +62,7 @@ void SpriteGroup::destroy() {
 	}
 }
 
-void SpriteGroup::makeShapes(const ShapeAnimation& shapeAnimation) {
+void SpriteGroup::makeShapeAnimation(const ShapeAnimation& shapeAnimation) {
 	for (const auto& shape : shapeAnimation.shapes) {
 		std::string path;
 		switch (shape.type) {

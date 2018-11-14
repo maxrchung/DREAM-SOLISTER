@@ -297,6 +297,19 @@ LinePoints::LinePoints(const std::string& ID) {
 			0,-1
 		});
 	}
+	else if (ID == "Z") {
+		lines = std::vector<float>({
+			-1,1,	1,1,
+			1,1,	-1,-1,
+			-1,-1,	1,-1
+		}); 
+		points = std::vector<float>({
+			-1,1,
+			1,1,
+			-1,-1,
+			1,-1
+		});
+	}
 	else if (ID == "2") {
 		lines = std::vector<float>({
 			-1,1,	1,1,

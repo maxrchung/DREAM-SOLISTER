@@ -113,9 +113,9 @@ Color convertS2VXColorToOsuukiSBColor(const glm::vec3& source) {
 	return Color{ 255.0f * source.x, 255.0f * source.y, 255.0f * source.z };
 }
 
-void processBackground(const S2VX::Back& back, Sprite* const bg) {
+void processBackground(Sprite* const bg) {
 	const auto screenSquare = Vector2(Vector2::ScreenSize.x, Vector2::ScreenSize.x);
-	bg->ScaleVector(29187, 30624, Vector2(0,0), screenSquare, Easing::EasingIn);
+	bg->ScaleVector(29187, 30624, Vector2(0, 0), screenSquare, Easing::EasingIn);
 	bg->Fade(29187, 30624, 0, 1, Easing::EasingIn);
 	bg->ScaleVector(67989, 70145, screenSquare, Vector2(0, 0), Easing::EasingOut);
 	bg->Fade(67989, 70145, 1, 0, Easing::EasingOut);
@@ -134,7 +134,9 @@ void processBackground(const S2VX::Back& back, Sprite* const bg) {
 	bg->Fade(228947, 231103, 0, 1, Easing::EasingIn);
 	bg->ScaleVector(279247, 280684, screenSquare, Vector2(0, 0), Easing::EasingOut);
 	bg->Fade(279247, 280684, 1, 0, Easing::EasingOut);
+}
 
+void processScriptBackground(const S2VX::Back& back, Sprite* const bg) {
 	for (const auto& command : back.getCommands()) {
 		const auto start = command->getStart();
 		const auto end = command->getEnd();
@@ -569,7 +571,7 @@ void processScript(const std::string& path, Sprite* const bg) {
 	S2VX::Display display;
 	S2VX::Scripting scripting{ display };
 	auto& elements = scripting.evaluate(path);
-	processBackground(elements.getBack(), bg);
+	processScriptBackground(elements.getBack(), bg);
 
 	auto spriteBindings = createSpriteBindings(elements.getSprites().getSprites(), elements.getCamera());
 	processS2VXSprites(elements.getCamera(), spriteBindings);
@@ -586,22 +588,25 @@ int main() {
 		// For testing
 		//bg->ScaleVector(0, 300000, Vector2::ScreenSize, Vector2::ScreenSize);
 
-		auto shapeAnimation = ShapeAnimation("tesst");
+		auto shapeAnimation = ShapeAnimation("test");
 
-		processScript("lyricSpin.chai", bg);
+		processBackground(bg);
+		//processScript("lyricSpin.chai", bg);
 		processScript("lyricSprite.chai", bg);
-		processScript("swing.chai", bg);
-		processScript("musicSheet.chai", bg);
+		//processScript("swing.chai", bg);
+		//processScript("musicSheet.chai", bg);
 
-		MusicSheet("voice.MusicSheet", 122, imageWidth, Color(0, 169, 195), "lyric.MusicSheet", false);
-		MusicSheet("wind.MusicSheet", 0, imageWidth, Color(247, 255, 8), "", true);
-		MusicSheet("drum.MusicSheet", -140, imageWidth, Color(255, 209, 219), "", false);
+		//MusicSheet("voice.MusicSheet", 122, imageWidth, Color(0, 169, 195), "lyric.MusicSheet", false);
+		//MusicSheet("wind.MusicSheet", 0, imageWidth, Color(247, 255, 8), "", true);
+		//MusicSheet("drum.MusicSheet", -140, imageWidth, Color(255, 209, 219), "", false);
 
-		setDotBackground();
+		//setDotBackground();
 
 		// Blue line rectangle border
 		setBorder();
-		setS2VXBorder();
+
+		// Logo
+		//setS2VXBorder();
 
 		auto path = std::string(R"(X:\osu!\Songs\717639 TRUE - DREAM SOLISTER\TRUE - DREAM SOLISTER (Shiratoi).osb)");
 		Storyboard::Write(path);

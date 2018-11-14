@@ -2,7 +2,112 @@
 CameraRotate(0,0,	0,	0,0);
 CameraZoom(0,0,	0,	100,100);
 CameraMove(0,0,	0,	0,0,	0,0);
-CameraMove(0,0,	0,	0,0,	3.5,0);
 
-CameraMove(0,0,	0,	0,0,	16,7.5);
-CameraZoom(0,0,	0,	60,60);
+CameraMove(0,0,	0,	0,0,	10.5,11.5);
+CameraZoom(0,0,	0,	30,30);
+
+var end = 64756;
+
+var colorOffset = 30.0f;
+var blueR = 0;
+var blueG = 169.0f / 255;
+var blueB = 195.0f / 255;
+
+var blueDR = 0;
+var blueDG = (169.0f - colorOffset) / 255;
+var blueDB = (195.0f - colorOffset) / 255;
+
+var blueDDR = 0;
+var blueDDG = (169.0f - colorOffset * 2) / 255;
+var blueDDB = (195.0f - colorOffset * 2) / 255;
+
+var yellowR = 247.0f / 255;
+var yellowG = 1;
+var yellowB = 8.0f / 255;
+
+var yellowDR = (247.0f - colorOffset) / 255;
+var yellowDG = (255.0f - colorOffset) / 255;
+var yellowDB = 0;
+
+var yellowDDR = (247.0f - colorOffset * 2) / 255;
+var yellowDDG = (255.0f - colorOffset * 2) / 255;
+var yellowDDB = 0;
+
+var pinkR = 1;
+var pinkG = 0.82f;
+var pinkB = 0.86f;
+
+var pinkDR = 1;
+var pinkDG = 0.82f - colorOffset / 255;
+var pinkDB = 0.86f - colorOffset / 255;
+
+var pinkDDR = 1;
+var pinkDDG = 0.82f - colorOffset * 2 / 255;
+var pinkDDB = 0.86f - colorOffset * 2 / 255;
+
+var greenR = 119.0f / 255;
+var greenG = 1;
+var greenB = 169.0f / 255;
+
+var greenDR = (119.0f - colorOffset) / 255;
+var greenDG = (255 - colorOffset) / 255;
+var greenDB = (169.0f - colorOffset) / 255;
+
+var greenDDR = (119.0f - colorOffset * 2) / 255;
+var greenDDG = (255 - colorOffset * 2) / 255;
+var greenDDB = (169.0f - colorOffset * 2) / 255;
+
+// TSUMAZUITE MO I
+SpriteBind("T");
+SpriteMove(52540,end,	0,	6,17,	0,0);
+SpriteColor(52540,52540,	0,	blueR,blueG,blueB,	blueR,blueG,blueB);
+SpriteBind("S");
+SpriteMove(52540,end,	0,	7,17,	0,0);
+SpriteColor(52540,52540,	0,	blueR,blueG,blueB,	blueR,blueG,blueB);
+SpriteBind("U");
+SpriteMove(52540,end,	0,	8,17,	0,0);
+SpriteColor(52540,52540,	0,	blueR,blueG,blueB,	blueR,blueG,blueB);
+
+SpriteBind("M");
+SpriteMove(52899,end,	0,	9,17,	0,0);
+SpriteColor(52899,52899,	0,	blueDR,blueDG,blueDB,	blueDR,blueDG,blueDB);
+SpriteBind("A");
+SpriteMove(52899,end,	0,	10,17,	0,0);
+SpriteColor(52899,52899,	0,	blueDR,blueDG,blueDB,	blueDR,blueDG,blueDB);
+
+SpriteBind("Z");
+SpriteMove(53259,end,	0,	11,17,	0,0);
+SpriteColor(53259,53259,	0,	blueDDR,blueDDG,blueDDB,	blueDDR,blueDDG,blueDDB);
+SpriteBind("U");
+SpriteMove(53259,end,	0,	12,17,	0,0);
+SpriteColor(53259,53259,	0,	blueDDR,blueDDG,blueDDB,	blueDDR,blueDDG,blueDDB);
+
+SpriteBind("I");
+SpriteMove(53618,end,	0,	13,17,	0,0);
+SpriteColor(53618,53618,	0,	blueDR,blueDG,blueDB,	blueDR,blueDG,blueDB);
+
+SpriteBind("T");
+SpriteMove(53977,end,	0,	14,17,	0,0);
+SpriteColor(53977,53977,	0,	blueR,blueG,blueB,	blueR,blueG,blueB);
+SpriteBind("E");
+SpriteMove(53977,end,	0,	15,17,	0,0);
+SpriteColor(53977,53977,	0,	blueR,blueG,blueB,	blueR,blueG,blueB);
+
+SpriteBind("MusicNote");
+SpriteMove(54336,end,	0,	16,17,	0,0);
+SpriteColor(54336,54336,	0,	blueDR,blueDG,blueDB,	blueDR,blueDG,blueDB);
+
+SpriteBind("M");
+SpriteMove(54336,end,	0,	17,17,	0,0);
+SpriteColor(54336,54336,	0,	blueDDR,blueDDG,blueDDB,	blueDDR,blueDDG,blueDDB);
+SpriteBind("O");
+SpriteMove(54336,end,	0,	18,17,	0,0);
+SpriteColor(54336,54336,	0,	blueDDR,blueDDG,blueDDB,	blueDDR,blueDDG,blueDDB);
+
+SpriteBind("MusicNote");
+SpriteMove(54336,end,	0,	19,17,	0,0);
+SpriteColor(54336,54336,	0,	blueDR,blueDG,blueDB,	blueDR,blueDG,blueDB);
+
+SpriteBind("I");
+SpriteMove(54696,end,	0,	20,17,	0,0);
+SpriteColor(54696,54696,	0,	blueR,blueG,blueDB,	blueR,blueG,blueB);
