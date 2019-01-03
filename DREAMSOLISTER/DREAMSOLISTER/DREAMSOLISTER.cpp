@@ -591,16 +591,16 @@ int main() {
 		auto shapeAnimation = ShapeAnimation("test");
 
 		processBackground(bg);
-		//processScript("lyricSpin.chai", bg);
-		processScript("lyricSprite.chai", bg);
+		processScript("lyricSpin.chai", bg);
+		//processScript("lyricSprite.chai", bg);
 		//processScript("swing.chai", bg);
 		//processScript("musicSheet.chai", bg);
 
-		//MusicSheet("voice.MusicSheet", 122, imageWidth, Color(0, 169, 195), "lyric.MusicSheet", false);
-		//MusicSheet("wind.MusicSheet", 0, imageWidth, Color(247, 255, 8), "", true);
-		//MusicSheet("drum.MusicSheet", -140, imageWidth, Color(255, 209, 219), "", false);
+		MusicSheet("voice.MusicSheet", 122, imageWidth, Color(0, 169, 195), "lyric.MusicSheet", false);
+		MusicSheet("wind.MusicSheet", 0, imageWidth, Color(247, 255, 8), "", true);
+		MusicSheet("drum.MusicSheet", -140, imageWidth, Color(255, 209, 219), "", false);
 
-		//setDotBackground();
+		setDotBackground();
 
 		// Blue line rectangle border
 		setBorder();
@@ -608,7 +608,7 @@ int main() {
 		// Logo
 		//setS2VXBorder();
 
-		auto path = std::string(R"(X:\osu!\Songs\717639 TRUE - DREAM SOLISTER\TRUE - DREAM SOLISTER (Shiratoi).osb)");
+		auto path = std::string(R"(C:\Program Files (x86)\osu!\Songs\717639 TRUE - DREAM SOLISTER\TRUE - DREAM SOLISTER (Shiratoi).osb)");
 		Storyboard::Write(path);
 	return 0;
 }
