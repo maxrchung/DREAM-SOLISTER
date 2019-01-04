@@ -612,6 +612,8 @@ int main() {
 		//processScript("musicSheet.chai", bg);
 		processScript("test.chai", bg);
 
+		//MusicSheet("voice.MusicSheet", 122, imageWidth, Color(0, 169, 195), "lyric.MusicSheet", false);
+		//MusicSheet("wind.MusicSheet", 0, imageWidth, Color(247, 255, 8), "", true);
 		//MusicSheet("drum.MusicSheet", -140, imageWidth, Color(255, 209, 219), "", false);
 
 		//setDotBackground();
@@ -622,7 +624,10 @@ int main() {
 		// Logo
 		//setS2VXBorder();
 
-		auto path = std::string(R"(X:\osu!\Songs\717639 TRUE - DREAM SOLISTER\TRUE - DREAM SOLISTER (Shiratoi).osb)");
+		auto storyboardInputPath = std::ifstream("StoryboardInputPath.txt");
+		std::string path;
+		std::getline(storyboardInputPath, path);
+
 		Storyboard::Write(path);
 	return 0;
 }
