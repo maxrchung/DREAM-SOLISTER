@@ -608,7 +608,10 @@ int main() {
 		// Logo
 		//setS2VXBorder();
 
-		auto path = std::string(R"(C:\Program Files (x86)\osu!\Songs\717639 TRUE - DREAM SOLISTER\TRUE - DREAM SOLISTER (Shiratoi).osb)");
+		auto storyboardInputPath = std::ifstream("StoryboardInputPath.txt");
+		std::string path;
+		std::getline(storyboardInputPath, path);
+
 		Storyboard::Write(path);
 	return 0;
 }

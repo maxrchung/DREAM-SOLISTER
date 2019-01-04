@@ -1,180 +1,181 @@
-﻿<Window x:Class="ShapeAnimation.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:ShapeAnimation"
-        mc:Ignorable="d"
-        Width="Auto"
-        Height="Auto"
-        SizeToContent="WidthAndHeight"
-        Title="ShapeAnimation" 
-        ResizeMode="CanMinimize" HorizontalContentAlignment="Center">
-    <Window.DataContext>
-        <local:ViewModel />
-    </Window.DataContext>
+﻿<Viewbox>
+    <Window x:Class="ShapeAnimation.MainWindow"
+            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+            xmlns:local="clr-namespace:ShapeAnimation"
+            mc:Ignorable="d"
+            Width="Auto"
+            Height="Auto"
+            SizeToContent="WidthAndHeight"
+            Title="ShapeAnimation" HorizontalContentAlignment="Center">
+        <Window.DataContext>
+            <local:ViewModel />
+        </Window.DataContext>
 
-    <Window.CommandBindings>
-        <CommandBinding Command="local:Command.deselect" Executed="deselect"/>
-        <CommandBinding Command="local:Command.delete" Executed="delete"/>
-        <CommandBinding Command="local:Command.createRectangle" Executed="createRectangle"/>
-        <CommandBinding Command="local:Command.createTriangle" Executed="createTriangle"/>
-        <CommandBinding Command="local:Command.createEllipse" Executed="createEllipse"/>
-        <CommandBinding Command="local:Command.createSemicircle" Executed="createSemicircle"/>
-        <CommandBinding Command="local:Command.copy" Executed="copy"/>
-    </Window.CommandBindings>
+        <Window.CommandBindings>
+            <CommandBinding Command="local:Command.deselect" Executed="deselect"/>
+            <CommandBinding Command="local:Command.delete" Executed="delete"/>
+            <CommandBinding Command="local:Command.createRectangle" Executed="createRectangle"/>
+            <CommandBinding Command="local:Command.createTriangle" Executed="createTriangle"/>
+            <CommandBinding Command="local:Command.createEllipse" Executed="createEllipse"/>
+            <CommandBinding Command="local:Command.createSemicircle" Executed="createSemicircle"/>
+            <CommandBinding Command="local:Command.copy" Executed="copy"/>
+        </Window.CommandBindings>
 
-    <Window.InputBindings>
-        <KeyBinding Key="Esc" Command="local:Command.deselect" />
-        <KeyBinding Key="Return" Command="local:Command.deselect" />
-        <KeyBinding Key="Delete" Command="local:Command.delete" />
-        <KeyBinding Key="D1" Modifiers="Ctrl" Command="local:Command.createRectangle" />
-        <KeyBinding Key="D2" Modifiers="Ctrl" Command="local:Command.createTriangle" />
-        <KeyBinding Key="D3" Modifiers="Ctrl" Command="local:Command.createEllipse" />
-        <KeyBinding Key="D4" Modifiers="Ctrl" Command="local:Command.createSemicircle" />
-        <KeyBinding Key="V" Modifiers="Ctrl" Command="local:Command.copy" />
-    </Window.InputBindings>
+        <Window.InputBindings>
+            <KeyBinding Key="Esc" Command="local:Command.deselect" />
+            <KeyBinding Key="Return" Command="local:Command.deselect" />
+            <KeyBinding Key="Delete" Command="local:Command.delete" />
+            <KeyBinding Key="D1" Modifiers="Ctrl" Command="local:Command.createRectangle" />
+            <KeyBinding Key="D2" Modifiers="Ctrl" Command="local:Command.createTriangle" />
+            <KeyBinding Key="D3" Modifiers="Ctrl" Command="local:Command.createEllipse" />
+            <KeyBinding Key="D4" Modifiers="Ctrl" Command="local:Command.createSemicircle" />
+            <KeyBinding Key="V" Modifiers="Ctrl" Command="local:Command.copy" />
+        </Window.InputBindings>
 
-    <Window.Resources>
-        <BooleanToVisibilityConverter x:Key="booleanToVisibility" />
-    </Window.Resources>
+        <Window.Resources>
+            <BooleanToVisibilityConverter x:Key="booleanToVisibility" />
+        </Window.Resources>
 
-    <Canvas Background="White" Height="920" Width="1700">
-        <Canvas x:Name="shapesCanvas" Background="DarkGray" MouseLeftButtonDown="backgroundMouseLeftButtonDown" MouseLeftButtonUp="backgroundMouseLeftButtonUp" Height="900" Width="1440" Canvas.Left="23" Canvas.Top="8">
-            <Canvas Background="Gray" Height="900" Width="900" />
-            <Image x:Name="image" Height="900" Width="900" Visibility="{Binding ElementName=backgroundVisibility, Path=IsChecked, Converter={StaticResource booleanToVisibility}}" Opacity="{Binding ElementName=backgroundOpacity, Path=Value}" />
+        <Canvas Background="White" Height="920" Width="1700">
+            <Canvas x:Name="shapesCanvas" Background="DarkGray" MouseLeftButtonDown="backgroundMouseLeftButtonDown" MouseLeftButtonUp="backgroundMouseLeftButtonUp" Height="900" Width="1440" Canvas.Left="23" Canvas.Top="8">
+                <Canvas Background="Gray" Height="900" Width="900" />
+                <Image x:Name="image" Height="900" Width="900" Visibility="{Binding ElementName=backgroundVisibility, Path=IsChecked, Converter={StaticResource booleanToVisibility}}" Opacity="{Binding ElementName=backgroundOpacity, Path=Value}" />
 
-            <Rectangle Width="{Binding selected.size.x}" Height="{Binding selected.size.y}" Fill="Black" Opacity="0.1" RenderTransformOrigin="0.5, 0.5" Visibility="{Binding ElementName=shapesVisibility, Path=IsChecked, Converter={StaticResource booleanToVisibility}}">
-                <Rectangle.RenderTransform>
-                    <TransformGroup>
-                        <RotateTransform Angle="{Binding selected.rotation.degree}" />
-                        <TranslateTransform X="{Binding selected.translation.x}" Y="{Binding selected.translation.y}" />
-                    </TransformGroup>
-                </Rectangle.RenderTransform>
-            </Rectangle>
+                <Rectangle Width="{Binding selected.size.x}" Height="{Binding selected.size.y}" Fill="Black" Opacity="0.1" RenderTransformOrigin="0.5, 0.5" Visibility="{Binding ElementName=shapesVisibility, Path=IsChecked, Converter={StaticResource booleanToVisibility}}">
+                    <Rectangle.RenderTransform>
+                        <TransformGroup>
+                            <RotateTransform Angle="{Binding selected.rotation.degree}" />
+                            <TranslateTransform X="{Binding selected.translation.x}" Y="{Binding selected.translation.y}" />
+                        </TransformGroup>
+                    </Rectangle.RenderTransform>
+                </Rectangle>
 
-            <ItemsControl ItemsSource="{Binding shapes}" x:Name="shapesItems" Visibility="{Binding ElementName=shapesVisibility, Path=IsChecked, Converter={StaticResource booleanToVisibility}}" Opacity="{Binding ElementName=shapesOpacity, Path=Value}">
-                <ItemsControl.Resources>
-                    <DataTemplate DataType="{x:Type local:SARectangle}">
-                        <Polygon Points="{Binding points}" Fill="{Binding brush}" MouseLeftButtonDown="shapeMouseLeftButtonDown"/>
-                    </DataTemplate>
-                    <DataTemplate DataType="{x:Type local:SATriangle}">
-                        <Polygon Points="{Binding points}" Fill="{Binding brush}" MouseLeftButtonDown="shapeMouseLeftButtonDown"/>
-                    </DataTemplate>
-                    <DataTemplate DataType="{x:Type local:SAEllipse}">
-                        <Ellipse Width="{Binding size.x}" Height="{Binding size.y}" Fill="{Binding brush}" RenderTransformOrigin="0.5, 0.5" MouseLeftButtonDown="shapeMouseLeftButtonDown">
-                            <Ellipse.RenderTransform>
-                                <TransformGroup>
-                                    <RotateTransform Angle="{Binding rotation.degree}"/>
-                                    <TranslateTransform X="{Binding translation.x}" Y="{Binding translation.y}" />
-                                </TransformGroup>
-                            </Ellipse.RenderTransform>
-                        </Ellipse>
-                    </DataTemplate>
-                    <DataTemplate DataType="{x:Type local:SASemicircle}">
-                        <Ellipse Width="{Binding size.x}" Height="{Binding doubleHeight}" Fill="{Binding brush}" RenderTransformOrigin="0.5, 0.25" MouseLeftButtonDown="shapeMouseLeftButtonDown">
-                            <Ellipse.Clip>
-                                <RectangleGeometry Rect="{Binding clip}"/>
-                            </Ellipse.Clip>
-                            <Ellipse.RenderTransform>
-                                <TransformGroup>
-                                    <RotateTransform Angle="{Binding rotation.degree}"/>
-                                    <TranslateTransform X="{Binding translation.x}" Y="{Binding translation.y}" />
-                                </TransformGroup>
-                            </Ellipse.RenderTransform>
-                        </Ellipse>
-                    </DataTemplate>
-                </ItemsControl.Resources>
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <Canvas />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-            </ItemsControl>
+                <ItemsControl ItemsSource="{Binding shapes}" x:Name="shapesItems" Visibility="{Binding ElementName=shapesVisibility, Path=IsChecked, Converter={StaticResource booleanToVisibility}}" Opacity="{Binding ElementName=shapesOpacity, Path=Value}">
+                    <ItemsControl.Resources>
+                        <DataTemplate DataType="{x:Type local:SARectangle}">
+                            <Polygon Points="{Binding points}" Fill="{Binding brush}" MouseLeftButtonDown="shapeMouseLeftButtonDown"/>
+                        </DataTemplate>
+                        <DataTemplate DataType="{x:Type local:SATriangle}">
+                            <Polygon Points="{Binding points}" Fill="{Binding brush}" MouseLeftButtonDown="shapeMouseLeftButtonDown"/>
+                        </DataTemplate>
+                        <DataTemplate DataType="{x:Type local:SAEllipse}">
+                            <Ellipse Width="{Binding size.x}" Height="{Binding size.y}" Fill="{Binding brush}" RenderTransformOrigin="0.5, 0.5" MouseLeftButtonDown="shapeMouseLeftButtonDown">
+                                <Ellipse.RenderTransform>
+                                    <TransformGroup>
+                                        <RotateTransform Angle="{Binding rotation.degree}"/>
+                                        <TranslateTransform X="{Binding translation.x}" Y="{Binding translation.y}" />
+                                    </TransformGroup>
+                                </Ellipse.RenderTransform>
+                            </Ellipse>
+                        </DataTemplate>
+                        <DataTemplate DataType="{x:Type local:SASemicircle}">
+                            <Ellipse Width="{Binding size.x}" Height="{Binding doubleHeight}" Fill="{Binding brush}" RenderTransformOrigin="0.5, 0.25" MouseLeftButtonDown="shapeMouseLeftButtonDown">
+                                <Ellipse.Clip>
+                                    <RectangleGeometry Rect="{Binding clip}"/>
+                                </Ellipse.Clip>
+                                <Ellipse.RenderTransform>
+                                    <TransformGroup>
+                                        <RotateTransform Angle="{Binding rotation.degree}"/>
+                                        <TranslateTransform X="{Binding translation.x}" Y="{Binding translation.y}" />
+                                    </TransformGroup>
+                                </Ellipse.RenderTransform>
+                            </Ellipse>
+                        </DataTemplate>
+                    </ItemsControl.Resources>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <Canvas />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
 
-            <ItemsControl ItemsSource="{Binding selected.rotateCorners}" Visibility="{Binding ElementName=shapesVisibility, Path=IsChecked, Converter={StaticResource booleanToVisibility}}">
-                <ItemsControl.ItemTemplate>
+                <ItemsControl ItemsSource="{Binding selected.rotateCorners}" Visibility="{Binding ElementName=shapesVisibility, Path=IsChecked, Converter={StaticResource booleanToVisibility}}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Ellipse Width="{StaticResource rotateCornerWidth}" Height="{StaticResource rotateCornerWidth}" Fill="Blue" Opacity="0.1" MouseLeftButtonDown="rotateMouseLeftButtonDown" MouseLeftButtonUp="rotateMouseLeftButtonUp">
+                                <Ellipse.RenderTransform>
+                                    <TranslateTransform X="{Binding x}" Y="{Binding y}" />
+                                </Ellipse.RenderTransform>
+                            </Ellipse>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <Canvas />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+                <ItemsControl ItemsSource="{Binding selected.scaleCorners}" Visibility="{Binding ElementName=shapesVisibility, Path=IsChecked, Converter={StaticResource booleanToVisibility}}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Ellipse Width="{StaticResource scaleCornerWidth}" Height="{StaticResource scaleCornerWidth}" Fill="Red" MouseLeftButtonDown="scaleMouseLeftButtonDown" MouseLeftButtonUp="scaleMouseLeftButtonUp">
+                                <Ellipse.RenderTransform>
+                                    <TranslateTransform X="{Binding x}" Y="{Binding y}" />
+                                </Ellipse.RenderTransform>
+                            </Ellipse>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <Canvas />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+                <Button Content="69" Canvas.Left="791" Canvas.Top="203" Width="86" Height="32" FontFamily="Comic Sans MS" FontSize="16" RenderTransformOrigin="0.5,0.5" Foreground="#FF06050F" HorizontalAlignment="Right" VerticalAlignment="Top" HorizontalContentAlignment="Center" Opacity="0.69" BorderThickness="10,1,1,1" BorderBrush="#FFC13636">
+                    <Button.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleY="1" ScaleX="1"/>
+                            <SkewTransform AngleY="0" AngleX="1"/>
+                            <RotateTransform Angle="0"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Button.RenderTransform>
+                    <Button.Background>
+                        <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                            <GradientStop Color="#FFF3F3F3" Offset="0"/>
+                            <GradientStop Color="#FFEBEBEB" Offset="0.5"/>
+                            <GradientStop Color="#FFDDDDDD" Offset="0.5"/>
+                            <GradientStop Color="#FF7A1212" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Button.Background>
+                </Button>
+            </Canvas>
+
+            <Button x:Name="load" Content="Load" Canvas.Left="751" Canvas.Top="117" Width="75" Click="loadClick"/>
+            <Button x:Name="open" Content="Open" Canvas.Left="784" Canvas.Top="54" Width="75" Click="openClick"/>
+            <Button x:Name="save" Content="Save" Canvas.Left="826" Canvas.Top="108" Width="75" Click="saveClick"/>
+
+            <CheckBox x:Name="backgroundVisibility" Content="Background" Canvas.Left="1455" Canvas.Top="35" Height="18" IsChecked="True"/>
+            <Slider x:Name="backgroundOpacity"  Canvas.Left="1543" Canvas.Top="35" Width="147" Maximum="1" LargeChange="0.01" SmallChange="0.01" Value="1"/>
+            <CheckBox x:Name="shapesVisibility" Content="Shapes" Canvas.Left="1455" Canvas.Top="58" Height="18" IsChecked="True"/>
+            <Slider x:Name="shapesOpacity" Canvas.Left="1543" Canvas.Top="58" Width="147" Maximum="1" Value="1" LargeChange="0.01" SmallChange="0.01"/>
+
+            <Label Content="R" Canvas.Left="1455" Canvas.Top="83" Padding="0" Height="20"/>
+            <Label Content="{Binding selected.color.R}" Canvas.Left="1467" Canvas.Top="83" Padding="0" Height="20" Width="26"/>
+            <Slider x:Name="redSlider" Canvas.Left="1498" Canvas.Top="81" Height="20" Width="192" Maximum="255" Minimum="0" SmallChange="1" ValueChanged="redSliderValueChanged" LargeChange="10" />
+            <Label Content="G" Canvas.Left="1455" Canvas.Top="108" Padding="0" Height="20"/>
+            <Label Content="{Binding selected.color.G}" Canvas.Left="1468" Canvas.Top="108" Padding="0" Height="20" Width="25"/>
+            <Slider x:Name="greenSlider" Canvas.Left="1498" Canvas.Top="106" Height="20" Width="192" Maximum="255" Minimum="0" SmallChange="1" ValueChanged="greenSliderValueChanged" LargeChange="10" />
+            <Label Content="B" Canvas.Left="1455" Canvas.Top="133" Padding="0" Height="20"/>
+            <Label Content="{Binding selected.color.B}" Canvas.Left="1467" Canvas.Top="133" Padding="0" Height="20" Width="25"/>
+            <Slider x:Name="blueSlider" Canvas.Left="1498" Canvas.Top="131" Height="20" Width="192" ValueChanged="blueSliderValueChanged" Maximum="255" Minimum="0" SmallChange="1" LargeChange="10" />
+
+            <ListView Height="752" Canvas.Left="1455" Canvas.Top="158" Width="235" ItemsSource="{Binding shapes}" SelectedItem="{Binding selected}"
+        IsSynchronizedWithCurrentItem="True" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <ListView.ItemTemplate>
                     <DataTemplate>
-                        <Ellipse Width="{StaticResource rotateCornerWidth}" Height="{StaticResource rotateCornerWidth}" Fill="Blue" Opacity="0.1" MouseLeftButtonDown="rotateMouseLeftButtonDown" MouseLeftButtonUp="rotateMouseLeftButtonUp">
-                            <Ellipse.RenderTransform>
-                                <TranslateTransform X="{Binding x}" Y="{Binding y}" />
-                            </Ellipse.RenderTransform>
-                        </Ellipse>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock HorizontalAlignment="Left" Text="{Binding type}"></TextBlock>
+                            <Ellipse HorizontalAlignment="Right" Margin="4 0 0 0" Width="12" Height="12" Fill="{Binding brush}"></Ellipse>
+                        </StackPanel>
                     </DataTemplate>
-                </ItemsControl.ItemTemplate>
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <Canvas />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-            </ItemsControl>
-            <ItemsControl ItemsSource="{Binding selected.scaleCorners}" Visibility="{Binding ElementName=shapesVisibility, Path=IsChecked, Converter={StaticResource booleanToVisibility}}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Ellipse Width="{StaticResource scaleCornerWidth}" Height="{StaticResource scaleCornerWidth}" Fill="Red" MouseLeftButtonDown="scaleMouseLeftButtonDown" MouseLeftButtonUp="scaleMouseLeftButtonUp">
-                            <Ellipse.RenderTransform>
-                                <TranslateTransform X="{Binding x}" Y="{Binding y}" />
-                            </Ellipse.RenderTransform>
-                        </Ellipse>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <Canvas />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-            </ItemsControl>
-            <Button Content="69" Canvas.Left="791" Canvas.Top="203" Width="86" Height="32" FontFamily="Comic Sans MS" FontSize="16" RenderTransformOrigin="0.5,0.5" Foreground="#FF06050F" HorizontalAlignment="Right" VerticalAlignment="Top" HorizontalContentAlignment="Center" Opacity="0.69" BorderThickness="10,1,1,1" BorderBrush="#FFC13636">
-                <Button.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform ScaleY="1" ScaleX="1"/>
-                        <SkewTransform AngleY="0" AngleX="1"/>
-                        <RotateTransform Angle="0"/>
-                        <TranslateTransform/>
-                    </TransformGroup>
-                </Button.RenderTransform>
-                <Button.Background>
-                    <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
-                        <GradientStop Color="#FFF3F3F3" Offset="0"/>
-                        <GradientStop Color="#FFEBEBEB" Offset="0.5"/>
-                        <GradientStop Color="#FFDDDDDD" Offset="0.5"/>
-                        <GradientStop Color="#FF7A1212" Offset="1"/>
-                    </LinearGradientBrush>
-                </Button.Background>
-            </Button>
+                </ListView.ItemTemplate>
+            </ListView>
+            <TextBox Height="23" TextWrapping="Wrap" Text="TextBox" Width="120"/>
+            <Button Content="Button" Width="75"/>
         </Canvas>
-
-        <Button x:Name="load" Content="Load" Canvas.Left="751" Canvas.Top="117" Width="75" Click="loadClick"/>
-        <Button x:Name="open" Content="Open" Canvas.Left="784" Canvas.Top="54" Width="75" Click="openClick"/>
-        <Button x:Name="save" Content="Save" Canvas.Left="826" Canvas.Top="108" Width="75" Click="saveClick"/>
-
-        <CheckBox x:Name="backgroundVisibility" Content="Background" Canvas.Left="1455" Canvas.Top="35" Height="18" IsChecked="True"/>
-        <Slider x:Name="backgroundOpacity"  Canvas.Left="1543" Canvas.Top="35" Width="147" Maximum="1" LargeChange="0.01" SmallChange="0.01" Value="1"/>
-        <CheckBox x:Name="shapesVisibility" Content="Shapes" Canvas.Left="1455" Canvas.Top="58" Height="18" IsChecked="True"/>
-        <Slider x:Name="shapesOpacity" Canvas.Left="1543" Canvas.Top="58" Width="147" Maximum="1" Value="1" LargeChange="0.01" SmallChange="0.01"/>
-
-        <Label Content="R" Canvas.Left="1455" Canvas.Top="83" Padding="0" Height="20"/>
-        <Label Content="{Binding selected.color.R}" Canvas.Left="1467" Canvas.Top="83" Padding="0" Height="20" Width="26"/>
-        <Slider x:Name="redSlider" Canvas.Left="1498" Canvas.Top="81" Height="20" Width="192" Maximum="255" Minimum="0" SmallChange="1" ValueChanged="redSliderValueChanged" LargeChange="10" />
-        <Label Content="G" Canvas.Left="1455" Canvas.Top="108" Padding="0" Height="20"/>
-        <Label Content="{Binding selected.color.G}" Canvas.Left="1468" Canvas.Top="108" Padding="0" Height="20" Width="25"/>
-        <Slider x:Name="greenSlider" Canvas.Left="1498" Canvas.Top="106" Height="20" Width="192" Maximum="255" Minimum="0" SmallChange="1" ValueChanged="greenSliderValueChanged" LargeChange="10" />
-        <Label Content="B" Canvas.Left="1455" Canvas.Top="133" Padding="0" Height="20"/>
-        <Label Content="{Binding selected.color.B}" Canvas.Left="1467" Canvas.Top="133" Padding="0" Height="20" Width="25"/>
-        <Slider x:Name="blueSlider" Canvas.Left="1498" Canvas.Top="131" Height="20" Width="192" ValueChanged="blueSliderValueChanged" Maximum="255" Minimum="0" SmallChange="1" LargeChange="10" />
-
-        <ListView Height="752" Canvas.Left="1455" Canvas.Top="158" Width="235" ItemsSource="{Binding shapes}" SelectedItem="{Binding selected}"
-    IsSynchronizedWithCurrentItem="True">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock HorizontalAlignment="Left" Text="{Binding type}"></TextBlock>
-                        <Ellipse HorizontalAlignment="Right" Margin="4 0 0 0" Width="12" Height="12" Fill="{Binding brush}"></Ellipse>
-                    </StackPanel>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-        <TextBox Height="23" TextWrapping="Wrap" Text="TextBox" Width="120"/>
-        <Button Content="Button" Width="75"/>
-    </Canvas>
-</Window>
+    </Window>
+</Viewbox>
