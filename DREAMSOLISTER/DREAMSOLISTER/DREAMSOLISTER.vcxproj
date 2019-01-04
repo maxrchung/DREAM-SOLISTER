@@ -22,7 +22,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{F8CFBD17-467F-4E13-92E0-617110F08626}</ProjectGuid>
     <RootNamespace>DREAMSOLISTER</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -76,11 +76,11 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\Wax Chug da Gwad\Desktop\S2VX\Libraries\include;C:\Users\Wax Chug da Gwad\Desktop\OsuukiSB\S2RYBRUH;C:\Users\Wax Chug da Gwad\Desktop\S2VX</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)S2VX\Libraries\include;$(SolutionDir)S2RYBRUH\S2RYBRUH;$(SolutionDir)S2VX</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalDependencies>S2RYBRUH.lib;opengl32.lib;glfw3.lib;S2VX.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\Users\Wax Chug da Gwad\Desktop\S2VX\Libraries\lib;C:\Users\Wax Chug da Gwad\Desktop\DREAMSOLISTER\DREAMSOLISTER\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)S2VX\Libraries\lib;$(SolutionDir)Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
