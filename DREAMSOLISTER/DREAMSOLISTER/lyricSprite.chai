@@ -111,3 +111,8 @@ SpriteColor(54336,54336,	0,	blueDR,blueDG,blueDB,	blueDR,blueDG,blueDB);
 SpriteBind("I");
 SpriteMove(54696,end,	0,	20,17,	0,0);
 SpriteColor(54696,54696,	0,	blueR,blueG,blueDB,	blueR,blueG,blueB);
+
+SpriteBind("X");
+SpriteMove(55774,end,	0,	8,14,	0,0);
+SpriteColor(55774,55774,	0,	blueR,blueG,blueDB,	blueR,blueG,blueB);
+SpriteScale(55774,55774,	0,	3,3,	3,3);

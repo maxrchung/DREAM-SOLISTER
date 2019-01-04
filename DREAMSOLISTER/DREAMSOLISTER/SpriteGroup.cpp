@@ -9,7 +9,7 @@ const float SpriteGroup::noteLineScale = 0.7f;
 const std::vector<float> SpriteGroup::notePoint = std::vector<float>({ 0.0f,-0.5f });
 const Vector2 SpriteGroup::notePointScale = Vector2(5.1f, 4.0f);
 
-SpriteGroup::SpriteGroup(const std::string& ID, const int pImageWidth, const int pStart, const int pEnd, const Vector2& pCenter, const float pRotation, const float pCameraScale, const Color pColor, const int pOffset)
+SpriteGroup::SpriteGroup(const std::string& ID, const int pImageWidth, const int pStart, const int pEnd, const Vector2& pCenter, const float pRotation, const float pCameraScale, const Color pColor, const int pOffset, const float pScale)
 	: imageWidth{ pImageWidth }, 
 	start{ pStart }, 
 	end{ pEnd }, 
@@ -17,7 +17,7 @@ SpriteGroup::SpriteGroup(const std::string& ID, const int pImageWidth, const int
 	rotation{ pRotation }, 
 	cameraScale{ pCameraScale },
 	lineHeight{ 7.0f * pCameraScale },
-	scale{ 0.8f }, 
+	scale{ pScale }, 
 	color{ pColor }, 
 	offset{ pOffset },
 	startOffset{ pStart - pOffset },
@@ -67,10 +67,10 @@ void SpriteGroup::makeShapeAnimation(const ShapeAnimation& shapeAnimation) {
 		std::string path;
 		switch (shape.type) {
 			case ShapeType::Ellipse:
-				path = "ellipse.png";
+				path = "circle.png";
 				break;
 			case ShapeType::Rectangle:
-				path = "rectangle.png";
+				path = "square.png";
 				break;
 			case ShapeType::Semicircle:
 				path = "semicircle.png";
@@ -84,7 +84,7 @@ void SpriteGroup::makeShapeAnimation(const ShapeAnimation& shapeAnimation) {
 		const auto position = center + scaledPosition.Rotate(rotation);
 		const auto direction = rand() % 360;
 		const auto startPosition = position + Vector2(cameraScale * scale * imageWidth, 0.0f).Rotate(direction * 3.14159f / 180.0f);
-		const auto endScale = Vector2(shape.scaleVector) / imageWidth;
+		const auto endScale = Vector2(shape.scaleVector) * imageWidth / 900.0f * cameraScale * scale;
 
 		auto const sprite = Storyboard::CreateSprite(path);
 		sprite->Color(startOffset, startOffset, color, color);

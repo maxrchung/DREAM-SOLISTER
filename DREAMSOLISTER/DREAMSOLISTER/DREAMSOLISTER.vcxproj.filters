@@ -22,6 +22,9 @@
     <Filter Include="Header Files\ShapeAnimation">
       <UniqueIdentifier>{310d9eaa-da20-46c2-a7e2-b13993ad4e66}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\shan">
+      <UniqueIdentifier>{52ddfc0c-b661-4951-a0b8-f3d06a9f2b90}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DREAMSOLISTER.cpp">
@@ -98,6 +101,15 @@
     </None>
     <None Include="musicSheet.chai">
       <Filter>Resource Files\chai</Filter>
+    </None>
+    <None Include="test.shan">
+      <Filter>Resource Files\shan</Filter>
+    </None>
+    <None Include="test.chai">
+      <Filter>Resource Files\chai</Filter>
+    </None>
+    <None Include="test2.shan">
+      <Filter>Resource Files\shan</Filter>
     </None>
   </ItemGroup>
 </Project>

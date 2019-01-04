@@ -378,6 +378,16 @@ S2VX::SpriteRotateCommand* getFirstS2VXRotateCommand(const std::vector<std::uniq
 	return nullptr;
 }
 
+S2VX::SpriteScaleCommand* getFirstS2VXScaleCommand(const std::vector<std::unique_ptr<S2VX::Command>>& commands) {
+	for (const auto& command : commands) {
+		const auto scale = dynamic_cast<S2VX::SpriteScaleCommand*>(command.get());
+		if (scale != nullptr) {
+			return scale;
+		}
+	}
+	return nullptr;
+}
+
 S2VX::SpriteColorCommand* getFirstS2VXColorCommand(const std::vector<std::unique_ptr<S2VX::Command>>& commands) {
 	for (const auto& command : commands) {
 		const auto color = dynamic_cast<S2VX::SpriteColorCommand*>(command.get());
@@ -409,7 +419,7 @@ std::vector<SpriteBinding> createSpriteBindings(const std::vector<std::unique_pt
 		const auto sprite = S2VXSprites[i].get();
 		const auto ID = sprite->getTexture().getPath();
 		const auto cameraValues = getCameraValuesAtMilliseconds(camera, sprite->getStart());
-		const auto scale = cameraValues.scale / imageWidth;
+		const auto cameraScale = cameraValues.scale / imageWidth;
 		const auto move = getFirstS2VXMoveCommand(sprite->getCommands());
 		const auto center = convertCoordinatesToPosition(move->getStartCoordinate(), cameraValues);
 		auto rotation = cameraValues.roll;
@@ -419,7 +429,12 @@ std::vector<SpriteBinding> createSpriteBindings(const std::vector<std::unique_pt
 		}
 		const auto color = getFirstS2VXColorCommand(sprite->getCommands());
 		const auto convertColor = convertS2VXColorToOsuukiSBColor(color->getStartColor());
-		const auto spriteGroup = SpriteGroup(ID, imageWidth, move->getStart(), move->getEnd(), center, rotation, scale, convertColor, quarter * 2);
+		const auto scale = getFirstS2VXScaleCommand(sprite->getCommands());
+		auto scaleValue = 0.8f;
+		if (scale) {
+			scaleValue = scale->getStartScale().x;
+		}
+		const auto spriteGroup = SpriteGroup(ID, imageWidth, move->getStart(), move->getEnd(), center, rotation, cameraScale, convertColor, quarter * 2, scaleValue);
 		spriteBindings[i] = SpriteBinding{ S2VXSprites[i].get(), spriteGroup };
 	}
 	return spriteBindings;
@@ -588,13 +603,14 @@ int main() {
 		// For testing
 		//bg->ScaleVector(0, 300000, Vector2::ScreenSize, Vector2::ScreenSize);
 
-		auto shapeAnimation = ShapeAnimation("test");
+		//auto shapeAnimation = ShapeAnimation("test");
 
 		processBackground(bg);
 		//processScript("lyricSpin.chai", bg);
-		processScript("lyricSprite.chai", bg);
+		//processScript("lyricSprite.chai", bg);
 		//processScript("swing.chai", bg);
 		//processScript("musicSheet.chai", bg);
+		processScript("test.chai", bg);
 
 		//MusicSheet("voice.MusicSheet", 122, imageWidth, Color(0, 169, 195), "lyric.MusicSheet", false);
 		//MusicSheet("wind.MusicSheet", 0, imageWidth, Color(247, 255, 8), "", true);
@@ -603,7 +619,7 @@ int main() {
 		//setDotBackground();
 
 		// Blue line rectangle border
-		setBorder();
+		//setBorder();
 
 		// Logo
 		//setS2VXBorder();

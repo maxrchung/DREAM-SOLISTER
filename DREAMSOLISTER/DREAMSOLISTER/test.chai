@@ -1,0 +1,79 @@
+// Default camera values so that getCameraValuesAtMilliseconds() has no issues
+CameraRotate(0,0,	0,	0,0);
+CameraZoom(0,0,	0,	100,100);
+CameraMove(0,0,	0,	0,0,	0,0);
+
+CameraMove(0,0,	0,	0,0,	10.5,11.5);
+CameraZoom(0,0,	0,	30,30);
+
+var end = 64756;
+
+var colorOffset = 30.0f;
+var blueR = 0;
+var blueG = 169.0f / 255;
+var blueB = 195.0f / 255;
+
+var blueDR = 0;
+var blueDG = (169.0f - colorOffset) / 255;
+var blueDB = (195.0f - colorOffset) / 255;
+
+var blueDDR = 0;
+var blueDDG = (169.0f - colorOffset * 2) / 255;
+var blueDDB = (195.0f - colorOffset * 2) / 255;
+
+var yellowR = 247.0f / 255;
+var yellowG = 1;
+var yellowB = 8.0f / 255;
+
+var yellowDR = (247.0f - colorOffset) / 255;
+var yellowDG = (255.0f - colorOffset) / 255;
+var yellowDB = 0;
+
+var yellowDDR = (247.0f - colorOffset * 2) / 255;
+var yellowDDG = (255.0f - colorOffset * 2) / 255;
+var yellowDDB = 0;
+
+var pinkR = 1;
+var pinkG = 0.82f;
+var pinkB = 0.86f;
+
+var pinkDR = 1;
+var pinkDG = 0.82f - colorOffset / 255;
+var pinkDB = 0.86f - colorOffset / 255;
+
+var pinkDDR = 1;
+var pinkDDG = 0.82f - colorOffset * 2 / 255;
+var pinkDDB = 0.86f - colorOffset * 2 / 255;
+
+var greenR = 119.0f / 255;
+var greenG = 1;
+var greenB = 169.0f / 255;
+
+var greenDR = (119.0f - colorOffset) / 255;
+var greenDG = (255 - colorOffset) / 255;
+var greenDB = (169.0f - colorOffset) / 255;
+
+var greenDDR = (119.0f - colorOffset * 2) / 255;
+var greenDDG = (255 - colorOffset * 2) / 255;
+var greenDDB = (169.0f - colorOffset * 2) / 255;
+
+SpriteBind("test2");
+SpriteMove(55774,end,	0,	8,14,	0,0);
+SpriteColor(55774,55774,	0,	blueR,blueG,blueDB,	blueR,blueG,blueB);
+SpriteScale(55774,55774,	0,	1,1,	1,1);
+
+SpriteBind("O");
+SpriteMove(52540,end,	0,	8,13,	0,0);
+SpriteColor(52540,52540,	0,	blueR,blueG,blueB,	blueR,blueG,blueB);
+
+SpriteBind("X");
+SpriteMove(52540,end,	0,	8,15,	0,0);
+SpriteColor(52540,52540,	0,	blueR,blueG,blueB,	blueR,blueG,blueB);
+
+SpriteBind("O");
+SpriteMove(52540,end,	0,	7,14,	0,0);
+SpriteColor(52540,52540,	0,	blueR,blueG,blueB,	blueR,blueG,blueB);
+
+SpriteBind("X");
+SpriteMove(52540,end,	0,	9,14,	0,0);
+SpriteColor(52540,52540,	0,	blueR,blueG,blueB,	blueR,blueG,blueB);

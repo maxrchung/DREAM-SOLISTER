@@ -7,7 +7,7 @@
 class SpriteGroup {
 public:
 	explicit SpriteGroup() {};
-	explicit SpriteGroup(const std::string& ID, const int pImageWidth, const int pStart, const int pEnd, const Vector2& pCenter, const float pRotation, const float pCameraScale, const Color pColor, const int pOffset);
+	explicit SpriteGroup(const std::string& ID, const int pImageWidth, const int pStart, const int pEnd, const Vector2& pCenter, const float pRotation, const float pCameraScale, const Color pColor, const int pOffset, const float pScale);
 	void destroy();
 	std::vector<Sprite*> sprites;
 	Vector2 center;
