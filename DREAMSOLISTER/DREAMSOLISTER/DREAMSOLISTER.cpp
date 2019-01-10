@@ -428,7 +428,10 @@ std::vector<SpriteBinding> createSpriteBindings(const std::vector<std::unique_pt
 			rotation += convertDegreesToRadians(rotate->getStartRotation());
 		}
 		const auto color = getFirstS2VXColorCommand(sprite->getCommands());
-		const auto convertColor = convertS2VXColorToOsuukiSBColor(color->getStartColor());
+		auto convertColor = Color();
+		if (color) {
+			convertColor = convertS2VXColorToOsuukiSBColor(color->getStartColor());
+		}
 		const auto scale = getFirstS2VXScaleCommand(sprite->getCommands());
 		auto scaleValue = 0.8f;
 		if (scale) {
