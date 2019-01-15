@@ -606,14 +606,13 @@ int main() {
 		// For testing
 		//bg->ScaleVector(0, 300000, Vector2::ScreenSize, Vector2::ScreenSize);
 
-		//auto shapeAnimation = ShapeAnimation("test");
 
 		processBackground(bg);
 		//processScript("lyricSpin.chai", bg);
-		//processScript("lyricSprite.chai", bg);
+		processScript("lyricSprite.chai", bg);
 		//processScript("swing.chai", bg);
 		//processScript("musicSheet.chai", bg);
-		processScript("test.chai", bg);
+		//processScript("test.chai", bg);
 
 		//MusicSheet("voice.MusicSheet", 122, imageWidth, Color(0, 169, 195), "lyric.MusicSheet", false);
 		//MusicSheet("wind.MusicSheet", 0, imageWidth, Color(247, 255, 8), "", true);
@@ -622,7 +621,7 @@ int main() {
 		//setDotBackground();
 
 		// Blue line rectangle border
-		//setBorder();
+		setBorder();
 
 		// Logo
 		//setS2VXBorder();
