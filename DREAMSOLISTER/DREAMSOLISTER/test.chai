@@ -59,8 +59,7 @@ var greenDDB = (169.0f - colorOffset * 2) / 255;
 
 SpriteBind("test3");
 SpriteMove(55774,end,	0,	8,14,	0,0);
-SpriteColor(55774,55774,	0,	blueR,blueG,blueDB,	blueR,blueG,blueB);
-SpriteScale(55774,55774,	0,	1,1,	1,1);
+SpriteScale(55774,55774,	0,	3,3,	1,1);
 
 SpriteBind("O");
 SpriteMove(52540,end,	0,	8,13,	0,0);

@@ -87,10 +87,10 @@ void SpriteGroup::makeShapeAnimation(const ShapeAnimation& shapeAnimation) {
 		const auto endScale = Vector2(shape.scaleVector) * imageWidth / 900.0f * cameraScale * scale;
 
 		auto const sprite = Storyboard::CreateSprite(path);
-		sprite->Color(startOffset, startOffset, color, color);
+		sprite->Color(startOffset, startOffset, shape.color, shape.color);
 		sprite->Fade(startOffset, start, 0, 1.0f, Easing::EasingIn);
 		sprite->Move(startOffset, start, startPosition, position, Easing::EasingIn);
-		sprite->Rotate(startOffset, start, 0, shape.rotation, Easing::EasingIn);
+		sprite->Rotate(startOffset, start, 0, shape.rotation + rotation, Easing::EasingIn);
 		sprite->ScaleVector(startOffset, start, Vector2(startScale, startScale), endScale, Easing::EasingIn);
 		sprites.push_back(sprite);
 	}

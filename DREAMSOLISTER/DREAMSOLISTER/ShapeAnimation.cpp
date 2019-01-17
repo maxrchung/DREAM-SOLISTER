@@ -54,7 +54,7 @@ std::vector<Shape> ShapeAnimation::loadShapes(const std::string& ID) {
 		const auto _position = SAShape["_position"];
 		const auto position = Vector2(_position["x"].get<float>(), _position["y"].get<float>());
 		// Position x and y needs to be from -1 to 1 with 0 in the center
-		const auto convertedPosition = Vector2(position.x, -position.y) + Vector2(-Vector2::ScreenSize.x / 2.0f, Vector2::ScreenSize.y / 2.0f);
+		const auto convertedPosition = Vector2(position.x, -position.y) + Vector2(-450, 450);
 		const auto normalizedPosition = convertedPosition / 900.0f;
 
 		const auto rotation = SAShape["_rotation"]["radian"].get<float>();
