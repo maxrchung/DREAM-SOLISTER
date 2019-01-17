@@ -148,7 +148,17 @@
             <Label Content="{Binding selected.color.B}" Canvas.Left="1467" Canvas.Top="133" Padding="0" Height="20" Width="25"/>
             <Slider x:Name="blueSlider" Canvas.Left="1498" Canvas.Top="131" Height="20" Width="192" ValueChanged="blueSliderValueChanged" Maximum="255" Minimum="0" SmallChange="1" LargeChange="10" />
 
-            <ListView Height="722" Canvas.Left="1455" Canvas.Top="188" Width="235" SelectedItem="{Binding selected}" IsSynchronizedWithCurrentItem="True"/>
+            <ListView Height="752" Canvas.Left="1455" Canvas.Top="158" Width="235" ItemsSource="{Binding shapes}" SelectedItem="{Binding selected}"
+        IsSynchronizedWithCurrentItem="True">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock HorizontalAlignment="Left" Text="{Binding type}"></TextBlock>
+                            <Ellipse HorizontalAlignment="Right" Margin="4 0 0 0" Width="12" Height="12" Fill="{Binding brush}"></Ellipse>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </Canvas>
     </Viewbox>
 </Window>
