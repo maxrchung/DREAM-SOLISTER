@@ -111,5 +111,8 @@
     <None Include="test2.shan">
       <Filter>Resource Files\shan</Filter>
     </None>
+    <None Include="test3.shan">
+      <Filter>Resource Files\shan</Filter>
+    </None>
   </ItemGroup>
 </Project>

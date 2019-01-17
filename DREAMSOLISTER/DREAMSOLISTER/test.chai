@@ -4,7 +4,7 @@ CameraZoom(0,0,	0,	100,100);
 CameraMove(0,0,	0,	0,0,	0,0);
 
 CameraMove(0,0,	0,	0,0,	10.5,11.5);
-CameraZoom(0,0,	0,	30,30);
+CameraZoom(0,0,	0,	100,100);
 
 var end = 64756;
 
@@ -57,7 +57,7 @@ var greenDDR = (119.0f - colorOffset * 2) / 255;
 var greenDDG = (255 - colorOffset * 2) / 255;
 var greenDDB = (169.0f - colorOffset * 2) / 255;
 
-SpriteBind("test2");
+SpriteBind("test3");
 SpriteMove(55774,end,	0,	8,14,	0,0);
 SpriteColor(55774,55774,	0,	blueR,blueG,blueDB,	blueR,blueG,blueB);
 SpriteScale(55774,55774,	0,	1,1,	1,1);

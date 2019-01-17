@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:local="clr-namespace:ShapeAnimation"
         mc:Ignorable="d"
         Width="Auto"
@@ -21,6 +22,7 @@
         <CommandBinding Command="local:Command.createEllipse" Executed="createEllipse"/>
         <CommandBinding Command="local:Command.createSemicircle" Executed="createSemicircle"/>
         <CommandBinding Command="local:Command.copy" Executed="copy"/>
+        <CommandBinding Command="local:Command.Eyedropper" Executed="Button_Click"/>
     </Window.CommandBindings>
 
     <Window.InputBindings>
@@ -32,6 +34,7 @@
         <KeyBinding Key="D3" Modifiers="Ctrl" Command="local:Command.createEllipse" />
         <KeyBinding Key="D4" Modifiers="Ctrl" Command="local:Command.createSemicircle" />
         <KeyBinding Key="V" Modifiers="Ctrl" Command="local:Command.copy" />
+        <KeyBinding Key="E" Command="local:Command.Eyedropper"/>
     </Window.InputBindings>
 
     <Window.Resources>
@@ -145,17 +148,7 @@
             <Label Content="{Binding selected.color.B}" Canvas.Left="1467" Canvas.Top="133" Padding="0" Height="20" Width="25"/>
             <Slider x:Name="blueSlider" Canvas.Left="1498" Canvas.Top="131" Height="20" Width="192" ValueChanged="blueSliderValueChanged" Maximum="255" Minimum="0" SmallChange="1" LargeChange="10" />
 
-            <ListView Height="752" Canvas.Left="1455" Canvas.Top="158" Width="235" ItemsSource="{Binding shapes}" SelectedItem="{Binding selected}"
-        IsSynchronizedWithCurrentItem="True">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock HorizontalAlignment="Left" Text="{Binding type}"></TextBlock>
-                            <Ellipse HorizontalAlignment="Right" Margin="4 0 0 0" Width="12" Height="12" Fill="{Binding brush}"></Ellipse>
-                        </StackPanel>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+            <ListView Height="722" Canvas.Left="1455" Canvas.Top="188" Width="235" SelectedItem="{Binding selected}" IsSynchronizedWithCurrentItem="True"/>
         </Canvas>
     </Viewbox>
 </Window>
