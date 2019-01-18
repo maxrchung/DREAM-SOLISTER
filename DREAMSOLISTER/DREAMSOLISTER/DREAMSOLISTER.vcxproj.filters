@@ -93,6 +93,7 @@
     <None Include="swing.chai">
       <Filter>Resource Files\chai</Filter>
     </None>
+
     <None Include="musicSheet.chai">
       <Filter>Resource Files\chai</Filter>
     </None>
@@ -103,6 +104,9 @@
       <Filter>Resource Files\chai</Filter>
     </None>
     <None Include="test2.shan">
+      <Filter>Resource Files\shan</Filter>
+    </None>
+    <None Include="test3.shan">
       <Filter>Resource Files\shan</Filter>
     </None>
     <None Include="faces.chai">

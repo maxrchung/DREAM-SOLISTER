@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:local="clr-namespace:ShapeAnimation"
         mc:Ignorable="d"
         Width="Auto"
@@ -21,6 +22,7 @@
         <CommandBinding Command="local:Command.createEllipse" Executed="createEllipse"/>
         <CommandBinding Command="local:Command.createSemicircle" Executed="createSemicircle"/>
         <CommandBinding Command="local:Command.copy" Executed="copy"/>
+        <CommandBinding Command="local:Command.Eyedropper" Executed="Button_Click"/>
     </Window.CommandBindings>
 
     <Window.InputBindings>
@@ -32,6 +34,7 @@
         <KeyBinding Key="D3" Modifiers="Ctrl" Command="local:Command.createEllipse" />
         <KeyBinding Key="D4" Modifiers="Ctrl" Command="local:Command.createSemicircle" />
         <KeyBinding Key="V" Modifiers="Ctrl" Command="local:Command.copy" />
+        <KeyBinding Key="E" Command="local:Command.Eyedropper"/>
     </Window.InputBindings>
 
     <Window.Resources>

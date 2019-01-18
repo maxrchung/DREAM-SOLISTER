@@ -138,6 +138,7 @@
     <None Include="test.chai" />
     <None Include="test.shan" />
     <None Include="test2.shan" />
+    <None Include="test3.shan" />
     <None Include="voice.MusicSheet" />
     <None Include="swing.chai" />
     <None Include="wind.MusicSheet" />

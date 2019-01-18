@@ -235,5 +235,28 @@ namespace ShapeAnimation {
             }
         }
         #endregion
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            BitmapSource screenimage;
+            byte[] pixels;
+            System.Drawing.Point _point = System.Windows.Forms.Control.MousePosition;
+            Point point = new Point(_point.X, _point.Y);
+            screenimage = InteropHelper.CaptureRegion(InteropHelper.GetDesktopWindow(),
+                                                                       (int)SystemParameters.VirtualScreenLeft,
+                                                                       (int)SystemParameters.VirtualScreenTop,
+                                                                       (int)SystemParameters.PrimaryScreenWidth,
+                                                                       (int)SystemParameters.PrimaryScreenHeight);
+            if (screenimage != null)
+            {
+                int stride = (screenimage.PixelWidth * screenimage.Format.BitsPerPixel + 7) / 8;
+                pixels = new byte[screenimage.PixelHeight * stride];
+                Int32Rect rect = new Int32Rect((int)point.X, (int)point.Y, 1, 1);
+                screenimage.CopyPixels(rect, pixels, stride, 0);
+                SolidColorBrush meme = new SolidColorBrush(Color.FromRgb(pixels[2], pixels[1], pixels[0]));
+                viewModel.selected.color = (Color)ColorConverter.ConvertFromString(InteropHelper.ConvertToString(meme));
+            }
+
+        }
     }
 }
