@@ -608,11 +608,11 @@ int main() {
 
 
 		processBackground(bg);
-		//processScript("lyricSpin.chai", bg);
-		processScript("lyricSprite.chai", bg);
+		//processScript("lyrics.chai", bg);
+		//processScript("faces.chai", bg);
+		processScript("instruments.chai", bg);
 		//processScript("swing.chai", bg);
 		//processScript("musicSheet.chai", bg);
-		//processScript("test.chai", bg);
 
 		//MusicSheet("voice.MusicSheet", 122, imageWidth, Color(0, 169, 195), "lyric.MusicSheet", false);
 		//MusicSheet("wind.MusicSheet", 0, imageWidth, Color(247, 255, 8), "", true);

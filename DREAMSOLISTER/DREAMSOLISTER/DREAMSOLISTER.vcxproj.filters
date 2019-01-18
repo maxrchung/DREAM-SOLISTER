@@ -93,12 +93,6 @@
     <None Include="swing.chai">
       <Filter>Resource Files\chai</Filter>
     </None>
-    <None Include="lyricSpin.chai">
-      <Filter>Resource Files\chai</Filter>
-    </None>
-    <None Include="lyricSprite.chai">
-      <Filter>Resource Files\chai</Filter>
-    </None>
     <None Include="musicSheet.chai">
       <Filter>Resource Files\chai</Filter>
     </None>
@@ -110,6 +104,15 @@
     </None>
     <None Include="test2.shan">
       <Filter>Resource Files\shan</Filter>
+    </None>
+    <None Include="faces.chai">
+      <Filter>Resource Files\chai</Filter>
+    </None>
+    <None Include="instruments.chai">
+      <Filter>Resource Files\chai</Filter>
+    </None>
+    <None Include="lyrics.chai">
+      <Filter>Resource Files\chai</Filter>
     </None>
   </ItemGroup>
 </Project>

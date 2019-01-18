@@ -123,6 +123,9 @@
     <ClCompile Include="DREAMSOLISTER.cpp" />
     <ClCompile Include="LinePoints.cpp" />
     <ClCompile Include="MusicSheet.cpp" />
+    <None Include="faces.chai" />
+    <None Include="instruments.chai" />
+    <None Include="lyrics.chai" />
     <None Include="musicSheet.chai">
       <FileType>Document</FileType>
     </None>
@@ -136,8 +139,6 @@
     <None Include="test.shan" />
     <None Include="test2.shan" />
     <None Include="voice.MusicSheet" />
-    <None Include="lyricSpin.chai" />
-    <None Include="lyricSprite.chai" />
     <None Include="swing.chai" />
     <None Include="wind.MusicSheet" />
   </ItemGroup>
