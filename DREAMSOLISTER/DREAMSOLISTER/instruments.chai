@@ -5,98 +5,97 @@ CameraMove(0,0,	0,	0,0,	0,0);
 CameraMove(0,0,	0,	0,0,	3.5,0);
 
 CameraMove(0,0,	0,	0,0,	7.5,4);
-CameraZoom(0,0,	0,	100,100);
+CameraZoom(0,0,	0,	120,120);
 
 var end = 69606;
 var scale = 1;
 
 // 1
-SpriteBind("KIMIKO");
+SpriteBind("test");
 SpriteMove(65295,end, 0, 5,5,	0,0);
 SpriteScale(65295,65295,	0,	scale,scale,	0,0);
 
 // 2
-SpriteBind("KIMIKO");
+SpriteBind("test");
 SpriteMove(65474,end, 0, 6,5,	0,0);
 SpriteScale(65474,65474,	0,	scale,scale,	0,0);
 
-
 // 3
-SpriteBind("KIMIKO");
+SpriteBind("test");
 SpriteMove(65654,end, 0, 7,5,	0,0);
 SpriteScale(65654,65654,	0,	scale,scale,	0,0);
 
 // 4
-SpriteBind("KIMIKO");
+SpriteBind("test");
 SpriteMove(65833,end, 0, 8,5,	0,0);
 SpriteScale(65833,65833,	0,	scale,scale,	0,0);
 
 // 5
-SpriteBind("KIMIKO");
+SpriteBind("test");
 SpriteMove(66013,end, 0, 9,5,	0,0);
 SpriteScale(66013,66013,	0,	scale,scale,	0,0);
 
 // 6
-SpriteBind("KIMIKO");
+SpriteBind("test");
 SpriteMove(66372,end, 0, 10,5,	0,0);
 SpriteScale(66372,66372,	0,	scale,scale,	0,0);
 
 // 7
-SpriteBind("KIMIKO");
+SpriteBind("test");
 SpriteMove(66732,end, 0, 5,4,	0,0);
 SpriteScale(66732,66732,	0,	scale,scale,	0,0);
 
 // 8
-SpriteBind("KIMIKO");
+SpriteBind("test");
 SpriteMove(66911,end, 0, 6,4,	0,0);
 SpriteScale(66911,66911,	0,	scale,scale,	0,0);
 
 // 9
-SpriteBind("KIMIKO");
+SpriteBind("test");
 SpriteMove(67091,end, 0, 7,4,	0,0);
 SpriteScale(67091,67091,	0,	scale,scale,	0,0);
 
 // 10
-SpriteBind("KIMIKO");
+SpriteBind("test");
 SpriteMove(67450,end, 0, 8,4,	0,0);
 SpriteScale(67450,67450,	0,	scale,scale,	0,0);
 
 // 11
-SpriteBind("KIMIKO");
+SpriteBind("test");
 SpriteMove(67630,end, 0, 9,4,	0,0);
 SpriteScale(67630,67630,	0,	scale,scale,	0,0);
 
 // 12
-SpriteBind("KIMIKO");
+SpriteBind("test");
 SpriteMove(68169,end, 0, 10,4,	0,0);
 SpriteScale(68169,68169,	0,	scale,scale,	0,0);
 
 // 13
-SpriteBind("KIMIKO");
+SpriteBind("test");
 SpriteMove(68348,end, 0, 5,3,	0,0);
 SpriteScale(68348,68348,	0,	scale,scale,	0,0);
 
 // 14
-SpriteBind("KIMIKO");
+SpriteBind("test");
 SpriteMove(68528,end, 0, 6,3,	0,0);
 SpriteScale(68528,68528,	0,	scale,scale,	0,0);
 
 // 15
-SpriteBind("KIMIKO");
+SpriteBind("test");
 SpriteMove(68708,end, 0, 7,3,	0,0);
 SpriteScale(68708,68708,	0,	scale,scale,	0,0);
 
 // 16
-SpriteBind("KIMIKO");
+SpriteBind("test");
 SpriteMove(68708,end, 0, 8,3,	0,0);
 SpriteScale(68708,68708,	0,	scale,scale,	0,0);
 
 // 17
-SpriteBind("KIMIKO");
+SpriteBind("test");
 SpriteMove(69247,end, 0, 9,3,	0,0);
 SpriteScale(69247,69247,	0,	scale,scale,	0,0);
 
 // 18
-SpriteBind("KIMIKO");
+SpriteBind("test");
 SpriteMove(69606,end, 0, 10,3,	0,0);
 SpriteScale(69606,69606,	0,	scale,scale,	0,0);

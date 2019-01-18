@@ -609,7 +609,7 @@ int main() {
 
 		processBackground(bg);
 		//processScript("lyrics.chai", bg);
-		//processScript("faces.chai", bg);
+		processScript("faces.chai", bg);
 		processScript("instruments.chai", bg);
 		//processScript("swing.chai", bg);
 		//processScript("musicSheet.chai", bg);
