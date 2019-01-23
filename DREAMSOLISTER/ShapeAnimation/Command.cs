@@ -9,6 +9,6 @@ namespace ShapeAnimation {
         public static RoutedCommand createEllipse = new RoutedCommand();
         public static RoutedCommand createSemicircle = new RoutedCommand();
         public static RoutedCommand copy = new RoutedCommand();
-        public static RoutedCommand Eyedropper = new RoutedCommand();
+        public static RoutedCommand eyeDrop = new RoutedCommand();
     }
 }
