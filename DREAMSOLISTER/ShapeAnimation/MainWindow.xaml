@@ -22,7 +22,7 @@
         <CommandBinding Command="local:Command.createEllipse" Executed="createEllipse"/>
         <CommandBinding Command="local:Command.createSemicircle" Executed="createSemicircle"/>
         <CommandBinding Command="local:Command.copy" Executed="copy"/>
-        <CommandBinding Command="local:Command.Eyedropper" Executed="Button_Click"/>
+        <CommandBinding Command="local:Command.Eyedropper" Executed="eyeDrop"/>
     </Window.CommandBindings>
 
     <Window.InputBindings>

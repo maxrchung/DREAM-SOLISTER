@@ -236,7 +236,7 @@ namespace ShapeAnimation {
         }
         #endregion
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void eyeDrop(object sender, RoutedEventArgs e)
         {
             BitmapSource screenimage;
             byte[] pixels;
