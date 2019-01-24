@@ -17,7 +17,7 @@ private:
 	void makeMusicNote();
 	void makeLine(const float x1, const float y1, const float x2, const float y2, const float scaleHeight);
 	void makePoint(const float x, const float y, const float pointWidth);
-	void makeNote(const float x, const float y, const const Vector2& noteScale);
+	void makeNote(const float x, const float y, const Vector2& noteScale);
 	void scalePoint(float& value);
 	Color color;
 	int end;
