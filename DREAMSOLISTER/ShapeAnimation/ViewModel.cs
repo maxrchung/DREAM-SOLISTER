@@ -30,6 +30,9 @@ namespace ShapeAnimation {
             }
         }
 
+        public bool visibilityBG = true;
+        public bool visibilityShapes = true;
+
         public ViewModel() {
             //shapes = new ObservableCollection<SAShape>();
             //var rectangle = new SARectangle() {

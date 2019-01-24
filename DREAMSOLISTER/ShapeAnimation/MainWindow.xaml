@@ -27,6 +27,8 @@
         <CommandBinding Command="local:Command.moveDown" Executed="moveDown"/>
         <CommandBinding Command="local:Command.moveToTop" Executed="moveToTop"/>
         <CommandBinding Command="local:Command.moveToBottom" Executed="moveToBottom"/>
+        <CommandBinding Command="local:Command.toggleVisibilityBG" Executed="toggleVisibilityBG"/>
+        <CommandBinding Command="local:Command.toggleVisibilityShapes" Executed="toggleVisibilityShapes"/>
     </Window.CommandBindings>
 
     <Window.InputBindings>
@@ -43,6 +45,8 @@
         <KeyBinding Key="S" Command="local:Command.moveDown"/>
         <KeyBinding Key="D" Command="local:Command.moveToTop"/>
         <KeyBinding Key="F" Command="local:Command.moveToBottom"/>
+        <KeyBinding Key="Q" Command="local:Command.toggleVisibilityBG"/>
+        <KeyBinding Key="W" Command="local:Command.toggleVisibilityShapes"/>
     </Window.InputBindings>
 
     <Window.Resources>
@@ -141,9 +145,9 @@
             <Button x:Name="open" Content="Open" Canvas.Left="1535" Canvas.Top="10" Width="75" Click="openClick"/>
             <Button x:Name="save" Content="Save" Canvas.Left="1615" Canvas.Top="10" Width="75" Click="saveClick"/>
 
-            <CheckBox x:Name="backgroundVisibility" Content="Background" Canvas.Left="1455" Canvas.Top="35" Height="18" IsChecked="True"/>
+            <CheckBox x:Name="backgroundVisibility" Content="Background" Canvas.Left="1455" Canvas.Top="35" Height="18" IsChecked="{Binding visibilityBG}"/>
             <Slider x:Name="backgroundOpacity"  Canvas.Left="1543" Canvas.Top="35" Width="147" Maximum="1" LargeChange="0.01" SmallChange="0.01" Value="1"/>
-            <CheckBox x:Name="shapesVisibility" Content="Shapes" Canvas.Left="1455" Canvas.Top="58" Height="18" IsChecked="True"/>
+            <CheckBox x:Name="shapesVisibility" Content="Shapes" Canvas.Left="1455" Canvas.Top="58" Height="18" IsChecked="{Binding visibilityShapes}"/>
             <Slider x:Name="shapesOpacity" Canvas.Left="1543" Canvas.Top="58" Width="147" Maximum="1" Value="1" LargeChange="0.01" SmallChange="0.01"/>
 
             <Label Content="R" Canvas.Left="1455" Canvas.Top="83" Padding="0" Height="20"/>
