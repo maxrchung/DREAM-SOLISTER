@@ -22,7 +22,7 @@
         <CommandBinding Command="local:Command.createEllipse" Executed="createEllipse"/>
         <CommandBinding Command="local:Command.createSemicircle" Executed="createSemicircle"/>
         <CommandBinding Command="local:Command.copy" Executed="copy"/>
-        <CommandBinding Command="local:Command.Eyedropper" Executed="eyeDrop"/>
+        <CommandBinding Command="local:Command.eyeDrop" Executed="eyeDrop"/>
         <CommandBinding Command="local:Command.moveUp" Executed="moveUp"/>
         <CommandBinding Command="local:Command.moveDown" Executed="moveDown"/>
         <CommandBinding Command="local:Command.moveToTop" Executed="moveToTop"/>
@@ -38,7 +38,7 @@
         <KeyBinding Key="D3" Modifiers="Ctrl" Command="local:Command.createEllipse" />
         <KeyBinding Key="D4" Modifiers="Ctrl" Command="local:Command.createSemicircle" />
         <KeyBinding Key="V" Modifiers="Ctrl" Command="local:Command.copy" />
-        <KeyBinding Key="E" Command="local:Command.Eyedropper"/>
+        <KeyBinding Key="E" Command="local:Command.eyeDrop"/>
         <KeyBinding Key="A" Command="local:Command.moveUp"/>
         <KeyBinding Key="S" Command="local:Command.moveDown"/>
         <KeyBinding Key="D" Command="local:Command.moveToTop"/>
@@ -122,7 +122,7 @@
                 <ItemsControl ItemsSource="{Binding selected.scaleCorners}" Visibility="{Binding ElementName=shapesVisibility, Path=IsChecked, Converter={StaticResource booleanToVisibility}}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Ellipse Width="{StaticResource scaleCornerWidth}" Height="{StaticResource scaleCornerWidth}" Fill="Red" MouseLeftButtonDown="scaleMouseLeftButtonDown" MouseLeftButtonUp="scaleMouseLeftButtonUp">
+                            <Ellipse Width="{StaticResource scaleCornerWidth}" Height="{StaticResource scaleCornerWidth}" Fill="Red" Opacity="0.5" MouseLeftButtonDown="scaleMouseLeftButtonDown" MouseLeftButtonUp="scaleMouseLeftButtonUp">
                                 <Ellipse.RenderTransform>
                                     <TranslateTransform X="{Binding x}" Y="{Binding y}" />
                                 </Ellipse.RenderTransform>
