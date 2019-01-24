@@ -3,11 +3,13 @@ CameraRotate(0,0,	0,	0,0);
 CameraZoom(0,0,	0,	100,100);
 CameraMove(0,0,	0,	0,0,	0,0);
 
-CameraMove(0,0,	0,	0,0,	10.5,11.5);
-CameraZoom(0,0,	0,	30,30);
-CameraRotate(55055,55774,	2,	0,-90)
-CameraRotate(57929,58648,	2,	-90,-180)
-CameraRotate(60624,61163,	2,	-180,-270)
+CameraMove(0,0,	0,	0,0,	8,14);
+CameraRotate(0,0,	2,	0,	0);
+
+CameraZoom(52540,55774,	0,	80,60);
+CameraMove(55774,58648,	0,	8,14,	10.5,11.5);
+CameraRotate(58648,60804,	2,	0,-45);
+CameraZoom(61163,65115,	0,	60,30);
 
 var end = 64935;
 
@@ -72,122 +74,122 @@ SpriteMove(52540,end,	0,	8,17,	0,0);
 SpriteColor(52540,52540,	0,	blueR,blueG,blueB,	blueR,blueG,blueB);
 
 SpriteBind("M");
-SpriteMove(52899,end,	0,	9,17,	0,0);
-SpriteColor(52899,52899,	0,	blueDR,blueDG,blueDB,	blueDR,blueDG,blueDB);
+SpriteMove(52540,end,	0,	9,17,	0,0);
+SpriteColor(52540,52540,	0,	blueDR,blueDG,blueDB,	blueDR,blueDG,blueDB);
 SpriteBind("A");
-SpriteMove(52899,end,	0,	10,17,	0,0);
-SpriteColor(52899,52899,	0,	blueDR,blueDG,blueDB,	blueDR,blueDG,blueDB);
+SpriteMove(52540,end,	0,	10,17,	0,0);
+SpriteColor(52540,52540,	0,	blueDR,blueDG,blueDB,	blueDR,blueDG,blueDB);
 
 SpriteBind("Z");
-SpriteMove(53259,end,	0,	11,17,	0,0);
-SpriteColor(53259,53259,	0,	blueDDR,blueDDG,blueDDB,	blueDDR,blueDDG,blueDDB);
+SpriteMove(52540,end,	0,	11,17,	0,0);
+SpriteColor(52540,52540,	0,	blueDDR,blueDDG,blueDDB,	blueDDR,blueDDG,blueDDB);
 SpriteBind("U");
-SpriteMove(53259,end,	0,	12,17,	0,0);
-SpriteColor(53259,53259,	0,	blueDDR,blueDDG,blueDDB,	blueDDR,blueDDG,blueDDB);
+SpriteMove(52540,end,	0,	12,17,	0,0);
+SpriteColor(52540,52540,	0,	blueDDR,blueDDG,blueDDB,	blueDDR,blueDDG,blueDDB);
 
 SpriteBind("I");
-SpriteMove(53618,end,	0,	13,17,	0,0);
-SpriteColor(53618,53618,	0,	blueDR,blueDG,blueDB,	blueDR,blueDG,blueDB);
+SpriteMove(52540,end,	0,	13,17,	0,0);
+SpriteColor(52540,52540,	0,	blueDR,blueDG,blueDB,	blueDR,blueDG,blueDB);
 
 SpriteBind("T");
-SpriteMove(53977,end,	0,	14,17,	0,0);
-SpriteColor(53977,53977,	0,	blueR,blueG,blueB,	blueR,blueG,blueB);
+SpriteMove(52540,end,	0,	14,17,	0,0);
+SpriteColor(52540,52540,	0,	blueR,blueG,blueB,	blueR,blueG,blueB);
 SpriteBind("E");
-SpriteMove(53977,end,	0,	15,17,	0,0);
-SpriteColor(53977,53977,	0,	blueR,blueG,blueB,	blueR,blueG,blueB);
+SpriteMove(52540,end,	0,	15,17,	0,0);
+SpriteColor(52540,52540,	0,	blueR,blueG,blueB,	blueR,blueG,blueB);
 
 SpriteBind("MusicNote");
-SpriteMove(54336,end,	0,	16,17,	0,0);
-SpriteColor(54336,54336,	0,	blueDR,blueDG,blueDB,	blueDR,blueDG,blueDB);
+SpriteMove(52540,end,	0,	16,17,	0,0);
+SpriteColor(52540,52540,	0,	blueDR,blueDG,blueDB,	blueDR,blueDG,blueDB);
 
 SpriteBind("M");
-SpriteMove(54336,end,	0,	17,17,	0,0);
-SpriteColor(54336,54336,	0,	blueDDR,blueDDG,blueDDB,	blueDDR,blueDDG,blueDDB);
+SpriteMove(52540,end,	0,	17,17,	0,0);
+SpriteColor(52540,52540,	0,	blueDDR,blueDDG,blueDDB,	blueDDR,blueDDG,blueDDB);
 SpriteBind("O");
-SpriteMove(54336,end,	0,	18,17,	0,0);
-SpriteColor(54336,54336,	0,	blueDDR,blueDDG,blueDDB,	blueDDR,blueDDG,blueDDB);
+SpriteMove(52540,end,	0,	18,17,	0,0);
+SpriteColor(52540,52540,	0,	blueDDR,blueDDG,blueDDB,	blueDDR,blueDDG,blueDDB);
 
 SpriteBind("MusicNote");
-SpriteMove(54336,end,	0,	19,17,	0,0);
-SpriteColor(54336,54336,	0,	blueDR,blueDG,blueDB,	blueDR,blueDG,blueDB);
+SpriteMove(52540,end,	0,	19,17,	0,0);
+SpriteColor(52540,52540,	0,	blueDR,blueDG,blueDB,	blueDR,blueDG,blueDB);
 
 SpriteBind("I");
-SpriteMove(54696,end,	0,	20,17,	0,0);
-SpriteColor(54696,54696,	0,	blueR,blueG,blueDB,	blueR,blueG,blueB);
+SpriteMove(52540,end,	0,	20,17,	0,0);
+SpriteColor(52540,52540,	0,	blueR,blueG,blueDB,	blueR,blueG,blueB);
 
 // HAMIDASHITE MO I
 SpriteBind("H");
-SpriteMove(55774,end,	0,	16,16,	0,0);
-SpriteColor(55774,55774,	0,	yellowR,yellowG,yellowB,	yellowR,yellowG,yellowB);
-SpriteRotate(55774,55774, 0, 90,		0);
+SpriteMove(52540,end,	0,	16,16,	0,0);
+SpriteColor(52540,52540,	0,	yellowR,yellowG,yellowB,	yellowR,yellowG,yellowB);
+SpriteRotate(52540,52540, 0, 90,		0);
 SpriteBind("A");
-SpriteMove(55774,end,	0,	16,15,	0,0);
-SpriteColor(55774,55774,	0,	yellowR,yellowG,yellowB,	yellowR,yellowG,yellowB);
-SpriteRotate(55774,55774, 0, 90,		0);
+SpriteMove(52540,end,	0,	16,15,	0,0);
+SpriteColor(52540,52540,	0,	yellowR,yellowG,yellowB,	yellowR,yellowG,yellowB);
+SpriteRotate(52540,52540, 0, 90,		0);
 
 SpriteBind("M");
-SpriteMove(55774,end,	0,	16,14,	0,0);
-SpriteColor(55774,55774,	0,	yellowDR,yellowDG,yellowDB,	yellowDR,yellowDG,yellowDB);
-SpriteRotate(55774,55774, 0, 90,		0);
+SpriteMove(52540,end,	0,	16,14,	0,0);
+SpriteColor(52540,52540,	0,	yellowDR,yellowDG,yellowDB,	yellowDR,yellowDG,yellowDB);
+SpriteRotate(52540,52540, 0, 90,		0);
 SpriteBind("I");
-SpriteMove(55774,end,	0,	16,13,	0,0);
-SpriteColor(55774,55774,	0,	yellowDR,yellowDG,yellowDB,	yellowDR,yellowDG,yellowDB);
-SpriteRotate(55774,55774, 0, 90,		0);
+SpriteMove(52540,end,	0,	16,13,	0,0);
+SpriteColor(52540,52540,	0,	yellowDR,yellowDG,yellowDB,	yellowDR,yellowDG,yellowDB);
+SpriteRotate(52540,52540, 0, 90,		0);
 
 SpriteBind("D");
-SpriteMove(55774,end,	0,	16,12,	0,0);
-SpriteColor(55774,55774,	0,	yellowDDR,yellowDDG,yellowDDB,	yellowDDR,yellowDDG,yellowDDB);
-SpriteRotate(55774,55774, 0, 90,		0);
+SpriteMove(52540,end,	0,	16,12,	0,0);
+SpriteColor(52540,52540,	0,	yellowDDR,yellowDDG,yellowDDB,	yellowDDR,yellowDDG,yellowDDB);
+SpriteRotate(52540,52540, 0, 90,		0);
 SpriteBind("A");
-SpriteMove(55774,end,	0,	16,11,	0,0);
-SpriteColor(55774,55774,	0,	yellowDDR,yellowDDG,yellowDDB,	yellowDDR,yellowDDG,yellowDDB);
-SpriteRotate(55774,55774, 0, 90,		0);
+SpriteMove(52540,end,	0,	16,11,	0,0);
+SpriteColor(52540,52540,	0,	yellowDDR,yellowDDG,yellowDDB,	yellowDDR,yellowDDG,yellowDDB);
+SpriteRotate(52540,52540, 0, 90,		0);
 
 SpriteBind("S");
-SpriteMove(55774,end,	0,	16,10,	0,0);
-SpriteColor(55774,55774,	0,	yellowDR,yellowDG,yellowDB,	yellowDR,yellowDG,yellowDB);
-SpriteRotate(55774,55774, 0, 90,		0);
+SpriteMove(52540,end,	0,	16,10,	0,0);
+SpriteColor(52540,52540,	0,	yellowDR,yellowDG,yellowDB,	yellowDR,yellowDG,yellowDB);
+SpriteRotate(52540,52540, 0, 90,		0);
 SpriteBind("H");
-SpriteMove(55774,end,	0,	16,9,	0,0);
-SpriteColor(55774,55774,	0,	yellowDR,yellowDG,yellowDB,	yellowDR,yellowDG,yellowDB);
-SpriteRotate(55774,55774, 0, 90,		0);
+SpriteMove(52540,end,	0,	16,9,	0,0);
+SpriteColor(52540,52540,	0,	yellowDR,yellowDG,yellowDB,	yellowDR,yellowDG,yellowDB);
+SpriteRotate(52540,52540, 0, 90,		0);
 SpriteBind("I");
-SpriteMove(55774,end,	0,	16,8,	0,0);
-SpriteColor(55774,55774,	0,	yellowDR,yellowDG,yellowDB,	yellowDR,yellowDG,yellowDB);
-SpriteRotate(55774,55774, 0, 90,		0);
+SpriteMove(52540,end,	0,	16,8,	0,0);
+SpriteColor(52540,52540,	0,	yellowDR,yellowDG,yellowDB,	yellowDR,yellowDG,yellowDB);
+SpriteRotate(52540,52540, 0, 90,		0);
 
 SpriteBind("T");
-SpriteMove(55774,end,	0,	16,7,	0,0);
-SpriteColor(55774,55774,	0,	yellowR,yellowG,yellowB,	yellowR,yellowG,yellowB);
-SpriteRotate(55774,55774, 0, 90,		0);
+SpriteMove(52540,end,	0,	16,7,	0,0);
+SpriteColor(52540,52540,	0,	yellowR,yellowG,yellowB,	yellowR,yellowG,yellowB);
+SpriteRotate(52540,52540, 0, 90,		0);
 SpriteBind("E");
-SpriteMove(55774,end,	0,	16,6,	0,0);
-SpriteColor(55774,55774,	0,	yellowR,yellowG,yellowB,	yellowR,yellowG,yellowB);
-SpriteRotate(55774,55774, 0, 90,		0);
+SpriteMove(52540,end,	0,	16,6,	0,0);
+SpriteColor(52540,52540,	0,	yellowR,yellowG,yellowB,	yellowR,yellowG,yellowB);
+SpriteRotate(52540,52540, 0, 90,		0);
 
 SpriteBind("MusicNote");
-SpriteMove(55774,end,	0,	16,5,	0,0);
-SpriteColor(55774,55774,	0,	yellowDR,yellowDG,yellowDB,	yellowDR,yellowDG,yellowDB);
-SpriteRotate(55774,55774, 0, 90,		0);
+SpriteMove(52540,end,	0,	16,5,	0,0);
+SpriteColor(52540,52540,	0,	yellowDR,yellowDG,yellowDB,	yellowDR,yellowDG,yellowDB);
+SpriteRotate(52540,52540, 0, 90,		0);
 
 SpriteBind("M");
-SpriteMove(55774,end,	0,	16,4,	0,0);
-SpriteColor(55774,55774,	0,	yellowDDR,yellowDDG,yellowDB,	yellowDDR,yellowDDG,yellowDDB);
-SpriteRotate(55774,55774, 0, 90,		0);
+SpriteMove(52540,end,	0,	16,4,	0,0);
+SpriteColor(52540,52540,	0,	yellowDDR,yellowDDG,yellowDB,	yellowDDR,yellowDDG,yellowDDB);
+SpriteRotate(52540,52540, 0, 90,		0);
 SpriteBind("O");
-SpriteMove(55774,end,	0,	16,3,	0,0);
-SpriteColor(55774,55774,	0,	yellowDDR,yellowDDG,yellowDDB,	yellowDDR,yellowDDG,yellowDDB);
-SpriteRotate(55774,55774, 0, 90,		0);
+SpriteMove(52540,end,	0,	16,3,	0,0);
+SpriteColor(52540,52540,	0,	yellowDDR,yellowDDG,yellowDDB,	yellowDDR,yellowDDG,yellowDDB);
+SpriteRotate(52540,52540, 0, 90,		0);
 
 SpriteBind("MusicNote");
-SpriteMove(55774,end,	0,	16,2,	0,0);
-SpriteColor(55774,55774,	0,	yellowDR,yellowDG,yellowDB,	yellowDR,yellowDG,yellowDB);
-SpriteRotate(55774,55774, 0, 90,		0);
+SpriteMove(52540,end,	0,	16,2,	0,0);
+SpriteColor(52540,52540,	0,	yellowDR,yellowDG,yellowDB,	yellowDR,yellowDG,yellowDB);
+SpriteRotate(52540,52540, 0, 90,		0);
 
 SpriteBind("I");
-SpriteMove(55774,end,	0,	16,1,	0,0);
-SpriteRotate(55774,55774, 0, 90,		0);
-SpriteColor(55774,55774,	0,	yellowR,yellowG,yellowB,	yellowR,yellowG,yellowB);
+SpriteMove(52540,end,	0,	16,1,	0,0);
+SpriteRotate(52540,52540, 0, 90,		0);
+SpriteColor(52540,52540,	0,	yellowR,yellowG,yellowB,	yellowR,yellowG,yellowB);
 
 // KIMI NO NEIRO WO
 SpriteBind("K");
@@ -200,69 +202,69 @@ SpriteRotate(58648,58648, 0, 180,		0);
 SpriteColor(58648,58648,	0,	pinkR,pinkG,pinkB,	pinkR,pinkG,pinkB);
 
 SpriteBind("M");
-SpriteMove(59007,end,	0,	13,6,	0,0);
-SpriteRotate(59007,59007, 0, 180,		0);
-SpriteColor(59007,59007,	0,	pinkDR,pinkDG,pinkDB,	pinkDR,pinkDG,pinkDB);
+SpriteMove(58648,end,	0,	13,6,	0,0);
+SpriteRotate(58648,58648, 0, 180,		0);
+SpriteColor(58648,58648,	0,	pinkDR,pinkDG,pinkDB,	pinkDR,pinkDG,pinkDB);
 SpriteBind("I");
-SpriteMove(59007,end,	0,	12,6,	0,0);
-SpriteRotate(59007,59007, 0, 180,		0);
-SpriteColor(59007,59007,	0,	pinkDR,pinkDG,pinkDB,	pinkDR,pinkDG,pinkDB);
+SpriteMove(58648,end,	0,	12,6,	0,0);
+SpriteRotate(58648,58648, 0, 180,		0);
+SpriteColor(58648,58648,	0,	pinkDR,pinkDG,pinkDB,	pinkDR,pinkDG,pinkDB);
 
 SpriteBind("MusicNote");
-SpriteMove(59007,end,	0,	11,6,	0,0);
-SpriteRotate(59007,59007, 0, 180,		0);
-SpriteColor(59007,59007,	0,	pinkDDR,pinkDDG,pinkDDB,	pinkDDR,pinkDDG,pinkDDB);
+SpriteMove(58648,end,	0,	11,6,	0,0);
+SpriteRotate(58648,58648, 0, 180,		0);
+SpriteColor(58648,58648,	0,	pinkDDR,pinkDDG,pinkDDB,	pinkDDR,pinkDDG,pinkDDB);
 
 SpriteBind("N");
-SpriteMove(59366,end,	0,	10,6,	0,0);
-SpriteRotate(59366,59366, 0, 180,		0);
-SpriteColor(59366,59366,	0,	pinkDR,pinkDG,pinkDB,	pinkDR,pinkDG,pinkDB);
+SpriteMove(58648,end,	0,	10,6,	0,0);
+SpriteRotate(58648,58648, 0, 180,		0);
+SpriteColor(58648,58648,	0,	pinkDR,pinkDG,pinkDB,	pinkDR,pinkDG,pinkDB);
 SpriteBind("O");
-SpriteMove(59366,end,	0,	9,6,	0,0);
-SpriteRotate(59366,59366, 0, 180,		0);
-SpriteColor(59366,59366,	0,	pinkDR,pinkDG,pinkDB,	pinkDR,pinkDG,pinkDB);
+SpriteMove(58648,end,	0,	9,6,	0,0);
+SpriteRotate(58648,58648, 0, 180,		0);
+SpriteColor(58648,58648,	0,	pinkDR,pinkDG,pinkDB,	pinkDR,pinkDG,pinkDB);
 
 SpriteBind("MusicNote");
-SpriteMove(59366,end,	0,	8,6,	0,0);
-SpriteRotate(59366,59366, 0, 180,		0);
-SpriteColor(59366,59366,	0,	pinkR,pinkG,pinkB,	pinkR,pinkG,pinkB);
+SpriteMove(58648,end,	0,	8,6,	0,0);
+SpriteRotate(58648,58648, 0, 180,		0);
+SpriteColor(58648,58648,	0,	pinkR,pinkG,pinkB,	pinkR,pinkG,pinkB);
 
 SpriteBind("N");
-SpriteMove(59726,end,	0,	7,6,	0,0);
-SpriteRotate(59726,59726, 0, 180,		0);
-SpriteColor(59726,59726,	0,	pinkDR,pinkDG,pinkDB,	pinkDR,pinkDG,pinkDB);
+SpriteMove(58648,end,	0,	7,6,	0,0);
+SpriteRotate(58648,58648, 0, 180,		0);
+SpriteColor(58648,58648,	0,	pinkDR,pinkDG,pinkDB,	pinkDR,pinkDG,pinkDB);
 SpriteBind("E");
-SpriteMove(59726,end,	0,	6,6,	0,0);
-SpriteRotate(59726,59726, 0, 180,		0);
-SpriteColor(59726,59726,	0,	pinkDR,pinkDG,pinkDB,	pinkDR,pinkDG,pinkDB);
+SpriteMove(58648,end,	0,	6,6,	0,0);
+SpriteRotate(58648,58648, 0, 180,		0);
+SpriteColor(58648,58648,	0,	pinkDR,pinkDG,pinkDB,	pinkDR,pinkDG,pinkDB);
 
 SpriteBind("I");
-SpriteMove(59905,end,	0,	5,6,	0,0);
-SpriteRotate(59905,59905, 0, 180,		0);
-SpriteColor(59905,59905,	0,	pinkDDR,pinkDDG,pinkDDB,	pinkDDR,pinkDDG,pinkDDB);
+SpriteMove(58648,end,	0,	5,6,	0,0);
+SpriteRotate(58648,58648, 0, 180,		0);
+SpriteColor(58648,58648,	0,	pinkDDR,pinkDDG,pinkDDB,	pinkDDR,pinkDDG,pinkDDB);
 
 SpriteBind("R");
-SpriteMove(60265,end,	0,	4,6,	0,0);
-SpriteRotate(60265,60265, 0, 180,		0);
-SpriteColor(60265,60265,	0,	pinkDR,pinkDG,pinkDB,	pinkDR,pinkDG,pinkDB);
+SpriteMove(58648,end,	0,	4,6,	0,0);
+SpriteRotate(58648,58648, 0, 180,		0);
+SpriteColor(58648,58648,	0,	pinkDR,pinkDG,pinkDB,	pinkDR,pinkDG,pinkDB);
 SpriteBind("O");
-SpriteMove(60265,end,	0,	3,6,	0,0);
-SpriteRotate(60265,60265, 0, 180,		0);
-SpriteColor(60265,60265,	0,	pinkDR,pinkDG,pinkDB,	pinkDR,pinkDG,pinkDB);
+SpriteMove(58648,end,	0,	3,6,	0,0);
+SpriteRotate(58648,58648, 0, 180,		0);
+SpriteColor(58648,58648,	0,	pinkDR,pinkDG,pinkDB,	pinkDR,pinkDG,pinkDB);
 
 SpriteBind("MusicNote");
-SpriteMove(60265,end,	0,	2,6,	0,0);
-SpriteRotate(60265,60265, 0, 180,		0);
-SpriteColor(60265,60265,	0,	pinkR,pinkG,pinkB,	pinkR,pinkG,pinkB);
+SpriteMove(58648,end,	0,	2,6,	0,0);
+SpriteRotate(58648,58648, 0, 180,		0);
+SpriteColor(58648,58648,	0,	pinkR,pinkG,pinkB,	pinkR,pinkG,pinkB);
 
 SpriteBind("W");
-SpriteMove(60624,end,	0,	1,6,	0,0);
-SpriteRotate(60624,60624, 0, 180,		0);
-SpriteColor(60624,60624,	0,	pinkDR,pinkDG,pinkDB,	pinkDR,pinkDG,pinkDB);
+SpriteMove(58648,end,	0,	1,6,	0,0);
+SpriteRotate(58648,58648, 0, 180,		0);
+SpriteColor(58648,58648,	0,	pinkDR,pinkDG,pinkDB,	pinkDR,pinkDG,pinkDB);
 SpriteBind("O");
-SpriteMove(60624,end,	0,	0,6,	0,0);
-SpriteRotate(60624,60624, 0, 180,		0);
-SpriteColor(60624,60624,	0,	pinkDR,pinkDG,pinkDB,	pinkDR,pinkDG,pinkDB);
+SpriteMove(58648,end,	0,	0,6,	0,0);
+SpriteRotate(58648,58648, 0, 180,		0);
+SpriteColor(58648,58648,	0,	pinkDR,pinkDG,pinkDB,	pinkDR,pinkDG,pinkDB);
 
 // BOKU TACHI WA MATTE IRU
 SpriteBind("B");
@@ -275,111 +277,111 @@ SpriteRotate(61163,61163, 0, 270,		0);
 SpriteColor(61163,61163,	0,	greenR,greenG,greenB,	greenR,greenG,greenB);
 
 SpriteBind("K");
-SpriteMove(61522,end,	0,	4,9,	0,0);
-SpriteRotate(61522,61522, 0, 270,		0);
-SpriteColor(61522,61522,	0,	greenDR,greenDG,greenDB,	greenDR,greenDG,greenDB);
+SpriteMove(61163,end,	0,	4,9,	0,0);
+SpriteRotate(61163,61163, 0, 270,		0);
+SpriteColor(61163,61163,	0,	greenDR,greenDG,greenDB,	greenDR,greenDG,greenDB);
 SpriteBind("U");
-SpriteMove(61522,end,	0,	4,10,	0,0);
-SpriteRotate(61522,61522, 0, 270,		0);
-SpriteColor(61522,61522,	0,	greenDR,greenDG,greenDB,	greenDR,greenDG,greenDB);
+SpriteMove(61163,end,	0,	4,10,	0,0);
+SpriteRotate(61163,61163, 0, 270,		0);
+SpriteColor(61163,61163,	0,	greenDR,greenDG,greenDB,	greenDR,greenDG,greenDB);
 
 SpriteBind("MusicNote");
-SpriteMove(61522,end,	0,	4,11,	0,0);
-SpriteRotate(61522,61522, 0, 270,		0);
-SpriteColor(61522,61522,	0,	greenDDR,greenDDG,greenDDB,	greenDDR,greenDDG,greenDDB);
+SpriteMove(61163,end,	0,	4,11,	0,0);
+SpriteRotate(61163,61163, 0, 270,		0);
+SpriteColor(61163,61163,	0,	greenDDR,greenDDG,greenDDB,	greenDDR,greenDDG,greenDDB);
 
 SpriteBind("T");
-SpriteMove(61881,end,	0,	4,12,	0,0);
-SpriteRotate(61881,61881, 0, 270,		0);
-SpriteColor(61881,61881,	0,	greenDR,greenDG,greenDB,	greenDR,greenDG,greenDB);
+SpriteMove(61163,end,	0,	4,12,	0,0);
+SpriteRotate(61163,61163, 0, 270,		0);
+SpriteColor(61163,61163,	0,	greenDR,greenDG,greenDB,	greenDR,greenDG,greenDB);
 SpriteBind("A");
-SpriteMove(61881,end,	0,	4,13,	0,0);
-SpriteRotate(61881,61881, 0, 270,		0);
-SpriteColor(61881,61881,	0,	greenDR,greenDG,greenDB,	greenDR,greenDG,greenDB);
+SpriteMove(61163,end,	0,	4,13,	0,0);
+SpriteRotate(61163,61163, 0, 270,		0);
+SpriteColor(61163,61163,	0,	greenDR,greenDG,greenDB,	greenDR,greenDG,greenDB);
 
 SpriteBind("C");
-SpriteMove(62241,end,	0,	4,14,	0,0);
-SpriteRotate(62241,62241, 0, 270,		0);
-SpriteColor(62241,62241,	0,	greenR,greenG,greenB,	greenR,greenG,greenB);
+SpriteMove(61163,end,	0,	4,14,	0,0);
+SpriteRotate(61163,61163, 0, 270,		0);
+SpriteColor(61163,61163,	0,	greenR,greenG,greenB,	greenR,greenG,greenB);
 SpriteBind("H");
-SpriteMove(62241,end,	0,	4,15,	0,0);
-SpriteRotate(62241,62241, 0, 270,		0);
-SpriteColor(62241,62241,	0,	greenR,greenG,greenB,	greenR,greenG,greenB);
+SpriteMove(61163,end,	0,	4,15,	0,0);
+SpriteRotate(61163,61163, 0, 270,		0);
+SpriteColor(61163,61163,	0,	greenR,greenG,greenB,	greenR,greenG,greenB);
 SpriteBind("I");
-SpriteMove(62241,end,	0,	4,16,	0,0);
-SpriteRotate(62241,62241, 0, 270,		0);
-SpriteColor(62241,62241,	0,	greenR,greenG,greenB,	greenR,greenG,greenB);
+SpriteMove(61163,end,	0,	4,16,	0,0);
+SpriteRotate(61163,61163, 0, 270,		0);
+SpriteColor(61163,61163,	0,	greenR,greenG,greenB,	greenR,greenG,greenB);
 
 SpriteBind("W");
-SpriteMove(62959,end,	0,	5,7,	0,0);
-SpriteRotate(62959,62959, 0, 270,		0);
-SpriteColor(62959,62959,	0,	greenDR,greenDG,greenDB,	greenDR,greenDG,greenDB);
+SpriteMove(61163,end,	0,	5,7,	0,0);
+SpriteRotate(61163,61163, 0, 270,		0);
+SpriteColor(61163,61163,	0,	greenDR,greenDG,greenDB,	greenDR,greenDG,greenDB);
 SpriteBind("A");
-SpriteMove(62959,end,	0,	5,8,	0,0);
-SpriteRotate(62959,62959, 0, 270,		0);
-SpriteColor(62959,62959,	0,	greenDR,greenDG,greenDB,	greenDR,greenDG,greenDB);
+SpriteMove(61163,end,	0,	5,8,	0,0);
+SpriteRotate(61163,61163, 0, 270,		0);
+SpriteColor(61163,61163,	0,	greenDR,greenDG,greenDB,	greenDR,greenDG,greenDB);
 
 SpriteBind("MusicNote");
-SpriteMove(62959,end,	0,	5,9,	0,0);
-SpriteRotate(62959,62959, 0, 270,		0);
-SpriteColor(62959,62959,	0,	greenDDR,greenDDG,greenDDB,	greenDDR,greenDDG,greenDDB);
+SpriteMove(61163,end,	0,	5,9,	0,0);
+SpriteRotate(61163,61163, 0, 270,		0);
+SpriteColor(61163,61163,	0,	greenDDR,greenDDG,greenDDB,	greenDDR,greenDDG,greenDDB);
 
 SpriteBind("M");
-SpriteMove(63498,end,	0,	5,10,	0,0);
-SpriteRotate(63498,63498, 0, 270,		0);
-SpriteColor(63498,63498,	0,	greenDR,greenDG,greenDB,	greenDR,greenDG,greenDB);
+SpriteMove(61163,end,	0,	5,10,	0,0);
+SpriteRotate(61163,61163, 0, 270,		0);
+SpriteColor(61163,61163,	0,	greenDR,greenDG,greenDB,	greenDR,greenDG,greenDB);
 SpriteBind("A");
-SpriteMove(63498,end,	0,	5,11,	0,0);
-SpriteRotate(63498,63498, 0, 270,		0);
-SpriteColor(63498,63498,	0,	greenDR,greenDG,greenDB,	greenDR,greenDG,greenDB);
+SpriteMove(61163,end,	0,	5,11,	0,0);
+SpriteRotate(61163,61163, 0, 270,		0);
+SpriteColor(61163,61163,	0,	greenDR,greenDG,greenDB,	greenDR,greenDG,greenDB);
 
 SpriteBind("T");
-SpriteMove(64037,end,	0,	5,12,	0,0);
-SpriteRotate(64037,64037, 0, 270,		0);
-SpriteColor(64037,64037,	0,	greenR,greenG,greenB,	greenR,greenG,greenB);
+SpriteMove(61163,end,	0,	5,12,	0,0);
+SpriteRotate(61163,61163, 0, 270,		0);
+SpriteColor(61163,61163,	0,	greenR,greenG,greenB,	greenR,greenG,greenB);
 SpriteBind("T");
-SpriteMove(64037,end,	0,	5,13,	0,0);
-SpriteRotate(64037,64037, 0, 270,		0);
-SpriteColor(64037,64037,	0,	greenR,greenG,greenB,	greenR,greenG,greenB);
+SpriteMove(61163,end,	0,	5,13,	0,0);
+SpriteRotate(61163,61163, 0, 270,		0);
+SpriteColor(61163,61163,	0,	greenR,greenG,greenB,	greenR,greenG,greenB);
 SpriteBind("E");
-SpriteMove(64037,end,	0,	5,14,	0,0);
-SpriteRotate(64037,64037, 0, 270,		0);
-SpriteColor(64037,64037,	0,	greenR,greenG,greenB,	greenR,greenG,greenB);
+SpriteMove(61163,end,	0,	5,14,	0,0);
+SpriteRotate(61163,61163, 0, 270,		0);
+SpriteColor(61163,61163,	0,	greenR,greenG,greenB,	greenR,greenG,greenB);
 
 SpriteBind("MusicNote");
-SpriteMove(64037,end,	0,	5,15,	0,0);
-SpriteRotate(64037,64037, 0, 270,		0);
-SpriteColor(64037,64037,	0,	greenDR,greenDG,greenDB,	greenDR,greenDG,greenDB);
+SpriteMove(61163,end,	0,	5,15,	0,0);
+SpriteRotate(61163,61163, 0, 270,		0);
+SpriteColor(61163,61163,	0,	greenDR,greenDG,greenDB,	greenDR,greenDG,greenDB);
 
 SpriteBind("I");
-SpriteMove(64576,end,	0,	5,16,	0,0);
-SpriteRotate(64576,64576, 0, 270,		0);
-SpriteColor(64576,64576,	0,	greenDDR,greenDDG,greenDDB,	greenDDR,greenDDG,greenDDB);
+SpriteMove(61163,end,	0,	5,16,	0,0);
+SpriteRotate(61163,61163, 0, 270,		0);
+SpriteColor(61163,61163,	0,	greenDDR,greenDDG,greenDDB,	greenDDR,greenDDG,greenDDB);
 
 SpriteBind("R");
-SpriteMove(64935,end,	0,	5,17,	0,0);
-SpriteRotate(64935,64935, 0, 270,		0);
-SpriteColor(64935,64935,	0,	greenDR,greenDG,greenDB,	greenDR,greenDG,greenDB);
+SpriteMove(61163,end,	0,	5,17,	0,0);
+SpriteRotate(61163,61163, 0, 270,		0);
+SpriteColor(61163,61163,	0,	greenDR,greenDG,greenDB,	greenDR,greenDG,greenDB);
 SpriteBind("U");
-SpriteMove(64935,end,	0,	5,18,	0,0);
-SpriteRotate(64935,64935, 0, 270,		0);
-SpriteColor(64935,64935,	0,	greenDR,greenDG,greenDB,	greenDR,greenDG,greenDB);
+SpriteMove(61163,end,	0,	5,18,	0,0);
+SpriteRotate(61163,61163, 0, 270,		0);
+SpriteColor(61163,61163,	0,	greenDR,greenDG,greenDB,	greenDR,greenDG,greenDB);
 
-SpriteBind("KIMIKO");
+SpriteBind("test");
 SpriteMove(52540,end,	0,	8,14,	0,0);
 SpriteScale(52540,52540,	0,	5,5,	0,0);
 
-SpriteBind("KIMIKO");
+SpriteBind("test");
 SpriteMove(55774,end,	0,	13,14,	0,0);
 SpriteScale(55774,55774,	0,	5,5,	0,0);
 SpriteRotate(55774,55774, 0, 90,		0);
 
-SpriteBind("KIMIKO");
+SpriteBind("test");
 SpriteMove(58648,end,	0,	13,9,	0,0);
 SpriteScale(58648,58648,	0,	5,5,	0,0);
 SpriteRotate(58648,58648, 0, 180,		0);
 
-SpriteBind("KIMIKO");
+SpriteBind("test");
 SpriteMove(61163,end,	0,	8,9,	0,0);
 SpriteScale(61163,61163,	0,	5,5,	0,0);
 SpriteRotate(61163,61163, 0, 270,		0);
