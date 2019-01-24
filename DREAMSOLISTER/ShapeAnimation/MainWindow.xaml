@@ -23,6 +23,10 @@
         <CommandBinding Command="local:Command.createSemicircle" Executed="createSemicircle"/>
         <CommandBinding Command="local:Command.copy" Executed="copy"/>
         <CommandBinding Command="local:Command.eyeDrop" Executed="eyeDrop"/>
+        <CommandBinding Command="local:Command.moveUp" Executed="moveUp"/>
+        <CommandBinding Command="local:Command.moveDown" Executed="moveDown"/>
+        <CommandBinding Command="local:Command.moveToTop" Executed="moveToTop"/>
+        <CommandBinding Command="local:Command.moveToBottom" Executed="moveToBottom"/>
     </Window.CommandBindings>
 
     <Window.InputBindings>
@@ -35,6 +39,10 @@
         <KeyBinding Key="D4" Modifiers="Ctrl" Command="local:Command.createSemicircle" />
         <KeyBinding Key="V" Modifiers="Ctrl" Command="local:Command.copy" />
         <KeyBinding Key="E" Command="local:Command.eyeDrop"/>
+        <KeyBinding Key="A" Command="local:Command.moveUp"/>
+        <KeyBinding Key="S" Command="local:Command.moveDown"/>
+        <KeyBinding Key="D" Command="local:Command.moveToTop"/>
+        <KeyBinding Key="F" Command="local:Command.moveToBottom"/>
     </Window.InputBindings>
 
     <Window.Resources>
