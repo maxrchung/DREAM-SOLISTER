@@ -54,9 +54,8 @@
     </Window.Resources>
 
     <Viewbox>
-        <Canvas Background="White" Height="920" Width="1700">
-            <Canvas x:Name="shapesCanvas" Background="DarkGray" MouseLeftButtonDown="backgroundMouseLeftButtonDown" MouseLeftButtonUp="backgroundMouseLeftButtonUp" Height="900" Width="1440" Canvas.Left="10" Canvas.Top="10">
-                <Canvas Background="Gray" Height="900" Width="900" />
+        <Canvas Background="White" Height="920" Width="1160">
+            <Canvas x:Name="shapesCanvas" Background="Gray" MouseLeftButtonDown="backgroundMouseLeftButtonDown" MouseLeftButtonUp="backgroundMouseLeftButtonUp" Height="900" Width="900" Canvas.Left="10" Canvas.Top="10">
                 <Image x:Name="image" Height="900" Width="900" Visibility="{Binding ElementName=backgroundVisibility, Path=IsChecked, Converter={StaticResource booleanToVisibility}}" Opacity="{Binding ElementName=backgroundOpacity, Path=Value}" />
 
                 <Rectangle Width="{Binding selected.size.x}" Height="{Binding selected.size.y}" Fill="Black" Opacity="0.1" RenderTransformOrigin="0.5, 0.5" Visibility="{Binding ElementName=shapesVisibility, Path=IsChecked, Converter={StaticResource booleanToVisibility}}">
@@ -141,26 +140,26 @@
                 </ItemsControl>
             </Canvas>
 
-            <Button x:Name="load" Content="Load" Canvas.Left="1455" Canvas.Top="10" Width="75" Click="loadClick"/>
-            <Button x:Name="open" Content="Open" Canvas.Left="1535" Canvas.Top="10" Width="75" Click="openClick"/>
-            <Button x:Name="save" Content="Save" Canvas.Left="1615" Canvas.Top="10" Width="75" Click="saveClick"/>
+            <Button x:Name="load" Content="Load" Canvas.Left="915" Canvas.Top="10" Width="75" Click="loadClick"/>
+            <Button x:Name="open" Content="Open" Canvas.Left="995" Canvas.Top="10" Width="75" Click="openClick"/>
+            <Button x:Name="save" Content="Save" Canvas.Left="1075" Canvas.Top="10" Width="75" Click="saveClick"/>
 
-            <CheckBox x:Name="backgroundVisibility" Content="Background" Canvas.Left="1455" Canvas.Top="35" Height="18" IsChecked="{Binding visibilityBG}"/>
-            <Slider x:Name="backgroundOpacity"  Canvas.Left="1543" Canvas.Top="35" Width="147" Maximum="1" LargeChange="0.01" SmallChange="0.01" Value="1"/>
-            <CheckBox x:Name="shapesVisibility" Content="Shapes" Canvas.Left="1455" Canvas.Top="58" Height="18" IsChecked="{Binding visibilityShapes}"/>
-            <Slider x:Name="shapesOpacity" Canvas.Left="1543" Canvas.Top="58" Width="147" Maximum="1" Value="1" LargeChange="0.01" SmallChange="0.01"/>
+            <CheckBox x:Name="backgroundVisibility" Content="Background" Canvas.Left="915" Canvas.Top="35" Height="18" IsChecked="{Binding visibilityBG}"/>
+            <Slider x:Name="backgroundOpacity"  Canvas.Left="1003" Canvas.Top="35" Width="147" Maximum="1" LargeChange="0.01" SmallChange="0.01" Value="1"/>
+            <CheckBox x:Name="shapesVisibility" Content="Shapes" Canvas.Left="915" Canvas.Top="58" Height="18" IsChecked="{Binding visibilityShapes}"/>
+            <Slider x:Name="shapesOpacity" Canvas.Left="1003" Canvas.Top="58" Width="147" Maximum="1" Value="1" LargeChange="0.01" SmallChange="0.01"/>
 
-            <Label Content="R" Canvas.Left="1455" Canvas.Top="83" Padding="0" Height="20"/>
-            <Label Content="{Binding selected.color.R}" Canvas.Left="1467" Canvas.Top="83" Padding="0" Height="20" Width="26"/>
-            <Slider x:Name="redSlider" Canvas.Left="1498" Canvas.Top="81" Height="20" Width="192" Maximum="255" Minimum="0" SmallChange="1" ValueChanged="redSliderValueChanged" LargeChange="10" />
-            <Label Content="G" Canvas.Left="1455" Canvas.Top="108" Padding="0" Height="20"/>
-            <Label Content="{Binding selected.color.G}" Canvas.Left="1468" Canvas.Top="108" Padding="0" Height="20" Width="25"/>
-            <Slider x:Name="greenSlider" Canvas.Left="1498" Canvas.Top="106" Height="20" Width="192" Maximum="255" Minimum="0" SmallChange="1" ValueChanged="greenSliderValueChanged" LargeChange="10" />
-            <Label Content="B" Canvas.Left="1455" Canvas.Top="133" Padding="0" Height="20"/>
-            <Label Content="{Binding selected.color.B}" Canvas.Left="1467" Canvas.Top="133" Padding="0" Height="20" Width="25"/>
-            <Slider x:Name="blueSlider" Canvas.Left="1498" Canvas.Top="131" Height="20" Width="192" ValueChanged="blueSliderValueChanged" Maximum="255" Minimum="0" SmallChange="1" LargeChange="10" />
+            <Label Content="R" Canvas.Left="915" Canvas.Top="83" Padding="0" Height="20"/>
+            <Label Content="{Binding selected.color.R}" Canvas.Left="927" Canvas.Top="83" Padding="0" Height="20" Width="26"/>
+            <Slider x:Name="redSlider" Canvas.Left="958" Canvas.Top="81" Height="20" Width="192" Maximum="255" Minimum="0" SmallChange="1" ValueChanged="redSliderValueChanged" LargeChange="10" />
+            <Label Content="G" Canvas.Left="915" Canvas.Top="108" Padding="0" Height="20"/>
+            <Label Content="{Binding selected.color.G}" Canvas.Left="928" Canvas.Top="108" Padding="0" Height="20" Width="25"/>
+            <Slider x:Name="greenSlider" Canvas.Left="958" Canvas.Top="106" Height="20" Width="192" Maximum="255" Minimum="0" SmallChange="1" ValueChanged="greenSliderValueChanged" LargeChange="10" />
+            <Label Content="B" Canvas.Left="915" Canvas.Top="133" Padding="0" Height="20"/>
+            <Label Content="{Binding selected.color.B}" Canvas.Left="927" Canvas.Top="133" Padding="0" Height="20" Width="25"/>
+            <Slider x:Name="blueSlider" Canvas.Left="958" Canvas.Top="131" Height="20" Width="192" ValueChanged="blueSliderValueChanged" Maximum="255" Minimum="0" SmallChange="1" LargeChange="10" />
 
-            <ListView Height="752" Canvas.Left="1455" Canvas.Top="158" Width="235" ItemsSource="{Binding shapes}" SelectedItem="{Binding selected}"
+            <ListView Height="752" Canvas.Left="915" Canvas.Top="158" Width="235" ItemsSource="{Binding shapes}" SelectedItem="{Binding selected}"
         IsSynchronizedWithCurrentItem="True">
                 <ListView.ItemTemplate>
                     <DataTemplate>
