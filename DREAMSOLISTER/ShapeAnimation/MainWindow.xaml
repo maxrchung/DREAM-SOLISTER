@@ -35,10 +35,10 @@
         <KeyBinding Key="Esc" Command="local:Command.deselect" />
         <KeyBinding Key="Return" Command="local:Command.deselect" />
         <KeyBinding Key="Delete" Command="local:Command.delete" />
-        <KeyBinding Key="D1" Modifiers="Ctrl" Command="local:Command.createRectangle" />
-        <KeyBinding Key="D2" Modifiers="Ctrl" Command="local:Command.createTriangle" />
-        <KeyBinding Key="D3" Modifiers="Ctrl" Command="local:Command.createEllipse" />
-        <KeyBinding Key="D4" Modifiers="Ctrl" Command="local:Command.createSemicircle" />
+        <KeyBinding Key="D1" Command="local:Command.createRectangle" />
+        <KeyBinding Key="D2" Command="local:Command.createTriangle" />
+        <KeyBinding Key="D3" Command="local:Command.createEllipse" />
+        <KeyBinding Key="D4" Command="local:Command.createSemicircle" />
         <KeyBinding Key="V" Modifiers="Ctrl" Command="local:Command.copy" />
         <KeyBinding Key="E" Command="local:Command.eyeDrop"/>
         <KeyBinding Key="A" Command="local:Command.moveUp"/>
@@ -151,13 +151,13 @@
 
             <Label Content="R" Canvas.Left="915" Canvas.Top="83" Padding="0" Height="20"/>
             <Label Content="{Binding selected.color.R}" Canvas.Left="927" Canvas.Top="83" Padding="0" Height="20" Width="26"/>
-            <Slider x:Name="redSlider" Canvas.Left="958" Canvas.Top="81" Height="20" Width="192" Maximum="255" Minimum="0" SmallChange="1" ValueChanged="redSliderValueChanged" LargeChange="10" />
+            <Slider x:Name="redSlider" Canvas.Left="958" Canvas.Top="81" Height="20" Width="192" Maximum="255" Minimum="0" SmallChange="1" ValueChanged="redSliderValueChanged" LargeChange="10" Value="{Binding selected.color.R, UpdateSourceTrigger=Explicit}" />
             <Label Content="G" Canvas.Left="915" Canvas.Top="108" Padding="0" Height="20"/>
             <Label Content="{Binding selected.color.G}" Canvas.Left="928" Canvas.Top="108" Padding="0" Height="20" Width="25"/>
-            <Slider x:Name="greenSlider" Canvas.Left="958" Canvas.Top="106" Height="20" Width="192" Maximum="255" Minimum="0" SmallChange="1" ValueChanged="greenSliderValueChanged" LargeChange="10" />
+            <Slider x:Name="greenSlider" Canvas.Left="958" Canvas.Top="106" Height="20" Width="192" Maximum="255" Minimum="0" SmallChange="1" ValueChanged="greenSliderValueChanged" LargeChange="10" Value="{Binding selected.color.G, UpdateSourceTrigger=Explicit}" />
             <Label Content="B" Canvas.Left="915" Canvas.Top="133" Padding="0" Height="20"/>
             <Label Content="{Binding selected.color.B}" Canvas.Left="927" Canvas.Top="133" Padding="0" Height="20" Width="25"/>
-            <Slider x:Name="blueSlider" Canvas.Left="958" Canvas.Top="131" Height="20" Width="192" ValueChanged="blueSliderValueChanged" Maximum="255" Minimum="0" SmallChange="1" LargeChange="10" />
+            <Slider x:Name="blueSlider" Canvas.Left="958" Canvas.Top="131" Height="20" Width="192" ValueChanged="blueSliderValueChanged" Maximum="255" Minimum="0" SmallChange="1" LargeChange="10" Value="{Binding selected.color.B, UpdateSourceTrigger=Explicit}" />
 
             <ListView Height="752" Canvas.Left="915" Canvas.Top="158" Width="235" ItemsSource="{Binding shapes}" SelectedItem="{Binding selected}"
         IsSynchronizedWithCurrentItem="True">

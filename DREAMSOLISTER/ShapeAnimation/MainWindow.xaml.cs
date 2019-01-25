@@ -51,13 +51,6 @@ namespace ShapeAnimation {
             var mousePosition = Mouse.GetPosition(shapesCanvas);
             return new Vector((float)mousePosition.X, (float)mousePosition.Y);
         }
-        // Issue with binding color to slider and moving it
-        private void setSelected(SAShape shape) {
-            viewModel.selected = shape;
-            redSlider.Value = shape.color.R;
-            greenSlider.Value = shape.color.G;
-            blueSlider.Value = shape.color.B;
-        }
         #endregion
 
         #region Commands
@@ -74,31 +67,31 @@ namespace ShapeAnimation {
             var shape = new SARectangle();
             shape.position = getMousePosition();
             viewModel.shapes.Add(shape);
-            setSelected(shape);
+            viewModel.selected = shape;
         }
         private void createTriangle(object sender, ExecutedRoutedEventArgs args) {
             var shape = new SATriangle();
             shape.position = getMousePosition();
             viewModel.shapes.Add(shape);
-            setSelected(shape);
+            viewModel.selected = shape;
         }
         private void createEllipse(object sender, ExecutedRoutedEventArgs args) {
             var shape = new SAEllipse();
             shape.position = getMousePosition();
             viewModel.shapes.Add(shape);
-            setSelected(shape);
+            viewModel.selected = shape;
         }
         private void createSemicircle(object sender, ExecutedRoutedEventArgs args) {
             var shape = new SASemicircle();
             shape.position = getMousePosition();
             viewModel.shapes.Add(shape);
-            setSelected(shape);
+            viewModel.selected = shape;
         }
         private void copy(object sender, ExecutedRoutedEventArgs args) {
             if (viewModel.selected != null) {
                 var shape = viewModel.selected.copy();
                 viewModel.shapes.Add(shape);
-                setSelected(shape);
+                viewModel.selected = shape;
             }
         }
         private void moveUp(object sender, RoutedEventArgs e) {
@@ -134,7 +127,6 @@ namespace ShapeAnimation {
         }
         private void toggleVisibilityShapes(object sender, RoutedEventArgs e) {
             viewModel.visibilityShapes = !viewModel.visibilityShapes;
-            Console.WriteLine(viewModel.visibilityShapes);
         }
         private void eyeDrop(object sender, RoutedEventArgs e) {
             BitmapSource screenimage;
@@ -146,7 +138,7 @@ namespace ShapeAnimation {
                                                                        (int)SystemParameters.VirtualScreenTop,
                                                                        (int)SystemParameters.PrimaryScreenWidth,
                                                                        (int)SystemParameters.PrimaryScreenHeight);
-            if (screenimage != null) {
+            if (screenimage != null && viewModel.selected != null) {
                 int stride = (screenimage.PixelWidth * screenimage.Format.BitsPerPixel + 7) / 8;
                 pixels = new byte[screenimage.PixelHeight * stride];
                 Int32Rect rect = new Int32Rect((int)point.X, (int)point.Y, 1, 1);
@@ -186,7 +178,7 @@ namespace ShapeAnimation {
                 var contentPresenter = (ContentPresenter)shape.TemplatedParent;
                 var canvas = (Canvas)VisualTreeHelper.GetParent(contentPresenter);
                 var index = canvas.Children.IndexOf(contentPresenter);
-                setSelected(viewModel.shapes[index]);
+                viewModel.selected = viewModel.shapes[index];
             }
         }
         private void rotateMouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
