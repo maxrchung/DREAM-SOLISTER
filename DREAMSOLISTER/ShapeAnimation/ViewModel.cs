@@ -30,8 +30,28 @@ namespace ShapeAnimation {
             }
         }
 
-        public bool visibilityBG = true;
-        public bool visibilityShapes = true;
+        public bool _visibilityBG = true;
+        public bool visibilityBG
+        {
+            get {
+                return _visibilityBG;
+            }
+            set {
+                _visibilityBG = value;
+                NotifyPropertyChanged("visibilityBG");
+            }
+        }
+        public bool _visibilityShapes = true;
+        public bool visibilityShapes {
+            get {
+                return _visibilityShapes;
+            }
+            set {
+                _visibilityShapes = value;
+                NotifyPropertyChanged("visibilityShapes");
+            }
+        }
+
 
         public ViewModel() {
             //shapes = new ObservableCollection<SAShape>();
