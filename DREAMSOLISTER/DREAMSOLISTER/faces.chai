@@ -6,10 +6,10 @@ CameraMove(0,0,	0,	0,0,	0,0);
 CameraMove(0,0,	0,	0,0,	8,14);
 CameraRotate(0,0,	2,	0,	0);
 
-CameraZoom(52540,55774,	0,	80,60);
-CameraMove(55774,58648,	0,	8,14,	10.5,11.5);
+CameraZoom(52540,55774,	2,	80,60);
+CameraMove(55774,58648,	2,	8,14,	10.5,11.5);
 CameraRotate(58648,60804,	2,	0,-45);
-CameraZoom(61163,64935,	0,	60,30);
+CameraZoom(61163,64935,	2,	60,30);
 
 var end = 64935;
 
