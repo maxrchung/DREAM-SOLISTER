@@ -129,6 +129,13 @@ namespace ShapeAnimation {
                 viewModel.shapes.Move(oldIndex, viewModel.shapes.Count - 1);
             }
         }
+        private void toggleVisibilityBG(object sender, RoutedEventArgs e) {
+            viewModel.visibilityBG = !viewModel.visibilityBG;
+        }
+        private void toggleVisibilityShapes(object sender, RoutedEventArgs e) {
+            viewModel.visibilityShapes = !viewModel.visibilityShapes;
+            Console.WriteLine(viewModel.visibilityShapes);
+        }
         private void eyeDrop(object sender, RoutedEventArgs e) {
             BitmapSource screenimage;
             byte[] pixels;
