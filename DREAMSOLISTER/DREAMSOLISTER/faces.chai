@@ -367,21 +367,21 @@ SpriteMove(61163,end,	0,	5,28,	0,0);
 SpriteRotate(61163,61163, 0, 270,		0);
 SpriteColor(61163,61163,	0,	greenDR,greenDG,greenDB,	greenDR,greenDG,greenDB);
 
-SpriteBind("test");
+SpriteBind("kumiko");
 SpriteMove(52540,end,	0,	8,14,	0,0);
 SpriteScale(52540,52540,	0,	5,5,	0,0);
 
-SpriteBind("test");
+SpriteBind("kumiko");
 SpriteMove(55774,end,	0,	13,14,	0,0);
 SpriteScale(55774,55774,	0,	5,5,	0,0);
 SpriteRotate(55774,55774, 0, 90,		0);
 
-SpriteBind("test");
+SpriteBind("kumiko");
 SpriteMove(58648,end,	0,	13,9,	0,0);
 SpriteScale(58648,58648,	0,	5,5,	0,0);
 SpriteRotate(58648,58648, 0, 180,		0);
 
-SpriteBind("test");
+SpriteBind("kumiko");
 SpriteMove(61163,end,	0,	8,9,	0,0);
 SpriteScale(61163,61163,	0,	5,5,	0,0);
 SpriteRotate(61163,61163, 0, 270,		0);
