@@ -16,7 +16,7 @@ SpriteMove(65295,end, 0, 5,5,	0,0);
 SpriteScale(65295,65295,	0,	scale,scale,	0,0);
 
 // 2
-SpriteBind("test");
+SpriteBind("baritonesexyphone");
 SpriteMove(65474,end, 0, 6,5,	0,0);
 SpriteScale(65474,65474,	0,	scale,scale,	0,0);
 
