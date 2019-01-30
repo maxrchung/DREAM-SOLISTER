@@ -607,7 +607,7 @@ int main() {
 		//bg->ScaleVector(0, 300000, Vector2::ScreenSize, Vector2::ScreenSize);
 
 		processBackground(bg);
-		//processScript("lyrics.chai", bg);
+		processScript("lyrics.chai", bg);
 		processScript("faces.chai", bg);
 		processScript("instruments.chai", bg);
 		//processScript("swing.chai", bg);
