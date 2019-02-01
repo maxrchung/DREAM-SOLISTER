@@ -371,7 +371,7 @@ SpriteBind("kumiko");
 SpriteMove(52540,end,	0,	8,14,	0,0);
 SpriteScale(52540,52540,	0,	5,5,	0,0);
 
-SpriteBind("kumiko");
+SpriteBind("kousaka");
 SpriteMove(55774,end,	0,	13,14,	0,0);
 SpriteScale(55774,55774,	0,	5,5,	0,0);
 SpriteRotate(55774,55774, 0, 90,		0);
