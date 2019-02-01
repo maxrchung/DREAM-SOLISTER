@@ -21,12 +21,12 @@ SpriteMove(65474,end, 0, 6,5,	0,0);
 SpriteScale(65474,65474,	0,	scale,scale,	0,0);
 
 // 3
-SpriteBind("test");
+SpriteBind("Oboe");
 SpriteMove(65654,end, 0, 7,5,	0,0);
 SpriteScale(65654,65654,	0,	scale,scale,	0,0);
 
 // 4
-SpriteBind("test");
+SpriteBind("bassClarinet");
 SpriteMove(65833,end, 0, 8,5,	0,0);
 SpriteScale(65833,65833,	0,	scale,scale,	0,0);
 
