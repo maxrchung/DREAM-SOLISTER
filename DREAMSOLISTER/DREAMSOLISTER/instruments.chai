@@ -31,7 +31,7 @@ SpriteMove(65833,end, 0, 8,5,	0,0);
 SpriteScale(65833,65833,	0,	scale,scale,	0,0);
 
 // 5
-SpriteBind("test");
+SpriteBind("flute");
 SpriteMove(66013,end, 0, 9,5,	0,0);
 SpriteScale(66013,66013,	0,	scale,scale,	0,0);
 
