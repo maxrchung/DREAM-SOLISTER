@@ -36,7 +36,7 @@ SpriteMove(66013,end, 0, 9,5,	0,0);
 SpriteScale(66013,66013,	0,	scale,scale,	0,0);
 
 // 6
-SpriteBind("test");
+SpriteBind("piccolo");
 SpriteMove(66372,end, 0, 10,5,	0,0);
 SpriteScale(66372,66372,	0,	scale,scale,	0,0);
 
