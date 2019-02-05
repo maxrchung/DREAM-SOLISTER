@@ -56,7 +56,7 @@ SpriteMove(67091,end, 0, 7,4,	0,0);
 SpriteScale(67091,67091,	0,	scale,scale,	0,0);
 
 // 10
-SpriteBind("test");
+SpriteBind("cymbals");
 SpriteMove(67450,end, 0, 8,4,	0,0);
 SpriteScale(67450,67450,	0,	scale,scale,	0,0);
 
