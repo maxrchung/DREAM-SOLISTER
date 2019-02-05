@@ -66,7 +66,7 @@ SpriteMove(67630,end, 0, 9,4,	0,0);
 SpriteScale(67630,67630,	0,	scale,scale,	0,0);
 
 // 12
-SpriteBind("test");
+SpriteBind("bassDrum");
 SpriteMove(68169,end, 0, 10,4,	0,0);
 SpriteScale(68169,68169,	0,	scale,scale,	0,0);
 
