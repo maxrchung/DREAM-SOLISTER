@@ -61,7 +61,7 @@ SpriteMove(67450,end, 0, 8,4,	0,0);
 SpriteScale(67450,67450,	0,	scale,scale,	0,0);
 
 // 11
-SpriteBind("test");
+SpriteBind("chimes");
 SpriteMove(67630,end, 0, 9,4,	0,0);
 SpriteScale(67630,67630,	0,	scale,scale,	0,0);
 
