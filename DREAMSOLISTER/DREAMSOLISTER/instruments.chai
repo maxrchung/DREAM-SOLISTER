@@ -36,37 +36,37 @@ SpriteMove(66013,end, 0, 9,5,	0,0);
 SpriteScale(66013,66013,	0,	scale,scale,	0,0);
 
 // 6
-SpriteBind("test");
+SpriteBind("piccolo");
 SpriteMove(66372,end, 0, 10,5,	0,0);
 SpriteScale(66372,66372,	0,	scale,scale,	0,0);
 
 // 7
-SpriteBind("test");
+SpriteBind("glockenspiel");
 SpriteMove(66732,end, 0, 5,4,	0,0);
 SpriteScale(66732,66732,	0,	scale,scale,	0,0);
 
 // 8
-SpriteBind("test");
+SpriteBind("snaredrum");
 SpriteMove(66911,end, 0, 6,4,	0,0);
 SpriteScale(66911,66911,	0,	scale,scale,	0,0);
 
 // 9
-SpriteBind("test");
+SpriteBind("timpani");
 SpriteMove(67091,end, 0, 7,4,	0,0);
 SpriteScale(67091,67091,	0,	scale,scale,	0,0);
 
 // 10
-SpriteBind("test");
+SpriteBind("cymbals");
 SpriteMove(67450,end, 0, 8,4,	0,0);
 SpriteScale(67450,67450,	0,	scale,scale,	0,0);
 
 // 11
-SpriteBind("test");
+SpriteBind("chimes");
 SpriteMove(67630,end, 0, 9,4,	0,0);
 SpriteScale(67630,67630,	0,	scale,scale,	0,0);
 
 // 12
-SpriteBind("test");
+SpriteBind("bassDrum");
 SpriteMove(68169,end, 0, 10,4,	0,0);
 SpriteScale(68169,68169,	0,	scale,scale,	0,0);
 
