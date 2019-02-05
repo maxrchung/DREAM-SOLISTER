@@ -51,6 +51,16 @@ namespace ShapeAnimation {
             var mousePosition = Mouse.GetPosition(shapesCanvas);
             return new Vector((float)mousePosition.X, (float)mousePosition.Y);
         }
+
+        private void insertShape(SAShape shape) {
+            if (viewModel.selected != null) {
+                var insertIndex = viewModel.shapes.IndexOf(viewModel.selected);
+                viewModel.shapes.Insert(insertIndex + 1, shape);
+            }
+            else {
+                viewModel.shapes.Add(shape);
+            }
+        } 
         #endregion
 
         #region Commands
@@ -66,25 +76,25 @@ namespace ShapeAnimation {
         private void createRectangle(object sender, ExecutedRoutedEventArgs args) {
             var shape = new SARectangle();
             shape.position = getMousePosition();
-            viewModel.shapes.Add(shape);
+            insertShape(shape);
             viewModel.selected = shape;
         }
         private void createTriangle(object sender, ExecutedRoutedEventArgs args) {
             var shape = new SATriangle();
             shape.position = getMousePosition();
-            viewModel.shapes.Add(shape);
+            insertShape(shape);
             viewModel.selected = shape;
         }
         private void createEllipse(object sender, ExecutedRoutedEventArgs args) {
             var shape = new SAEllipse();
             shape.position = getMousePosition();
-            viewModel.shapes.Add(shape);
+            insertShape(shape);
             viewModel.selected = shape;
         }
         private void createSemicircle(object sender, ExecutedRoutedEventArgs args) {
             var shape = new SASemicircle();
             shape.position = getMousePosition();
-            viewModel.shapes.Add(shape);
+            insertShape(shape);
             viewModel.selected = shape;
         }
         private void copy(object sender, ExecutedRoutedEventArgs args) {
