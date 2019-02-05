@@ -71,12 +71,12 @@ SpriteMove(68169,end, 0, 10,4,	0,0);
 SpriteScale(68169,68169,	0,	scale,scale,	0,0);
 
 // 13
-SpriteBind("test");
+SpriteBind("doubleBass");
 SpriteMove(68348,end, 0, 5,3,	0,0);
 SpriteScale(68348,68348,	0,	scale,scale,	0,0);
 
 // 14
-SpriteBind("test");
+SpriteBind("frenchHorn");
 SpriteMove(68528,end, 0, 6,3,	0,0);
 SpriteScale(68528,68528,	0,	scale,scale,	0,0);
 
