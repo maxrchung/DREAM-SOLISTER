@@ -381,7 +381,7 @@ SpriteMove(58648,end,	0,	13,9,	0,0);
 SpriteScale(58648,58648,	0,	5,5,	0,0);
 SpriteRotate(58648,58648, 0, 180,		0);
 
-SpriteBind("kumiko");
+SpriteBind("sapphire");
 SpriteMove(61163,end,	0,	8,9,	0,0);
 SpriteScale(61163,61163,	0,	5,5,	0,0);
 SpriteRotate(61163,61163, 0, 270,		0);
