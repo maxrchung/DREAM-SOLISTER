@@ -135,6 +135,7 @@
   <ItemGroup>
     <None Include="drum.MusicSheet" />
     <None Include="lyric.MusicSheet" />
+    <None Include="screenShots.chai" />
     <None Include="test.chai" />
     <None Include="test.shan" />
     <None Include="test2.shan" />

@@ -93,7 +93,6 @@
     <None Include="swing.chai">
       <Filter>Resource Files\chai</Filter>
     </None>
-
     <None Include="musicSheet.chai">
       <Filter>Resource Files\chai</Filter>
     </None>
@@ -116,6 +115,9 @@
       <Filter>Resource Files\chai</Filter>
     </None>
     <None Include="lyrics.chai">
+      <Filter>Resource Files\chai</Filter>
+    </None>
+    <None Include="screenShots.chai">
       <Filter>Resource Files\chai</Filter>
     </None>
   </ItemGroup>

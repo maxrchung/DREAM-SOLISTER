@@ -1,0 +1,20 @@
+// Default camera values so that getCameraValuesAtMilliseconds() has no issues
+CameraRotate(0,0,	0,	0,0);
+CameraMove(0,0,	0,	0,0,	0,0);
+CameraZoom(0,0,	0,	100,100);
+
+def draw(ID, start, end) {
+	SpriteBind(ID);
+	SpriteScale(start, start, 0,	9,9,	0,0);
+	SpriteMove(start, end, 0,	0,0,	0,0);
+	CameraMove(start, end, 0,	0.1,0,	-0.1,0);
+}
+
+draw("ss1", 105354, 111103);
+draw("ss1", 111103, 116851);
+draw("ss1", 116851, 122600);
+draw("ss1", 122600, 128348);
+draw("ss1", 128348, 134097);
+draw("ss1", 134097, 139845);
+draw("ss1", 139845, 145594);
+draw("ss1", 145594, 149905);
