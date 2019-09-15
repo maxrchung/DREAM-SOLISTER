@@ -628,7 +628,6 @@ int main() {
 		auto storyboardInputPath = std::ifstream("StoryboardInputPath.txt");
 		std::string path;
 		std::getline(storyboardInputPath, path);
-
 		Storyboard::Write(path);
 	return 0;
 }
