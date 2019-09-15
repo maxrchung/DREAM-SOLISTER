@@ -100,7 +100,8 @@ namespace ShapeAnimation {
         private void copy(object sender, ExecutedRoutedEventArgs args) {
             if (viewModel.selected != null) {
                 var shape = viewModel.selected.copy();
-                viewModel.shapes.Add(shape);
+                shape.position = getMousePosition();
+                insertShape(shape);
                 viewModel.selected = shape;
             }
         }
