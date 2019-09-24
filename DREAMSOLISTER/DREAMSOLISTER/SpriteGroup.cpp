@@ -8,6 +8,7 @@ const float SpriteGroup::noteRotation = -25 * 3.14159f / 180.0f;
 const float SpriteGroup::noteLineScale = 0.7f;
 const std::vector<float> SpriteGroup::notePoint = std::vector<float>({ 0.0f,-0.5f });
 const Vector2 SpriteGroup::notePointScale = Vector2(5.1f, 4.0f);
+const float SpriteGroup::startScaleLimit = 0.25f;
 
 SpriteGroup::SpriteGroup(const std::string& ID, const int pImageWidth, const int pStart, const int pEnd, const Vector2& pCenter, const float pRotation, const float pCameraScale, const Color pColor, const int pOffset, const float pScale)
 	: imageWidth{ pImageWidth }, 
@@ -80,6 +81,8 @@ void SpriteGroup::makeShapeAnimation(const ShapeAnimation& shapeAnimation) {
 				break;
 		}
 
+		// Limit startScale to a quarter scale
+		startScale = startScale > startScaleLimit ? startScaleLimit : startScale;
 		const auto scaledPosition = shape.position * cameraScale * scale * imageWidth;
 		const auto position = center + scaledPosition.Rotate(rotation);
 		const auto direction = rand() % 360;

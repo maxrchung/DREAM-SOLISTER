@@ -37,5 +37,6 @@ private:
 	static const float noteLineScale;
 	static const std::vector<float> notePoint;
 	static const Vector2 notePointScale;
+	static const float startScaleLimit;
 
 };
