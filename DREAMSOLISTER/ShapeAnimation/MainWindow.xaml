@@ -125,7 +125,7 @@
                 <ItemsControl ItemsSource="{Binding selected.scaleCorners}" Visibility="{Binding ElementName=shapesVisibility, Path=IsChecked, Converter={StaticResource booleanToVisibility}}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Ellipse Width="{StaticResource scaleCornerWidth}" Height="{StaticResource scaleCornerWidth}" Fill="Red" Opacity="0.5" MouseLeftButtonDown="scaleMouseLeftButtonDown" MouseLeftButtonUp="scaleMouseLeftButtonUp">
+                            <Ellipse Width="{StaticResource scaleCornerWidth}" Height="{StaticResource scaleCornerWidth}" Fill="Red" Opacity="{StaticResource scaleCornerOpacity}" MouseLeftButtonDown="scaleMouseLeftButtonDown" MouseLeftButtonUp="scaleMouseLeftButtonUp">
                                 <Ellipse.RenderTransform>
                                     <TranslateTransform X="{Binding x}" Y="{Binding y}" />
                                 </Ellipse.RenderTransform>
