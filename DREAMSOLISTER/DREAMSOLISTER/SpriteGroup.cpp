@@ -56,6 +56,8 @@ void SpriteGroup::destroy() {
 		// Readjust scale vector
 		if (sprite->scaleVector != Vector2(1.0f, 1.0f)) {
 			auto min = std::min(sprite->scaleVector.x, sprite->scaleVector.y);
+			// Limit this for shape animation
+			min = min > startScaleLimit ? startScaleLimit : min;
 			sprite->ScaleVector(end, endOffset, sprite->scaleVector, Vector2(min, min), Easing::EasingOut);
 		}
 
