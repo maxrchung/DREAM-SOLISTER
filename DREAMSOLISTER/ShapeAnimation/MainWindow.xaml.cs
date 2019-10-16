@@ -169,16 +169,20 @@ namespace ShapeAnimation {
             }
         }
         private void rotateTimerTick(object sender, EventArgs e) {
-            var rotation = (getMousePosition() - viewModel.selected.position).angle;
-            var rotateOffset = rotation - previousRotation;
-            previousRotation = rotation;
-            viewModel.selected.rotation += rotateOffset;
+            if (viewModel.selected != null) {
+                var rotation = (getMousePosition() - viewModel.selected.position).angle;
+                var rotateOffset = rotation - previousRotation;
+                previousRotation = rotation;
+                viewModel.selected.rotation += rotateOffset;
+            }
         }
         private void scaleTimerTick(object sender, EventArgs e) {
-            var position = getMousePosition() - viewModel.selected.position - scaleOffset;
-            var unrotate = position.rotate(-viewModel.selected.rotation.radian);
-            var scaleVector = new Vector(Math.Abs(unrotate.x), Math.Abs(unrotate.y)) / SAShape.fixedSize * 2;
-            viewModel.selected.scaleVector = scaleVector;
+            if (viewModel.selected != null) {
+                var position = getMousePosition() - viewModel.selected.position - scaleOffset;
+                var unrotate = position.rotate(-viewModel.selected.rotation.radian);
+                var scaleVector = new Vector(Math.Abs(unrotate.x), Math.Abs(unrotate.y)) / SAShape.fixedSize * 2;
+                viewModel.selected.scaleVector = scaleVector;
+            }
         }
         #endregion
 
