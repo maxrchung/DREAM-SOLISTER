@@ -13,7 +13,7 @@ export default class ShapeVideo extends React.Component {
     super(props);
 
     this.state = {
-      isConfirmOpen: true
+      isConfirmOpen: false
     };
   }
 
@@ -29,7 +29,7 @@ export default class ShapeVideo extends React.Component {
     switch (e.key) {
       case 'n':
         if (e.ctrlKey) {
-          console.log('New');
+          this.handleConfirmToggle(e, true);
         }
         break;
       default:
@@ -37,11 +37,18 @@ export default class ShapeVideo extends React.Component {
     }
   };
 
-  handleConfirmToggle = () => {
-    const { isConfirmOpen } = this.state;
-    this.setState({
-      isConfirmOpen
-    });
+  handleConfirmToggle = (_, isConfirmOpen) => {
+    console.log(isConfirmOpen);
+    this.setState(state => ({
+      isConfirmOpen:
+        isConfirmOpen === undefined ? !state.isConfirmOpen : isConfirmOpen
+    }));
+  };
+
+  handleNewProject = () => {
+    this.setState(state => ({
+      isConfirmOpen: !state.isConfirmOpen
+    }));
   };
 
   render() {
@@ -49,15 +56,18 @@ export default class ShapeVideo extends React.Component {
 
     return (
       <MDBContainer>
-        <MDBBtn onClick={this.toggle}>Modal</MDBBtn>
+        <MDBBtn onClick={this.handleConfirmToggle}>New</MDBBtn>
         <MDBModal isOpen={isConfirmOpen} toggle={this.handleConfirmToggle}>
-          <MDBModalHeader toggle={this.toggle}>MDBModal title</MDBModalHeader>
-          <MDBModalBody>Hello there</MDBModalBody>
+          <MDBModalHeader toggle={this.handleConfirmToggle}>
+            New Project
+          </MDBModalHeader>
+          <MDBModalBody>
+            Are you sure you want to start a new project? Existing changes will
+            be lost.
+          </MDBModalBody>
           <MDBModalFooter>
-            <MDBBtn color="secondary" onClick={this.toggle}>
-              Close
-            </MDBBtn>
-            <MDBBtn color="primary">Save changes</MDBBtn>
+            <MDBBtn onClick={this.handleConfirmToggle}>OK</MDBBtn>
+            <MDBBtn onClick={this.handleConfirmToggle}>Cancel</MDBBtn>
           </MDBModalFooter>
         </MDBModal>
       </MDBContainer>
