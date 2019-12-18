@@ -437,7 +437,7 @@ std::vector<SpriteBinding> createSpriteBindings(const std::vector<std::unique_pt
 		if (scale) {
 			scaleValue = scale->getStartScale().x;
 		}
-		const auto spriteGroup = SpriteGroup(ID, imageWidth, move->getStart(), move->getEnd(), center, rotation, cameraScale, convertColor, quarter * 2, scaleValue);
+		const auto spriteGroup = SpriteGroup(ID, imageWidth, move->getStart(), move->getEnd(), center, rotation, cameraScale, convertColor, quarter * 4, scaleValue);
 		spriteBindings[i] = SpriteBinding{ S2VXSprites[i].get(), spriteGroup };
 	}
 	return spriteBindings;
@@ -594,8 +594,15 @@ void processScript(const std::string& path, Sprite* const bg) {
 	auto spriteBindings = createSpriteBindings(elements.getSprites().getSprites(), elements.getCamera());
 	processS2VXSprites(elements.getCamera(), spriteBindings);
 	processCamera(elements.getCamera(), spriteBindings);
-	// Destroy sprite bindings
-	std::for_each(spriteBindings.begin(), spriteBindings.end(), [](SpriteBinding& binding) { binding.spriteGroup.destroy(); });
+	// Handle endings of sprite bindings
+	for (auto i = 0; i < spriteBindings.size(); ++i) {
+		if (i == spriteBindings.size() - 1) {
+			spriteBindings[i].spriteGroup.explode();
+		}
+		else {
+			spriteBindings[i].spriteGroup.clear();
+		}
+	}
 }
 
 int main() {
@@ -607,8 +614,8 @@ int main() {
 		//bg->ScaleVector(0, 300000, Vector2::ScreenSize, Vector2::ScreenSize);
 
 		processBackground(bg);
-		processScript("lyrics.chai", bg);
-		processScript("faces.chai", bg);
+		//processScript("lyrics.chai", bg);
+		//processScript("faces.chai", bg);
 		//processScript("instruments.chai", bg);
 		processScript("screenShots.chai", bg);
 		//processScript("swing.chai", bg);
@@ -618,7 +625,7 @@ int main() {
 		//MusicSheet("wind.MusicSheet", 0, imageWidth, Color(247, 255, 8), "", true);
 		//MusicSheet("drum.MusicSheet", -140, imageWidth, Color(255, 209, 219), "", false);
 
-		setDotBackground();
+		//setDotBackground();
 
 		// Blue line rectangle border
 		setBorder();

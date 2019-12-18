@@ -45,7 +45,16 @@ SpriteGroup::SpriteGroup(const std::string& ID, const int pImageWidth, const int
 	}
 }
 
-void SpriteGroup::destroy() {
+void SpriteGroup::clear() {
+	// Ideally we don't have to do this, but due to (I think) mistimings with our 
+	// sprite movements to camera movements (that I don't want to look into), we
+	// need to explicitly tell these sprites to go away.
+	for (auto sprite : sprites) {
+		sprite->Fade(end, end, 0.0f, 0.0f);
+	}
+}
+
+void SpriteGroup::explode() {
 	for (auto sprite : sprites) {
 		sprite->Fade(end, endOffset, 1.0f, 0.0f);
 
