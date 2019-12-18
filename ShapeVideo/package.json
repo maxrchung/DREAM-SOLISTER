@@ -162,6 +162,9 @@
     },
     "setupFiles": [
       "./internals/scripts/CheckBuildsExist.js"
+    ],
+    "setupFilesAfterEnv": [
+      "./internals/scripts/SetupEnzymeAdapter.js"
     ]
   },
   "devDependencies": {

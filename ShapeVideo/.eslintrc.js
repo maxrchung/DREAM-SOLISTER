@@ -6,5 +6,8 @@ module.exports = {
         config: require.resolve('./configs/webpack.config.eslint.js')
       }
     }
+  },
+  env: {
+    jest: true
   }
 }

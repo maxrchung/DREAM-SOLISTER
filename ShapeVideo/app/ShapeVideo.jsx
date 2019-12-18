@@ -7,13 +7,15 @@ import {
   MDBModalHeader,
   MDBModalFooter
 } from 'mdbreact';
+import Project from './project';
 
 export default class ShapeVideo extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      isConfirmOpen: false
+      isConfirmOpen: false,
+      project: new Project()
     };
   }
 
@@ -38,7 +40,6 @@ export default class ShapeVideo extends React.Component {
   };
 
   handleConfirmToggle = (_, isConfirmOpen) => {
-    console.log(isConfirmOpen);
     this.setState(state => ({
       isConfirmOpen:
         isConfirmOpen === undefined ? !state.isConfirmOpen : isConfirmOpen
@@ -47,12 +48,13 @@ export default class ShapeVideo extends React.Component {
 
   handleNewProject = () => {
     this.setState(state => ({
-      isConfirmOpen: !state.isConfirmOpen
+      isConfirmOpen: !state.isConfirmOpen,
+      project: new Project()
     }));
   };
 
   render() {
-    const { isConfirmOpen } = this.state;
+    const { isConfirmOpen, project } = this.state;
 
     return (
       <MDBContainer>
@@ -66,10 +68,16 @@ export default class ShapeVideo extends React.Component {
             be lost.
           </MDBModalBody>
           <MDBModalFooter>
-            <MDBBtn onClick={this.handleConfirmToggle}>OK</MDBBtn>
+            <MDBBtn onClick={this.handleNewProject}>OK</MDBBtn>
             <MDBBtn onClick={this.handleConfirmToggle}>Cancel</MDBBtn>
           </MDBModalFooter>
         </MDBModal>
+
+        <h5>Project</h5>
+        <ul>
+          <li>Name: {project.name}</li>
+          <li>Video: {project.videoFilePath}</li>
+        </ul>
       </MDBContainer>
     );
   }
