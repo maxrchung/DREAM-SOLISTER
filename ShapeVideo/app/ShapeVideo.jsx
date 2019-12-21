@@ -1,3 +1,4 @@
+import fs from 'fs';
 import React from 'react';
 import {
   MDBContainer,
@@ -51,6 +52,20 @@ export default class ShapeVideo extends React.Component {
       isConfirmOpen: !state.isConfirmOpen,
       project: new Project()
     }));
+  };
+
+  handleOpenProject = path => {
+    const serialized = fs.readFileSync(path);
+    const project = JSON.parse(serialized);
+    this.setState({
+      project
+    });
+  };
+
+  handleSaveProject = path => {
+    const { project } = this.state;
+    const serialized = JSON.stringify(project);
+    fs.writeFileSync(path, serialized);
   };
 
   render() {

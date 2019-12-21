@@ -31,8 +31,19 @@ it('stays open on ctrl+n', () => {
   expect(sv.state().isConfirmOpen).toBe(true);
 });
 
-it('creates new project on confirmation', () => {
+it('new project resets values', () => {
   sv.instance().handleNewProject();
+  expect(sv.state().project).toMatchObject({
+    frames: [],
+    name: '',
+    videoFilePath: ''
+  });
+});
+
+it('save and open new project', () => {
+  sv.instance().handleNewProject();
+  sv.instance().handleSaveProject('save and open new project');
+  sv.instance().handleOpenProject('save and open new project');
   expect(sv.state().project).toMatchObject({
     frames: [],
     name: '',
