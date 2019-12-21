@@ -42,8 +42,8 @@ it('new project resets values', () => {
 
 it('save and open new project', () => {
   sv.instance().handleNewProject();
-  sv.instance().handleSaveProject('save and open new project');
-  sv.instance().handleOpenProject('save and open new project');
+  sv.instance().handleSaveProject('save and open new project.sheo');
+  sv.instance().handleOpenProject('save and open new project.sheo');
   expect(sv.state().project).toMatchObject({
     frames: [],
     name: '',

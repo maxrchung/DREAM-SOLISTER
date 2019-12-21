@@ -1,3 +1,6 @@
+# MC: Ignore .sheo files that are used for testing
+*.sheo
+
 # Logs
 logs
 *.log
