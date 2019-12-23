@@ -9,8 +9,7 @@ export default class ShapeVideo extends React.Component {
   constructor(props) {
     super(props);
 
-    const template = remote.Menu.buildFromTemplate(this.menuTemplate);
-    remote.Menu.setApplicationMenu(template);
+    this.setMenu();
 
     this.state = {
       isNewOpen: false,
@@ -18,33 +17,54 @@ export default class ShapeVideo extends React.Component {
     };
   }
 
-  menuTemplate = [
-    {
-      label: 'Project',
-      submenu: [
-        {
-          label: 'New',
-          accelerator: 'CmdOrCtrl+N',
-          click: () => this.handleNewToggle()
-        },
-        {
-          label: 'Save',
-          accelerator: 'CmdOrCtrl+S',
-          click: () => this.handleSaveProject(false)
-        },
-        {
-          label: 'Save As...',
-          accelerator: 'CmdOrCtrl+Shift+S',
-          click: () => this.handleSaveProject(true)
-        },
-        {
-          label: 'Open...',
-          accelerator: 'CmdOrCtrl+O',
-          click: () => this.handleOpenProject()
-        }
-      ]
-    }
-  ];
+  setMenu = () => {
+    const isMac = remote.process.platform === 'darwin';
+    const menuTemplate = [
+      isMac
+        ? {
+            label: 'ShapeVideo',
+            submenu: [
+              { role: 'about' },
+              { type: 'separator' },
+              { role: 'services' },
+              { type: 'separator' },
+              { role: 'hide' },
+              { role: 'hideothers' },
+              { role: 'unhide' },
+              { type: 'separator' },
+              { role: 'quit' }
+            ]
+          }
+        : {},
+      {
+        label: 'Project',
+        submenu: [
+          {
+            label: 'New',
+            accelerator: 'CmdOrCtrl+N',
+            click: () => this.handleNewToggle()
+          },
+          {
+            label: 'Save',
+            accelerator: 'CmdOrCtrl+S',
+            click: () => this.handleSaveProject(false)
+          },
+          {
+            label: 'Save As...',
+            accelerator: 'CmdOrCtrl+Shift+S',
+            click: () => this.handleSaveProject(true)
+          },
+          {
+            label: 'Open...',
+            accelerator: 'CmdOrCtrl+O',
+            click: () => this.handleOpenProject()
+          }
+        ]
+      }
+    ];
+    const template = remote.Menu.buildFromTemplate(menuTemplate);
+    remote.Menu.setApplicationMenu(template);
+  };
 
   // To handle both Windows and Apple shortcuts, we'll allow both ctrl and meta
   hasSpecialKey = e => {
