@@ -3,6 +3,9 @@ export const remote = {
   Menu: {
     buildFromTemplate: jest.fn(),
     setApplicationMenu: jest.fn()
+  },
+  process: {
+    platform: jest.fn()
   }
 };
 
