@@ -8,12 +8,7 @@ import ShapeVideo from '../ShapeVideo';
 import Project from '../Project';
 
 let sv = null;
-const events = {};
-
 beforeEach(() => {
-  document.addEventListener = jest.fn((event, cb) => {
-    events[event] = cb;
-  });
   sv = shallow(<ShapeVideo />);
 });
 
@@ -25,15 +20,6 @@ describe('new', () => {
     sv.instance().handleNewToggle();
     expect(sv.state().isNewOpen).toBe(false);
     sv.instance().handleNewToggle();
-    expect(sv.state().isNewOpen).toBe(true);
-  });
-
-  it('keeps new open on ctrl+n', () => {
-    events.keydown({ key: 'n', ctrlKey: true });
-    expect(sv.state().isNewOpen).toBe(true);
-    events.keydown({ key: 'n', ctrlKey: true });
-    expect(sv.state().isNewOpen).toBe(true);
-    events.keydown({ key: 'n', ctrlKey: true });
     expect(sv.state().isNewOpen).toBe(true);
   });
 
