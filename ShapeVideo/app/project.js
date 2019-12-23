@@ -1,7 +1,7 @@
 export default class Project {
-  constructor(frames = [], name = '', videoFilePath = '') {
-    this.frames = frames;
+  constructor(name = '', videoFilePath = '', frames = []) {
     this.name = name;
     this.videoFilePath = videoFilePath;
+    this.frames = frames;
   }
 }
