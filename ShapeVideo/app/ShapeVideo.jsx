@@ -1,7 +1,7 @@
 import { remote } from 'electron';
 import fs from 'fs';
 import React from 'react';
-import { MDBContainer, MDBBtn } from 'mdbreact';
+import { MDBContainer } from 'mdbreact';
 import Project from './Project';
 import NewModal from './NewModal';
 
@@ -137,17 +137,11 @@ export default class ShapeVideo extends React.Component {
 
     return (
       <MDBContainer>
-        <MDBBtn onClick={this.handleNewToggle}>New</MDBBtn>
         <NewModal
           isNewOpen={isNewOpen}
           onNewToggle={this.handleNewToggle}
           onNewProject={this.handleNewProject}
         />
-
-        <MDBBtn onClick={() => this.handleSaveProject(false)}>Save</MDBBtn>
-        <MDBBtn onClick={() => this.handleSaveProject(true)}>Save As</MDBBtn>
-
-        <MDBBtn onClick={this.handleOpenProject}>Open</MDBBtn>
 
         <h5>Project</h5>
         <ul>
