@@ -9,53 +9,46 @@ export default class ShapeVideo extends React.Component {
   constructor(props) {
     super(props);
 
+    const template = remote.Menu.buildFromTemplate(this.menuTemplate);
+    remote.Menu.setApplicationMenu(template);
+
     this.state = {
       isNewOpen: false,
       project: new Project()
     };
   }
 
-  componentDidMount() {
-    document.addEventListener('keydown', this.handleKeyDown);
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener('keydown', this.handleKeyDown);
-  }
-
-  static dialogOptions = {
-    filters: [
-      { name: 'ShapeVideo (.sheo)', extensions: ['sheo'] },
-      { name: 'All Files (*)', extensions: ['*'] }
-    ],
-    properties: ['openFile', 'showHiddenFiles', 'createDirectory']
-  };
+  menuTemplate = [
+    {
+      label: 'Project',
+      submenu: [
+        {
+          label: 'New',
+          accelerator: 'CmdOrCtrl+N',
+          click: () => this.handleNewToggle()
+        },
+        {
+          label: 'Save',
+          accelerator: 'CmdOrCtrl+S',
+          click: () => this.handleSaveProject(false)
+        },
+        {
+          label: 'Save As...',
+          accelerator: 'CmdOrCtrl+Shift+S',
+          click: () => this.handleSaveProject(true)
+        },
+        {
+          label: 'Open...',
+          accelerator: 'CmdOrCtrl+O',
+          click: () => this.handleOpenProject()
+        }
+      ]
+    }
+  ];
 
   // To handle both Windows and Apple shortcuts, we'll allow both ctrl and meta
   hasSpecialKey = e => {
     return e.ctrlKey || e.metaKey;
-  };
-
-  handleKeyDown = e => {
-    switch (e.key) {
-      case 'n':
-        if (this.hasSpecialKey(e)) {
-          this.handleNewToggle(e, true);
-        }
-        break;
-      case 's':
-        if (this.hasSpecialKey(e)) {
-          this.handleSaveProject();
-        }
-        break;
-      case 'o':
-        if (this.hasSpecialKey(e)) {
-          this.handleOpenProject();
-        }
-        break;
-      default:
-        break;
-    }
   };
 
   handleNewToggle = (_, isNewOpen) => {
@@ -71,15 +64,25 @@ export default class ShapeVideo extends React.Component {
     }));
   };
 
+  static dialogOptions = {
+    filters: [
+      { name: 'ShapeVideo (.sheo)', extensions: ['sheo'] },
+      { name: 'All Files (*)', extensions: ['*'] }
+    ],
+    properties: ['openFile', 'showHiddenFiles', 'createDirectory']
+  };
+
   handleOpenProject = () => {
     const path = remote.dialog.showOpenDialogSync(ShapeVideo.dialogOptions);
-    if (path[0]) {
-      const serialized = fs.readFileSync(path);
-      const project = JSON.parse(serialized);
-      this.setState({
-        project
-      });
+    if (!path) {
+      return;
     }
+
+    const serialized = fs.readFileSync(path);
+    const project = JSON.parse(serialized);
+    this.setState({
+      project
+    });
   };
 
   handleSaveProject = needsDialog => {
