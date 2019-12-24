@@ -11,7 +11,7 @@ beforeEach(() => {
 
 describe('load', () => {
   it('loads video', () => {
-    const path = 'app/tests/loads video';
+    const path = 'app/test/loads video';
     fs.writeFileSync(path, '');
     remote.dialog.showOpenDialogSync = jest.fn(() => path);
     sv.instance().handleLoadVideo();
@@ -19,7 +19,7 @@ describe('load', () => {
   });
 
   it('saves loaded video', () => {
-    const videoPath = 'app/tests/saves loaded video';
+    const videoPath = 'app/test/saves loaded video';
     remote.dialog.showOpenDialogSync = jest.fn(() => videoPath);
     sv.instance().handleLoadVideo();
 
