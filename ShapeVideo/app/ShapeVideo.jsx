@@ -96,16 +96,16 @@ export default class ShapeVideo extends React.Component {
 
   static projectDialogOptions = {
     filters: [
-      { name: 'ShapeVideo', extensions: ['sheo'] },
-      { name: 'All Files', extensions: ['*'] }
+      { name: 'ShapeVideo (.sheo)', extensions: ['sheo'] },
+      { name: 'All Files (.*)', extensions: ['*'] }
     ],
     properties: ['openFile', 'createDirectory']
   };
 
   static videoDialogOptions = {
     filters: [
-      { name: 'Video', extensions: ['mp4', 'ogg', 'webm'] },
-      { name: 'All Files', extensions: ['*'] }
+      { name: 'Video (.mp4, .webm, .ogg)', extensions: ['mp4', 'webm', 'ogg'] },
+      { name: 'All Files (.*)', extensions: ['*'] }
     ],
     properties: ['openFile', 'createDirectory']
   };
