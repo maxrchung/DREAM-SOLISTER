@@ -111,14 +111,14 @@ export default class ShapeVideo extends React.Component {
   };
 
   handleOpenProject = () => {
-    const path = remote.dialog.showOpenDialogSync(
+    const paths = remote.dialog.showOpenDialogSync(
       ShapeVideo.projectDialogOptions
     );
-    if (!path) {
+    if (!paths) {
       return;
     }
 
-    const serialized = fs.readFileSync(path);
+    const serialized = fs.readFileSync(paths[0]);
     const project = JSON.parse(serialized);
     this.setState({
       project
@@ -155,18 +155,18 @@ export default class ShapeVideo extends React.Component {
   handleLoadVideo = () => {
     const { project } = this.state;
 
-    const path = remote.dialog.showOpenDialogSync(
+    const paths = remote.dialog.showOpenDialogSync(
       ShapeVideo.videoDialogOptions
     );
 
-    if (!path) {
+    if (!paths) {
       return;
     }
 
     this.setState({
       project: {
         ...project,
-        video: path
+        video: paths[0]
       }
     });
   };

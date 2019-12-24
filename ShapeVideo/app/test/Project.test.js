@@ -92,7 +92,7 @@ describe('open', () => {
     const project = new Project(path);
     const serialized = JSON.stringify(project);
     fs.writeFileSync(path, serialized);
-    remote.dialog.showOpenDialogSync = jest.fn(() => path);
+    remote.dialog.showOpenDialogSync = jest.fn(() => [path]);
     sv.instance().handleOpenProject();
     expect(remote.dialog.showOpenDialogSync).toBeCalledTimes(1);
     expect(sv.state().project.name).toBe(path);

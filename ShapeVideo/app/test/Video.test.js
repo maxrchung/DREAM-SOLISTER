@@ -13,14 +13,14 @@ describe('load', () => {
   it('loads video', () => {
     const path = 'app/test/loads video';
     fs.writeFileSync(path, '');
-    remote.dialog.showOpenDialogSync = jest.fn(() => path);
+    remote.dialog.showOpenDialogSync = jest.fn(() => [path]);
     sv.instance().handleLoadVideo();
     expect(sv.state().project.video).toBe(path);
   });
 
   it('saves loaded video', () => {
     const videoPath = 'app/test/saves loaded video';
-    remote.dialog.showOpenDialogSync = jest.fn(() => videoPath);
+    remote.dialog.showOpenDialogSync = jest.fn(() => [videoPath]);
     sv.instance().handleLoadVideo();
 
     const projectPath = `${videoPath}.sheo`;
@@ -30,7 +30,7 @@ describe('load', () => {
     sv.instance().handleNewProject();
     expect(sv.state().project.video).toBe('');
 
-    remote.dialog.showOpenDialogSync = jest.fn(() => projectPath);
+    remote.dialog.showOpenDialogSync = jest.fn(() => [projectPath]);
     sv.instance().handleOpenProject();
     expect(sv.state().project.video).toBe(videoPath);
   });
