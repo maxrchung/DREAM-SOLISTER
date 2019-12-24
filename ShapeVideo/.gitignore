@@ -1,5 +1,6 @@
-# MC: Ignore .sheo files that are used for testing
-*.sheo
+# MC: Ignore non-JS files used in test folder
+app/test/*
+!app/test/*.js
 
 # Logs
 logs

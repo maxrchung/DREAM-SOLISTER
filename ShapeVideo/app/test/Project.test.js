@@ -36,7 +36,7 @@ describe('new', () => {
 describe('save', () => {
   it('requests file name for saving new project', () => {
     sv.instance().handleNewProject();
-    const path = 'app/tests/requests file name for saving new project';
+    const path = 'app/test/requests file name for saving new project';
     remote.dialog.showSaveDialogSync = jest.fn(() => path);
     sv.instance().handleSaveProject(false);
     expect(remote.dialog.showSaveDialogSync).toBeCalledTimes(1);
@@ -50,7 +50,7 @@ describe('save', () => {
   });
 
   it('autosaves if project name is set', () => {
-    const path = 'app/tests/autosaves if project name is set';
+    const path = 'app/test/autosaves if project name is set';
     sv.setState({
       project: new Project(path)
     });
@@ -69,7 +69,7 @@ describe('save', () => {
 
 describe('save as', () => {
   it('opens save dialog even when project name is set', () => {
-    const path = 'app/tests/autosaves if project name is set';
+    const path = 'app/test/autosaves if project name is set';
     sv.setState({
       project: new Project(path)
     });
@@ -88,7 +88,7 @@ describe('save as', () => {
 
 describe('open', () => {
   it('opens and overwrites project', () => {
-    const path = 'app/tests/autosaves if project name is set';
+    const path = 'app/test/autosaves if project name is set';
     const project = new Project(path);
     const serialized = JSON.stringify(project);
     fs.writeFileSync(path, serialized);
