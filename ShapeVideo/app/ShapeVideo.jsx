@@ -60,6 +60,16 @@ export default class ShapeVideo extends React.Component {
             click: () => this.handleOpenProject()
           }
         ]
+      },
+      {
+        label: 'Video',
+        submenu: [
+          {
+            label: 'Load...',
+            accelerator: 'CmdOrCtrl+L',
+            click: () => this.handleLoadVideo()
+          }
+        ]
       }
     ];
     const template = remote.Menu.buildFromTemplate(menuTemplate);
@@ -84,16 +94,26 @@ export default class ShapeVideo extends React.Component {
     }));
   };
 
-  static dialogOptions = {
+  static projectDialogOptions = {
     filters: [
-      { name: 'ShapeVideo (.sheo)', extensions: ['sheo'] },
-      { name: 'All Files (*)', extensions: ['*'] }
+      { name: 'ShapeVideo', extensions: ['sheo'] },
+      { name: 'All Files', extensions: ['*'] }
     ],
-    properties: ['openFile', 'showHiddenFiles', 'createDirectory']
+    properties: ['openFile', 'createDirectory']
+  };
+
+  static videoDialogOptions = {
+    filters: [
+      { name: 'Video', extensions: ['mp4', 'ogg', 'webm'] },
+      { name: 'All Files', extensions: ['*'] }
+    ],
+    properties: ['openFile', 'createDirectory']
   };
 
   handleOpenProject = () => {
-    const path = remote.dialog.showOpenDialogSync(ShapeVideo.dialogOptions);
+    const path = remote.dialog.showOpenDialogSync(
+      ShapeVideo.projectDialogOptions
+    );
     if (!path) {
       return;
     }
@@ -111,17 +131,17 @@ export default class ShapeVideo extends React.Component {
     let serialized = '';
     let path = project.name;
     if (!path || needsDialog) {
-      path = remote.dialog.showSaveDialogSync(ShapeVideo.dialogOptions);
+      path = remote.dialog.showSaveDialogSync(ShapeVideo.projectDialogOptions);
       // If no path is picked, then don't proceed with save
       if (!path) {
         return;
       }
 
       // To be semantically correct, we want a Project instance, not a generic object
-      const newProject = Object.assign(new Project(), {
+      const newProject = {
         ...project,
         name: path
-      });
+      };
       this.setState({
         project: newProject
       });
@@ -130,6 +150,25 @@ export default class ShapeVideo extends React.Component {
       serialized = JSON.stringify(project);
     }
     fs.writeFileSync(path, serialized);
+  };
+
+  handleLoadVideo = () => {
+    const { project } = this.state;
+
+    const path = remote.dialog.showOpenDialogSync(
+      ShapeVideo.videoDialogOptions
+    );
+
+    if (!path) {
+      return;
+    }
+
+    this.setState({
+      project: {
+        ...project,
+        video: path
+      }
+    });
   };
 
   render() {
@@ -146,7 +185,7 @@ export default class ShapeVideo extends React.Component {
         <h5>Project</h5>
         <ul>
           <li>Name: {project.name}</li>
-          <li>Video: {project.videoFilePath}</li>
+          <li>Video: {project.video}</li>
         </ul>
       </MDBContainer>
     );

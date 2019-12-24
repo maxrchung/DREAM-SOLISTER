@@ -1,5 +1,8 @@
 export const remote = {
-  dialog: jest.fn(),
+  dialog: {
+    showOpenDialogSync: jest.fn(),
+    showSaveDialogSync: jest.fn()
+  },
   Menu: {
     buildFromTemplate: jest.fn(),
     setApplicationMenu: jest.fn()

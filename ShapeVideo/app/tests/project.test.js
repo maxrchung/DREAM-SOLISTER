@@ -28,7 +28,7 @@ describe('new', () => {
     expect(sv.state().project).toMatchObject({
       frames: [],
       name: '',
-      videoFilePath: ''
+      video: ''
     });
   });
 });
@@ -45,7 +45,7 @@ describe('save', () => {
     expect(project).toMatchObject({
       frames: [],
       name: path,
-      videoFilePath: ''
+      video: ''
     });
   });
 
@@ -62,7 +62,7 @@ describe('save', () => {
     expect(project).toMatchObject({
       frames: [],
       name: path,
-      videoFilePath: ''
+      video: ''
     });
   });
 });
@@ -81,7 +81,7 @@ describe('save as', () => {
     expect(project).toMatchObject({
       frames: [],
       name: path,
-      videoFilePath: ''
+      video: ''
     });
   });
 });
