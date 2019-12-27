@@ -1,7 +1,6 @@
 import { remote } from 'electron';
 import fs from 'fs';
 import React from 'react';
-import { MDBContainer } from 'mdbreact';
 import Project from './Project';
 import NewModal from './NewModal';
 
@@ -175,19 +174,31 @@ export default class ShapeVideo extends React.Component {
     const { isNewOpen, project } = this.state;
 
     return (
-      <MDBContainer>
+      <div className="d-flex flex-column vh-100">
         <NewModal
           isNewOpen={isNewOpen}
           onNewToggle={this.handleNewToggle}
           onNewProject={this.handleNewProject}
         />
 
-        <h5>Project</h5>
-        <ul>
-          <li>Name: {project.name}</li>
-          <li>Video: {project.video}</li>
-        </ul>
-      </MDBContainer>
+        <div className="d-flex flex-grow-1">
+          <div className="col-10 bg-primary p-2">
+            <h5>Project</h5>
+            <ul>
+              <li>Name: {project.name}</li>
+              <li>Video: {project.video}</li>
+            </ul>
+          </div>
+          <div className="col-2 bg-secondary p-2">Shapes</div>
+        </div>
+
+        <div className="d-flex">
+          <div className="col-10 bg-secondary p-2">
+            <div className="bg-primary w-100 h-100" />
+          </div>
+          <div className="col-2 bg-primary p-2">00:00:000</div>
+        </div>
+      </div>
     );
   }
 }
