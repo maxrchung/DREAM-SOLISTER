@@ -174,7 +174,7 @@ export default class ShapeVideo extends React.Component {
     const { isNewOpen, project } = this.state;
 
     return (
-      <div className="d-flex flex-column vh-100">
+      <div className="d-flex flex-column vh-100 elegant-color white-text">
         <NewModal
           isNewOpen={isNewOpen}
           onNewToggle={this.handleNewToggle}
@@ -182,21 +182,19 @@ export default class ShapeVideo extends React.Component {
         />
 
         <div className="d-flex flex-grow-1">
-          <div className="col-10 bg-primary p-2">
-            <h5>Project</h5>
-            <ul>
-              <li>Name: {project.name}</li>
-              <li>Video: {project.video}</li>
-            </ul>
+          <div className="d-flex col p-2">
+            <video className="w-100" src={project.video}>
+              <track kind="captions" label="DREAM SOLISTER" />
+            </video>
           </div>
-          <div className="col-2 bg-secondary p-2">Shapes</div>
+          <div className="col-auto p-2 stylish-color">Shapes</div>
         </div>
 
-        <div className="d-flex">
-          <div className="col-10 bg-secondary p-2">
-            <div className="bg-primary w-100 h-100" />
+        <div className="d-flex stylish-color-dark">
+          <div className="d-flex col p-2">
+            <input type="range" className="custom-range" />
           </div>
-          <div className="col-2 bg-primary p-2">00:00:000</div>
+          <div className="col-auto p-2">00:00:000</div>
         </div>
       </div>
     );
