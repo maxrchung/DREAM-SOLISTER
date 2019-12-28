@@ -174,7 +174,7 @@ export default class ShapeVideo extends React.Component {
     const { isNewOpen, project } = this.state;
 
     return (
-      <div className="d-flex flex-column vh-100 elegant-color white-text">
+      <div className="d-flex flex-column vh-100 elegant-color-dark white-text">
         <NewModal
           isNewOpen={isNewOpen}
           onNewToggle={this.handleNewToggle}
@@ -187,10 +187,49 @@ export default class ShapeVideo extends React.Component {
               <track kind="captions" label="DREAM SOLISTER" />
             </video>
           </div>
-          <div className="col-auto p-2 stylish-color">Shapes</div>
+          <div className="d-flex flex-column col-auto p-2 stylish-color-dark">
+            <form className="p-2 stylish-color">
+              <div className="form-row">
+                <div className="col-5">
+                  <div className="form-check">
+                    <label className="form-check-label" htmlFor="chk-video">
+                      <input
+                        className="form-check-input"
+                        type="checkbox"
+                        id="chk-video"
+                      />
+                      Video
+                    </label>
+                  </div>
+                </div>
+                <div className="col-7">
+                  <input type="range" className="custom-range" />
+                </div>
+              </div>
+              <div className="form-row">
+                <div className="col-5">
+                  <div className="form-check">
+                    <label className="form-check-label" htmlFor="chk-shapes">
+                      <input
+                        className="form-check-input"
+                        type="checkbox"
+                        id="chk-shapes"
+                      />
+                      Shapes
+                    </label>
+                  </div>
+                </div>
+                <div className="col-7">
+                  <input type="range" className="custom-range" />
+                </div>
+              </div>
+            </form>
+
+            <div className="mt-2 p-2 h-100 stylish-color">Shapes</div>
+          </div>
         </div>
 
-        <div className="d-flex stylish-color-dark">
+        <div className="d-flex elegant-color">
           <div className="d-flex col p-2">
             <input type="range" className="custom-range" />
           </div>
