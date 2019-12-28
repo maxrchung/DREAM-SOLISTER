@@ -216,7 +216,11 @@ export default merge.smart(baseConfig, {
         }),
 
     new webpack.HotModuleReplacementPlugin({
-      multiStep: true
+      // MC: Was experiencing issues on Mac where new changes
+      // were not being reloaded and required refreshing the page;
+      // per GitHub issue discussion, setting this to false seems
+      // to fix this: https://github.com/electron-react-boilerplate/electron-react-boilerplate/issues/909
+      multiStep: false
     }),
 
     new webpack.NoEmitOnErrorsPlugin(),
