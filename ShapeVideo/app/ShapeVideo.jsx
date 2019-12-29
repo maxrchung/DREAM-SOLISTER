@@ -12,7 +12,8 @@ export default class ShapeVideo extends React.Component {
 
     this.state = {
       isNewOpen: false,
-      project: new Project()
+      project: new Project(),
+      isVideoVisible: true
     };
   }
 
@@ -67,6 +68,11 @@ export default class ShapeVideo extends React.Component {
             label: 'Load...',
             accelerator: 'CmdOrCtrl+L',
             click: () => this.handleLoadVideo()
+          },
+          {
+            label: 'Toggle Visibility',
+            accelerator: 'Q',
+            click: () => this.handleVideoToggle()
           }
         ]
       }
@@ -170,8 +176,14 @@ export default class ShapeVideo extends React.Component {
     });
   };
 
+  handleVideoToggle = () => {
+    this.setState(prev => ({
+      isVideoVisible: !prev.isVideoVisible
+    }));
+  };
+
   render() {
-    const { isNewOpen, project } = this.state;
+    const { isNewOpen, project, isVideoVisible } = this.state;
 
     return (
       <div className="d-flex flex-column vh-100 elegant-color-dark white-text">
@@ -183,9 +195,11 @@ export default class ShapeVideo extends React.Component {
 
         <div className="d-flex flex-grow-1">
           <div className="d-flex col p-2">
-            <video className="w-100" src={project.video}>
-              <track kind="captions" label="DREAM SOLISTER" />
-            </video>
+            {isVideoVisible && (
+              <video className="w-100" src={project.video}>
+                <track kind="captions" label="DREAM SOLISTER" />
+              </video>
+            )}
           </div>
           <div className="d-flex flex-column col-auto p-2 stylish-color-dark">
             <form className="p-2 stylish-color">
@@ -197,6 +211,8 @@ export default class ShapeVideo extends React.Component {
                         className="form-check-input"
                         type="checkbox"
                         id="chk-video"
+                        checked={isVideoVisible}
+                        onChange={this.handleVideoToggle}
                       />
                       Video
                     </label>

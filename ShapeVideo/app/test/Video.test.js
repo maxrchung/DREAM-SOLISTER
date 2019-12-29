@@ -35,3 +35,15 @@ describe('load', () => {
     expect(sv.state().project.video).toBe(videoPath);
   });
 });
+
+describe('visibility', () => {
+  it('toggles visibility', () => {
+    expect(sv.state().isVideoVisible).toBe(true);
+
+    sv.instance().handleVideoToggle();
+    expect(sv.state().isVideoVisible).toBe(false);
+
+    sv.instance().handleVideoToggle();
+    expect(sv.state().isVideoVisible).toBe(true);
+  });
+});
