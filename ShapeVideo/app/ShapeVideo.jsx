@@ -13,7 +13,8 @@ export default class ShapeVideo extends React.Component {
     this.state = {
       isNewOpen: false,
       project: new Project(),
-      isVideoVisible: true
+      isVideoVisible: true,
+      videoOpacity: 1
     };
   }
 
@@ -182,8 +183,14 @@ export default class ShapeVideo extends React.Component {
     }));
   };
 
+  handleVideoOpacity = videoOpacity => {
+    this.setState({
+      videoOpacity
+    });
+  };
+
   render() {
-    const { isNewOpen, project, isVideoVisible } = this.state;
+    const { isNewOpen, project, isVideoVisible, videoOpacity } = this.state;
 
     return (
       <div className="d-flex flex-column vh-100 elegant-color-dark white-text">
@@ -196,11 +203,16 @@ export default class ShapeVideo extends React.Component {
         <div className="d-flex flex-grow-1">
           <div className="d-flex col p-2">
             {isVideoVisible && (
-              <video className="w-100" src={project.video}>
+              <video
+                className="w-100"
+                src={project.video}
+                style={{ opacity: videoOpacity }}
+              >
                 <track kind="captions" label="DREAM SOLISTER" />
               </video>
             )}
           </div>
+
           <div className="d-flex flex-column col-auto p-2 stylish-color-dark">
             <form className="p-2 stylish-color">
               <div className="form-row">
@@ -218,10 +230,20 @@ export default class ShapeVideo extends React.Component {
                     </label>
                   </div>
                 </div>
+
                 <div className="col-7">
-                  <input type="range" className="custom-range" />
+                  <input
+                    type="range"
+                    className="custom-range"
+                    min="0"
+                    max="1"
+                    step="any"
+                    value={videoOpacity}
+                    onChange={e => this.handleVideoOpacity(e.target.value)}
+                  />
                 </div>
               </div>
+
               <div className="form-row">
                 <div className="col-5">
                   <div className="form-check">
@@ -235,6 +257,7 @@ export default class ShapeVideo extends React.Component {
                     </label>
                   </div>
                 </div>
+
                 <div className="col-7">
                   <input type="range" className="custom-range" />
                 </div>

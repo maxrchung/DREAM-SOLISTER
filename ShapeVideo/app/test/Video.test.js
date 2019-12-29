@@ -46,4 +46,14 @@ describe('visibility', () => {
     sv.instance().handleVideoToggle();
     expect(sv.state().isVideoVisible).toBe(true);
   });
+
+  it('sets opacity', () => {
+    expect(sv.state().videoOpacity).toBe(1);
+
+    sv.instance().handleVideoOpacity(0.5);
+    expect(sv.state().videoOpacity).toBe(0.5);
+
+    sv.instance().handleVideoOpacity(0);
+    expect(sv.state().videoOpacity).toBe(0);
+  });
 });
