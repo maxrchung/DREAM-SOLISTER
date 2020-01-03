@@ -4,6 +4,7 @@ import React from 'react';
 import Project from './Project';
 import NewModal from './NewModal';
 import Slider from './Slider';
+import CheckLabel from './CheckLabel';
 
 export default class ShapeVideo extends React.Component {
   constructor(props) {
@@ -186,7 +187,7 @@ export default class ShapeVideo extends React.Component {
 
   handleVideoOpacity = videoOpacity => {
     this.setState({
-      videoOpacity
+      videoOpacity: parseFloat(videoOpacity)
     });
   };
 
@@ -218,18 +219,12 @@ export default class ShapeVideo extends React.Component {
             <form className="p-2 stylish-color">
               <div className="form-row">
                 <div className="col-5">
-                  <div className="form-check">
-                    <label className="form-check-label" htmlFor="chk-video">
-                      <input
-                        className="form-check-input"
-                        type="checkbox"
-                        id="chk-video"
-                        checked={isVideoVisible}
-                        onChange={this.handleVideoToggle}
-                      />
-                      Video
-                    </label>
-                  </div>
+                  <CheckLabel
+                    checked={isVideoVisible}
+                    label="Video"
+                    name="chk-video"
+                    onChange={this.handleVideoToggle}
+                  />
                 </div>
 
                 <div className="col-7">
