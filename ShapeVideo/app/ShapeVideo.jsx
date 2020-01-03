@@ -3,6 +3,7 @@ import fs from 'fs';
 import React from 'react';
 import Project from './Project';
 import NewModal from './NewModal';
+import Slider from './Slider';
 
 export default class ShapeVideo extends React.Component {
   constructor(props) {
@@ -232,12 +233,7 @@ export default class ShapeVideo extends React.Component {
                 </div>
 
                 <div className="col-7">
-                  <input
-                    type="range"
-                    className="custom-range"
-                    min="0"
-                    max="1"
-                    step="any"
+                  <Slider
                     value={videoOpacity}
                     onChange={e => this.handleVideoOpacity(e.target.value)}
                   />
