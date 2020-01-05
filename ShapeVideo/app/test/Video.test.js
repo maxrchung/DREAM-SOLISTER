@@ -59,7 +59,13 @@ describe('visibility', () => {
 });
 
 describe('trackbar', () => {
-  it('starts at 0', () => {
+  it('seeks video', () => {
     expect(sv.state().videoTime).toBe(0);
+
+    sv.instance().handleSeekVideo(0.5);
+    expect(sv.state().videoTime).toBe(0.5);
+
+    sv.instance().handleSeekVideo(1);
+    expect(sv.state().videoTime).toBe(1);
   });
 });

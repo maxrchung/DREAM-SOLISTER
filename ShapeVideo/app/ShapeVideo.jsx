@@ -180,6 +180,12 @@ export default class ShapeVideo extends React.Component {
     });
   };
 
+  handleSeekVideo = videoTime => {
+    this.setState({
+      videoTime: parseFloat(videoTime)
+    });
+  };
+
   handleVideoToggle = () => {
     this.setState(prev => ({
       isVideoVisible: !prev.isVideoVisible
@@ -268,7 +274,10 @@ export default class ShapeVideo extends React.Component {
 
         <div className="d-flex elegant-color">
           <div className="d-flex col p-2">
-            <Slider value={videoTime} onChange={() => {}} />
+            <Slider
+              value={videoTime}
+              onChange={e => this.handleSeekVideo(e.target.value)}
+            />
           </div>
           <div className="col-auto p-2">00:00:000</div>
         </div>
