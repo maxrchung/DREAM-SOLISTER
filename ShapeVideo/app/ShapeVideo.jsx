@@ -16,7 +16,8 @@ export default class ShapeVideo extends React.Component {
       isNewOpen: false,
       project: new Project(),
       isVideoVisible: true,
-      videoOpacity: 1
+      videoOpacity: 1,
+      videoTime: 0
     };
   }
 
@@ -192,7 +193,13 @@ export default class ShapeVideo extends React.Component {
   };
 
   render() {
-    const { isNewOpen, project, isVideoVisible, videoOpacity } = this.state;
+    const {
+      isNewOpen,
+      project,
+      isVideoVisible,
+      videoOpacity,
+      videoTime
+    } = this.state;
 
     return (
       <div className="d-flex flex-column vh-100 elegant-color-dark white-text">
@@ -261,7 +268,7 @@ export default class ShapeVideo extends React.Component {
 
         <div className="d-flex elegant-color">
           <div className="d-flex col p-2">
-            <input type="range" className="custom-range" />
+            <Slider value={videoTime} onChange={() => {}} />
           </div>
           <div className="col-auto p-2">00:00:000</div>
         </div>

@@ -57,3 +57,9 @@ describe('visibility', () => {
     expect(sv.state().videoOpacity).toBe(0);
   });
 });
+
+describe('trackbar', () => {
+  it('starts at 0', () => {
+    expect(sv.state().videoTime).toBe(0);
+  });
+});
