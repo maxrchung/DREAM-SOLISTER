@@ -180,12 +180,6 @@ export default class ShapeVideo extends React.Component {
     });
   };
 
-  handleSeekVideo = videoTime => {
-    this.setState({
-      videoTime: parseFloat(videoTime)
-    });
-  };
-
   handleVideoToggle = () => {
     this.setState(prev => ({
       isVideoVisible: !prev.isVideoVisible
@@ -196,6 +190,45 @@ export default class ShapeVideo extends React.Component {
     this.setState({
       videoOpacity: parseFloat(videoOpacity)
     });
+  };
+
+  handleSeekVideo = videoTime => {
+    this.setState({
+      videoTime: parseFloat(videoTime)
+    });
+  };
+
+  handleFormatVideoTime = () => {
+    const { video } = this;
+    const { videoTime } = this.state;
+
+    // https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement/readyState
+    const timeInSeconds =
+      video && video.duration && video.readyState >= 3
+        ? videoTime * video.duration
+        : 0;
+
+    return this.formatVideoTimeInSeconds(timeInSeconds);
+  };
+
+  formatVideoTimeInSeconds = timeInSeconds => {
+    const dateTime = new Date(null);
+    // There are some floating inconsistencies if we try and use .setSeconds()
+    dateTime.setMilliseconds(timeInSeconds * 1000);
+    const minutes = dateTime
+      .getMinutes()
+      .toString()
+      .padStart(2, '0');
+    const seconds = dateTime
+      .getSeconds()
+      .toString()
+      .padStart(2, '0');
+    const milliseconds = dateTime
+      .getMilliseconds()
+      .toString()
+      .padStart(3, '0');
+    const formatted = `${minutes}:${seconds}:${milliseconds}`;
+    return formatted;
   };
 
   render() {
@@ -220,6 +253,9 @@ export default class ShapeVideo extends React.Component {
             {isVideoVisible && (
               <video
                 className="w-100"
+                ref={element => {
+                  this.video = element;
+                }}
                 src={project.video}
                 style={{ opacity: videoOpacity }}
               >
@@ -279,7 +315,7 @@ export default class ShapeVideo extends React.Component {
               onChange={e => this.handleSeekVideo(e.target.value)}
             />
           </div>
-          <div className="col-auto p-2">00:00:000</div>
+          <div className="col-auto p-2">{this.handleFormatVideoTime()}</div>
         </div>
       </div>
     );

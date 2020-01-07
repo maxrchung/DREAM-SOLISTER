@@ -68,4 +68,16 @@ describe('trackbar', () => {
     sv.instance().handleSeekVideo(1);
     expect(sv.state().videoTime).toBe(1);
   });
+
+  it('formats time', () => {
+    expect(sv.instance().formatVideoTimeInSeconds(0)).toBe('00:00:000');
+    expect(sv.instance().formatVideoTimeInSeconds(600)).toBe('10:00:000');
+    expect(sv.instance().formatVideoTimeInSeconds(60)).toBe('01:00:000');
+    expect(sv.instance().formatVideoTimeInSeconds(10)).toBe('00:10:000');
+    expect(sv.instance().formatVideoTimeInSeconds(1)).toBe('00:01:000');
+    expect(sv.instance().formatVideoTimeInSeconds(0.1)).toBe('00:00:100');
+    expect(sv.instance().formatVideoTimeInSeconds(0.01)).toBe('00:00:010');
+    expect(sv.instance().formatVideoTimeInSeconds(0.001)).toBe('00:00:001');
+    expect(sv.instance().formatVideoTimeInSeconds(671.111)).toBe('11:11:111');
+  });
 });
