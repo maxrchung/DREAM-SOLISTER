@@ -77,6 +77,16 @@ export default class ShapeVideo extends React.Component {
             label: 'Toggle Visibility',
             accelerator: 'Q',
             click: () => this.handleVideoToggle()
+          },
+          {
+            label: 'Play/Pause',
+            accelerator: 'Space',
+            click: () => this.handlePlayVideo()
+          },
+          {
+            label: 'Restart',
+            accelerator: 'X',
+            click: () => this.handleRestartVideo()
           }
         ]
       }
@@ -193,9 +203,11 @@ export default class ShapeVideo extends React.Component {
   };
 
   handleSeekVideo = videoTime => {
-    this.setState({
-      videoTime: parseFloat(videoTime)
-    });
+    const { video } = this;
+    if (this.isVideoReady(video)) {
+      const timeInSeconds = videoTime * video.duration;
+      video.currentTime = timeInSeconds;
+    }
   };
 
   handleFormatVideoTime = () => {
@@ -203,12 +215,15 @@ export default class ShapeVideo extends React.Component {
     const { videoTime } = this.state;
 
     // https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement/readyState
-    const timeInSeconds =
-      video && video.duration && video.readyState >= 3
-        ? videoTime * video.duration
-        : 0;
+    const timeInSeconds = this.isVideoReady(video)
+      ? videoTime * video.duration
+      : 0;
 
     return this.formatVideoTimeInSeconds(timeInSeconds);
+  };
+
+  isVideoReady = video => {
+    return video && video.duration && video.readyState >= 3;
   };
 
   formatVideoTimeInSeconds = timeInSeconds => {
@@ -229,6 +244,37 @@ export default class ShapeVideo extends React.Component {
       .padStart(3, '0');
     const formatted = `${minutes}:${seconds}:${milliseconds}`;
     return formatted;
+  };
+
+  handlePlayVideo = () => {
+    const { video } = this;
+    if (this.isVideoReady(video)) {
+      if (video.paused) {
+        video.play();
+      } else {
+        video.pause();
+      }
+    }
+  };
+
+  handleRestartVideo = () => {
+    const { video } = this;
+    if (this.isVideoReady(video)) {
+      video.currentTime = 0;
+      this.setState({
+        videoTime: 0
+      });
+    }
+  };
+
+  handleVideoTimeUpdate = () => {
+    const { video } = this;
+    if (this.isVideoReady(video)) {
+      const fraction = video.currentTime / video.duration;
+      this.setState({
+        videoTime: fraction
+      });
+    }
   };
 
   render() {
@@ -258,6 +304,7 @@ export default class ShapeVideo extends React.Component {
                 }}
                 src={project.video}
                 style={{ opacity: videoOpacity }}
+                onTimeUpdate={this.handleVideoTimeUpdate}
               >
                 <track kind="captions" label="DREAM SOLISTER" />
               </video>
