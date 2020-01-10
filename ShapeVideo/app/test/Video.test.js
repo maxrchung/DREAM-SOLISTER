@@ -59,16 +59,6 @@ describe('visibility', () => {
 });
 
 describe('trackbar', () => {
-  it('seeks video', () => {
-    expect(sv.state().videoTime).toBe(0);
-
-    sv.instance().handleSeekVideo(0.5);
-    expect(sv.state().videoTime).toBe(0.5);
-
-    sv.instance().handleSeekVideo(1);
-    expect(sv.state().videoTime).toBe(1);
-  });
-
   it('formats time', () => {
     expect(sv.instance().formatVideoTimeInSeconds(0)).toBe('00:00:000');
     expect(sv.instance().formatVideoTimeInSeconds(600)).toBe('10:00:000');
