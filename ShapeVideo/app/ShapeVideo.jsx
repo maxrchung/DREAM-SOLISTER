@@ -24,6 +24,16 @@ export default class ShapeVideo extends React.Component {
     };
   }
 
+  componentDidMount() {
+    window.addEventListener('resize', this.handleResize);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.handleResize);
+  }
+
+  handleResize = () => this.forceUpdate();
+
   setMenu = () => {
     const isMac = remote.process.platform === 'darwin';
     const menuTemplate = [
@@ -316,7 +326,7 @@ export default class ShapeVideo extends React.Component {
             <Shape
               type={ShapeType.Triangle}
               videoRef={this.video}
-              position={new Victor(100, 100)}
+              position={new Victor()}
             />
           </div>
 
