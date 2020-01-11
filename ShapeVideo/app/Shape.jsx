@@ -24,22 +24,31 @@ export default class Shape extends React.Component {
 
   getStyling = () => {
     const { videoRef, position } = this.props;
+    const videoScale = videoRef.clientHeight / 2;
+    const newPosition = new Victor(
+      videoRef.clientWidth / 2 + position.x * videoScale,
+      videoRef.clientHeight / 2 + position.y * videoScale
+    );
+
     const styling = {
-      left: videoRef ? videoRef.clientWidth / 2 + position.x : position.x,
-      top: videoRef ? videoRef.clientHeight / 2 + position.y : position.y
+      transform: `translate(${newPosition.x}px, ${newPosition.y}px)`
     };
+
+    console.log(styling);
     return styling;
   };
 
   render() {
-    const { type } = this.props;
+    const { type, videoRef } = this.props;
     return (
-      <img
-        className="position-absolute"
-        alt={type}
-        src={this.getSrcPath()}
-        style={this.getStyling()}
-      />
+      videoRef && (
+        <img
+          className="position-absolute"
+          alt={type}
+          src={this.getSrcPath()}
+          style={this.getStyling()}
+        />
+      )
     );
   }
 }
