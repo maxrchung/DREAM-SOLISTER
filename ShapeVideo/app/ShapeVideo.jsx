@@ -1,10 +1,13 @@
 import { remote } from 'electron';
 import fs from 'fs';
 import React from 'react';
+import Victor from 'victor';
 import Project from './Project';
 import NewModal from './NewModal';
 import Slider from './Slider';
 import CheckLabel from './CheckLabel';
+import Shape from './Shape';
+import ShapeType from './ShapeType';
 
 export default class ShapeVideo extends React.Component {
   constructor(props) {
@@ -309,6 +312,12 @@ export default class ShapeVideo extends React.Component {
                 <track kind="captions" label="DREAM SOLISTER" />
               </video>
             )}
+
+            <Shape
+              type={ShapeType.Triangle}
+              videoRef={this.video}
+              position={new Victor(100, 100)}
+            />
           </div>
 
           <div className="d-flex flex-column col-auto p-2 stylish-color-dark">
