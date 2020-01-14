@@ -6,13 +6,13 @@ import ShapeType from './ShapeType';
 export default class Shape extends React.Component {
   static propTypes = {
     type: PropTypes.string,
-    videoRef: PropTypes.instanceOf(HTMLVideoElement),
+    video: PropTypes.instanceOf(HTMLVideoElement),
     position: PropTypes.instanceOf(Victor)
   };
 
   static defaultProps = {
     type: ShapeType.None,
-    videoRef: null,
+    video: null,
     position: new Victor()
   };
 
@@ -23,11 +23,11 @@ export default class Shape extends React.Component {
   };
 
   getStyling = () => {
-    const { videoRef, position } = this.props;
-    const videoScale = videoRef.clientHeight / 2;
+    const { video, position } = this.props;
+    const videoScale = video.clientHeight / 2;
     const newPosition = new Victor(
-      videoRef.clientWidth / 2 + position.x * videoScale,
-      videoRef.clientHeight / 2 + position.y * videoScale
+      video.clientWidth / 2 + position.x * videoScale,
+      video.clientHeight / 2 + position.y * videoScale
     );
 
     const styling = {
@@ -38,9 +38,9 @@ export default class Shape extends React.Component {
   };
 
   render() {
-    const { type, videoRef } = this.props;
+    const { type, video } = this.props;
     return (
-      videoRef && (
+      video && (
         <img
           className="position-absolute"
           alt={type}
