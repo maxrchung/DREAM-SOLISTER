@@ -19,15 +19,19 @@ export default class NewModal extends React.Component {
     const { isNewOpen, onNewToggle, onNewProject } = this.props;
 
     return (
-      <MDBModal isOpen={isNewOpen} toggle={onNewToggle}>
+      <MDBModal className="black-text" isOpen={isNewOpen} toggle={onNewToggle}>
         <MDBModalHeader toggle={onNewToggle}>New Project</MDBModalHeader>
         <MDBModalBody>
           Are you sure you want to start a new project? Existing changes will be
           lost.
         </MDBModalBody>
         <MDBModalFooter>
-          <MDBBtn onClick={onNewProject}>OK</MDBBtn>
-          <MDBBtn onClick={onNewToggle}>Cancel</MDBBtn>
+          <MDBBtn color="primary" onClick={onNewProject}>
+            OK
+          </MDBBtn>
+          <MDBBtn color="primary" onClick={onNewToggle}>
+            Cancel
+          </MDBBtn>
         </MDBModalFooter>
       </MDBModal>
     );
