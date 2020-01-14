@@ -34,7 +34,6 @@ export default class Shape extends React.Component {
       transform: `translate(${newPosition.x}px, ${newPosition.y}px)`
     };
 
-    console.log(styling);
     return styling;
   };
 
