@@ -104,6 +104,16 @@ export default class ShapeVideo extends React.Component {
             click: () => this.handleRestartVideo()
           }
         ]
+      },
+      {
+        label: 'Shapes',
+        submenu: [
+          {
+            label: 'Toggle Visibility',
+            accelerator: 'W',
+            click: () => this.handleShapesToggle()
+          }
+        ]
       }
     ];
     const template = remote.Menu.buildFromTemplate(menuTemplate);
@@ -325,19 +335,19 @@ export default class ShapeVideo extends React.Component {
 
         <div className="d-flex flex-grow-1">
           <div className="d-flex col p-2">
-            {isVideoVisible && (
-              <video
-                className="w-100"
-                ref={element => {
-                  this.video = element;
-                }}
-                src={project.video}
-                style={{ opacity: videoOpacity }}
-                onTimeUpdate={this.handleVideoTimeUpdate}
-              >
-                <track kind="captions" label="DREAM SOLISTER" />
-              </video>
-            )}
+            <video
+              className="w-100"
+              ref={element => {
+                this.video = element;
+              }}
+              src={project.video}
+              // Shapes rely on video to be rendered, so we can't
+              // just remove the video element to toggle video
+              style={{ opacity: isVideoVisible ? videoOpacity : 0 }}
+              onTimeUpdate={this.handleVideoTimeUpdate}
+            >
+              <track kind="captions" label="DREAM SOLISTER" />
+            </video>
 
             {areShapesVisible && (
               <div
