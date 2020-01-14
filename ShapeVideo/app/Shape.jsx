@@ -41,12 +41,7 @@ export default class Shape extends React.Component {
     const { type, video } = this.props;
     return (
       video && (
-        <img
-          className="position-absolute"
-          alt={type}
-          src={this.getSrcPath()}
-          style={this.getStyling()}
-        />
+        <img alt={type} src={this.getSrcPath()} style={this.getStyling()} />
       )
     );
   }
