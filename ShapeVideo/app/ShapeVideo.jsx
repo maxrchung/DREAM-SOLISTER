@@ -20,6 +20,8 @@ export default class ShapeVideo extends React.Component {
       project: new Project(),
       isVideoVisible: true,
       videoOpacity: 1,
+      areShapesVisible: true,
+      shapesOpacity: 1,
       videoTime: 0
     };
   }
@@ -215,6 +217,18 @@ export default class ShapeVideo extends React.Component {
     });
   };
 
+  handleShapesToggle = () => {
+    this.setState(prev => ({
+      areShapesVisible: !prev.areShapesVisible
+    }));
+  };
+
+  handleShapesOpacity = shapesOpacity => {
+    this.setState({
+      shapesOpacity: parseFloat(shapesOpacity)
+    });
+  };
+
   handleSeekVideo = videoTime => {
     const { video } = this;
     if (this.isVideoReady(video)) {
@@ -296,6 +310,8 @@ export default class ShapeVideo extends React.Component {
       project,
       isVideoVisible,
       videoOpacity,
+      areShapesVisible,
+      shapesOpacity,
       videoTime
     } = this.state;
 
@@ -323,11 +339,18 @@ export default class ShapeVideo extends React.Component {
               </video>
             )}
 
-            <Shape
-              type={ShapeType.Triangle}
-              videoRef={this.video}
-              position={new Victor()}
-            />
+            {areShapesVisible && (
+              <div
+                className="position-absolute"
+                style={{ opacity: shapesOpacity }}
+              >
+                <Shape
+                  type={ShapeType.Triangle}
+                  video={this.video}
+                  position={new Victor()}
+                />
+              </div>
+            )}
           </div>
 
           <div className="d-flex flex-column col-auto p-2 stylish-color-dark">
@@ -352,20 +375,19 @@ export default class ShapeVideo extends React.Component {
 
               <div className="form-row">
                 <div className="col-5">
-                  <div className="form-check">
-                    <label className="form-check-label" htmlFor="chk-shapes">
-                      <input
-                        className="form-check-input"
-                        type="checkbox"
-                        id="chk-shapes"
-                      />
-                      Shapes
-                    </label>
-                  </div>
+                  <CheckLabel
+                    checked={areShapesVisible}
+                    label="Shapes"
+                    name="chk-shapes"
+                    onChange={this.handleShapesToggle}
+                  />
                 </div>
 
                 <div className="col-7">
-                  <input type="range" className="custom-range" />
+                  <Slider
+                    value={shapesOpacity}
+                    onChange={e => this.handleShapesOpacity(e.target.value)}
+                  />
                 </div>
               </div>
             </form>
