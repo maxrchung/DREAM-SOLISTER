@@ -7,13 +7,17 @@ export default class Shape extends React.Component {
   static propTypes = {
     type: PropTypes.string,
     video: PropTypes.instanceOf(HTMLVideoElement),
-    position: PropTypes.instanceOf(Victor)
+    position: PropTypes.instanceOf(Victor),
+    rotation: PropTypes.number,
+    scale: PropTypes.instanceOf(Victor)
   };
 
   static defaultProps = {
     type: ShapeType.None,
     video: null,
-    position: new Victor()
+    position: new Victor(),
+    rotation: 0,
+    scale: new Victor(1, 1)
   };
 
   getSrcPath = () => {
@@ -23,17 +27,22 @@ export default class Shape extends React.Component {
   };
 
   getStyling = () => {
-    const { video, position } = this.props;
-    const videoScale = video.clientHeight / 2;
+    const { video, position, rotation, scale } = this.props;
+    const videoScale = video.clientWidth / 2;
     const newPosition = new Victor(
       video.clientWidth / 2 + position.x * videoScale,
       video.clientHeight / 2 + position.y * videoScale
     );
 
     const styling = {
-      transform: `translate(${newPosition.x}px, ${newPosition.y}px)`
+      transform: [
+        `translate(${newPosition.x}px, ${newPosition.y}px)`,
+        `rotate(${rotation}rad)`,
+        `scale(${scale.x}, ${scale.y})`
+      ].join(' ')
     };
 
+    console.log(styling);
     return styling;
   };
 
