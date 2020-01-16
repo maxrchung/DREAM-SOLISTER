@@ -358,8 +358,6 @@ export default class ShapeVideo extends React.Component {
                   type={ShapeType.Triangle}
                   video={this.video}
                   position={new Victor()}
-                  rotation={0.2}
-                  scale={new Victor(5, 1)}
                 />
               </div>
             )}

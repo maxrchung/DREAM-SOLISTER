@@ -28,21 +28,42 @@ export default class Shape extends React.Component {
 
   getStyling = () => {
     const { video, position, rotation, scale } = this.props;
-    const videoScale = video.clientWidth / 2;
+    const imageWidth = 102;
+    const sbWidth = 853.33;
+    const sbScale = imageWidth / sbWidth;
+
+    const videoWidth = video.clientWidth;
+    const videoHalfWidth = videoWidth / 2;
+    const videoHalfHeight = video.clientHeight / 2;
+    const videoScale = sbScale * videoWidth;
+
+    const imageScale = new Victor()
+      .copy(scale)
+      .multiply(new Victor(videoScale / imageWidth, videoScale / imageWidth));
+    const imageSize = new Victor()
+      .copy(imageScale)
+      .multiply(new Victor(imageWidth, imageWidth));
+    const imageHalfSize = new Victor()
+      .copy(imageSize)
+      .multiply(new Victor(0.5, 0.5));
+
     const newPosition = new Victor(
-      video.clientWidth / 2 + position.x * videoScale,
-      video.clientHeight / 2 + position.y * videoScale
+      Math.round(
+        videoHalfWidth + position.x * videoHalfWidth - imageHalfSize.x
+      ),
+      Math.round(
+        videoHalfHeight + position.y * videoHalfWidth - imageHalfSize.y
+      )
     );
 
     const styling = {
       transform: [
         `translate(${newPosition.x}px, ${newPosition.y}px)`,
         `rotate(${rotation}rad)`,
-        `scale(${scale.x}, ${scale.y})`
+        `scale(${imageScale.x}, ${imageScale.y})`
       ].join(' ')
     };
 
-    console.log(styling);
     return styling;
   };
 
