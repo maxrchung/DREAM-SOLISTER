@@ -26,8 +26,8 @@ export default class Shape extends React.Component {
     return path;
   };
 
-  getStyling = () => {
-    const { video, position, rotation, scale } = this.props;
+  getLayout = () => {
+    const { video, position, scale } = this.props;
     const imageWidth = 102;
     const sbWidth = 853.33;
     const sbScale = imageWidth / sbWidth;
@@ -59,11 +59,19 @@ export default class Shape extends React.Component {
     const styling = {
       transform: [
         `translate(${newPosition.x}px, ${newPosition.y}px)`,
-        `rotate(${rotation}rad)`,
         `scale(${imageScale.x}, ${imageScale.y})`
-      ].join(' ')
+      ].join(' '),
+      transformOrigin: 'top left'
     };
 
+    return styling;
+  };
+
+  getRotation = () => {
+    const { rotation } = this.props;
+    const styling = {
+      transform: `rotate(${rotation}rad)`
+    };
     return styling;
   };
 
@@ -71,7 +79,10 @@ export default class Shape extends React.Component {
     const { type, video } = this.props;
     return (
       video && (
-        <img alt={type} src={this.getSrcPath()} style={this.getStyling()} />
+        // Mega brain: https://stackoverflow.com/a/8963136
+        <div style={this.getLayout()}>
+          <img alt={type} src={this.getSrcPath()} style={this.getRotation()} />
+        </div>
       )
     );
   }
