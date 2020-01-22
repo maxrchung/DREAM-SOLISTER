@@ -3,5 +3,6 @@ export default class Project {
     this.name = name;
     this.video = video;
     this.frames = frames;
+    this.shapeCount = 0;
   }
 }

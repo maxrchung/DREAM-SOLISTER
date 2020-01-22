@@ -37,15 +37,13 @@ export default class Shape extends React.Component {
     const videoHalfHeight = video.clientHeight / 2;
     const videoScale = sbScale * videoWidth;
 
-    const imageScale = new Victor()
-      .copy(scale)
+    const imageScale = scale
+      .clone()
       .multiply(new Victor(videoScale / imageWidth, videoScale / imageWidth));
-    const imageSize = new Victor()
-      .copy(imageScale)
+    const imageSize = imageScale
+      .clone()
       .multiply(new Victor(imageWidth, imageWidth));
-    const imageHalfSize = new Victor()
-      .copy(imageSize)
-      .multiply(new Victor(0.5, 0.5));
+    const imageHalfSize = imageSize.clone().multiply(new Victor(0.5, 0.5));
 
     const newPosition = new Victor(
       Math.round(
@@ -80,7 +78,7 @@ export default class Shape extends React.Component {
     return (
       video && (
         // Mega brain: https://stackoverflow.com/a/8963136
-        <div style={this.getLayout()}>
+        <div className="position-absolute" style={this.getLayout()}>
           <img alt={type} src={this.getSrcPath()} style={this.getRotation()} />
         </div>
       )

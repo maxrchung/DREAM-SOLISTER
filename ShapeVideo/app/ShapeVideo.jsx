@@ -22,19 +22,30 @@ export default class ShapeVideo extends React.Component {
       videoOpacity: 1,
       areShapesVisible: true,
       shapesOpacity: 1,
-      videoTime: 0
+      videoTime: 0,
+      shapes: [],
+      mousePos: new Victor()
     };
   }
 
   componentDidMount() {
     window.addEventListener('resize', this.handleResize);
+    document.addEventListener('mousemove', this.handleMouseMove);
   }
 
   componentWillUnmount() {
     window.removeEventListener('resize', this.handleResize);
+    document.removeEventListener('mousemove', this.handleMouseMove);
   }
 
   handleResize = () => this.forceUpdate();
+
+  handleMouseMove = e => {
+    // pageX vs screnX vs clientX: https://stackoverflow.com/a/21452887
+    this.setState({
+      mousePos: new Victor(e.clientX, e.clientY)
+    });
+  };
 
   setMenu = () => {
     const isMac = remote.process.platform === 'darwin';
@@ -112,6 +123,26 @@ export default class ShapeVideo extends React.Component {
             label: 'Toggle Visibility',
             accelerator: 'W',
             click: () => this.handleShapesToggle()
+          },
+          {
+            label: 'Add Rectangle',
+            accelerator: '1',
+            click: () => this.addRectangle()
+          },
+          {
+            label: 'Add Triangle',
+            accelerator: '2',
+            click: () => this.addTriangle()
+          },
+          {
+            label: 'Add Circle',
+            accelerator: '3',
+            click: () => this.addCircle()
+          },
+          {
+            label: 'Add Semicircle',
+            accelerator: '4',
+            click: () => this.addSemicircle()
           }
         ]
       }
@@ -181,7 +212,6 @@ export default class ShapeVideo extends React.Component {
         return;
       }
 
-      // To be semantically correct, we want a Project instance, not a generic object
       const newProject = {
         ...project,
         name: path
@@ -314,6 +344,57 @@ export default class ShapeVideo extends React.Component {
     }
   };
 
+  addShape = type => {
+    if (!this.video) {
+      return;
+    }
+
+    const { mousePos, project } = this.state;
+    const { offsetLeft, offsetTop, clientWidth, clientHeight } = this.video;
+
+    const adjustedMouse = mousePos
+      .clone()
+      .subtract(new Victor(offsetLeft, offsetTop));
+    const midPoint = new Victor(clientWidth / 2, clientHeight / 2);
+
+    const distanceVec = adjustedMouse.clone().subtract(midPoint);
+    const position = distanceVec
+      .clone()
+      .divide(new Victor(clientWidth / 2, clientWidth / 2));
+
+    this.setState(prev => ({
+      shapes: [
+        ...prev.shapes,
+        <Shape
+          key={project.shapeCount}
+          type={type}
+          video={this.video}
+          position={position}
+        />
+      ],
+      project: {
+        ...prev.project,
+        shapeCount: prev.project.shapeCount + 1
+      }
+    }));
+  };
+
+  addRectangle = () => {
+    this.addShape(ShapeType.Rectangle);
+  };
+
+  addTriangle = () => {
+    this.addShape(ShapeType.Triangle);
+  };
+
+  addCircle = () => {
+    this.addShape(ShapeType.Circle);
+  };
+
+  addSemicircle = () => {
+    this.addShape(ShapeType.Semicircle);
+  };
+
   render() {
     const {
       isNewOpen,
@@ -322,7 +403,8 @@ export default class ShapeVideo extends React.Component {
       videoOpacity,
       areShapesVisible,
       shapesOpacity,
-      videoTime
+      videoTime,
+      shapes
     } = this.state;
 
     return (
@@ -354,11 +436,7 @@ export default class ShapeVideo extends React.Component {
                 className="position-absolute"
                 style={{ opacity: shapesOpacity }}
               >
-                <Shape
-                  type={ShapeType.Triangle}
-                  video={this.video}
-                  position={new Victor()}
-                />
+                {shapes}
               </div>
             )}
           </div>
