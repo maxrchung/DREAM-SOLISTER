@@ -25,7 +25,7 @@ export default class ShapeVideo extends React.Component {
       videoTime: 0,
       shapes: [],
       mousePos: new Victor(),
-      selectedShapeID: 2
+      selectedShapeId: -1
     };
   }
 
@@ -350,7 +350,7 @@ export default class ShapeVideo extends React.Component {
       return;
     }
 
-    const { mousePos, project, selectedShapeID } = this.state;
+    const { mousePos, project, selectedShapeId } = this.state;
     const { offsetLeft, offsetTop, clientWidth, clientHeight } = this.video;
 
     const adjustedMouse = mousePos
@@ -366,14 +366,15 @@ export default class ShapeVideo extends React.Component {
     this.setState(prev => ({
       shapes: [
         ...prev.shapes,
-        <Shape
-          key={project.shapeCount}
-          type={type}
-          video={this.video}
-          position={position}
-          ID={project.shapeCount}
-          selectedID={selectedShapeID}
-        />
+        {
+          key: project.shapeCount,
+          type,
+          video: this.video,
+          position,
+          id: project.shapeCount,
+          selectedId: selectedShapeId,
+          onClick: this.handleSelectedShape
+        }
       ],
       project: {
         ...prev.project,
@@ -398,6 +399,12 @@ export default class ShapeVideo extends React.Component {
     this.addShape(ShapeType.Semicircle);
   };
 
+  handleSelectedShape = selectedShapeId => {
+    this.setState({
+      selectedShapeId
+    });
+  };
+
   render() {
     const {
       isNewOpen,
@@ -407,7 +414,8 @@ export default class ShapeVideo extends React.Component {
       areShapesVisible,
       shapesOpacity,
       videoTime,
-      shapes
+      shapes,
+      selectedShapeId
     } = this.state;
 
     return (
@@ -439,7 +447,17 @@ export default class ShapeVideo extends React.Component {
                 className="position-absolute"
                 style={{ opacity: shapesOpacity }}
               >
-                {shapes}
+                {shapes.map(shape => (
+                  <Shape
+                    key={shape.key}
+                    type={shape.type}
+                    video={shape.video}
+                    position={shape.position}
+                    id={shape.id}
+                    selectedId={selectedShapeId}
+                    onClick={shape.onClick}
+                  />
+                ))}
               </div>
             )}
           </div>

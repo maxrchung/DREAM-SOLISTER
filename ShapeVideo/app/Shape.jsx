@@ -10,8 +10,9 @@ export default class Shape extends React.Component {
     position: PropTypes.instanceOf(Victor),
     rotation: PropTypes.number,
     scale: PropTypes.instanceOf(Victor),
-    ID: PropTypes.number.isRequired,
-    selectedID: PropTypes.number.isRequired
+    id: PropTypes.number.isRequired,
+    selectedId: PropTypes.number.isRequired,
+    onClick: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -76,15 +77,20 @@ export default class Shape extends React.Component {
   };
 
   render() {
-    const { type, video, ID, selectedID } = this.props;
-    if (ID === selectedID) {
-      console.log(`Shape ${ID} is selected`);
+    const { type, video, id, selectedId, onClick } = this.props;
+    if (id === selectedId) {
+      console.log(`Shape ${id} is selected`);
     }
 
     return (
       video && (
         // Mega brain: https://stackoverflow.com/a/8963136
-        <div className="position-absolute" style={this.getLayout()}>
+        <div
+          className="position-absolute"
+          onClick={() => onClick(id)}
+          role="presentation"
+          style={this.getLayout()}
+        >
           <img alt={type} src={this.getSrcPath()} style={this.getRotation()} />
         </div>
       )
