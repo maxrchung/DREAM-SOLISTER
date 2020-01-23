@@ -9,7 +9,9 @@ export default class Shape extends React.Component {
     video: PropTypes.instanceOf(HTMLVideoElement),
     position: PropTypes.instanceOf(Victor),
     rotation: PropTypes.number,
-    scale: PropTypes.instanceOf(Victor)
+    scale: PropTypes.instanceOf(Victor),
+    ID: PropTypes.number.isRequired,
+    selectedID: PropTypes.number.isRequired
   };
 
   static defaultProps = {
@@ -74,7 +76,11 @@ export default class Shape extends React.Component {
   };
 
   render() {
-    const { type, video } = this.props;
+    const { type, video, ID, selectedID } = this.props;
+    if (ID === selectedID) {
+      console.log(`Shape ${ID} is selected`);
+    }
+
     return (
       video && (
         // Mega brain: https://stackoverflow.com/a/8963136
