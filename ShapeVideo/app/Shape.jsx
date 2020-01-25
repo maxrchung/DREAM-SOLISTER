@@ -30,7 +30,7 @@ export default class Shape extends React.Component {
   };
 
   getLayout = () => {
-    const { video, position, scale } = this.props;
+    const { video, position, scale, id, selectedId } = this.props;
     const imageWidth = 102;
     const sbWidth = 853.33;
     const sbScale = imageWidth / sbWidth;
@@ -57,13 +57,21 @@ export default class Shape extends React.Component {
       )
     );
 
-    const styling = {
+    let styling = {
       transform: [
         `translate(${newPosition.x}px, ${newPosition.y}px)`,
         `scale(${imageScale.x}, ${imageScale.y})`
       ].join(' '),
       transformOrigin: 'top left'
     };
+
+    // Add background shade if selected
+    if (id === selectedId) {
+      styling = {
+        ...styling,
+        backgroundColor: 'rgba(0, 0, 0, 0.2)'
+      };
+    }
 
     return styling;
   };
@@ -77,10 +85,7 @@ export default class Shape extends React.Component {
   };
 
   render() {
-    const { type, video, id, selectedId, onClick } = this.props;
-    if (id === selectedId) {
-      console.log(`Shape ${id} is selected`);
-    }
+    const { type, video, id, onClick } = this.props;
 
     return (
       video && (
