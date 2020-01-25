@@ -25,7 +25,7 @@ export default class ShapeVideo extends React.Component {
       videoTime: 0,
       shapes: [],
       mousePos: new Victor(),
-      selectedShapeId: -1
+      selectedShapeId: 0
     };
   }
 
