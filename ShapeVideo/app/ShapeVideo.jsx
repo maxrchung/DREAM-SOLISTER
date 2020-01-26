@@ -128,38 +128,33 @@ export default class ShapeVideo extends React.Component {
           {
             label: 'Add Rectangle',
             accelerator: '1',
-            click: () => this.addRectangle()
+            click: () => this.handleAddRectangle()
           },
           {
             label: 'Add Triangle',
             accelerator: '2',
-            click: () => this.addTriangle()
+            click: () => this.handleAddTriangle()
           },
           {
             label: 'Add Circle',
             accelerator: '3',
-            click: () => this.addCircle()
+            click: () => this.handleAddCircle()
           },
           {
             label: 'Add Semicircle',
             accelerator: '4',
-            click: () => this.addSemicircle()
+            click: () => this.handleAddSemicircle()
           },
           {
             label: 'Deselect',
             accelerator: 'Esc',
-            click: () => this.handleDeselect()
+            click: () => this.handleDeselectShape()
           }
         ]
       }
     ];
     const template = remote.Menu.buildFromTemplate(menuTemplate);
     remote.Menu.setApplicationMenu(template);
-  };
-
-  // To handle both Windows and Apple shortcuts, we'll allow both ctrl and meta
-  hasSpecialKey = e => {
-    return e.ctrlKey || e.metaKey;
   };
 
   handleNewToggle = (_, isNewOpen) => {
@@ -378,7 +373,7 @@ export default class ShapeVideo extends React.Component {
           position,
           id: project.shapeCount,
           selectedId: selectedShapeId,
-          onClick: this.handleSelectedShape
+          onClick: this.handleSelectShape
         }
       ],
       project: {
@@ -388,29 +383,29 @@ export default class ShapeVideo extends React.Component {
     }));
   };
 
-  addRectangle = () => {
+  handleAddRectangle = () => {
     this.addShape(ShapeType.Rectangle);
   };
 
-  addTriangle = () => {
+  handleAddTriangle = () => {
     this.addShape(ShapeType.Triangle);
   };
 
-  addCircle = () => {
+  handleAddCircle = () => {
     this.addShape(ShapeType.Circle);
   };
 
-  addSemicircle = () => {
+  handleAddSemicircle = () => {
     this.addShape(ShapeType.Semicircle);
   };
 
-  handleSelectedShape = selectedShapeId => {
+  handleSelectShape = selectedShapeId => {
     this.setState({
       selectedShapeId
     });
   };
 
-  handleDeselect = () => {
+  handleDeselectShape = () => {
     this.setState({
       selectedShapeId: -1
     });
