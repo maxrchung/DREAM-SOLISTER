@@ -144,6 +144,11 @@ export default class ShapeVideo extends React.Component {
             label: 'Add Semicircle',
             accelerator: '4',
             click: () => this.addSemicircle()
+          },
+          {
+            label: 'Deselect',
+            accelerator: 'Esc',
+            click: () => this.handleDeselect()
           }
         ]
       }
@@ -402,6 +407,12 @@ export default class ShapeVideo extends React.Component {
   handleSelectedShape = selectedShapeId => {
     this.setState({
       selectedShapeId
+    });
+  };
+
+  handleDeselect = () => {
+    this.setState({
+      selectedShapeId: -1
     });
   };
 
