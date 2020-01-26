@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Victor from 'victor';
 import ShapeType from './ShapeType';
+import SelectPoint from './SelectPoint';
 
 export default class Shape extends React.Component {
   static propTypes = {
@@ -29,8 +30,7 @@ export default class Shape extends React.Component {
     return path;
   };
 
-  getLayout = () => {
-    const { video, position, scale, id, selectedId } = this.props;
+  getCalculations = (video, position, scale, rotation) => {
     const imageWidth = 102;
     const sbWidth = 853.33;
     const sbScale = imageWidth / sbWidth;
@@ -40,27 +40,59 @@ export default class Shape extends React.Component {
     const videoHalfHeight = video.clientHeight / 2;
     const videoScale = sbScale * videoWidth;
 
-    const imageScale = scale
+    const shapeScale = scale
       .clone()
       .multiply(new Victor(videoScale / imageWidth, videoScale / imageWidth));
-    const imageSize = imageScale
+    const shapeSize = shapeScale
       .clone()
       .multiply(new Victor(imageWidth, imageWidth));
-    const imageHalfSize = imageSize.clone().multiply(new Victor(0.5, 0.5));
+    const shapeHalfSize = shapeSize.clone().multiply(new Victor(0.5, 0.5));
 
-    const newPosition = new Victor(
-      Math.round(
-        videoHalfWidth + position.x * videoHalfWidth - imageHalfSize.x
-      ),
-      Math.round(
-        videoHalfHeight + position.y * videoHalfWidth - imageHalfSize.y
-      )
+    const center = new Victor(
+      videoHalfWidth + position.x * videoHalfWidth,
+      videoHalfHeight + position.y * videoHalfWidth
+    );
+    const shapePosition = new Victor(
+      Math.round(center.x - shapeHalfSize.x),
+      Math.round(center.y - shapeHalfSize.y)
     );
 
+    // Select point positions
+    const pointWidth = 8;
+    const pointHalfWidth = pointWidth / 2;
+    const pointTL = new Victor(
+      Math.round(center.x - shapeHalfSize.x - pointHalfWidth),
+      Math.round(center.y - shapeHalfSize.y - pointHalfWidth)
+    ).rotate(rotation);
+    const pointTR = new Victor(
+      Math.round(center.x + shapeHalfSize.x - pointHalfWidth),
+      Math.round(center.y - shapeHalfSize.y - pointHalfWidth)
+    ).rotate(rotation);
+    const pointBL = new Victor(
+      Math.round(center.x - shapeHalfSize.x - pointHalfWidth),
+      Math.round(center.y + shapeHalfSize.y - pointHalfWidth)
+    ).rotate(rotation);
+    const pointBR = new Victor(
+      Math.round(center.x + shapeHalfSize.x - pointHalfWidth),
+      Math.round(center.y + shapeHalfSize.y - pointHalfWidth)
+    );
+
+    return {
+      shapeScale,
+      shapePosition,
+      pointWidth,
+      pointTL,
+      pointTR,
+      pointBL,
+      pointBR
+    };
+  };
+
+  getLayoutStyling = (position, scale, id, selectedId) => {
     let styling = {
       transform: [
-        `translate(${newPosition.x}px, ${newPosition.y}px)`,
-        `scale(${imageScale.x}, ${imageScale.y})`
+        `translate(${position.x}px, ${position.y}px)`,
+        `scale(${scale.x}, ${scale.y})`
       ].join(' '),
       transformOrigin: 'top left'
     };
@@ -76,8 +108,7 @@ export default class Shape extends React.Component {
     return styling;
   };
 
-  getRotation = () => {
-    const { rotation } = this.props;
+  getImageStyling = rotation => {
     const styling = {
       transform: `rotate(${rotation}rad)`
     };
@@ -85,19 +116,49 @@ export default class Shape extends React.Component {
   };
 
   render() {
-    const { type, video, id, onClick } = this.props;
+    const {
+      type,
+      video,
+      position,
+      rotation,
+      scale,
+      id,
+      selectedId,
+      onClick
+    } = this.props;
+    const calc = this.getCalculations(video, position, scale, rotation);
 
     return (
       video && (
-        // Mega brain: https://stackoverflow.com/a/8963136
-        <div
-          className="position-absolute"
-          onClick={() => onClick(id)}
-          role="presentation"
-          style={this.getLayout()}
-        >
-          <img alt={type} src={this.getSrcPath()} style={this.getRotation()} />
-        </div>
+        <>
+          {/* Mega brain: https://stackoverflow.com/a/8963136 */}
+          <div
+            className="position-absolute"
+            onClick={() => onClick(id)}
+            role="presentation"
+            style={this.getLayoutStyling(
+              calc.shapePosition,
+              calc.shapeScale,
+              id,
+              selectedId
+            )}
+          >
+            <img
+              alt={type}
+              src={this.getSrcPath()}
+              style={this.getImageStyling(rotation)}
+            />
+          </div>
+
+          {id === selectedId && (
+            <>
+              <SelectPoint position={calc.pointTL} width={calc.pointWidth} />
+              <SelectPoint position={calc.pointTR} width={calc.pointWidth} />
+              <SelectPoint position={calc.pointBL} width={calc.pointWidth} />
+              <SelectPoint position={calc.pointBR} width={calc.pointWidth} />
+            </>
+          )}
+        </>
       )
     );
   }
