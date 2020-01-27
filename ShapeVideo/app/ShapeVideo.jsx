@@ -398,6 +398,9 @@ export default class ShapeVideo extends React.Component {
   };
 
   handleSelectShape = selectedShapeId => {
+    if (selectedShapeId !== -1) {
+      return;
+    }
     this.setState({
       selectedShapeId
     });
