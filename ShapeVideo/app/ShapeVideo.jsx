@@ -350,7 +350,7 @@ export default class ShapeVideo extends React.Component {
       return;
     }
 
-    const { mousePos, project, selectedShapeId } = this.state;
+    const { mousePos } = this.state;
     const { offsetLeft, offsetTop, clientWidth, clientHeight } = this.video;
 
     const adjustedMouse = mousePos
@@ -367,15 +367,13 @@ export default class ShapeVideo extends React.Component {
       shapes: [
         ...prev.shapes,
         {
-          key: project.shapeCount,
+          key: prev.project.shapeCount,
           type,
-          video: this.video,
           position,
-          id: project.shapeCount,
-          selectedId: selectedShapeId,
-          onClick: this.handleSelectShape
+          id: prev.project.shapeCount
         }
       ],
+      selectedShapeId: prev.project.shapeCount,
       project: {
         ...prev.project,
         shapeCount: prev.project.shapeCount + 1
@@ -457,11 +455,11 @@ export default class ShapeVideo extends React.Component {
                   <Shape
                     key={shape.key}
                     type={shape.type}
-                    video={shape.video}
+                    video={this.video}
                     position={shape.position}
                     id={shape.id}
                     selectedId={selectedShapeId}
-                    onClick={shape.onClick}
+                    onClick={this.handleSelectShape}
                     rotation={1}
                   />
                 ))}
