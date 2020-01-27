@@ -8,10 +8,14 @@ export default class SelectPoint extends React.Component {
     width: PropTypes.number.isRequired
   };
 
-  getStyling = position => {
+  getStyling = (position, width) => {
     const styling = {
       transform: `translate(${position.x}px, ${position.y}px)`,
-      transformOrigin: 'top left'
+      width: `${width}px`,
+      height: `${width}px`,
+      opacity: 0.5,
+      backgroundColor: 'red',
+      borderRadius: '50%'
     };
     return styling;
   };
@@ -19,12 +23,11 @@ export default class SelectPoint extends React.Component {
   render() {
     const { position, width } = this.props;
     return (
-      <img
+      <div
         className="position-absolute"
         alt="Select Point"
-        width={width}
         src="assets/Circle.png"
-        style={this.getStyling(position)}
+        style={this.getStyling(position, width)}
       />
     );
   }
