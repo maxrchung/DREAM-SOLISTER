@@ -462,6 +462,7 @@ export default class ShapeVideo extends React.Component {
                     id={shape.id}
                     selectedId={selectedShapeId}
                     onClick={shape.onClick}
+                    rotation={1}
                   />
                 ))}
               </div>

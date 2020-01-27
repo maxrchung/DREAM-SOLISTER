@@ -30,6 +30,17 @@ export default class Shape extends React.Component {
     return path;
   };
 
+  rotatePointAroundCenter = (point, center, rotation, pointHalfWidth) => {
+    const rotated = point.clone().rotate(rotation);
+    const added = rotated.add(center);
+    const rounded = new Victor(Math.round(added.x), Math.round(added.y));
+    const widthAdjusted = new Victor(
+      rounded.x - pointHalfWidth,
+      rounded.y - pointHalfWidth
+    );
+    return widthAdjusted;
+  };
+
   getCalculations = (video, position, scale, rotation) => {
     const imageWidth = 102;
     const sbWidth = 853.33;
@@ -60,21 +71,29 @@ export default class Shape extends React.Component {
     // Select point positions
     const pointWidth = 8;
     const pointHalfWidth = pointWidth / 2;
-    const pointTL = new Victor(
-      Math.round(center.x - shapeHalfSize.x - pointHalfWidth),
-      Math.round(center.y - shapeHalfSize.y - pointHalfWidth)
-    ).rotate(rotation);
-    const pointTR = new Victor(
-      Math.round(center.x + shapeHalfSize.x - pointHalfWidth),
-      Math.round(center.y - shapeHalfSize.y - pointHalfWidth)
-    ).rotate(rotation);
-    const pointBL = new Victor(
-      Math.round(center.x - shapeHalfSize.x - pointHalfWidth),
-      Math.round(center.y + shapeHalfSize.y - pointHalfWidth)
-    ).rotate(rotation);
-    const pointBR = new Victor(
-      Math.round(center.x + shapeHalfSize.x - pointHalfWidth),
-      Math.round(center.y + shapeHalfSize.y - pointHalfWidth)
+    const pointTL = this.rotatePointAroundCenter(
+      new Victor(-shapeHalfSize.x, -shapeHalfSize.y),
+      center,
+      rotation,
+      pointHalfWidth
+    );
+    const pointTR = this.rotatePointAroundCenter(
+      new Victor(shapeHalfSize.x, -shapeHalfSize.y),
+      center,
+      rotation,
+      pointHalfWidth
+    );
+    const pointBL = this.rotatePointAroundCenter(
+      new Victor(-shapeHalfSize.x, shapeHalfSize.y),
+      center,
+      rotation,
+      pointHalfWidth
+    );
+    const pointBR = this.rotatePointAroundCenter(
+      new Victor(shapeHalfSize.x, shapeHalfSize.y),
+      center,
+      rotation,
+      pointHalfWidth
     );
 
     return {
@@ -88,13 +107,21 @@ export default class Shape extends React.Component {
     };
   };
 
-  getLayoutStyling = (position, scale, id, selectedId) => {
-    let styling = {
+  getLayoutStyling = (position, scale) => {
+    const styling = {
       transform: [
         `translate(${position.x}px, ${position.y}px)`,
         `scale(${scale.x}, ${scale.y})`
       ].join(' '),
       transformOrigin: 'top left'
+    };
+
+    return styling;
+  };
+
+  getImageStyling = (rotation, id, selectedId) => {
+    let styling = {
+      transform: `rotate(${rotation}rad)`
     };
 
     // Add background shade if selected
@@ -104,14 +131,6 @@ export default class Shape extends React.Component {
         backgroundColor: 'rgba(0, 0, 0, 0.2)'
       };
     }
-
-    return styling;
-  };
-
-  getImageStyling = rotation => {
-    const styling = {
-      transform: `rotate(${rotation}rad)`
-    };
     return styling;
   };
 
@@ -136,17 +155,12 @@ export default class Shape extends React.Component {
             className="position-absolute"
             onClick={() => onClick(id)}
             role="presentation"
-            style={this.getLayoutStyling(
-              calc.shapePosition,
-              calc.shapeScale,
-              id,
-              selectedId
-            )}
+            style={this.getLayoutStyling(calc.shapePosition, calc.shapeScale)}
           >
             <img
               alt={type}
               src={this.getSrcPath()}
-              style={this.getImageStyling(rotation)}
+              style={this.getImageStyling(rotation, id, selectedId)}
             />
           </div>
 
