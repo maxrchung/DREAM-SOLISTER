@@ -50,9 +50,9 @@ export default class ShapeVideo extends React.Component {
 
   setMenu = () => {
     const isMac = remote.process.platform === 'darwin';
-    const menuTemplate = [
-      isMac
-        ? {
+    let menuTemplate = isMac
+      ? [
+          {
             label: 'ShapeVideo',
             submenu: [
               { role: 'about' },
@@ -66,7 +66,11 @@ export default class ShapeVideo extends React.Component {
               { role: 'quit' }
             ]
           }
-        : {},
+        ]
+      : [];
+
+    menuTemplate = [
+      ...menuTemplate,
       {
         label: 'Project',
         submenu: [
