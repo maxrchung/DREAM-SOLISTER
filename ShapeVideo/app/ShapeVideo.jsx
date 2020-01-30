@@ -161,9 +161,9 @@ export default class ShapeVideo extends React.Component {
     remote.Menu.setApplicationMenu(template);
   };
 
-  handleNewToggle = (_, isNewOpen) => {
-    this.setState(state => ({
-      isNewOpen: isNewOpen === undefined ? !state.isNewOpen : isNewOpen
+  handleNewToggle = () => {
+    this.setState(prev => ({
+      isNewOpen: !prev.isNewOpen
     }));
   };
 
