@@ -401,12 +401,13 @@ export default class ShapeVideo extends React.Component {
     this.addShape(ShapeType.Semicircle);
   };
 
-  handleSelectShape = selectedShapeId => {
-    if (selectedShapeId !== -1) {
+  handleSelectShape = newlySelectedShapeId => {
+    const { selectedShapeId } = this.state;
+    if (selectedShapeId >= 0) {
       return;
     }
     this.setState({
-      selectedShapeId
+      selectedShapeId: newlySelectedShapeId
     });
   };
 
