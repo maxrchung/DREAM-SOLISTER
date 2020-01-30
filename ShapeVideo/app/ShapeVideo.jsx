@@ -23,7 +23,7 @@ export default class ShapeVideo extends React.Component {
       areShapesVisible: true,
       shapesOpacity: 1,
       videoTime: 0,
-      shapes: [],
+      shapes: {},
       mousePos: new Victor(),
       selectedShapeId: -1
     };
@@ -368,15 +368,15 @@ export default class ShapeVideo extends React.Component {
       .divide(new Victor(clientWidth / 2, clientWidth / 2));
 
     this.setState(prev => ({
-      shapes: [
+      shapes: {
         ...prev.shapes,
-        {
+        [prev.project.shapeCount]: {
           key: prev.project.shapeCount,
           type,
           position,
           id: prev.project.shapeCount
         }
-      ],
+      },
       selectedShapeId: prev.project.shapeCount,
       project: {
         ...prev.project,
@@ -458,7 +458,7 @@ export default class ShapeVideo extends React.Component {
                 className="position-absolute"
                 style={{ opacity: shapesOpacity }}
               >
-                {shapes.map(shape => (
+                {Object.values(shapes).map(shape => (
                   <Shape
                     key={shape.key}
                     type={shape.type}
