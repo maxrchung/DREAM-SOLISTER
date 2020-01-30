@@ -3,6 +3,9 @@
 ###############################################################################
 * text=auto
 
+# Handle some issue with cover video
+*.mp4	binary
+
 ###############################################################################
 # Set default behavior for command prompt diff.
 #
