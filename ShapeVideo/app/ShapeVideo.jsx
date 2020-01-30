@@ -80,19 +80,25 @@ export default class ShapeVideo extends React.Component {
             click: () => this.handleNewToggle()
           },
           {
+            label: 'Open...',
+            accelerator: 'CmdOrCtrl+O',
+            click: () => this.handleOpenProject()
+          },
+          {
             label: 'Save',
             accelerator: 'CmdOrCtrl+S',
-            click: () => this.handleSaveProject(false)
+            click: () => {
+              const { project } = this.state;
+              this.handleSaveProject(false, project);
+            }
           },
           {
             label: 'Save As...',
             accelerator: 'CmdOrCtrl+Shift+S',
-            click: () => this.handleSaveProject(true)
-          },
-          {
-            label: 'Open...',
-            accelerator: 'CmdOrCtrl+O',
-            click: () => this.handleOpenProject()
+            click: () => {
+              const { project } = this.state;
+              this.handleSaveProject(true, project);
+            }
           }
         ]
       },
@@ -102,7 +108,10 @@ export default class ShapeVideo extends React.Component {
           {
             label: 'Load...',
             accelerator: 'CmdOrCtrl+L',
-            click: () => this.handleLoadVideo()
+            click: () => {
+              const { project } = this.state;
+              this.handleLoadVideo(project);
+            }
           },
           {
             label: 'Toggle Visibility',
@@ -112,12 +121,18 @@ export default class ShapeVideo extends React.Component {
           {
             label: 'Play/Pause',
             accelerator: 'Space',
-            click: () => this.handlePlayVideo()
+            click: () => {
+              const { video } = this;
+              this.handlePlayVideo(video);
+            }
           },
           {
             label: 'Restart',
             accelerator: 'X',
-            click: () => this.handleRestartVideo()
+            click: () => {
+              const { video } = this;
+              this.handleRestartVideo(video);
+            }
           }
         ]
       },
@@ -132,22 +147,34 @@ export default class ShapeVideo extends React.Component {
           {
             label: 'Add Rectangle',
             accelerator: '1',
-            click: () => this.handleAddRectangle()
+            click: () => {
+              const { video } = this;
+              this.handleAddRectangle(video);
+            }
           },
           {
             label: 'Add Triangle',
             accelerator: '2',
-            click: () => this.handleAddTriangle()
+            click: () => {
+              const { video } = this;
+              this.handleAddTriangle(video);
+            }
           },
           {
             label: 'Add Circle',
             accelerator: '3',
-            click: () => this.handleAddCircle()
+            click: () => {
+              const { video } = this;
+              this.handleAddCircle(video);
+            }
           },
           {
             label: 'Add Semicircle',
             accelerator: '4',
-            click: () => this.handleAddSemicircle()
+            click: () => {
+              const { video } = this;
+              this.handleAddSemicircle(video);
+            }
           },
           {
             label: 'Deselect',
@@ -205,9 +232,7 @@ export default class ShapeVideo extends React.Component {
     });
   };
 
-  handleSaveProject = needsDialog => {
-    const { project } = this.state;
-
+  handleSaveProject = (needsDialog, project) => {
     let serialized = '';
     let path = project.name;
     if (!path || needsDialog) {
@@ -231,9 +256,7 @@ export default class ShapeVideo extends React.Component {
     fs.writeFileSync(path, serialized);
   };
 
-  handleLoadVideo = () => {
-    const { project } = this.state;
-
+  handleLoadVideo = project => {
     const paths = remote.dialog.showOpenDialogSync(
       ShapeVideo.videoDialogOptions
     );
@@ -274,28 +297,24 @@ export default class ShapeVideo extends React.Component {
     });
   };
 
-  handleSeekVideo = videoTime => {
-    const { video } = this;
+  // https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement/readyState
+  isVideoReady = video => {
+    return video && video.duration && video.readyState >= 3;
+  };
+
+  handleSeekVideo = (video, videoTime) => {
     if (this.isVideoReady(video)) {
       const timeInSeconds = videoTime * video.duration;
-      video.currentTime = timeInSeconds;
+      this.video.currentTime = timeInSeconds;
     }
   };
 
-  handleFormatVideoTime = () => {
-    const { video } = this;
-    const { videoTime } = this.state;
-
-    // https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement/readyState
+  handleFormatVideoTime = (video, videoTime) => {
     const timeInSeconds = this.isVideoReady(video)
       ? videoTime * video.duration
       : 0;
 
     return this.formatVideoTimeInSeconds(timeInSeconds);
-  };
-
-  isVideoReady = video => {
-    return video && video.duration && video.readyState >= 3;
   };
 
   formatVideoTimeInSeconds = timeInSeconds => {
@@ -318,29 +337,26 @@ export default class ShapeVideo extends React.Component {
     return formatted;
   };
 
-  handlePlayVideo = () => {
-    const { video } = this;
+  handlePlayVideo = video => {
     if (this.isVideoReady(video)) {
       if (video.paused) {
-        video.play();
+        this.video.play();
       } else {
-        video.pause();
+        this.video.pause();
       }
     }
   };
 
-  handleRestartVideo = () => {
-    const { video } = this;
+  handleRestartVideo = video => {
     if (this.isVideoReady(video)) {
-      video.currentTime = 0;
+      this.video.currentTime = 0;
       this.setState({
         videoTime: 0
       });
     }
   };
 
-  handleVideoTimeUpdate = () => {
-    const { video } = this;
+  handleVideoTimeUpdate = video => {
     if (this.isVideoReady(video)) {
       const fraction = video.currentTime / video.duration;
       this.setState({
@@ -349,13 +365,13 @@ export default class ShapeVideo extends React.Component {
     }
   };
 
-  addShape = type => {
-    if (!this.video) {
+  addShape = (video, type) => {
+    if (!video) {
       return;
     }
 
     const { mousePos } = this.state;
-    const { offsetLeft, offsetTop, clientWidth, clientHeight } = this.video;
+    const { offsetLeft, offsetTop, clientWidth, clientHeight } = video;
 
     const adjustedMouse = mousePos
       .clone()
@@ -385,29 +401,28 @@ export default class ShapeVideo extends React.Component {
     }));
   };
 
-  handleAddRectangle = () => {
-    this.addShape(ShapeType.Rectangle);
+  handleAddRectangle = video => {
+    this.addShape(video, ShapeType.Rectangle);
   };
 
-  handleAddTriangle = () => {
-    this.addShape(ShapeType.Triangle);
+  handleAddTriangle = video => {
+    this.addShape(video, ShapeType.Triangle);
   };
 
-  handleAddCircle = () => {
-    this.addShape(ShapeType.Circle);
+  handleAddCircle = video => {
+    this.addShape(video, ShapeType.Circle);
   };
 
-  handleAddSemicircle = () => {
-    this.addShape(ShapeType.Semicircle);
+  handleAddSemicircle = video => {
+    this.addShape(video, ShapeType.Semicircle);
   };
 
-  handleSelectShape = newlySelectedShapeId => {
-    const { selectedShapeId } = this.state;
-    if (selectedShapeId >= 0) {
+  handleSelectShape = (oldSelectedShapeId, newSelectedShapeId) => {
+    if (oldSelectedShapeId >= 0) {
       return;
     }
     this.setState({
-      selectedShapeId: newlySelectedShapeId
+      selectedShapeId: newSelectedShapeId
     });
   };
 
@@ -429,6 +444,7 @@ export default class ShapeVideo extends React.Component {
       shapes,
       selectedShapeId
     } = this.state;
+    const { video } = this;
 
     return (
       <div className="d-flex flex-column vh-100 elegant-color-dark white-text">
@@ -449,7 +465,7 @@ export default class ShapeVideo extends React.Component {
               // Shapes rely on video to be rendered, so we can't
               // just remove the video element to toggle video
               style={{ opacity: isVideoVisible ? videoOpacity : 0 }}
-              onTimeUpdate={this.handleVideoTimeUpdate}
+              onTimeUpdate={() => this.handleVideoTimeUpdate(video)}
             >
               <track kind="captions" label="DREAM SOLISTER" />
             </video>
@@ -467,7 +483,12 @@ export default class ShapeVideo extends React.Component {
                     position={shape.position}
                     id={shape.id}
                     selectedId={selectedShapeId}
-                    onClick={this.handleSelectShape}
+                    onClick={newSelectedShapeId =>
+                      this.handleSelectShape(
+                        selectedShapeId,
+                        newSelectedShapeId
+                      )
+                    }
                     rotation={1}
                   />
                 ))}
@@ -522,10 +543,12 @@ export default class ShapeVideo extends React.Component {
           <div className="d-flex col p-2">
             <Slider
               value={videoTime}
-              onChange={e => this.handleSeekVideo(e.target.value)}
+              onChange={e => this.handleSeekVideo(video, e.target.value)}
             />
           </div>
-          <div className="col-auto p-2">{this.handleFormatVideoTime()}</div>
+          <div className="col-auto p-2">
+            {this.handleFormatVideoTime(video, videoTime)}
+          </div>
         </div>
       </div>
     );
