@@ -31,20 +31,44 @@ export default class ShapeVideo extends React.Component {
 
   componentDidMount() {
     window.addEventListener('resize', this.handleResize);
-    document.addEventListener('mousemove', this.handleMouseMove);
+    document.addEventListener('mousemove', e => {
+      const { mousePos, selectedShapeId, shapes } = this.state;
+      const { video } = this;
+      this.handleMouseMove(e, mousePos, selectedShapeId, shapes, video);
+    });
   }
 
   componentWillUnmount() {
     window.removeEventListener('resize', this.handleResize);
-    document.removeEventListener('mousemove', this.handleMouseMove);
+    document.removeEventListener('mousemove', e => {
+      const { mousePos, selectedShapeId, shapes } = this.state;
+      const { video } = this;
+      this.handleMouseMove(e, mousePos, selectedShapeId, shapes, video);
+    });
   }
 
   handleResize = () => this.forceUpdate();
 
-  handleMouseMove = e => {
+  handleMouseMove = (e, oldMousePos, selectedShapeId, shapes, video) => {
+    const newMousePos = new Victor(e.clientX, e.clientY);
+    if (e.buttons === 1 && selectedShapeId >= 0) {
+      const newPosition = this.mousePosToPosition(newMousePos, video);
+      const oldPosition = this.mousePosToPosition(oldMousePos, video);
+      const diffPosition = newPosition.clone().subtract(oldPosition);
+      const shape = { ...shapes[selectedShapeId] };
+      shape.position.add(diffPosition);
+
+      this.setState(prev => ({
+        shapes: {
+          ...prev.shapes,
+          [selectedShapeId]: shape
+        }
+      }));
+    }
+
     // pageX vs screnX vs clientX: https://stackoverflow.com/a/21452887
     this.setState({
-      mousePos: new Victor(e.clientX, e.clientY)
+      mousePos: newMousePos
     });
   };
 
@@ -148,32 +172,36 @@ export default class ShapeVideo extends React.Component {
             label: 'Add Rectangle',
             accelerator: '1',
             click: () => {
+              const { mousePos } = this.state;
               const { video } = this;
-              this.handleAddRectangle(video);
+              this.handleAddRectangle(mousePos, video);
             }
           },
           {
             label: 'Add Triangle',
             accelerator: '2',
             click: () => {
+              const { mousePos } = this.state;
               const { video } = this;
-              this.handleAddTriangle(video);
+              this.handleAddTriangle(mousePos, video);
             }
           },
           {
             label: 'Add Circle',
             accelerator: '3',
             click: () => {
+              const { mousePos } = this.state;
               const { video } = this;
-              this.handleAddCircle(video);
+              this.handleAddCircle(mousePos, video);
             }
           },
           {
             label: 'Add Semicircle',
             accelerator: '4',
             click: () => {
+              const { mousePos } = this.state;
               const { video } = this;
-              this.handleAddSemicircle(video);
+              this.handleAddSemicircle(mousePos, video);
             }
           },
           {
@@ -365,12 +393,7 @@ export default class ShapeVideo extends React.Component {
     }
   };
 
-  addShape = (video, type) => {
-    if (!video) {
-      return;
-    }
-
-    const { mousePos } = this.state;
+  mousePosToPosition = (mousePos, video) => {
     const { offsetLeft, offsetTop, clientWidth, clientHeight } = video;
 
     const adjustedMouse = mousePos
@@ -382,6 +405,15 @@ export default class ShapeVideo extends React.Component {
     const position = distanceVec
       .clone()
       .divide(new Victor(clientWidth / 2, clientWidth / 2));
+    return position;
+  };
+
+  addShape = (mousePos, video, type) => {
+    if (!video) {
+      return;
+    }
+
+    const position = this.mousePosToPosition(mousePos, video);
 
     this.setState(prev => ({
       shapes: {
@@ -401,20 +433,20 @@ export default class ShapeVideo extends React.Component {
     }));
   };
 
-  handleAddRectangle = video => {
-    this.addShape(video, ShapeType.Rectangle);
+  handleAddRectangle = (video, mousePos) => {
+    this.addShape(mousePos, video, ShapeType.Rectangle);
   };
 
-  handleAddTriangle = video => {
-    this.addShape(video, ShapeType.Triangle);
+  handleAddTriangle = (mousePos, video) => {
+    this.addShape(mousePos, video, ShapeType.Triangle);
   };
 
-  handleAddCircle = video => {
-    this.addShape(video, ShapeType.Circle);
+  handleAddCircle = (mousePos, video) => {
+    this.addShape(mousePos, video, ShapeType.Circle);
   };
 
-  handleAddSemicircle = video => {
-    this.addShape(video, ShapeType.Semicircle);
+  handleAddSemicircle = (mousePos, video) => {
+    this.addShape(mousePos, video, ShapeType.Semicircle);
   };
 
   handleSelectShape = (oldSelectedShapeId, newSelectedShapeId) => {

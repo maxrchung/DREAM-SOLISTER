@@ -121,7 +121,9 @@ export default class Shape extends React.Component {
 
   getImageStyling = (rotation, id, selectedId) => {
     let styling = {
-      transform: `rotate(${rotation}rad)`
+      transform: `rotate(${rotation}rad)`,
+      userSelect: 'none',
+      pointerEvents: 'none'
     };
 
     // Add background shade if selected
