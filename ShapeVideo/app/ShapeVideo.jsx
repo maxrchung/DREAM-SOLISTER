@@ -433,7 +433,7 @@ export default class ShapeVideo extends React.Component {
     }));
   };
 
-  handleAddRectangle = (video, mousePos) => {
+  handleAddRectangle = (mousePos, video) => {
     this.addShape(mousePos, video, ShapeType.Rectangle);
   };
 
