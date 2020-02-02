@@ -8,6 +8,7 @@ import Slider from './Slider';
 import CheckLabel from './CheckLabel';
 import Shape from './Shape';
 import ShapeType from './ShapeType';
+import TransformType from './TransformType';
 
 export default class ShapeVideo extends React.Component {
   constructor(props) {
@@ -25,38 +26,61 @@ export default class ShapeVideo extends React.Component {
       videoTime: 0,
       shapes: {},
       mousePos: new Victor(),
-      selectedShapeId: -1
+      selectedShapeId: -1,
+      transformType: TransformType.None
     };
   }
 
   componentDidMount() {
     window.addEventListener('resize', this.handleResize);
     document.addEventListener('mousemove', e => {
-      const { mousePos, selectedShapeId, shapes } = this.state;
+      const { mousePos, selectedShapeId, shapes, transformType } = this.state;
       const { video } = this;
-      this.handleMouseMove(e, mousePos, selectedShapeId, shapes, video);
+      this.handleMouseMove(
+        e,
+        mousePos,
+        selectedShapeId,
+        shapes,
+        transformType,
+        video
+      );
     });
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.handleResize);
-    document.removeEventListener('mousemove', e => {
-      const { mousePos, selectedShapeId, shapes } = this.state;
-      const { video } = this;
-      this.handleMouseMove(e, mousePos, selectedShapeId, shapes, video);
-    });
+    document.addEventListener('mouseup', () =>
+      this.handleTransformChange(TransformType.None)
+    );
   }
 
   handleResize = () => this.forceUpdate();
 
-  handleMouseMove = (e, oldMousePos, selectedShapeId, shapes, video) => {
+  handleMouseMove = (
+    e,
+    oldMousePos,
+    selectedShapeId,
+    shapes,
+    transformType,
+    video
+  ) => {
     const newMousePos = new Victor(e.clientX, e.clientY);
     if (e.buttons === 1 && selectedShapeId >= 0) {
-      const newPosition = this.mousePosToPosition(newMousePos, video);
-      const oldPosition = this.mousePosToPosition(oldMousePos, video);
-      const diffPosition = newPosition.clone().subtract(oldPosition);
       const shape = { ...shapes[selectedShapeId] };
-      shape.position.add(diffPosition);
+
+      switch (transformType) {
+        case TransformType.Scale: {
+          console.log('Scale transform');
+          break;
+        }
+        case TransformType.Rotate: {
+          console.log('Rotate transform');
+          break;
+        }
+        default: {
+          const newPosition = this.mousePosToPosition(newMousePos, video);
+          const oldPosition = this.mousePosToPosition(oldMousePos, video);
+          const diffPosition = newPosition.clone().subtract(oldPosition);
+          shape.position.add(diffPosition);
+          break;
+        }
+      }
 
       this.setState(prev => ({
         shapes: {
@@ -66,9 +90,16 @@ export default class ShapeVideo extends React.Component {
       }));
     }
 
-    // pageX vs screnX vs clientX: https://stackoverflow.com/a/21452887
+    // pageX vs screenX vs clientX: https://stackoverflow.com/a/21452887
     this.setState({
       mousePos: newMousePos
+    });
+  };
+
+  handleTransformChange = transformType => {
+    console.log(transformType);
+    this.setState({
+      transformType
     });
   };
 
@@ -522,6 +553,7 @@ export default class ShapeVideo extends React.Component {
                       )
                     }
                     rotation={1}
+                    onTransformChange={this.handleTransformChange}
                   />
                 ))}
               </div>

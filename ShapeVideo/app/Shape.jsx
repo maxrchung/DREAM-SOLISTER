@@ -13,7 +13,8 @@ export default class Shape extends React.Component {
     scale: PropTypes.instanceOf(Victor),
     id: PropTypes.number.isRequired,
     selectedId: PropTypes.number.isRequired,
-    onClick: PropTypes.func.isRequired
+    onClick: PropTypes.func.isRequired,
+    onTransformChange: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -114,8 +115,7 @@ export default class Shape extends React.Component {
         `scale(${scale.x}, ${scale.y})`
       ].join(' '),
       transformOrigin: 'top left',
-      userSelect: 'none',
-      pointerEvents: 'none'
+      userSelect: 'none'
     };
 
     return styling;
@@ -146,9 +146,19 @@ export default class Shape extends React.Component {
       scale,
       id,
       selectedId,
-      onClick
+      onClick,
+      onTransformChange
     } = this.props;
-    const calc = this.getCalculations(video, position, scale, rotation);
+
+    const {
+      shapeScale,
+      shapePosition,
+      pointWidth,
+      pointTL,
+      pointTR,
+      pointBL,
+      pointBR
+    } = this.getCalculations(video, position, scale, rotation);
 
     return (
       video && (
@@ -158,23 +168,25 @@ export default class Shape extends React.Component {
             className="position-absolute"
             onClick={() => onClick(id)}
             role="presentation"
-            style={this.getLayoutStyling(calc.shapePosition, calc.shapeScale)}
+            style={this.getLayoutStyling(shapePosition, shapeScale)}
           >
             <img
               alt={type}
+              draggable={false}
               src={this.getSrcPath()}
               style={this.getImageStyling(rotation, id, selectedId)}
             />
           </div>
 
-          {id === selectedId && (
-            <>
-              <SelectPoint position={calc.pointTL} width={calc.pointWidth} />
-              <SelectPoint position={calc.pointTR} width={calc.pointWidth} />
-              <SelectPoint position={calc.pointBL} width={calc.pointWidth} />
-              <SelectPoint position={calc.pointBR} width={calc.pointWidth} />
-            </>
-          )}
+          {id === selectedId &&
+            [pointTL, pointTR, pointBL, pointBR].map(value => (
+              <SelectPoint
+                key={value}
+                position={value}
+                width={pointWidth}
+                onTransformChange={onTransformChange}
+              />
+            ))}
         </>
       )
     );
