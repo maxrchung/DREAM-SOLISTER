@@ -113,7 +113,9 @@ export default class Shape extends React.Component {
         `translate(${position.x}px, ${position.y}px)`,
         `scale(${scale.x}, ${scale.y})`
       ].join(' '),
-      transformOrigin: 'top left'
+      transformOrigin: 'top left',
+      userSelect: 'none',
+      pointerEvents: 'none'
     };
 
     return styling;
@@ -121,9 +123,7 @@ export default class Shape extends React.Component {
 
   getImageStyling = (rotation, id, selectedId) => {
     let styling = {
-      transform: `rotate(${rotation}rad)`,
-      userSelect: 'none',
-      pointerEvents: 'none'
+      transform: `rotate(${rotation}rad)`
     };
 
     // Add background shade if selected
@@ -133,6 +133,7 @@ export default class Shape extends React.Component {
         backgroundColor: 'rgba(0, 0, 0, 0.2)'
       };
     }
+
     return styling;
   };
 
