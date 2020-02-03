@@ -97,7 +97,6 @@ export default class ShapeVideo extends React.Component {
   };
 
   handleTransformChange = transformType => {
-    console.log(transformType);
     this.setState({
       transformType
     });
@@ -450,10 +449,11 @@ export default class ShapeVideo extends React.Component {
       shapes: {
         ...prev.shapes,
         [prev.project.shapeCount]: {
-          key: prev.project.shapeCount,
+          id: prev.project.shapeCount,
           type,
           position,
-          id: prev.project.shapeCount
+          rotation: 0,
+          scale: new Victor(1, 1)
         }
       },
       selectedShapeId: prev.project.shapeCount,
@@ -540,11 +540,13 @@ export default class ShapeVideo extends React.Component {
               >
                 {Object.values(shapes).map(shape => (
                   <Shape
-                    key={shape.key}
-                    type={shape.type}
-                    video={this.video}
-                    position={shape.position}
                     id={shape.id}
+                    key={shape.id}
+                    video={this.video}
+                    type={shape.type}
+                    position={shape.position}
+                    rotation={shape.rotation}
+                    scale={shape.scale}
                     selectedId={selectedShapeId}
                     onClick={newSelectedShapeId =>
                       this.handleSelectShape(
@@ -552,7 +554,6 @@ export default class ShapeVideo extends React.Component {
                         newSelectedShapeId
                       )
                     }
-                    rotation={1}
                     onTransformChange={this.handleTransformChange}
                   />
                 ))}

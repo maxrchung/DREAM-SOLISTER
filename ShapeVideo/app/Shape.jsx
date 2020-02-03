@@ -6,23 +6,15 @@ import SelectPoint from './SelectPoint';
 
 export default class Shape extends React.Component {
   static propTypes = {
-    type: PropTypes.string,
-    video: PropTypes.instanceOf(HTMLVideoElement),
-    position: PropTypes.instanceOf(Victor),
-    rotation: PropTypes.number,
-    scale: PropTypes.instanceOf(Victor),
+    type: PropTypes.string.isRequired,
+    video: PropTypes.instanceOf(HTMLVideoElement).isRequired,
+    position: PropTypes.instanceOf(Victor).isRequired,
+    rotation: PropTypes.number.isRequired,
+    scale: PropTypes.instanceOf(Victor).isRequired,
     id: PropTypes.number.isRequired,
     selectedId: PropTypes.number.isRequired,
     onClick: PropTypes.func.isRequired,
     onTransformChange: PropTypes.func.isRequired
-  };
-
-  static defaultProps = {
-    type: ShapeType.None,
-    video: null,
-    position: new Victor(),
-    rotation: 0,
-    scale: new Victor(1, 1)
   };
 
   getSrcPath = () => {
