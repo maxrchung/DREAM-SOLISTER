@@ -63,10 +63,19 @@ export default class ShapeVideo extends React.Component {
     const newMousePos = new Victor(e.clientX, e.clientY);
     if (e.buttons === 1 && selectedShapeId >= 0) {
       const shape = { ...shapes[selectedShapeId] };
+      const newPosition = this.mousePosToPosition(newMousePos, video);
+      const oldPosition = this.mousePosToPosition(oldMousePos, video);
+      const diffPosition = newPosition.clone().subtract(oldPosition);
 
       switch (transformType) {
         case TransformType.Scale: {
-          console.log('Scale transform');
+          const newShapePosition = newPosition.clone().subtract(shape.position);
+          const oldShapePosition = oldPosition.clone().subtract(shape.position);
+          const newRotated = newShapePosition.clone().rotate(-shape.rotation);
+          const oldRotated = oldShapePosition.clone().rotate(-shape.rotation);
+          const diffScale = newRotated.clone().divide(oldRotated);
+
+          shape.scale.multiply(diffScale);
           break;
         }
         case TransformType.Rotate: {
@@ -74,9 +83,6 @@ export default class ShapeVideo extends React.Component {
           break;
         }
         default: {
-          const newPosition = this.mousePosToPosition(newMousePos, video);
-          const oldPosition = this.mousePosToPosition(oldMousePos, video);
-          const diffPosition = newPosition.clone().subtract(oldPosition);
           shape.position.add(diffPosition);
           break;
         }

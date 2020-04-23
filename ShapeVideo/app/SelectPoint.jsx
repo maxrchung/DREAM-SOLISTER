@@ -17,7 +17,8 @@ export default class SelectPoint extends React.Component {
       height: `${width}px`,
       opacity: 0.5,
       backgroundColor: 'red',
-      borderRadius: '50%'
+      borderRadius: '50%',
+      userSelect: 'none'
     };
     return styling;
   };
