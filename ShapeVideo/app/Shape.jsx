@@ -171,14 +171,22 @@ export default class Shape extends React.Component {
           </div>
 
           {id === selectedId &&
-            [pointTL, pointTR, pointBL, pointBR].map(value => (
-              <SelectPoint
-                key={value}
-                position={value}
-                width={pointWidth}
-                onTransformChange={onTransformChange}
-              />
-            ))}
+            [
+              [pointTL, 'tl'],
+              [pointTR, 'tr'],
+              [pointBL, 'bl'],
+              [pointBR, 'br']
+            ].map(tuple => {
+              const [point, key] = tuple;
+              return (
+                <SelectPoint
+                  key={`${key}-${point}`}
+                  position={point}
+                  width={pointWidth}
+                  onTransformChange={onTransformChange}
+                />
+              );
+            })}
         </>
       )
     );
