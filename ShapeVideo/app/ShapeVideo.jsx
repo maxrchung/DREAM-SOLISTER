@@ -84,7 +84,6 @@ export default class ShapeVideo extends React.Component {
           }
 
           shape.scale.multiply(diffScale);
-          console.log(shape.scale, diffScale);
           break;
         }
         case TransformType.Rotate: {
