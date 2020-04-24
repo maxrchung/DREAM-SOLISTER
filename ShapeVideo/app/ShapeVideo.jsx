@@ -75,7 +75,16 @@ export default class ShapeVideo extends React.Component {
           const oldRotated = oldShapePosition.clone().rotate(-shape.rotation);
           const diffScale = newRotated.clone().divide(oldRotated);
 
+          // Handle cases if transform approaches too close to center
+          if (!Number.isFinite(diffScale.x) || diffScale.x === 0) {
+            diffScale.x = 1;
+          }
+          if (!Number.isFinite(diffScale.y) || diffScale.y === 0) {
+            diffScale.y = 1;
+          }
+
           shape.scale.multiply(diffScale);
+          console.log(shape.scale, diffScale);
           break;
         }
         case TransformType.Rotate: {
