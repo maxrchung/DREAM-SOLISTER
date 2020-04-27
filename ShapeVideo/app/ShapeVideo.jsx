@@ -252,6 +252,11 @@ export default class ShapeVideo extends React.Component {
             label: 'Deselect',
             accelerator: 'Esc',
             click: () => this.handleDeselectShape()
+          },
+          {
+            label: 'Delete',
+            accelerator: 'Delete',
+            click: () => console.log('delete')
           }
         ]
       }
