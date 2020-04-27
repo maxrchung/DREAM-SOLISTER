@@ -256,7 +256,10 @@ export default class ShapeVideo extends React.Component {
           {
             label: 'Delete',
             accelerator: 'Delete',
-            click: () => console.log('delete')
+            click: () => {
+              const { selectedShapeId, shapes } = this.state;
+              this.handleDeleteShape(selectedShapeId, shapes);
+            }
           }
         ]
       }
@@ -512,6 +515,17 @@ export default class ShapeVideo extends React.Component {
     this.setState({
       selectedShapeId: -1
     });
+  };
+
+  handleDeleteShape = (selectedShapeId, shapes) => {
+    if (selectedShapeId > -1) {
+      const newShapes = shapes;
+      delete newShapes[selectedShapeId];
+      this.setState({
+        selectedShapeId: -1,
+        shapes: newShapes
+      });
+    }
   };
 
   render() {
