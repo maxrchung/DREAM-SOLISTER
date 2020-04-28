@@ -87,7 +87,14 @@ export default class ShapeVideo extends React.Component {
           break;
         }
         case TransformType.Rotate: {
-          console.log('Rotate transform');
+          const newShapePosition = newPosition.clone().subtract(shape.position);
+          const oldShapePosition = oldPosition.clone().subtract(shape.position);
+
+          const oldRotation = oldShapePosition.angle();
+          const newRotated = newShapePosition.rotate(-oldRotation);
+          const diffRotation = newRotated.angle();
+
+          shape.rotation += diffRotation;
           break;
         }
         default: {
@@ -543,7 +550,7 @@ export default class ShapeVideo extends React.Component {
     const { video } = this;
 
     return (
-      <div className="d-flex flex-column vh-100 elegant-color-dark white-text">
+      <div className="d-flex flex-column vh-100 elegant-color-dark white-text overflow-hidden">
         <NewModal
           isNewOpen={isNewOpen}
           onNewToggle={this.handleNewToggle}

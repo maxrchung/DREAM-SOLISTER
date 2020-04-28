@@ -26,9 +26,7 @@ export default class Shape extends React.Component {
   rotatePointAroundCenter = (point, center, rotation) => {
     const rotated = point.clone().rotate(rotation);
     const added = rotated.add(center);
-    const rounded = new Victor(Math.round(added.x), Math.round(added.y));
-    const widthAdjusted = new Victor(rounded.x, rounded.y);
-    return widthAdjusted;
+    return added;
   };
 
   getCalculations = (video, position, scale, rotation) => {
@@ -53,13 +51,9 @@ export default class Shape extends React.Component {
       videoHalfWidth + position.x * videoHalfWidth,
       videoHalfHeight + position.y * videoHalfWidth
     );
-    const shapePosition = new Victor(
-      Math.round(center.x - shapeHalfSize.x),
-      Math.round(center.y - shapeHalfSize.y)
-    );
+    const shapePosition = center.clone();
 
     // Select point positions
-    const pointWidth = 8;
     const pointTL = this.rotatePointAroundCenter(
       new Victor(-shapeHalfSize.x, -shapeHalfSize.y),
       center,
@@ -84,7 +78,6 @@ export default class Shape extends React.Component {
     return {
       shapeScale,
       shapePosition,
-      pointWidth,
       pointTL,
       pointTR,
       pointBL,
@@ -92,13 +85,14 @@ export default class Shape extends React.Component {
     };
   };
 
-  getLayoutStyling = (position, scale) => {
+  getLayoutStyling = (position, scale, rotation) => {
     const styling = {
       transform: [
+        `translate(-50%, -50%)`,
         `translate(${position.x}px, ${position.y}px)`,
+        `rotate(${rotation}rad)`,
         `scale(${scale.x}, ${scale.y})`
       ].join(' '),
-      transformOrigin: 'top left',
       userSelect: 'none'
     };
 
@@ -137,7 +131,6 @@ export default class Shape extends React.Component {
     const {
       shapeScale,
       shapePosition,
-      pointWidth,
       pointTL,
       pointTR,
       pointBL,
@@ -152,13 +145,13 @@ export default class Shape extends React.Component {
             className="position-absolute"
             onClick={() => onClick(id)}
             role="presentation"
-            style={this.getLayoutStyling(shapePosition, shapeScale)}
+            style={this.getLayoutStyling(shapePosition, shapeScale, rotation)}
           >
             <img
               alt={type}
               draggable={false}
               src={this.getSrcPath()}
-              style={this.getImageStyling(rotation, id, selectedId)}
+              // style={this.getImageStyling(rotation, id, selectedId)}
             />
           </div>
 
@@ -174,7 +167,7 @@ export default class Shape extends React.Component {
                 <SelectPoint
                   key={`${key}-${point}`}
                   position={point}
-                  width={pointWidth}
+                  width={8}
                   onTransformChange={onTransformChange}
                 />
               );
