@@ -167,7 +167,7 @@ export default class Shape extends React.Component {
                 <SelectPoint
                   key={`${key}-${point}`}
                   position={point}
-                  width={8}
+                  width={24}
                   onTransformChange={onTransformChange}
                 />
               );

@@ -12,8 +12,10 @@ export default class SelectPoint extends React.Component {
 
   getRotateStyling = (position, width) => {
     const styling = {
-      transform: `translate(${position.x - width / 2}px,
-          ${position.y - width / 2}px)`,
+      transform: [
+        `translate(-50%, -50%)`,
+        `translate(${position.x}px, ${position.y}px)`
+      ].join(' '),
       width: `${width}px`,
       height: `${width}px`,
       opacity: 0.25,
@@ -26,8 +28,10 @@ export default class SelectPoint extends React.Component {
 
   getScaleStyling = (position, width) => {
     const styling = {
-      transform: `translate(${position.x - width / 2}px,
-        ${position.y - width / 2}px)`,
+      transform: [
+        `translate(-50%, -50%)`,
+        `translate(${position.x}px, ${position.y}px)`
+      ].join(' '),
       width: `${width}px`,
       height: `${width}px`,
       opacity: 0.5,
@@ -44,16 +48,16 @@ export default class SelectPoint extends React.Component {
       <>
         <div
           className="position-absolute"
-          alt="Select Point"
-          style={this.getRotateStyling(position, width * 2.5)}
+          alt="Rotate Point"
+          style={this.getRotateStyling(position, width)}
           role="button"
           tabIndex="-1"
           onMouseDown={() => onTransformChange(TransformType.Rotate)}
         />
         <div
           className="position-absolute"
-          alt="Select Point"
-          style={this.getScaleStyling(position, width)}
+          alt="Scale Point"
+          style={this.getScaleStyling(position, width / 3)}
           role="button"
           tabIndex="-1"
           onMouseDown={() => onTransformChange(TransformType.Scale)}
