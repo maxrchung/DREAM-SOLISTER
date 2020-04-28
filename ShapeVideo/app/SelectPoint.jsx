@@ -10,9 +10,24 @@ export default class SelectPoint extends React.Component {
     onTransformChange: PropTypes.func.isRequired
   };
 
-  getStyling = (position, width) => {
+  getRotateStyling = (position, width) => {
     const styling = {
-      transform: `translate(${position.x}px, ${position.y}px)`,
+      transform: `translate(${position.x - width / 2}px,
+          ${position.y - width / 2}px)`,
+      width: `${width}px`,
+      height: `${width}px`,
+      opacity: 0.25,
+      backgroundColor: 'blue',
+      borderRadius: '50%',
+      userSelect: 'none'
+    };
+    return styling;
+  };
+
+  getScaleStyling = (position, width) => {
+    const styling = {
+      transform: `translate(${position.x - width / 2}px,
+        ${position.y - width / 2}px)`,
       width: `${width}px`,
       height: `${width}px`,
       opacity: 0.5,
@@ -26,14 +41,24 @@ export default class SelectPoint extends React.Component {
   render() {
     const { position, width, onTransformChange } = this.props;
     return (
-      <div
-        className="position-absolute"
-        alt="Select Point"
-        style={this.getStyling(position, width)}
-        role="button"
-        tabIndex="-1"
-        onMouseDown={() => onTransformChange(TransformType.Scale)}
-      />
+      <>
+        <div
+          className="position-absolute"
+          alt="Select Point"
+          style={this.getRotateStyling(position, width * 2.5)}
+          role="button"
+          tabIndex="-1"
+          onMouseDown={() => onTransformChange(TransformType.Rotate)}
+        />
+        <div
+          className="position-absolute"
+          alt="Select Point"
+          style={this.getScaleStyling(position, width)}
+          role="button"
+          tabIndex="-1"
+          onMouseDown={() => onTransformChange(TransformType.Scale)}
+        />
+      </>
     );
   }
 }

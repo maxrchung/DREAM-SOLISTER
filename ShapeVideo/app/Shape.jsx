@@ -23,14 +23,11 @@ export default class Shape extends React.Component {
     return path;
   };
 
-  rotatePointAroundCenter = (point, center, rotation, pointHalfWidth) => {
+  rotatePointAroundCenter = (point, center, rotation) => {
     const rotated = point.clone().rotate(rotation);
     const added = rotated.add(center);
     const rounded = new Victor(Math.round(added.x), Math.round(added.y));
-    const widthAdjusted = new Victor(
-      rounded.x - pointHalfWidth,
-      rounded.y - pointHalfWidth
-    );
+    const widthAdjusted = new Victor(rounded.x, rounded.y);
     return widthAdjusted;
   };
 
@@ -63,30 +60,25 @@ export default class Shape extends React.Component {
 
     // Select point positions
     const pointWidth = 8;
-    const pointHalfWidth = pointWidth / 2;
     const pointTL = this.rotatePointAroundCenter(
       new Victor(-shapeHalfSize.x, -shapeHalfSize.y),
       center,
-      rotation,
-      pointHalfWidth
+      rotation
     );
     const pointTR = this.rotatePointAroundCenter(
       new Victor(shapeHalfSize.x, -shapeHalfSize.y),
       center,
-      rotation,
-      pointHalfWidth
+      rotation
     );
     const pointBL = this.rotatePointAroundCenter(
       new Victor(-shapeHalfSize.x, shapeHalfSize.y),
       center,
-      rotation,
-      pointHalfWidth
+      rotation
     );
     const pointBR = this.rotatePointAroundCenter(
       new Victor(shapeHalfSize.x, shapeHalfSize.y),
       center,
-      rotation,
-      pointHalfWidth
+      rotation
     );
 
     return {
