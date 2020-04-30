@@ -7,6 +7,7 @@ import NewModal from './NewModal';
 import Slider from './Slider';
 import CheckLabel from './CheckLabel';
 import Shape from './Shape';
+import ShapeListItem from './ShapeListItem';
 import ShapeType from './ShapeType';
 import TransformType from './TransformType';
 
@@ -518,6 +519,12 @@ export default class ShapeVideo extends React.Component {
     });
   };
 
+  handleListSelect = (oldSelectedShapeId, newSelectedShapeId) => {
+    this.setState({
+      selectedShapeId: newSelectedShapeId
+    });
+  };
+
   handleDeselectShape = () => {
     this.setState({
       selectedShapeId: -1
@@ -647,9 +654,18 @@ export default class ShapeVideo extends React.Component {
               <div className="overflow-auto h-100">
                 {Object.values(shapes).map(shape => {
                   return (
-                    <div
-                      key={`${shape.id}`}
-                    >{`${shape.id} - ${shape.type}`}</div>
+                    <ShapeListItem
+                      key={shape.id}
+                      id={shape.id}
+                      onClick={newSelectedShapeId =>
+                        this.handleListSelect(
+                          selectedShapeId,
+                          newSelectedShapeId
+                        )
+                      }
+                      selectedId={selectedShapeId}
+                      type={shape.type}
+                    />
                   );
                 })}
               </div>

@@ -5,9 +5,9 @@ import TransformType from './TransformType';
 
 export default class SelectPoint extends React.Component {
   static propTypes = {
+    onTransformChange: PropTypes.func.isRequired,
     position: PropTypes.instanceOf(Victor).isRequired,
-    width: PropTypes.number.isRequired,
-    onTransformChange: PropTypes.func.isRequired
+    width: PropTypes.number.isRequired
   };
 
   getRotateStyling = (position, width) => {
@@ -43,24 +43,22 @@ export default class SelectPoint extends React.Component {
   };
 
   render() {
-    const { position, width, onTransformChange } = this.props;
+    const { onTransformChange, position, width } = this.props;
     return (
       <>
         <div
-          className="position-absolute"
           alt="Rotate Point"
-          style={this.getRotateStyling(position, width)}
-          role="button"
-          tabIndex="-1"
+          className="position-absolute"
           onMouseDown={() => onTransformChange(TransformType.Rotate)}
+          role="presentation"
+          style={this.getRotateStyling(position, width)}
         />
         <div
-          className="position-absolute"
           alt="Scale Point"
-          style={this.getScaleStyling(position, width / 3)}
-          role="button"
-          tabIndex="-1"
+          className="position-absolute"
           onMouseDown={() => onTransformChange(TransformType.Scale)}
+          role="presentation"
+          style={this.getScaleStyling(position, width / 3)}
         />
       </>
     );

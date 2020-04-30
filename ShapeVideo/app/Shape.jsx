@@ -140,7 +140,6 @@ export default class Shape extends React.Component {
     return (
       video && (
         <>
-          {/* Mega brain: https://stackoverflow.com/a/8963136 */}
           <div
             className="position-absolute"
             onClick={() => onClick(id)}
