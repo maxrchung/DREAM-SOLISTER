@@ -85,7 +85,7 @@ export default class Shape extends React.Component {
     };
   };
 
-  getLayoutStyling = (position, scale, rotation) => {
+  getLayoutStyling = (position, scale, rotation, id, selectedId) => {
     const styling = {
       transform: [
         `translate(-50%, -50%)`,
@@ -95,6 +95,11 @@ export default class Shape extends React.Component {
       ].join(' '),
       userSelect: 'none'
     };
+
+    // Add background shade if selected
+    if (id === selectedId) {
+      styling.backgroundColor = 'rgba(0, 0, 0, 0.2)';
+    }
 
     return styling;
   };
@@ -144,14 +149,15 @@ export default class Shape extends React.Component {
             className="position-absolute"
             onClick={() => onClick(id)}
             role="presentation"
-            style={this.getLayoutStyling(shapePosition, shapeScale, rotation)}
+            style={this.getLayoutStyling(
+              shapePosition,
+              shapeScale,
+              rotation,
+              id,
+              selectedId
+            )}
           >
-            <img
-              alt={type}
-              draggable={false}
-              src={this.getSrcPath()}
-              // style={this.getImageStyling(rotation, id, selectedId)}
-            />
+            <img alt={type} draggable={false} src={this.getSrcPath()} />
           </div>
 
           {id === selectedId &&
