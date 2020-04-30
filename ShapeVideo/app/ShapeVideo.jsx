@@ -28,7 +28,8 @@ export default class ShapeVideo extends React.Component {
       shapes: {},
       mousePos: new Victor(),
       selectedShapeId: -1,
-      transformType: TransformType.None
+      transformType: TransformType.None,
+      frame: []
     };
   }
 
@@ -477,6 +478,7 @@ export default class ShapeVideo extends React.Component {
 
     this.setState(
       prev => ({
+        frame: [...prev.frame, prev.project.shapeCount],
         shapes: {
           ...prev.shapes,
           [prev.project.shapeCount]: {
@@ -532,7 +534,6 @@ export default class ShapeVideo extends React.Component {
   };
 
   scrollShapeIntoView = shapeId => {
-    console.log(shapeId);
     document.getElementById(`shape-list-item-${shapeId}`).scrollIntoView();
   };
 
@@ -546,24 +547,26 @@ export default class ShapeVideo extends React.Component {
     if (selectedShapeId > -1) {
       const newShapes = shapes;
       delete newShapes[selectedShapeId];
-      this.setState({
+      this.setState(prev => ({
+        frame: prev.frame.filter(shapeId => shapeId !== selectedShapeId),
         selectedShapeId: -1,
         shapes: newShapes
-      });
+      }));
     }
   };
 
   render() {
     const {
-      isNewOpen,
-      project,
-      isVideoVisible,
-      videoOpacity,
       areShapesVisible,
-      shapesOpacity,
-      videoTime,
+      isNewOpen,
+      isVideoVisible,
+      frame,
+      project,
+      selectedShapeId,
       shapes,
-      selectedShapeId
+      shapesOpacity,
+      videoOpacity,
+      videoTime
     } = this.state;
     const { video } = this;
 
@@ -596,25 +599,28 @@ export default class ShapeVideo extends React.Component {
                 className="position-absolute"
                 style={{ opacity: shapesOpacity }}
               >
-                {Object.values(shapes).map(shape => (
-                  <Shape
-                    id={shape.id}
-                    key={shape.id}
-                    video={this.video}
-                    type={shape.type}
-                    position={shape.position}
-                    rotation={shape.rotation}
-                    scale={shape.scale}
-                    selectedId={selectedShapeId}
-                    onClick={newSelectedShapeId =>
-                      this.handleSelectShape(
-                        selectedShapeId,
-                        newSelectedShapeId
-                      )
-                    }
-                    onTransformChange={this.handleTransformChange}
-                  />
-                ))}
+                {frame.map(shapeId => {
+                  const shape = shapes[shapeId];
+                  return (
+                    <Shape
+                      id={shape.id}
+                      key={shape.id}
+                      video={this.video}
+                      type={shape.type}
+                      position={shape.position}
+                      rotation={shape.rotation}
+                      scale={shape.scale}
+                      selectedId={selectedShapeId}
+                      onClick={newSelectedShapeId =>
+                        this.handleSelectShape(
+                          selectedShapeId,
+                          newSelectedShapeId
+                        )
+                      }
+                      onTransformChange={this.handleTransformChange}
+                    />
+                  );
+                })}
               </div>
             )}
           </div>
@@ -663,7 +669,8 @@ export default class ShapeVideo extends React.Component {
               this element and following these guidelines:
               https://stackoverflow.com/a/39124696/13183186 */}
               <div className="overflow-auto h-100">
-                {Object.values(shapes).map(shape => {
+                {frame.map(shapeId => {
+                  const shape = shapes[shapeId];
                   return (
                     <ShapeListItem
                       key={shape.id}
