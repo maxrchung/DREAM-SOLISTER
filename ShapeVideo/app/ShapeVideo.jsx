@@ -271,6 +271,39 @@ export default class ShapeVideo extends React.Component {
             }
           }
         ]
+      },
+      {
+        label: 'Layer',
+        submenu: [
+          {
+            label: 'Move Up',
+            accelerator: 'A',
+            click: () => {
+              console.log('up');
+            }
+          },
+          {
+            label: 'Move Down',
+            accelerator: 'S',
+            click: () => {
+              console.log('down');
+            }
+          },
+          {
+            label: 'Move Top',
+            accelerator: 'D',
+            click: () => {
+              console.log('top');
+            }
+          },
+          {
+            label: 'Move Bottom',
+            accelerator: 'F',
+            click: () => {
+              console.log('bottom');
+            }
+          }
+        ]
       }
     ];
     const template = remote.Menu.buildFromTemplate(menuTemplate);
