@@ -52,79 +52,6 @@ export default class ShapeVideo extends React.Component {
     );
   }
 
-  handleResize = () => this.forceUpdate();
-
-  handleMouseMove = (
-    e,
-    oldMousePos,
-    selectedShapeId,
-    shapes,
-    transformType,
-    video
-  ) => {
-    const newMousePos = new Victor(e.clientX, e.clientY);
-    if (e.buttons === 1 && selectedShapeId >= 0) {
-      const shape = { ...shapes[selectedShapeId] };
-      const newPosition = this.mousePosToPosition(newMousePos, video);
-      const oldPosition = this.mousePosToPosition(oldMousePos, video);
-      const diffPosition = newPosition.clone().subtract(oldPosition);
-
-      switch (transformType) {
-        case TransformType.Scale: {
-          const newShapePosition = newPosition.clone().subtract(shape.position);
-          const oldShapePosition = oldPosition.clone().subtract(shape.position);
-          const newRotated = newShapePosition.clone().rotate(-shape.rotation);
-          const oldRotated = oldShapePosition.clone().rotate(-shape.rotation);
-          const diffScale = newRotated.clone().divide(oldRotated);
-
-          // Handle cases if transform approaches too close to center
-          if (!Number.isFinite(diffScale.x) || diffScale.x === 0) {
-            diffScale.x = 1;
-          }
-          if (!Number.isFinite(diffScale.y) || diffScale.y === 0) {
-            diffScale.y = 1;
-          }
-
-          shape.scale.multiply(diffScale);
-          break;
-        }
-        case TransformType.Rotate: {
-          const newShapePosition = newPosition.clone().subtract(shape.position);
-          const oldShapePosition = oldPosition.clone().subtract(shape.position);
-
-          const oldRotation = oldShapePosition.angle();
-          const newRotated = newShapePosition.rotate(-oldRotation);
-          const diffRotation = newRotated.angle();
-
-          shape.rotation += diffRotation;
-          break;
-        }
-        default: {
-          shape.position.add(diffPosition);
-          break;
-        }
-      }
-
-      this.setState(prev => ({
-        shapes: {
-          ...prev.shapes,
-          [selectedShapeId]: shape
-        }
-      }));
-    }
-
-    // pageX vs screenX vs clientX: https://stackoverflow.com/a/21452887
-    this.setState({
-      mousePos: newMousePos
-    });
-  };
-
-  handleTransformChange = transformType => {
-    this.setState({
-      transformType
-    });
-  };
-
   setMenu = () => {
     const isMac = remote.process.platform === 'darwin';
     let menuTemplate = isMac
@@ -279,28 +206,32 @@ export default class ShapeVideo extends React.Component {
             label: 'Move Up',
             accelerator: 'A',
             click: () => {
-              console.log('up');
+              const { selectedShapeId, frame } = this.state;
+              this.handleLayerUp(selectedShapeId, frame);
             }
           },
           {
             label: 'Move Down',
             accelerator: 'S',
             click: () => {
-              console.log('down');
+              const { selectedShapeId, frame } = this.state;
+              this.handleLayerDown(selectedShapeId, frame);
             }
           },
           {
             label: 'Move Top',
             accelerator: 'D',
             click: () => {
-              console.log('top');
+              const { selectedShapeId, frame } = this.state;
+              this.handleLayerTop(selectedShapeId, frame);
             }
           },
           {
             label: 'Move Bottom',
             accelerator: 'F',
             click: () => {
-              console.log('bottom');
+              const { selectedShapeId, frame } = this.state;
+              this.handleLayerBottom(selectedShapeId, frame);
             }
           }
         ]
@@ -308,6 +239,79 @@ export default class ShapeVideo extends React.Component {
     ];
     const template = remote.Menu.buildFromTemplate(menuTemplate);
     remote.Menu.setApplicationMenu(template);
+  };
+
+  handleResize = () => this.forceUpdate();
+
+  handleMouseMove = (
+    e,
+    oldMousePos,
+    selectedShapeId,
+    shapes,
+    transformType,
+    video
+  ) => {
+    const newMousePos = new Victor(e.clientX, e.clientY);
+    if (e.buttons === 1 && selectedShapeId >= 0) {
+      const shape = { ...shapes[selectedShapeId] };
+      const newPosition = this.mousePosToPosition(newMousePos, video);
+      const oldPosition = this.mousePosToPosition(oldMousePos, video);
+      const diffPosition = newPosition.clone().subtract(oldPosition);
+
+      switch (transformType) {
+        case TransformType.Scale: {
+          const newShapePosition = newPosition.clone().subtract(shape.position);
+          const oldShapePosition = oldPosition.clone().subtract(shape.position);
+          const newRotated = newShapePosition.clone().rotate(-shape.rotation);
+          const oldRotated = oldShapePosition.clone().rotate(-shape.rotation);
+          const diffScale = newRotated.clone().divide(oldRotated);
+
+          // Handle cases if transform approaches too close to center
+          if (!Number.isFinite(diffScale.x) || diffScale.x === 0) {
+            diffScale.x = 1;
+          }
+          if (!Number.isFinite(diffScale.y) || diffScale.y === 0) {
+            diffScale.y = 1;
+          }
+
+          shape.scale.multiply(diffScale);
+          break;
+        }
+        case TransformType.Rotate: {
+          const newShapePosition = newPosition.clone().subtract(shape.position);
+          const oldShapePosition = oldPosition.clone().subtract(shape.position);
+
+          const oldRotation = oldShapePosition.angle();
+          const newRotated = newShapePosition.rotate(-oldRotation);
+          const diffRotation = newRotated.angle();
+
+          shape.rotation += diffRotation;
+          break;
+        }
+        default: {
+          shape.position.add(diffPosition);
+          break;
+        }
+      }
+
+      this.setState(prev => ({
+        shapes: {
+          ...prev.shapes,
+          [selectedShapeId]: shape
+        }
+      }));
+    }
+
+    // pageX vs screenX vs clientX: https://stackoverflow.com/a/21452887
+    this.setState({
+      mousePos: newMousePos
+    });
+  };
+
+  handleTransformChange = transformType => {
+    this.setState({
+      transformType
+    });
   };
 
   handleNewToggle = () => {
@@ -585,6 +589,66 @@ export default class ShapeVideo extends React.Component {
         selectedShapeId: -1,
         shapes: newShapes
       }));
+    }
+  };
+
+  handleLayerUp = (selectedShapeId, frame) => {
+    if (selectedShapeId > -1) {
+      const index = frame.findIndex(id => id === selectedShapeId);
+      if (index === 0) {
+        return;
+      }
+      const newFrame = [...frame];
+      newFrame[index] = newFrame[index - 1];
+      newFrame[index - 1] = selectedShapeId;
+      this.setState({
+        frame: newFrame
+      });
+    }
+  };
+
+  handleLayerDown = (selectedShapeId, frame) => {
+    if (selectedShapeId > -1) {
+      const index = frame.findIndex(id => id === selectedShapeId);
+      if (index === frame.length - 1) {
+        return;
+      }
+      const newFrame = [...frame];
+      newFrame[index] = newFrame[index + 1];
+      newFrame[index + 1] = selectedShapeId;
+      this.setState({
+        frame: newFrame
+      });
+    }
+  };
+
+  handleLayerTop = (selectedShapeId, frame) => {
+    if (selectedShapeId > -1) {
+      if (frame[0] === selectedShapeId) {
+        return;
+      }
+      const newFrame = [
+        selectedShapeId,
+        ...frame.filter(id => id !== selectedShapeId)
+      ];
+      this.setState({
+        frame: newFrame
+      });
+    }
+  };
+
+  handleLayerBottom = (selectedShapeId, frame) => {
+    if (selectedShapeId > -1) {
+      if (frame[frame.length - 1] === selectedShapeId) {
+        return;
+      }
+      const newFrame = [
+        ...frame.filter(id => id !== selectedShapeId),
+        selectedShapeId
+      ];
+      this.setState({
+        frame: newFrame
+      });
     }
   };
 
