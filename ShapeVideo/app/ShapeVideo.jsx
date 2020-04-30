@@ -185,6 +185,15 @@ export default class ShapeVideo extends React.Component {
             }
           },
           {
+            label: 'Paste',
+            accelerator: 'V',
+            click: () => {
+              const { mousePos, selectedShapeId, shapes } = this.state;
+              const { video } = this;
+              this.handlePasteShape(mousePos, video, selectedShapeId, shapes);
+            }
+          },
+          {
             label: 'Deselect',
             accelerator: 'Esc',
             click: () => this.handleDeselectShape()
@@ -361,7 +370,9 @@ export default class ShapeVideo extends React.Component {
   handleSaveProject = (needsDialog, project) => {
     let serialized = '';
     let path = project.name;
-    if (!path || needsDialog) {
+    if (path && !needsDialog) {
+      serialized = JSON.stringify(project);
+    } else {
       path = remote.dialog.showSaveDialogSync(ShapeVideo.projectDialogOptions);
       // If no path is picked, then don't proceed with save
       if (!path) {
@@ -376,8 +387,6 @@ export default class ShapeVideo extends React.Component {
         project: newProject
       });
       serialized = JSON.stringify(newProject);
-    } else {
-      serialized = JSON.stringify(project);
     }
     fs.writeFileSync(path, serialized);
   };
@@ -429,10 +438,11 @@ export default class ShapeVideo extends React.Component {
   };
 
   handleSeekVideo = (video, videoTime) => {
-    if (this.isVideoReady(video)) {
-      const timeInSeconds = videoTime * video.duration;
-      this.video.currentTime = timeInSeconds;
+    if (!this.isVideoReady(video)) {
+      return;
     }
+    const timeInSeconds = videoTime * video.duration;
+    this.video.currentTime = timeInSeconds;
   };
 
   handleFormatVideoTime = (video, videoTime) => {
@@ -464,22 +474,24 @@ export default class ShapeVideo extends React.Component {
   };
 
   handlePlayVideo = video => {
-    if (this.isVideoReady(video)) {
-      if (video.paused) {
-        this.video.play();
-      } else {
-        this.video.pause();
-      }
+    if (!this.isVideoReady(video)) {
+      return;
+    }
+    if (video.paused) {
+      this.video.play();
+    } else {
+      this.video.pause();
     }
   };
 
   handleRestartVideo = video => {
-    if (this.isVideoReady(video)) {
-      this.video.currentTime = 0;
-      this.setState({
-        videoTime: 0
-      });
+    if (!this.isVideoReady(video)) {
+      return;
     }
+    this.video.currentTime = 0;
+    this.setState({
+      videoTime: 0
+    });
   };
 
   handleVideoTimeUpdate = video => {
@@ -555,6 +567,40 @@ export default class ShapeVideo extends React.Component {
     this.addShape(mousePos, video, ShapeType.Semicircle);
   };
 
+  handlePasteShape = (mousePos, video, oldSelectedShapeId, shapes) => {
+    if (!video || oldSelectedShapeId < 0) {
+      return;
+    }
+
+    const position = this.mousePosToPosition(mousePos, video);
+    const shape = shapes[oldSelectedShapeId];
+
+    this.setState(
+      prev => ({
+        frame: [...prev.frame, prev.project.shapeCount],
+        shapes: {
+          ...prev.shapes,
+          [prev.project.shapeCount]: {
+            id: prev.project.shapeCount,
+            type: shape.type,
+            position,
+            rotation: shape.rotation,
+            scale: shape.scale.clone()
+          }
+        },
+        selectedShapeId: prev.project.shapeCount,
+        project: {
+          ...prev.project,
+          shapeCount: prev.project.shapeCount + 1
+        }
+      }),
+      () => {
+        const { selectedShapeId } = this.state;
+        this.scrollShapeIntoView(selectedShapeId);
+      }
+    );
+  };
+
   handleSelectShape = (oldSelectedShapeId, newSelectedShapeId) => {
     if (oldSelectedShapeId >= 0) {
       return;
@@ -581,75 +627,80 @@ export default class ShapeVideo extends React.Component {
   };
 
   handleDeleteShape = (selectedShapeId, shapes) => {
-    if (selectedShapeId > -1) {
-      const newShapes = shapes;
-      delete newShapes[selectedShapeId];
-      this.setState(prev => ({
-        frame: prev.frame.filter(shapeId => shapeId !== selectedShapeId),
-        selectedShapeId: -1,
-        shapes: newShapes
-      }));
+    if (selectedShapeId < 0) {
+      return;
     }
+    const newShapes = shapes;
+    delete newShapes[selectedShapeId];
+    this.setState(prev => ({
+      frame: prev.frame.filter(shapeId => shapeId !== selectedShapeId),
+      selectedShapeId: -1,
+      shapes: newShapes
+    }));
   };
 
   handleLayerUp = (selectedShapeId, frame) => {
-    if (selectedShapeId > -1) {
-      const index = frame.findIndex(id => id === selectedShapeId);
-      if (index === 0) {
-        return;
-      }
-      const newFrame = [...frame];
-      newFrame[index] = newFrame[index - 1];
-      newFrame[index - 1] = selectedShapeId;
-      this.setState({
-        frame: newFrame
-      });
+    if (selectedShapeId < 0) {
+      return;
     }
+    const index = frame.findIndex(id => id === selectedShapeId);
+    if (index === 0) {
+      return;
+    }
+    const newFrame = [...frame];
+    newFrame[index] = newFrame[index - 1];
+    newFrame[index - 1] = selectedShapeId;
+    this.setState({
+      frame: newFrame
+    });
   };
 
   handleLayerDown = (selectedShapeId, frame) => {
-    if (selectedShapeId > -1) {
-      const index = frame.findIndex(id => id === selectedShapeId);
-      if (index === frame.length - 1) {
-        return;
-      }
-      const newFrame = [...frame];
-      newFrame[index] = newFrame[index + 1];
-      newFrame[index + 1] = selectedShapeId;
-      this.setState({
-        frame: newFrame
-      });
+    if (selectedShapeId < 0) {
+      return;
     }
+    const index = frame.findIndex(id => id === selectedShapeId);
+    if (index === frame.length - 1) {
+      return;
+    }
+    const newFrame = [...frame];
+    newFrame[index] = newFrame[index + 1];
+    newFrame[index + 1] = selectedShapeId;
+    this.setState({
+      frame: newFrame
+    });
   };
 
   handleLayerTop = (selectedShapeId, frame) => {
-    if (selectedShapeId > -1) {
-      if (frame[0] === selectedShapeId) {
-        return;
-      }
-      const newFrame = [
-        selectedShapeId,
-        ...frame.filter(id => id !== selectedShapeId)
-      ];
-      this.setState({
-        frame: newFrame
-      });
+    if (selectedShapeId < 0) {
+      return;
     }
+    if (frame[0] === selectedShapeId) {
+      return;
+    }
+    const newFrame = [
+      selectedShapeId,
+      ...frame.filter(id => id !== selectedShapeId)
+    ];
+    this.setState({
+      frame: newFrame
+    });
   };
 
   handleLayerBottom = (selectedShapeId, frame) => {
-    if (selectedShapeId > -1) {
-      if (frame[frame.length - 1] === selectedShapeId) {
-        return;
-      }
-      const newFrame = [
-        ...frame.filter(id => id !== selectedShapeId),
-        selectedShapeId
-      ];
-      this.setState({
-        frame: newFrame
-      });
+    if (selectedShapeId < 0) {
+      return;
     }
+    if (frame[frame.length - 1] === selectedShapeId) {
+      return;
+    }
+    const newFrame = [
+      ...frame.filter(id => id !== selectedShapeId),
+      selectedShapeId
+    ];
+    this.setState({
+      frame: newFrame
+    });
   };
 
   render() {
