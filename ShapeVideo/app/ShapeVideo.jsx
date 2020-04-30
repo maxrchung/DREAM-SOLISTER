@@ -557,7 +557,7 @@ export default class ShapeVideo extends React.Component {
           onNewProject={this.handleNewProject}
         />
 
-        <div className="d-flex flex-grow-1">
+        <div className="d-flex flex-grow-1 h-100">
           <div className="d-flex col p-2">
             <video
               className="w-100"
@@ -601,7 +601,7 @@ export default class ShapeVideo extends React.Component {
             )}
           </div>
 
-          <div className="d-flex flex-column col-auto p-2 stylish-color-dark">
+          <div className="d-flex flex-column col-auto p-2 stylish-color-dark h-100">
             <form className="p-2 stylish-color">
               <div className="form-row">
                 <div className="col-5">
@@ -640,7 +640,20 @@ export default class ShapeVideo extends React.Component {
               </div>
             </form>
 
-            <div className="mt-2 p-2 h-100 stylish-color">Shapes</div>
+            <div className="mt-2 p-2 h-100 stylish-color d-flex flex-column h-100">
+              {/* I was able to get scroll working by jamming h-100 to parents of
+              this element and following these guidelines:
+              https://stackoverflow.com/a/39124696/13183186 */}
+              <div className="overflow-auto h-100">
+                {Object.values(shapes).map(shape => {
+                  return (
+                    <div
+                      key={`${shape.id}`}
+                    >{`${shape.id} - ${shape.type}`}</div>
+                  );
+                })}
+              </div>
+            </div>
           </div>
         </div>
 
