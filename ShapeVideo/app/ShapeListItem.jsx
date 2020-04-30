@@ -18,6 +18,7 @@ export default class ShapeListItem extends React.Component {
         <div
           alt="List Item"
           className={`shape-list-item px-2 py-1 ${highlight}`}
+          id={`shape-list-item-${id}`}
           onClick={() => onClick(id)}
           role="presentation"
         >{`${id} - ${type}`}</div>

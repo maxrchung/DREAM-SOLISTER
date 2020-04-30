@@ -475,23 +475,29 @@ export default class ShapeVideo extends React.Component {
 
     const position = this.mousePosToPosition(mousePos, video);
 
-    this.setState(prev => ({
-      shapes: {
-        ...prev.shapes,
-        [prev.project.shapeCount]: {
-          id: prev.project.shapeCount,
-          type,
-          position,
-          rotation: 0,
-          scale: new Victor(1, 1)
+    this.setState(
+      prev => ({
+        shapes: {
+          ...prev.shapes,
+          [prev.project.shapeCount]: {
+            id: prev.project.shapeCount,
+            type,
+            position,
+            rotation: 0,
+            scale: new Victor(1, 1)
+          }
+        },
+        selectedShapeId: prev.project.shapeCount,
+        project: {
+          ...prev.project,
+          shapeCount: prev.project.shapeCount + 1
         }
-      },
-      selectedShapeId: prev.project.shapeCount,
-      project: {
-        ...prev.project,
-        shapeCount: prev.project.shapeCount + 1
+      }),
+      () => {
+        const { selectedShapeId } = this.state;
+        this.scrollShapeIntoView(selectedShapeId);
       }
-    }));
+    );
   };
 
   handleAddRectangle = (mousePos, video) => {
@@ -514,15 +520,20 @@ export default class ShapeVideo extends React.Component {
     if (oldSelectedShapeId >= 0) {
       return;
     }
-    this.setState({
-      selectedShapeId: newSelectedShapeId
-    });
+    this.handleListSelect(newSelectedShapeId);
   };
 
-  handleListSelect = (oldSelectedShapeId, newSelectedShapeId) => {
+  handleListSelect = selectedShapeId => {
     this.setState({
-      selectedShapeId: newSelectedShapeId
+      selectedShapeId
     });
+
+    this.scrollShapeIntoView(selectedShapeId);
+  };
+
+  scrollShapeIntoView = shapeId => {
+    console.log(shapeId);
+    document.getElementById(`shape-list-item-${shapeId}`).scrollIntoView();
   };
 
   handleDeselectShape = () => {
@@ -658,10 +669,7 @@ export default class ShapeVideo extends React.Component {
                       key={shape.id}
                       id={shape.id}
                       onClick={newSelectedShapeId =>
-                        this.handleListSelect(
-                          selectedShapeId,
-                          newSelectedShapeId
-                        )
+                        this.handleListSelect(newSelectedShapeId)
                       }
                       selectedId={selectedShapeId}
                       type={shape.type}
