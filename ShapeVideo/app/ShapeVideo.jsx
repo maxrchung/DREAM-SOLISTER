@@ -185,6 +185,21 @@ export default class ShapeVideo extends React.Component {
             }
           },
           {
+            label: 'Get Color',
+            accelerator: 'E',
+            click: () => {
+              const { mousePos, selectedShapeId, shapes } = this.state;
+              const { canvas, video } = this;
+              this.handleGetColor(
+                mousePos,
+                selectedShapeId,
+                shapes,
+                canvas,
+                video
+              );
+            }
+          },
+          {
             label: 'Paste',
             accelerator: 'V',
             click: () => {
@@ -209,7 +224,7 @@ export default class ShapeVideo extends React.Component {
         ]
       },
       {
-        label: 'Layer',
+        label: 'Layers',
         submenu: [
           {
             label: 'Move Up',
@@ -503,15 +518,19 @@ export default class ShapeVideo extends React.Component {
     }
   };
 
-  mousePosToPosition = (mousePos, video) => {
-    const { offsetLeft, offsetTop, clientWidth, clientHeight } = video;
-
+  mousePosToVideoPos = (mousePos, offsetLeft, offsetTop) => {
     const adjustedMouse = mousePos
       .clone()
       .subtract(new Victor(offsetLeft, offsetTop));
-    const midPoint = new Victor(clientWidth / 2, clientHeight / 2);
+    return adjustedMouse;
+  };
 
-    const distanceVec = adjustedMouse.clone().subtract(midPoint);
+  mousePosToPosition = (mousePos, video) => {
+    const { offsetLeft, offsetTop, clientWidth, clientHeight } = video;
+    const videoPos = this.mousePosToVideoPos(mousePos, offsetLeft, offsetTop);
+
+    const midPoint = new Victor(clientWidth / 2, clientHeight / 2);
+    const distanceVec = videoPos.clone().subtract(midPoint);
     const position = distanceVec
       .clone()
       .divide(new Victor(clientWidth / 2, clientWidth / 2));
@@ -565,6 +584,39 @@ export default class ShapeVideo extends React.Component {
 
   handleAddSemicircle = (mousePos, video) => {
     this.addShape(mousePos, video, ShapeType.Semicircle);
+  };
+
+  handleGetColor = (mousePos, selectedShapeId, shapes, canvas, video) => {
+    if (canvas && video) {
+      const {
+        offsetLeft,
+        offsetTop,
+        clientWidth,
+        clientHeight,
+        videoWidth,
+        videoHeight
+      } = video;
+      this.canvas.width = videoWidth;
+      this.canvas.height = videoHeight;
+      this.canvas.style.width = `${videoWidth}px`;
+      this.canvas.style.height = `${videoHeight}px`;
+
+      const position = this.mousePosToVideoPos(mousePos, offsetLeft, offsetTop);
+      // The video may be scaled differently to the displayed pixels so we need
+      // to convert the mouse position from display resolution to video
+      // resolution.
+      const scale = new Victor(
+        videoWidth / clientWidth,
+        videoHeight / clientHeight
+      );
+      position.multiply(scale);
+      console.log('position: ', position);
+
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(video, 0, 0);
+      const { data } = ctx.getImageData(position.x, position.y, 1, 1);
+      console.log('ctx: ', data);
+    }
   };
 
   handlePasteShape = (mousePos, video, oldSelectedShapeId, shapes) => {
@@ -728,6 +780,12 @@ export default class ShapeVideo extends React.Component {
 
         <div className="d-flex flex-grow-1 h-100">
           <div className="d-flex col p-2">
+            <canvas
+              className="d-none"
+              ref={element => {
+                this.canvas = element;
+              }}
+            />
             <video
               className="w-100"
               ref={element => {
