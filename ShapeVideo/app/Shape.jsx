@@ -104,19 +104,10 @@ export default class Shape extends React.Component {
     return styling;
   };
 
-  getImageStyling = (rotation, id, selectedId) => {
-    let styling = {
-      transform: `rotate(${rotation}rad)`
+  getColorStyling = id => {
+    const styling = {
+      filter: `url(#shape-color-${id})`
     };
-
-    // Add background shade if selected
-    if (id === selectedId) {
-      styling = {
-        ...styling,
-        backgroundColor: 'rgba(0, 0, 0, 0.2)'
-      };
-    }
-
     return styling;
   };
 
@@ -157,7 +148,30 @@ export default class Shape extends React.Component {
               selectedId
             )}
           >
-            <img alt={type} draggable={false} src={this.getSrcPath()} />
+            {/* https://stackoverflow.com/a/54000884/13183186 */}
+            <svg height="0px" width="0px">
+              <defs>
+                #ffff00
+                <filter
+                  id={`shape-color-${id}`}
+                  colorInterpolationFilters="sRGB"
+                >
+                  <feColorMatrix
+                    type="matrix"
+                    values="0 0 0 0 1
+                            0 0 0 0 1
+                            0 0 0 0 0
+                            0 0 0 1 0"
+                  />
+                </filter>
+              </defs>
+            </svg>
+            <img
+              alt={type}
+              draggable={false}
+              src={this.getSrcPath()}
+              style={this.getColorStyling(id)}
+            />
           </div>
 
           {id === selectedId &&
