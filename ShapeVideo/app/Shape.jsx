@@ -6,15 +6,18 @@ import SelectPoint from './SelectPoint';
 
 export default class Shape extends React.Component {
   static propTypes = {
-    type: PropTypes.string.isRequired,
-    video: PropTypes.instanceOf(HTMLVideoElement).isRequired,
+    colorR: PropTypes.number.isRequired,
+    colorG: PropTypes.number.isRequired,
+    colorB: PropTypes.number.isRequired,
+    id: PropTypes.number.isRequired,
+    onClick: PropTypes.func.isRequired,
+    onTransformChange: PropTypes.func.isRequired,
     position: PropTypes.instanceOf(Victor).isRequired,
     rotation: PropTypes.number.isRequired,
     scale: PropTypes.instanceOf(Victor).isRequired,
-    id: PropTypes.number.isRequired,
     selectedId: PropTypes.number.isRequired,
-    onClick: PropTypes.func.isRequired,
-    onTransformChange: PropTypes.func.isRequired
+    type: PropTypes.string.isRequired,
+    video: PropTypes.instanceOf(HTMLVideoElement).isRequired
   };
 
   getSrcPath = () => {
@@ -113,15 +116,18 @@ export default class Shape extends React.Component {
 
   render() {
     const {
-      type,
-      video,
+      colorR,
+      colorG,
+      colorB,
+      id,
+      onClick,
+      onTransformChange,
       position,
       rotation,
-      scale,
-      id,
       selectedId,
-      onClick,
-      onTransformChange
+      scale,
+      type,
+      video
     } = this.props;
 
     const {
@@ -158,10 +164,10 @@ export default class Shape extends React.Component {
                 >
                   <feColorMatrix
                     type="matrix"
-                    values="0 0 0 0 1
-                            0 0 0 0 1
-                            0 0 0 0 0
-                            0 0 0 1 0"
+                    values={`0 0 0 0 ${colorR / 255}
+                             0 0 0 0 ${colorG / 255}
+                             0 0 0 0 ${colorB / 255}
+                             0 0 0 1 0`}
                   />
                 </filter>
               </defs>

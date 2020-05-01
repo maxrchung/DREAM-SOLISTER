@@ -550,11 +550,14 @@ export default class ShapeVideo extends React.Component {
         shapes: {
           ...prev.shapes,
           [prev.project.shapeCount]: {
+            colorR: 255,
+            colorG: 255,
+            colorB: 255,
             id: prev.project.shapeCount,
-            type,
             position,
             rotation: 0,
-            scale: new Victor(1, 1)
+            scale: new Victor(1, 1),
+            type
           }
         },
         selectedShapeId: prev.project.shapeCount,
@@ -610,12 +613,22 @@ export default class ShapeVideo extends React.Component {
         videoHeight / clientHeight
       );
       position.multiply(scale);
-      console.log('position: ', position);
 
       const ctx = canvas.getContext('2d');
       ctx.drawImage(video, 0, 0);
       const { data } = ctx.getImageData(position.x, position.y, 1, 1);
-      console.log('ctx: ', data);
+
+      this.setState({
+        shapes: {
+          ...shapes,
+          [selectedShapeId]: {
+            ...shapes[selectedShapeId],
+            colorR: data[0],
+            colorG: data[1],
+            colorB: data[2]
+          }
+        }
+      });
     }
   };
 
@@ -633,11 +646,14 @@ export default class ShapeVideo extends React.Component {
         shapes: {
           ...prev.shapes,
           [prev.project.shapeCount]: {
+            colorR: shape.colorR,
+            colorG: shape.colorG,
+            colorB: shape.colorB,
             id: prev.project.shapeCount,
-            type: shape.type,
             position,
             rotation: shape.rotation,
-            scale: shape.scale.clone()
+            scale: shape.scale.clone(),
+            type: shape.type
           }
         },
         selectedShapeId: prev.project.shapeCount,
@@ -809,14 +825,11 @@ export default class ShapeVideo extends React.Component {
                   const shape = shapes[shapeId];
                   return (
                     <Shape
+                      colorR={shape.colorR}
+                      colorG={shape.colorG}
+                      colorB={shape.colorB}
                       id={shape.id}
                       key={shape.id}
-                      video={this.video}
-                      type={shape.type}
-                      position={shape.position}
-                      rotation={shape.rotation}
-                      scale={shape.scale}
-                      selectedId={selectedShapeId}
                       onClick={newSelectedShapeId =>
                         this.handleSelectShape(
                           selectedShapeId,
@@ -824,6 +837,12 @@ export default class ShapeVideo extends React.Component {
                         )
                       }
                       onTransformChange={this.handleTransformChange}
+                      position={shape.position}
+                      rotation={shape.rotation}
+                      scale={shape.scale}
+                      selectedId={selectedShapeId}
+                      type={shape.type}
+                      video={this.video}
                     />
                   );
                 })}
