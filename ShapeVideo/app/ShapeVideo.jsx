@@ -830,7 +830,7 @@ export default class ShapeVideo extends React.Component {
                       colorB={shape.colorB}
                       id={shape.id}
                       key={shape.id}
-                      onClick={newSelectedShapeId =>
+                      onMouseDown={newSelectedShapeId =>
                         this.handleSelectShape(
                           selectedShapeId,
                           newSelectedShapeId

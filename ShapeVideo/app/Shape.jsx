@@ -10,7 +10,7 @@ export default class Shape extends React.Component {
     colorG: PropTypes.number.isRequired,
     colorB: PropTypes.number.isRequired,
     id: PropTypes.number.isRequired,
-    onClick: PropTypes.func.isRequired,
+    onMouseDown: PropTypes.func.isRequired,
     onTransformChange: PropTypes.func.isRequired,
     position: PropTypes.instanceOf(Victor).isRequired,
     rotation: PropTypes.number.isRequired,
@@ -120,7 +120,7 @@ export default class Shape extends React.Component {
       colorG,
       colorB,
       id,
-      onClick,
+      onMouseDown,
       onTransformChange,
       position,
       rotation,
@@ -144,7 +144,7 @@ export default class Shape extends React.Component {
         <>
           <div
             className="position-absolute"
-            onClick={() => onClick(id)}
+            onMouseDown={() => onMouseDown(id)}
             role="presentation"
             style={this.getLayoutStyling(
               shapePosition,
