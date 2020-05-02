@@ -12,9 +12,11 @@ export default class Shape extends React.Component {
     id: PropTypes.number.isRequired,
     onMouseDown: PropTypes.func.isRequired,
     onTransformChange: PropTypes.func.isRequired,
-    position: PropTypes.instanceOf(Victor).isRequired,
+    positionX: PropTypes.number.isRequired,
+    positionY: PropTypes.number.isRequired,
     rotation: PropTypes.number.isRequired,
-    scale: PropTypes.instanceOf(Victor).isRequired,
+    scaleX: PropTypes.number.isRequired,
+    scaleY: PropTypes.number.isRequired,
     selectedId: PropTypes.number.isRequired,
     type: PropTypes.string.isRequired,
     video: PropTypes.instanceOf(HTMLVideoElement).isRequired
@@ -122,13 +124,18 @@ export default class Shape extends React.Component {
       id,
       onMouseDown,
       onTransformChange,
-      position,
+      positionX,
+      positionY,
       rotation,
       selectedId,
-      scale,
+      scaleX,
+      scaleY,
       type,
       video
     } = this.props;
+
+    const position = new Victor(positionX, positionY);
+    const scale = new Victor(scaleX, scaleY);
 
     const {
       shapeScale,

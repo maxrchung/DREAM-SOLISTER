@@ -2,7 +2,6 @@ import { remote } from 'electron';
 import fs from 'fs';
 import React from 'react';
 import Victor from 'victor';
-import Project from './Project';
 import NewModal from './NewModal';
 import Slider from './Slider';
 import CheckLabel from './CheckLabel';
@@ -18,18 +17,7 @@ export default class ShapeVideo extends React.Component {
     this.setMenu();
 
     this.state = {
-      isNewOpen: false,
-      project: new Project(),
-      isVideoVisible: true,
-      videoOpacity: 1,
-      areShapesVisible: true,
-      shapesOpacity: 1,
-      videoTime: 0,
-      shapes: {},
-      mousePos: new Victor(),
-      selectedShapeId: -1,
-      transformType: TransformType.None,
-      frame: []
+      ...this.resetState()
     };
   }
 
@@ -51,6 +39,25 @@ export default class ShapeVideo extends React.Component {
       this.handleTransformChange(TransformType.None)
     );
   }
+
+  resetState = () => {
+    return {
+      areShapesVisible: true,
+      isNewOpen: false,
+      isVideoVisible: true,
+      mousePos: new Victor(),
+      projectPath: '',
+      shapesOpacity: 1,
+      videoOpacity: 1,
+      videoTime: 0,
+      videoPath: '',
+      shapeCount: 0,
+      shapes: {},
+      selectedShapeId: -1,
+      transformType: TransformType.None,
+      frame: []
+    };
+  };
 
   setMenu = () => {
     const isMac = remote.process.platform === 'darwin';
@@ -92,16 +99,14 @@ export default class ShapeVideo extends React.Component {
             label: 'Save',
             accelerator: 'CmdOrCtrl+S',
             click: () => {
-              const { project } = this.state;
-              this.handleSaveProject(false, project);
+              this.handleSaveProject(false, this.state);
             }
           },
           {
             label: 'Save As...',
             accelerator: 'CmdOrCtrl+Shift+S',
             click: () => {
-              const { project } = this.state;
-              this.handleSaveProject(true, project);
+              this.handleSaveProject(true, this.state);
             }
           }
         ]
@@ -113,8 +118,7 @@ export default class ShapeVideo extends React.Component {
             label: 'Load...',
             accelerator: 'CmdOrCtrl+L',
             click: () => {
-              const { project } = this.state;
-              this.handleLoadVideo(project);
+              this.handleLoadVideo();
             }
           },
           {
@@ -281,11 +285,12 @@ export default class ShapeVideo extends React.Component {
       const newPosition = this.mousePosToPosition(newMousePos, video);
       const oldPosition = this.mousePosToPosition(oldMousePos, video);
       const diffPosition = newPosition.clone().subtract(oldPosition);
+      const shapePosition = new Victor(shape.positionX, shape.positionY);
 
       switch (transformType) {
         case TransformType.Scale: {
-          const newShapePosition = newPosition.clone().subtract(shape.position);
-          const oldShapePosition = oldPosition.clone().subtract(shape.position);
+          const newShapePosition = newPosition.clone().subtract(shapePosition);
+          const oldShapePosition = oldPosition.clone().subtract(shapePosition);
           const newRotated = newShapePosition.clone().rotate(-shape.rotation);
           const oldRotated = oldShapePosition.clone().rotate(-shape.rotation);
           const diffScale = newRotated.clone().divide(oldRotated);
@@ -298,12 +303,13 @@ export default class ShapeVideo extends React.Component {
             diffScale.y = 1;
           }
 
-          shape.scale.multiply(diffScale);
+          shape.scaleX *= diffScale.x;
+          shape.scaleY *= diffScale.y;
           break;
         }
         case TransformType.Rotate: {
-          const newShapePosition = newPosition.clone().subtract(shape.position);
-          const oldShapePosition = oldPosition.clone().subtract(shape.position);
+          const newShapePosition = newPosition.clone().subtract(shapePosition);
+          const oldShapePosition = oldPosition.clone().subtract(shapePosition);
 
           const oldRotation = oldShapePosition.angle();
           const newRotated = newShapePosition.rotate(-oldRotation);
@@ -313,7 +319,8 @@ export default class ShapeVideo extends React.Component {
           break;
         }
         default: {
-          shape.position.add(diffPosition);
+          shape.positionX += diffPosition.x;
+          shape.positionY += diffPosition.y;
           break;
         }
       }
@@ -345,10 +352,9 @@ export default class ShapeVideo extends React.Component {
   };
 
   handleNewProject = () => {
-    this.setState(state => ({
-      isNewOpen: !state.isNewOpen,
-      project: new Project()
-    }));
+    this.setState({
+      ...this.resetState()
+    });
   };
 
   static projectDialogOptions = {
@@ -376,37 +382,37 @@ export default class ShapeVideo extends React.Component {
     }
 
     const serialized = fs.readFileSync(paths[0]);
-    const project = JSON.parse(serialized);
-    this.setState({
-      project
-    });
+    const state = JSON.parse(serialized);
+    console.log(state);
+    this.setState(prev => ({ ...prev, ...state }));
   };
 
-  handleSaveProject = (needsDialog, project) => {
+  handleSaveProject = (needsDialog, state) => {
+    const { projectPath } = state;
     let serialized = '';
-    let path = project.name;
-    if (path && !needsDialog) {
-      serialized = JSON.stringify(project);
+    if (projectPath && !needsDialog) {
+      serialized = JSON.stringify(state);
+      fs.writeFileSync(projectPath, serialized);
     } else {
-      path = remote.dialog.showSaveDialogSync(ShapeVideo.projectDialogOptions);
+      const newPath = remote.dialog.showSaveDialogSync(
+        ShapeVideo.projectDialogOptions
+      );
       // If no path is picked, then don't proceed with save
-      if (!path) {
+      if (!newPath) {
         return;
       }
 
-      const newProject = {
-        ...project,
-        name: path
+      const newState = {
+        ...this.state,
+        projectPath: newPath
       };
-      this.setState({
-        project: newProject
-      });
-      serialized = JSON.stringify(newProject);
+      this.setState(newState);
+      serialized = JSON.stringify(newState);
+      fs.writeFileSync(newPath, serialized);
     }
-    fs.writeFileSync(path, serialized);
   };
 
-  handleLoadVideo = project => {
+  handleLoadVideo = () => {
     const paths = remote.dialog.showOpenDialogSync(
       ShapeVideo.videoDialogOptions
     );
@@ -416,10 +422,7 @@ export default class ShapeVideo extends React.Component {
     }
 
     this.setState({
-      project: {
-        ...project,
-        video: paths[0]
-      }
+      videoPath: paths[0]
     });
   };
 
@@ -546,25 +549,24 @@ export default class ShapeVideo extends React.Component {
 
     this.setState(
       prev => ({
-        frame: [...prev.frame, prev.project.shapeCount],
+        frame: [...prev.frame, prev.shapeCount],
+        selectedShapeId: prev.shapeCount,
         shapes: {
           ...prev.shapes,
-          [prev.project.shapeCount]: {
+          [prev.shapeCount]: {
             colorR: 255,
             colorG: 255,
             colorB: 255,
-            id: prev.project.shapeCount,
-            position,
+            id: prev.shapeCount,
+            positionX: position.x,
+            positionY: position.y,
             rotation: 0,
-            scale: new Victor(1, 1),
+            scaleX: 1,
+            scaleY: 1,
             type
           }
         },
-        selectedShapeId: prev.project.shapeCount,
-        project: {
-          ...prev.project,
-          shapeCount: prev.project.shapeCount + 1
-        }
+        shapeCount: prev.shapeCount + 1
       }),
       () => {
         const { selectedShapeId } = this.state;
@@ -604,7 +606,7 @@ export default class ShapeVideo extends React.Component {
       this.canvas.style.width = `${videoWidth}px`;
       this.canvas.style.height = `${videoHeight}px`;
 
-      const position = this.mousePosToVideoPos(mousePos, offsetLeft, offsetTop);
+      const videoPos = this.mousePosToVideoPos(mousePos, offsetLeft, offsetTop);
       // The video may be scaled differently to the displayed pixels so we need
       // to convert the mouse position from display resolution to video
       // resolution.
@@ -612,11 +614,11 @@ export default class ShapeVideo extends React.Component {
         videoWidth / clientWidth,
         videoHeight / clientHeight
       );
-      position.multiply(scale);
+      videoPos.multiply(scale);
 
       const ctx = canvas.getContext('2d');
       ctx.drawImage(video, 0, 0);
-      const { data } = ctx.getImageData(position.x, position.y, 1, 1);
+      const { data } = ctx.getImageData(videoPos.x, videoPos.y, 1, 1);
 
       this.setState({
         shapes: {
@@ -642,25 +644,24 @@ export default class ShapeVideo extends React.Component {
 
     this.setState(
       prev => ({
-        frame: [...prev.frame, prev.project.shapeCount],
+        frame: [...prev.frame, prev.shapeCount],
+        selectedShapeId: prev.shapeCount,
         shapes: {
           ...prev.shapes,
-          [prev.project.shapeCount]: {
+          [prev.shapeCount]: {
             colorR: shape.colorR,
             colorG: shape.colorG,
             colorB: shape.colorB,
-            id: prev.project.shapeCount,
-            position,
+            id: prev.shapeCount,
+            positionX: position.x,
+            positionY: position.y,
             rotation: shape.rotation,
-            scale: shape.scale.clone(),
+            scaleX: shape.scaleX,
+            scaleY: shape.scaleY,
             type: shape.type
           }
         },
-        selectedShapeId: prev.project.shapeCount,
-        project: {
-          ...prev.project,
-          shapeCount: prev.project.shapeCount + 1
-        }
+        shapeCount: prev.shapeCount + 1
       }),
       () => {
         const { selectedShapeId } = this.state;
@@ -777,12 +778,12 @@ export default class ShapeVideo extends React.Component {
       isNewOpen,
       isVideoVisible,
       frame,
-      project,
       selectedShapeId,
       shapes,
       shapesOpacity,
       videoOpacity,
-      videoTime
+      videoTime,
+      videoPath
     } = this.state;
     const { video } = this;
 
@@ -807,7 +808,7 @@ export default class ShapeVideo extends React.Component {
               ref={element => {
                 this.video = element;
               }}
-              src={project.video}
+              src={videoPath}
               // Shapes rely on video to be rendered, so we can't
               // just remove the video element to toggle video
               style={{ opacity: isVideoVisible ? videoOpacity : 0 }}
@@ -837,9 +838,11 @@ export default class ShapeVideo extends React.Component {
                         )
                       }
                       onTransformChange={this.handleTransformChange}
-                      position={shape.position}
+                      positionX={shape.positionX}
+                      positionY={shape.positionY}
                       rotation={shape.rotation}
-                      scale={shape.scale}
+                      scaleX={shape.scaleX}
+                      scaleY={shape.scaleY}
                       selectedId={selectedShapeId}
                       type={shape.type}
                       video={this.video}
@@ -851,7 +854,30 @@ export default class ShapeVideo extends React.Component {
           </div>
 
           <div className="d-flex flex-column col-auto p-2 stylish-color-dark h-100">
-            <form className="p-2 stylish-color">
+            <div className="p-2 stylish-color">
+              <div className="form-row align-items-center mt-1">
+                <div className="col-5">Frame Start</div>
+                <div className="col-7">
+                  <input type="number" className="form-control" />
+                </div>
+              </div>
+
+              <div className="form-row align-items-center mt-1">
+                <div className="col-5">Frame Delta</div>
+                <div className="col-7">
+                  <input type="number" className="form-control" />
+                </div>
+              </div>
+
+              <div className="form-row align-items-center mt-1">
+                <div className="col-5">Frame End</div>
+                <div className="col-7">
+                  <input type="number" className="form-control" />
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-2 p-2 stylish-color">
               <div className="form-row">
                 <div className="col-5">
                   <CheckLabel
@@ -887,7 +913,7 @@ export default class ShapeVideo extends React.Component {
                   />
                 </div>
               </div>
-            </form>
+            </div>
 
             <div className="mt-2 p-2 h-100 stylish-color d-flex flex-column h-100">
               {/* I was able to get scroll working by jamming h-100 to parents of
