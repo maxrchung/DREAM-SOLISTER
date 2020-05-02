@@ -24,8 +24,15 @@ export default class ShapeVideo extends React.Component {
   componentDidMount() {
     window.addEventListener('resize', this.handleResize);
     document.addEventListener('mousemove', e => {
-      const { mousePos, selectedShapeId, shapes, transformType } = this.state;
+      const {
+        mousePosX,
+        mousePosY,
+        selectedShapeId,
+        shapes,
+        transformType
+      } = this.state;
       const { video } = this;
+      const mousePos = new Victor(mousePosX, mousePosY);
       this.handleMouseMove(
         e,
         mousePos,
@@ -43,9 +50,13 @@ export default class ShapeVideo extends React.Component {
   resetState = () => {
     return {
       areShapesVisible: true,
+      frameStart: 0,
+      frameDelta: 0,
+      frameEnd: 0,
       isNewOpen: false,
       isVideoVisible: true,
-      mousePos: new Victor(),
+      mousePosX: 0,
+      mousePosY: 0,
       projectPath: '',
       shapesOpacity: 1,
       videoOpacity: 1,
@@ -156,8 +167,9 @@ export default class ShapeVideo extends React.Component {
             label: 'Add Rectangle',
             accelerator: '1',
             click: () => {
-              const { mousePos } = this.state;
+              const { mousePosX, mousePosY } = this.state;
               const { video } = this;
+              const mousePos = new Victor(mousePosX, mousePosY);
               this.handleAddRectangle(mousePos, video);
             }
           },
@@ -165,8 +177,9 @@ export default class ShapeVideo extends React.Component {
             label: 'Add Triangle',
             accelerator: '2',
             click: () => {
-              const { mousePos } = this.state;
+              const { mousePosX, mousePosY } = this.state;
               const { video } = this;
+              const mousePos = new Victor(mousePosX, mousePosY);
               this.handleAddTriangle(mousePos, video);
             }
           },
@@ -174,8 +187,9 @@ export default class ShapeVideo extends React.Component {
             label: 'Add Circle',
             accelerator: '3',
             click: () => {
-              const { mousePos } = this.state;
+              const { mousePosX, mousePosY } = this.state;
               const { video } = this;
+              const mousePos = new Victor(mousePosX, mousePosY);
               this.handleAddCircle(mousePos, video);
             }
           },
@@ -183,8 +197,9 @@ export default class ShapeVideo extends React.Component {
             label: 'Add Semicircle',
             accelerator: '4',
             click: () => {
-              const { mousePos } = this.state;
+              const { mousePosX, mousePosY } = this.state;
               const { video } = this;
+              const mousePos = new Victor(mousePosX, mousePosY);
               this.handleAddSemicircle(mousePos, video);
             }
           },
@@ -192,8 +207,14 @@ export default class ShapeVideo extends React.Component {
             label: 'Get Color',
             accelerator: 'E',
             click: () => {
-              const { mousePos, selectedShapeId, shapes } = this.state;
+              const {
+                mousePosX,
+                mousePosY,
+                selectedShapeId,
+                shapes
+              } = this.state;
               const { canvas, video } = this;
+              const mousePos = new Victor(mousePosX, mousePosY);
               this.handleGetColor(
                 mousePos,
                 selectedShapeId,
@@ -207,8 +228,14 @@ export default class ShapeVideo extends React.Component {
             label: 'Paste',
             accelerator: 'V',
             click: () => {
-              const { mousePos, selectedShapeId, shapes } = this.state;
+              const {
+                mousePosX,
+                mousePosY,
+                selectedShapeId,
+                shapes
+              } = this.state;
               const { video } = this;
+              const mousePos = new Victor(mousePosX, mousePosY);
               this.handlePasteShape(mousePos, video, selectedShapeId, shapes);
             }
           },
@@ -335,7 +362,8 @@ export default class ShapeVideo extends React.Component {
 
     // pageX vs screenX vs clientX: https://stackoverflow.com/a/21452887
     this.setState({
-      mousePos: newMousePos
+      mousePosX: newMousePos.x,
+      mousePosY: newMousePos.y
     });
   };
 
@@ -383,8 +411,7 @@ export default class ShapeVideo extends React.Component {
 
     const serialized = fs.readFileSync(paths[0]);
     const state = JSON.parse(serialized);
-    console.log(state);
-    this.setState(prev => ({ ...prev, ...state }));
+    this.setState(state);
   };
 
   handleSaveProject = (needsDialog, state) => {
@@ -543,6 +570,16 @@ export default class ShapeVideo extends React.Component {
   addShape = (mousePos, video, type) => {
     if (!video) {
       return;
+    }
+
+    // Prevent shape from being added if we are focused on an input. Adding
+    // shapes uses hotkeys 1, 2, 3, 4 which can conflict when entering into
+    // numbers into inputs.
+    const inputs = document.getElementsByTagName('input');
+    for (let i = 0; i < inputs.length; i += 1) {
+      if (inputs[i] === document.activeElement) {
+        return;
+      }
     }
 
     const position = this.mousePosToPosition(mousePos, video);
@@ -772,18 +809,27 @@ export default class ShapeVideo extends React.Component {
     });
   };
 
+  handleInputChange = (prop, value) => {
+    this.setState({
+      [prop]: value
+    });
+  };
+
   render() {
     const {
       areShapesVisible,
+      frame,
+      frameStart,
+      frameDelta,
+      frameEnd,
       isNewOpen,
       isVideoVisible,
-      frame,
       selectedShapeId,
       shapes,
       shapesOpacity,
       videoOpacity,
-      videoTime,
-      videoPath
+      videoPath,
+      videoTime
     } = this.state;
     const { video } = this;
 
@@ -858,21 +904,42 @@ export default class ShapeVideo extends React.Component {
               <div className="form-row align-items-center mt-1">
                 <div className="col-5">Frame Start</div>
                 <div className="col-7">
-                  <input type="number" className="form-control" />
+                  <input
+                    className="form-control"
+                    onChange={e =>
+                      this.handleInputChange('frameStart', e.target.value)
+                    }
+                    type="number"
+                    value={frameStart}
+                  />
                 </div>
               </div>
 
               <div className="form-row align-items-center mt-1">
                 <div className="col-5">Frame Delta</div>
                 <div className="col-7">
-                  <input type="number" className="form-control" />
+                  <input
+                    className="form-control"
+                    onChange={e =>
+                      this.handleInputChange('frameDelta', e.target.value)
+                    }
+                    type="number"
+                    value={frameDelta}
+                  />
                 </div>
               </div>
 
               <div className="form-row align-items-center mt-1">
                 <div className="col-5">Frame End</div>
                 <div className="col-7">
-                  <input type="number" className="form-control" />
+                  <input
+                    className="form-control"
+                    onChange={e =>
+                      this.handleInputChange('frameEnd', e.target.value)
+                    }
+                    type="number"
+                    value={frameEnd}
+                  />
                 </div>
               </div>
             </div>
