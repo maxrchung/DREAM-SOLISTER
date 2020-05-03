@@ -50,11 +50,16 @@ export default class ShapeVideo extends React.Component {
   resetState = () => {
     return {
       areShapesVisible: true,
-      frameStart: 0,
-      frameDelta: 0,
-      frameEnd: 0,
+      // Changing the frames input values wipes out all the current frames, so
+      // we want to prevent accidental cases of this destructive operation
+      canEditFrames: true,
+      currFrameIndex: 0,
+      framesStart: 0,
+      framesDelta: 0,
+      framesEnd: 0,
       isNewOpen: false,
       isVideoVisible: true,
+      layers: [],
       mousePosX: 0,
       mousePosY: 0,
       projectPath: '',
@@ -66,7 +71,7 @@ export default class ShapeVideo extends React.Component {
       shapes: {},
       selectedShapeId: -1,
       transformType: TransformType.None,
-      frame: []
+      frames: []
     };
   };
 
@@ -156,6 +161,25 @@ export default class ShapeVideo extends React.Component {
         ]
       },
       {
+        label: 'Frames',
+        submenu: [
+          {
+            label: 'Next',
+            accelerator: 'Right',
+            click: () => {
+              this.handleNextFrame();
+            }
+          },
+          {
+            label: 'Previous',
+            accelerator: 'Left',
+            click: () => {
+              this.handlePreviousFrame();
+            }
+          }
+        ]
+      },
+      {
         label: 'Shapes',
         submenu: [
           {
@@ -167,40 +191,28 @@ export default class ShapeVideo extends React.Component {
             label: 'Add Rectangle',
             accelerator: '1',
             click: () => {
-              const { mousePosX, mousePosY } = this.state;
-              const { video } = this;
-              const mousePos = new Victor(mousePosX, mousePosY);
-              this.handleAddRectangle(mousePos, video);
+              this.handleAddShape(ShapeType.Rectangle);
             }
           },
           {
             label: 'Add Triangle',
             accelerator: '2',
             click: () => {
-              const { mousePosX, mousePosY } = this.state;
-              const { video } = this;
-              const mousePos = new Victor(mousePosX, mousePosY);
-              this.handleAddTriangle(mousePos, video);
+              this.handleAddShape(ShapeType.Triangle);
             }
           },
           {
             label: 'Add Circle',
             accelerator: '3',
             click: () => {
-              const { mousePosX, mousePosY } = this.state;
-              const { video } = this;
-              const mousePos = new Victor(mousePosX, mousePosY);
-              this.handleAddCircle(mousePos, video);
+              this.handleAddShape(ShapeType.Circle);
             }
           },
           {
             label: 'Add Semicircle',
             accelerator: '4',
             click: () => {
-              const { mousePosX, mousePosY } = this.state;
-              const { video } = this;
-              const mousePos = new Victor(mousePosX, mousePosY);
-              this.handleAddSemicircle(mousePos, video);
+              this.handleAddShape(ShapeType.Semicircle);
             }
           },
           {
@@ -232,11 +244,18 @@ export default class ShapeVideo extends React.Component {
                 mousePosX,
                 mousePosY,
                 selectedShapeId,
-                shapes
+                shapes,
+                layers
               } = this.state;
               const { video } = this;
               const mousePos = new Victor(mousePosX, mousePosY);
-              this.handlePasteShape(mousePos, video, selectedShapeId, shapes);
+              this.handlePasteShape(
+                mousePos,
+                video,
+                selectedShapeId,
+                shapes,
+                layers
+              );
             }
           },
           {
@@ -261,32 +280,32 @@ export default class ShapeVideo extends React.Component {
             label: 'Move Up',
             accelerator: 'A',
             click: () => {
-              const { selectedShapeId, frame } = this.state;
-              this.handleLayerUp(selectedShapeId, frame);
+              const { selectedShapeId, layers } = this.state;
+              this.handleLayerUp(selectedShapeId, layers);
             }
           },
           {
             label: 'Move Down',
             accelerator: 'S',
             click: () => {
-              const { selectedShapeId, frame } = this.state;
-              this.handleLayerDown(selectedShapeId, frame);
+              const { selectedShapeId, layers } = this.state;
+              this.handleLayerDown(selectedShapeId, layers);
             }
           },
           {
             label: 'Move Top',
             accelerator: 'D',
             click: () => {
-              const { selectedShapeId, frame } = this.state;
-              this.handleLayerTop(selectedShapeId, frame);
+              const { selectedShapeId, layers } = this.state;
+              this.handleLayerTop(selectedShapeId, layers);
             }
           },
           {
             label: 'Move Bottom',
             accelerator: 'F',
             click: () => {
-              const { selectedShapeId, frame } = this.state;
-              this.handleLayerBottom(selectedShapeId, frame);
+              const { selectedShapeId, layers } = this.state;
+              this.handleLayerBottom(selectedShapeId, layers);
             }
           }
         ]
@@ -297,6 +316,25 @@ export default class ShapeVideo extends React.Component {
   };
 
   handleResize = () => this.forceUpdate();
+
+  mousePosToVideoPos = (mousePos, offsetLeft, offsetTop) => {
+    const adjustedMouse = mousePos
+      .clone()
+      .subtract(new Victor(offsetLeft, offsetTop));
+    return adjustedMouse;
+  };
+
+  mousePosToPosition = (mousePos, video) => {
+    const { offsetLeft, offsetTop, clientWidth, clientHeight } = video;
+    const videoPos = this.mousePosToVideoPos(mousePos, offsetLeft, offsetTop);
+
+    const midPoint = new Victor(clientWidth / 2, clientHeight / 2);
+    const distanceVec = videoPos.clone().subtract(midPoint);
+    const position = distanceVec
+      .clone()
+      .divide(new Victor(clientWidth / 2, clientWidth / 2));
+    return position;
+  };
 
   handleMouseMove = (
     e,
@@ -430,8 +468,8 @@ export default class ShapeVideo extends React.Component {
       }
 
       const newState = {
-        ...this.state,
-        projectPath: newPath
+        projectPath: newPath,
+        canEditFrames: false
       };
       this.setState(newState);
       serialized = JSON.stringify(newState);
@@ -490,14 +528,6 @@ export default class ShapeVideo extends React.Component {
     this.video.currentTime = timeInSeconds;
   };
 
-  handleFormatVideoTime = (video, videoTime) => {
-    const timeInSeconds = this.isVideoReady(video)
-      ? videoTime * video.duration
-      : 0;
-
-    return this.formatVideoTimeInSeconds(timeInSeconds);
-  };
-
   formatVideoTimeInSeconds = timeInSeconds => {
     const dateTime = new Date(null);
     // There are some floating inconsistencies if we try and use .setSeconds()
@@ -516,6 +546,14 @@ export default class ShapeVideo extends React.Component {
       .padStart(3, '0');
     const formatted = `${minutes}:${seconds}:${milliseconds}`;
     return formatted;
+  };
+
+  handleFormatVideoTime = (video, videoTime) => {
+    const timeInSeconds = this.isVideoReady(video)
+      ? videoTime * video.duration
+      : 0;
+
+    return this.formatVideoTimeInSeconds(timeInSeconds);
   };
 
   handlePlayVideo = video => {
@@ -548,26 +586,72 @@ export default class ShapeVideo extends React.Component {
     }
   };
 
-  mousePosToVideoPos = (mousePos, offsetLeft, offsetTop) => {
-    const adjustedMouse = mousePos
-      .clone()
-      .subtract(new Victor(offsetLeft, offsetTop));
-    return adjustedMouse;
+  calculateFrames = (framesStart, framesDelta, framesEnd) => {
+    const start = Number.parseInt(framesStart, 10);
+    const delta = Number.parseInt(framesDelta, 10);
+    const end = Number.parseInt(framesEnd, 10);
+
+    // Don't generate frames if we have some sort of bad values
+    if (
+      Number.isNaN(start) ||
+      Number.isNaN(delta) ||
+      Number.isNaN(end) ||
+      start < 0 ||
+      delta <= 1 ||
+      end <= start
+    ) {
+      this.setState({
+        frames: [],
+        shapes: {}
+      });
+      return;
+    }
+
+    const frames = [];
+    for (let i = start; i < end; i += delta) {
+      frames.push([]);
+    }
+    this.setState({
+      frames,
+      shapes: {}
+    });
   };
 
-  mousePosToPosition = (mousePos, video) => {
-    const { offsetLeft, offsetTop, clientWidth, clientHeight } = video;
-    const videoPos = this.mousePosToVideoPos(mousePos, offsetLeft, offsetTop);
-
-    const midPoint = new Victor(clientWidth / 2, clientHeight / 2);
-    const distanceVec = videoPos.clone().subtract(midPoint);
-    const position = distanceVec
-      .clone()
-      .divide(new Victor(clientWidth / 2, clientWidth / 2));
-    return position;
+  handleFramesInput = (prop, value) => {
+    this.setState(
+      {
+        [prop]: value
+      },
+      () => {
+        const { framesStart, framesDelta, framesEnd } = this.state;
+        this.calculateFrames(framesStart, framesDelta, framesEnd);
+      }
+    );
   };
 
-  addShape = (mousePos, video, type) => {
+  handleEditFrameToggle = () => {
+    this.setState(prev => ({
+      canEditFrames: !prev.canEditFrames
+    }));
+  };
+
+  handleNextFrame = (currFrameIndex, frames) => {
+    if (currFrameIndex === frames.length - 1) {
+      return;
+    }
+
+    this.setState({
+      currFrameIndex: currFrameIndex + 1
+    });
+  };
+
+  handlePreviousFrame = () => {};
+
+  handleAddShape = type => {
+    const { mousePosX, mousePosY, layers } = this.state;
+    const { video } = this;
+    const mousePos = new Victor(mousePosX, mousePosY);
+
     if (!video) {
       return;
     }
@@ -586,7 +670,7 @@ export default class ShapeVideo extends React.Component {
 
     this.setState(
       prev => ({
-        frame: [...prev.frame, prev.shapeCount],
+        layers: [...layers, prev.shapeCount],
         selectedShapeId: prev.shapeCount,
         shapes: {
           ...prev.shapes,
@@ -610,22 +694,6 @@ export default class ShapeVideo extends React.Component {
         this.scrollShapeIntoView(selectedShapeId);
       }
     );
-  };
-
-  handleAddRectangle = (mousePos, video) => {
-    this.addShape(mousePos, video, ShapeType.Rectangle);
-  };
-
-  handleAddTriangle = (mousePos, video) => {
-    this.addShape(mousePos, video, ShapeType.Triangle);
-  };
-
-  handleAddCircle = (mousePos, video) => {
-    this.addShape(mousePos, video, ShapeType.Circle);
-  };
-
-  handleAddSemicircle = (mousePos, video) => {
-    this.addShape(mousePos, video, ShapeType.Semicircle);
   };
 
   handleGetColor = (mousePos, selectedShapeId, shapes, canvas, video) => {
@@ -671,7 +739,7 @@ export default class ShapeVideo extends React.Component {
     }
   };
 
-  handlePasteShape = (mousePos, video, oldSelectedShapeId, shapes) => {
+  handlePasteShape = (mousePos, video, oldSelectedShapeId, shapes, layers) => {
     if (!video || oldSelectedShapeId < 0) {
       return;
     }
@@ -681,7 +749,7 @@ export default class ShapeVideo extends React.Component {
 
     this.setState(
       prev => ({
-        frame: [...prev.frame, prev.shapeCount],
+        layers: [...layers, prev.shapeCount],
         selectedShapeId: prev.shapeCount,
         shapes: {
           ...prev.shapes,
@@ -707,6 +775,10 @@ export default class ShapeVideo extends React.Component {
     );
   };
 
+  scrollShapeIntoView = shapeId => {
+    document.getElementById(`shape-list-item-${shapeId}`).scrollIntoView();
+  };
+
   handleSelectShape = (oldSelectedShapeId, newSelectedShapeId) => {
     if (oldSelectedShapeId >= 0) {
       return;
@@ -720,10 +792,6 @@ export default class ShapeVideo extends React.Component {
     });
 
     this.scrollShapeIntoView(selectedShapeId);
-  };
-
-  scrollShapeIntoView = shapeId => {
-    document.getElementById(`shape-list-item-${shapeId}`).scrollIntoView();
   };
 
   handleDeselectShape = () => {
@@ -745,85 +813,80 @@ export default class ShapeVideo extends React.Component {
     }));
   };
 
-  handleLayerUp = (selectedShapeId, frame) => {
+  handleLayerUp = (selectedShapeId, layers) => {
     if (selectedShapeId < 0) {
       return;
     }
-    const index = frame.findIndex(id => id === selectedShapeId);
+    const index = layers.findIndex(id => id === selectedShapeId);
     if (index === 0) {
       return;
     }
-    const newFrame = [...frame];
-    newFrame[index] = newFrame[index - 1];
-    newFrame[index - 1] = selectedShapeId;
+    const newLayers = [...layers];
+    newLayers[index] = newLayers[index - 1];
+    newLayers[index - 1] = selectedShapeId;
     this.setState({
-      frame: newFrame
+      layers: newLayers
     });
   };
 
-  handleLayerDown = (selectedShapeId, frame) => {
+  handleLayerDown = (selectedShapeId, layers) => {
     if (selectedShapeId < 0) {
       return;
     }
-    const index = frame.findIndex(id => id === selectedShapeId);
-    if (index === frame.length - 1) {
+    const index = layers.findIndex(id => id === selectedShapeId);
+    if (index === layers.length - 1) {
       return;
     }
-    const newFrame = [...frame];
-    newFrame[index] = newFrame[index + 1];
-    newFrame[index + 1] = selectedShapeId;
+    const newLayers = [...layers];
+    newLayers[index] = newLayers[index + 1];
+    newLayers[index + 1] = selectedShapeId;
     this.setState({
-      frame: newFrame
+      layers: newLayers
     });
   };
 
-  handleLayerTop = (selectedShapeId, frame) => {
+  handleLayerTop = (selectedShapeId, layers) => {
     if (selectedShapeId < 0) {
       return;
     }
-    if (frame[0] === selectedShapeId) {
+    if (layers[0] === selectedShapeId) {
       return;
     }
-    const newFrame = [
+    const newLayers = [
       selectedShapeId,
-      ...frame.filter(id => id !== selectedShapeId)
+      ...layers.filter(id => id !== selectedShapeId)
     ];
     this.setState({
-      frame: newFrame
+      layers: newLayers
     });
   };
 
-  handleLayerBottom = (selectedShapeId, frame) => {
+  handleLayerBottom = (selectedShapeId, layers) => {
     if (selectedShapeId < 0) {
       return;
     }
-    if (frame[frame.length - 1] === selectedShapeId) {
+    if (layers[layers.length - 1] === selectedShapeId) {
       return;
     }
-    const newFrame = [
-      ...frame.filter(id => id !== selectedShapeId),
+    const newLayers = [
+      ...layers.filter(id => id !== selectedShapeId),
       selectedShapeId
     ];
     this.setState({
-      frame: newFrame
-    });
-  };
-
-  handleInputChange = (prop, value) => {
-    this.setState({
-      [prop]: value
+      layers: newLayers
     });
   };
 
   render() {
     const {
       areShapesVisible,
-      frame,
-      frameStart,
-      frameDelta,
-      frameEnd,
+      canEditFrames,
+      framesStart,
+      framesDelta,
+      framesEnd,
       isNewOpen,
       isVideoVisible,
+      layers,
       selectedShapeId,
       shapes,
       shapesOpacity,
@@ -868,7 +931,7 @@ export default class ShapeVideo extends React.Component {
                 className="position-absolute"
                 style={{ opacity: shapesOpacity }}
               >
-                {frame.map(shapeId => {
+                {layers.map(shapeId => {
                   const shape = shapes[shapeId];
                   return (
                     <Shape
@@ -901,44 +964,58 @@ export default class ShapeVideo extends React.Component {
 
           <div className="d-flex flex-column col-auto p-2 stylish-color-dark h-100">
             <div className="p-2 stylish-color">
-              <div className="form-row align-items-center mt-1">
-                <div className="col-5">Frame Start</div>
+              <div className="form-row">
+                <div className="col-12">
+                  <CheckLabel
+                    checked={canEditFrames}
+                    label="Allow Editing of Frame Values"
+                    name="chk-edit-frame"
+                    onChange={this.handleEditFrameToggle}
+                  />
+                </div>
+              </div>
+
+              <div className="form-row align-items-center">
+                <div className="col-5">Frames Start</div>
                 <div className="col-7">
                   <input
                     className="form-control"
+                    disabled={!canEditFrames}
                     onChange={e =>
-                      this.handleInputChange('frameStart', e.target.value)
+                      this.handleFramesInput('framesStart', e.target.value)
                     }
                     type="number"
-                    value={frameStart}
+                    value={framesStart}
                   />
                 </div>
               </div>
 
               <div className="form-row align-items-center mt-1">
-                <div className="col-5">Frame Delta</div>
+                <div className="col-5">Frames Delta</div>
                 <div className="col-7">
                   <input
                     className="form-control"
+                    disabled={!canEditFrames}
                     onChange={e =>
-                      this.handleInputChange('frameDelta', e.target.value)
+                      this.handleFramesInput('framesDelta', e.target.value)
                     }
                     type="number"
-                    value={frameDelta}
+                    value={framesDelta}
                   />
                 </div>
               </div>
 
               <div className="form-row align-items-center mt-1">
-                <div className="col-5">Frame End</div>
+                <div className="col-5">Frames End</div>
                 <div className="col-7">
                   <input
                     className="form-control"
+                    disabled={!canEditFrames}
                     onChange={e =>
-                      this.handleInputChange('frameEnd', e.target.value)
+                      this.handleFramesInput('framesEnd', e.target.value)
                     }
                     type="number"
-                    value={frameEnd}
+                    value={framesEnd}
                   />
                 </div>
               </div>
@@ -987,7 +1064,7 @@ export default class ShapeVideo extends React.Component {
               this element and following these guidelines:
               https://stackoverflow.com/a/39124696/13183186 */}
               <div className="overflow-auto h-100">
-                {frame.map(shapeId => {
+                {layers.map(shapeId => {
                   const shape = shapes[shapeId];
                   return (
                     <ShapeListItem
