@@ -25,10 +25,11 @@ export default class ShapeVideo extends React.Component {
     window.addEventListener('resize', this.handleResize);
     document.addEventListener('mousemove', e => {
       const {
+        currFrameIndex,
+        frames,
         mousePosX,
         mousePosY,
         selectedShapeId,
-        shapes,
         transformType
       } = this.state;
       const { video } = this;
@@ -37,9 +38,10 @@ export default class ShapeVideo extends React.Component {
         e,
         mousePos,
         selectedShapeId,
-        shapes,
         transformType,
-        video
+        video,
+        frames,
+        currFrameIndex
       );
     });
     document.addEventListener('mouseup', () =>
@@ -54,6 +56,8 @@ export default class ShapeVideo extends React.Component {
       // we want to prevent accidental cases of this destructive operation
       canEditFrames: true,
       currFrameIndex: 0,
+      frames: [{}],
+      // Frames configuration values are in milliseconds
       framesStart: 0,
       framesDelta: 0,
       framesEnd: 0,
@@ -63,15 +67,13 @@ export default class ShapeVideo extends React.Component {
       mousePosX: 0,
       mousePosY: 0,
       projectPath: '',
+      selectedShapeId: -1,
       shapesOpacity: 1,
+      transformType: TransformType.None,
       videoOpacity: 1,
       videoTime: 0,
       videoPath: '',
-      shapeCount: 0,
-      shapes: {},
-      selectedShapeId: -1,
-      transformType: TransformType.None,
-      frames: []
+      shapeCount: 0
     };
   };
 
@@ -164,17 +166,57 @@ export default class ShapeVideo extends React.Component {
         label: 'Frames',
         submenu: [
           {
+            label: 'Create Next',
+            accelerator: 'CmdOrCtrl+Right',
+            click: () => {
+              const {
+                frames,
+                framesStart,
+                framesDelta,
+                framesEnd
+              } = this.state;
+              this.handleCreateNextFrame(
+                frames,
+                framesStart,
+                framesDelta,
+                framesEnd
+              );
+            }
+          },
+          {
             label: 'Next',
             accelerator: 'Right',
             click: () => {
-              this.handleNextFrame();
+              const {
+                currFrameIndex,
+                frames,
+                framesStart,
+                framesDelta
+              } = this.state;
+              this.handleNextFrame(
+                frames,
+                currFrameIndex,
+                framesStart,
+                framesDelta
+              );
             }
           },
           {
             label: 'Previous',
             accelerator: 'Left',
             click: () => {
-              this.handlePreviousFrame();
+              const {
+                currFrameIndex,
+                frames,
+                framesStart,
+                framesDelta
+              } = this.state;
+              this.handlePreviousFrame(
+                frames,
+                currFrameIndex,
+                framesStart,
+                framesDelta
+              );
             }
           }
         ]
@@ -220,19 +262,21 @@ export default class ShapeVideo extends React.Component {
             accelerator: 'E',
             click: () => {
               const {
+                currFrameIndex,
+                frames,
                 mousePosX,
                 mousePosY,
-                selectedShapeId,
-                shapes
+                selectedShapeId
               } = this.state;
               const { canvas, video } = this;
               const mousePos = new Victor(mousePosX, mousePosY);
               this.handleGetColor(
                 mousePos,
                 selectedShapeId,
-                shapes,
                 canvas,
-                video
+                video,
+                frames,
+                currFrameIndex
               );
             }
           },
@@ -241,10 +285,12 @@ export default class ShapeVideo extends React.Component {
             accelerator: 'V',
             click: () => {
               const {
+                currFrameIndex,
+                frames,
                 mousePosX,
                 mousePosY,
                 selectedShapeId,
-                shapes,
+                shapeCount,
                 layers
               } = this.state;
               const { video } = this;
@@ -253,8 +299,10 @@ export default class ShapeVideo extends React.Component {
                 mousePos,
                 video,
                 selectedShapeId,
-                shapes,
-                layers
+                shapeCount,
+                layers,
+                frames,
+                currFrameIndex
               );
             }
           },
@@ -267,8 +315,8 @@ export default class ShapeVideo extends React.Component {
             label: 'Delete',
             accelerator: 'Delete',
             click: () => {
-              const { selectedShapeId, shapes } = this.state;
-              this.handleDeleteShape(selectedShapeId, shapes);
+              const { currFrameIndex, frames, selectedShapeId } = this.state;
+              this.handleDeleteShape(selectedShapeId, frames, currFrameIndex);
             }
           }
         ]
@@ -340,13 +388,15 @@ export default class ShapeVideo extends React.Component {
     e,
     oldMousePos,
     selectedShapeId,
-    shapes,
     transformType,
-    video
+    video,
+    frames,
+    currFrameIndex
   ) => {
+    const frame = frames[currFrameIndex];
     const newMousePos = new Victor(e.clientX, e.clientY);
     if (e.buttons === 1 && selectedShapeId >= 0) {
-      const shape = { ...shapes[selectedShapeId] };
+      const shape = { ...frame[selectedShapeId] };
       const newPosition = this.mousePosToPosition(newMousePos, video);
       const oldPosition = this.mousePosToPosition(oldMousePos, video);
       const diffPosition = newPosition.clone().subtract(oldPosition);
@@ -390,12 +440,11 @@ export default class ShapeVideo extends React.Component {
         }
       }
 
-      this.setState(prev => ({
-        shapes: {
-          ...prev.shapes,
-          [selectedShapeId]: shape
-        }
-      }));
+      const newFrames = [...frames];
+      newFrames[currFrameIndex][selectedShapeId] = shape;
+      this.setState({
+        frames: newFrames
+      });
     }
 
     // pageX vs screenX vs clientX: https://stackoverflow.com/a/21452887
@@ -454,9 +503,8 @@ export default class ShapeVideo extends React.Component {
 
   handleSaveProject = (needsDialog, state) => {
     const { projectPath } = state;
-    let serialized = '';
     if (projectPath && !needsDialog) {
-      serialized = JSON.stringify(state);
+      const serialized = JSON.stringify(state);
       fs.writeFileSync(projectPath, serialized);
     } else {
       const newPath = remote.dialog.showSaveDialogSync(
@@ -471,9 +519,10 @@ export default class ShapeVideo extends React.Component {
         projectPath: newPath,
         canEditFrames: false
       };
-      this.setState(newState);
-      serialized = JSON.stringify(newState);
-      fs.writeFileSync(newPath, serialized);
+      this.setState(newState, () => {
+        const serialized = JSON.stringify(this.state);
+        fs.writeFileSync(newPath, serialized);
+      });
     }
   };
 
@@ -572,9 +621,6 @@ export default class ShapeVideo extends React.Component {
       return;
     }
     this.video.currentTime = 0;
-    this.setState({
-      videoTime: 0
-    });
   };
 
   handleVideoTimeUpdate = video => {
@@ -586,45 +632,23 @@ export default class ShapeVideo extends React.Component {
     }
   };
 
-  calculateFrames = (framesStart, framesDelta, framesEnd) => {
-    const start = Number.parseInt(framesStart, 10);
-    const delta = Number.parseInt(framesDelta, 10);
-    const end = Number.parseInt(framesEnd, 10);
-
-    // Don't generate frames if we have some sort of bad values
-    if (
-      Number.isNaN(start) ||
-      Number.isNaN(delta) ||
-      Number.isNaN(end) ||
-      start < 0 ||
-      delta <= 1 ||
-      end <= start
-    ) {
-      this.setState({
-        frames: [],
-        shapes: {}
-      });
-      return;
-    }
-
-    const frames = [];
-    for (let i = start; i < end; i += delta) {
-      frames.push([]);
-    }
-    this.setState({
-      frames,
-      shapes: {}
-    });
-  };
-
   handleFramesInput = (prop, value) => {
     this.setState(
       {
-        [prop]: value
+        [prop]: value,
+        currFrameIndex: 0,
+        frames: [{}],
+        layers: []
       },
       () => {
-        const { framesStart, framesDelta, framesEnd } = this.state;
-        this.calculateFrames(framesStart, framesDelta, framesEnd);
+        const { video } = this;
+        if (!this.isVideoReady(video)) {
+          return;
+        }
+
+        const { framesStart } = this.state;
+        const start = Number.parseFloat(framesStart / 1000, 10);
+        video.currentTime = Number.isNaN(start) || start < 0 ? 0 : start;
       }
     );
   };
@@ -635,22 +659,63 @@ export default class ShapeVideo extends React.Component {
     }));
   };
 
-  handleNextFrame = (currFrameIndex, frames) => {
-    if (currFrameIndex === frames.length - 1) {
+  setFrameTime = (start, delta, currFrameIndex) => {
+    const timeInSeconds = start / 1000 + (currFrameIndex * delta) / 1000;
+    this.video.currentTime = timeInSeconds;
+  };
+
+  handleCreateNextFrame = (frames, framesStart, framesDelta, framesEnd) => {
+    const start = Number.parseInt(framesStart, 10);
+    const delta = Number.parseInt(framesDelta, 10);
+    const end = Number.parseInt(framesEnd, 10);
+    if (
+      Number.isNaN(start) ||
+      Number.isNaN(delta) ||
+      Number.isNaN(end) ||
+      start < 0 ||
+      delta < 1 ||
+      end <= start ||
+      start + frames.length * delta > end
+    ) {
       return;
     }
 
+    const newFrame = { ...frames[frames.length - 1] };
     this.setState({
-      currFrameIndex: currFrameIndex + 1
+      currFrameIndex: frames.length,
+      frames: [...frames, newFrame]
     });
+
+    this.setFrameTime(start, delta, frames.length);
   };
 
-  handlePreviousFrame = () => {};
+  handleNextFrame = (frames, currFrameIndex, framesStart, framesDelta) => {
+    const nextIndex =
+      currFrameIndex === frames.length - 1
+        ? frames.length - 1
+        : currFrameIndex + 1;
+
+    this.setState({
+      currFrameIndex: nextIndex
+    });
+    const start = Number.parseInt(framesStart, 10);
+    const delta = Number.parseInt(framesDelta, 10);
+    this.setFrameTime(start, delta, nextIndex);
+  };
+
+  handlePreviousFrame = (frames, currFrameIndex, framesStart, framesDelta) => {
+    const prevIndex = currFrameIndex === 0 ? 0 : currFrameIndex - 1;
+    this.setState({
+      currFrameIndex: prevIndex
+    });
+
+    const start = Number.parseInt(framesStart, 10);
+    const delta = Number.parseInt(framesDelta, 10);
+    this.setFrameTime(start, delta, prevIndex);
+  };
 
   handleAddShape = type => {
-    const { mousePosX, mousePosY, layers } = this.state;
     const { video } = this;
-    const mousePos = new Victor(mousePosX, mousePosY);
 
     if (!video) {
       return;
@@ -666,29 +731,38 @@ export default class ShapeVideo extends React.Component {
       }
     }
 
+    const {
+      currFrameIndex,
+      frames,
+      mousePosX,
+      mousePosY,
+      layers,
+      shapeCount
+    } = this.state;
+    const mousePos = new Victor(mousePosX, mousePosY);
     const position = this.mousePosToPosition(mousePos, video);
 
+    const newFrames = [...frames];
+    newFrames[currFrameIndex][shapeCount] = {
+      colorR: 255,
+      colorG: 255,
+      colorB: 255,
+      id: shapeCount,
+      positionX: position.x,
+      positionY: position.y,
+      rotation: 0,
+      scaleX: 1,
+      scaleY: 1,
+      type
+    };
+
     this.setState(
-      prev => ({
-        layers: [...layers, prev.shapeCount],
-        selectedShapeId: prev.shapeCount,
-        shapes: {
-          ...prev.shapes,
-          [prev.shapeCount]: {
-            colorR: 255,
-            colorG: 255,
-            colorB: 255,
-            id: prev.shapeCount,
-            positionX: position.x,
-            positionY: position.y,
-            rotation: 0,
-            scaleX: 1,
-            scaleY: 1,
-            type
-          }
-        },
-        shapeCount: prev.shapeCount + 1
-      }),
+      {
+        layers: [...layers, shapeCount],
+        selectedShapeId: shapeCount,
+        frames: newFrames,
+        shapeCount: shapeCount + 1
+      },
       () => {
         const { selectedShapeId } = this.state;
         this.scrollShapeIntoView(selectedShapeId);
@@ -696,7 +770,14 @@ export default class ShapeVideo extends React.Component {
     );
   };
 
-  handleGetColor = (mousePos, selectedShapeId, shapes, canvas, video) => {
+  handleGetColor = (
+    mousePos,
+    selectedShapeId,
+    canvas,
+    video,
+    frames,
+    currFrameIndex
+  ) => {
     if (canvas && video) {
       const {
         offsetLeft,
@@ -724,50 +805,55 @@ export default class ShapeVideo extends React.Component {
       const ctx = canvas.getContext('2d');
       ctx.drawImage(video, 0, 0);
       const { data } = ctx.getImageData(videoPos.x, videoPos.y, 1, 1);
+      const [colorR, colorG, colorB] = data;
 
+      const newFrames = [...frames];
+      const newShape = newFrames[currFrameIndex][selectedShapeId];
+      newShape.colorR = colorR;
+      newShape.colorG = colorG;
+      newShape.colorB = colorB;
       this.setState({
-        shapes: {
-          ...shapes,
-          [selectedShapeId]: {
-            ...shapes[selectedShapeId],
-            colorR: data[0],
-            colorG: data[1],
-            colorB: data[2]
-          }
-        }
+        frames: newFrames
       });
     }
   };
 
-  handlePasteShape = (mousePos, video, oldSelectedShapeId, shapes, layers) => {
+  handlePasteShape = (
+    mousePos,
+    video,
+    oldSelectedShapeId,
+    shapeCount,
+    layers,
+    frames,
+    currFrameIndex
+  ) => {
     if (!video || oldSelectedShapeId < 0) {
       return;
     }
 
     const position = this.mousePosToPosition(mousePos, video);
-    const shape = shapes[oldSelectedShapeId];
+    const newFrames = [...frames];
+    const shape = newFrames[currFrameIndex][oldSelectedShapeId];
+    newFrames[currFrameIndex][shapeCount] = {
+      colorR: shape.colorR,
+      colorG: shape.colorG,
+      colorB: shape.colorB,
+      id: shapeCount,
+      positionX: position.x,
+      positionY: position.y,
+      rotation: shape.rotation,
+      scaleX: shape.scaleX,
+      scaleY: shape.scaleY,
+      type: shape.type
+    };
 
     this.setState(
-      prev => ({
-        layers: [...layers, prev.shapeCount],
-        selectedShapeId: prev.shapeCount,
-        shapes: {
-          ...prev.shapes,
-          [prev.shapeCount]: {
-            colorR: shape.colorR,
-            colorG: shape.colorG,
-            colorB: shape.colorB,
-            id: prev.shapeCount,
-            positionX: position.x,
-            positionY: position.y,
-            rotation: shape.rotation,
-            scaleX: shape.scaleX,
-            scaleY: shape.scaleY,
-            type: shape.type
-          }
-        },
-        shapeCount: prev.shapeCount + 1
-      }),
+      {
+        layers: [...layers, shapeCount],
+        selectedShapeId: shapeCount,
+        frames: newFrames,
+        shapeCount: shapeCount + 1
+      },
       () => {
         const { selectedShapeId } = this.state;
         this.scrollShapeIntoView(selectedShapeId);
@@ -800,16 +886,16 @@ export default class ShapeVideo extends React.Component {
     });
   };
 
-  handleDeleteShape = (selectedShapeId, shapes) => {
+  handleDeleteShape = (selectedShapeId, frames, currFrameIndex) => {
     if (selectedShapeId < 0) {
       return;
     }
-    const newShapes = shapes;
-    delete newShapes[selectedShapeId];
+    const newFrames = [...frames];
+    delete newFrames[currFrameIndex][selectedShapeId];
     this.setState(prev => ({
-      frame: prev.frame.filter(shapeId => shapeId !== selectedShapeId),
-      selectedShapeId: -1,
-      shapes: newShapes
+      frames: newFrames,
+      layers: prev.layers.filter(shapeId => shapeId !== selectedShapeId),
+      selectedShapeId: -1
     }));
   };
 
@@ -881,6 +967,8 @@ export default class ShapeVideo extends React.Component {
     const {
       areShapesVisible,
       canEditFrames,
+      currFrameIndex,
+      frames,
       framesStart,
       framesDelta,
       framesEnd,
@@ -888,13 +976,13 @@ export default class ShapeVideo extends React.Component {
       isVideoVisible,
       layers,
       selectedShapeId,
-      shapes,
       shapesOpacity,
       videoOpacity,
       videoPath,
       videoTime
     } = this.state;
     const { video } = this;
+    const frame = frames[currFrameIndex];
 
     return (
       <div className="d-flex flex-column vh-100 elegant-color-dark white-text overflow-hidden">
@@ -932,7 +1020,7 @@ export default class ShapeVideo extends React.Component {
                 style={{ opacity: shapesOpacity }}
               >
                 {layers.map(shapeId => {
-                  const shape = shapes[shapeId];
+                  const shape = frame[shapeId];
                   return (
                     <Shape
                       colorR={shape.colorR}
@@ -968,7 +1056,7 @@ export default class ShapeVideo extends React.Component {
                 <div className="col-12">
                   <CheckLabel
                     checked={canEditFrames}
-                    label="Allow Editing of Frame Values"
+                    label="Allow Editing of Frames Configuration"
                     name="chk-edit-frame"
                     onChange={this.handleEditFrameToggle}
                   />
@@ -1065,7 +1153,7 @@ export default class ShapeVideo extends React.Component {
               https://stackoverflow.com/a/39124696/13183186 */}
               <div className="overflow-auto h-100">
                 {layers.map(shapeId => {
-                  const shape = shapes[shapeId];
+                  const shape = frame[shapeId];
                   return (
                     <ShapeListItem
                       key={shape.id}
