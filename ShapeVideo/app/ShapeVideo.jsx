@@ -148,16 +148,18 @@ export default class ShapeVideo extends React.Component {
             label: 'Play/Pause',
             accelerator: 'Space',
             click: () => {
+              const { videoTime } = this.state;
               const { video } = this;
-              this.handlePlayVideo(video);
+              this.handlePlayVideo(video, videoTime);
             }
           },
           {
             label: 'Restart',
             accelerator: 'X',
             click: () => {
+              const { framesStart } = this.state;
               const { video } = this;
-              this.handleRestartVideo(video);
+              this.handleRestartVideo(video, framesStart);
             }
           }
         ]
@@ -605,31 +607,48 @@ export default class ShapeVideo extends React.Component {
     return this.formatVideoTimeInSeconds(timeInSeconds);
   };
 
-  handlePlayVideo = video => {
+  handlePlayVideo = (video, videoTime) => {
     if (!this.isVideoReady(video)) {
       return;
     }
     if (video.paused) {
+      // We set the current time when playing to handle a case of playing video
+      // after opening an existing project
+      const timeInSeconds = videoTime * video.duration;
+      this.video.currentTime = timeInSeconds;
       this.video.play();
     } else {
       this.video.pause();
     }
   };
 
-  handleRestartVideo = video => {
+  handleRestartVideo = (video, framesStart) => {
     if (!this.isVideoReady(video)) {
       return;
     }
-    this.video.currentTime = 0;
+    this.video.currentTime = framesStart / 1000;
   };
 
-  handleVideoTimeUpdate = video => {
-    if (this.isVideoReady(video)) {
-      const fraction = video.currentTime / video.duration;
-      this.setState({
-        videoTime: fraction
-      });
+  handleVideoTimeUpdate = (video, frames, framesStart, framesDelta) => {
+    if (!this.isVideoReady(video)) {
+      return;
     }
+    const currentTime = video.currentTime * 1000;
+    const start = Number.parseFloat(framesStart);
+    const delta = Number.parseFloat(framesDelta);
+    let currFrameIndex = 0;
+    while (currFrameIndex < frames.length) {
+      if (currentTime < start + (currFrameIndex + 1) * delta) {
+        break;
+      }
+      currFrameIndex += 1;
+    }
+
+    const fraction = video.currentTime / video.duration;
+    this.setState({
+      videoTime: fraction,
+      currFrameIndex
+    });
   };
 
   handleFramesInput = (prop, value) => {
@@ -695,9 +714,6 @@ export default class ShapeVideo extends React.Component {
         ? frames.length - 1
         : currFrameIndex + 1;
 
-    this.setState({
-      currFrameIndex: nextIndex
-    });
     const start = Number.parseInt(framesStart, 10);
     const delta = Number.parseInt(framesDelta, 10);
     this.setFrameTime(start, delta, nextIndex);
@@ -705,9 +721,6 @@ export default class ShapeVideo extends React.Component {
 
   handlePreviousFrame = (frames, currFrameIndex, framesStart, framesDelta) => {
     const prevIndex = currFrameIndex === 0 ? 0 : currFrameIndex - 1;
-    this.setState({
-      currFrameIndex: prevIndex
-    });
 
     const start = Number.parseInt(framesStart, 10);
     const delta = Number.parseInt(framesDelta, 10);
@@ -1009,7 +1022,14 @@ export default class ShapeVideo extends React.Component {
               // Shapes rely on video to be rendered, so we can't
               // just remove the video element to toggle video
               style={{ opacity: isVideoVisible ? videoOpacity : 0 }}
-              onTimeUpdate={() => this.handleVideoTimeUpdate(video)}
+              onTimeUpdate={() =>
+                this.handleVideoTimeUpdate(
+                  video,
+                  frames,
+                  framesStart,
+                  framesDelta
+                )
+              }
             >
               <track kind="captions" label="DREAM SOLISTER" />
             </video>
@@ -1021,6 +1041,11 @@ export default class ShapeVideo extends React.Component {
               >
                 {layers.map(shapeId => {
                   const shape = frame[shapeId];
+                  // It's possible that layer may contain a shape that's not in
+                  // the current frame
+                  if (shape === undefined) {
+                    return;
+                  }
                   return (
                     <Shape
                       colorR={shape.colorR}
@@ -1154,6 +1179,17 @@ export default class ShapeVideo extends React.Component {
               <div className="overflow-auto h-100">
                 {layers.map(shapeId => {
                   const shape = frame[shapeId];
+                  if (shape === undefined) {
+                    return (
+                      <div
+                        alt="List Item"
+                        className="px-2 py-1"
+                        role="presentation"
+                      >
+                        {shapeId}
+                      </div>
+                    );
+                  }
                   return (
                     <ShapeListItem
                       key={shape.id}
