@@ -637,7 +637,7 @@ export default class ShapeVideo extends React.Component {
     const start = Number.parseFloat(framesStart);
     const delta = Number.parseFloat(framesDelta);
     let currFrameIndex = 0;
-    while (currFrameIndex < frames.length) {
+    while (currFrameIndex < frames.length - 1) {
       if (currentTime < start + (currFrameIndex + 1) * delta) {
         break;
       }
