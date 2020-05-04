@@ -721,7 +721,6 @@ export default class ShapeVideo extends React.Component {
 
   handlePreviousFrame = (frames, currFrameIndex, framesStart, framesDelta) => {
     const prevIndex = currFrameIndex === 0 ? 0 : currFrameIndex - 1;
-
     const start = Number.parseInt(framesStart, 10);
     const delta = Number.parseInt(framesDelta, 10);
     this.setFrameTime(start, delta, prevIndex);
@@ -750,6 +749,7 @@ export default class ShapeVideo extends React.Component {
       mousePosX,
       mousePosY,
       layers,
+      selectedShapeId,
       shapeCount
     } = this.state;
     const mousePos = new Victor(mousePosX, mousePosY);
@@ -769,16 +769,28 @@ export default class ShapeVideo extends React.Component {
       type
     };
 
+    let newLayers;
+    if (selectedShapeId === -1) {
+      newLayers = [...layers, shapeCount];
+    } else {
+      const selectedIndex = layers.findIndex(id => id === selectedShapeId);
+      newLayers = [
+        ...layers.slice(0, selectedIndex + 1),
+        shapeCount,
+        ...layers.slice(selectedIndex + 1)
+      ];
+    }
+
     this.setState(
       {
-        layers: [...layers, shapeCount],
+        layers: newLayers,
         selectedShapeId: shapeCount,
         frames: newFrames,
         shapeCount: shapeCount + 1
       },
       () => {
-        const { selectedShapeId } = this.state;
-        this.scrollShapeIntoView(selectedShapeId);
+        const { selectedShapeId: newSelectedShapeId } = this.state;
+        this.scrollShapeIntoView(newSelectedShapeId);
       }
     );
   };
@@ -834,19 +846,19 @@ export default class ShapeVideo extends React.Component {
   handlePasteShape = (
     mousePos,
     video,
-    oldSelectedShapeId,
+    selectedShapeId,
     shapeCount,
     layers,
     frames,
     currFrameIndex
   ) => {
-    if (!video || oldSelectedShapeId < 0) {
+    if (!video || selectedShapeId < 0) {
       return;
     }
 
     const position = this.mousePosToPosition(mousePos, video);
     const newFrames = [...frames];
-    const shape = newFrames[currFrameIndex][oldSelectedShapeId];
+    const shape = newFrames[currFrameIndex][selectedShapeId];
     newFrames[currFrameIndex][shapeCount] = {
       colorR: shape.colorR,
       colorG: shape.colorG,
@@ -868,8 +880,8 @@ export default class ShapeVideo extends React.Component {
         shapeCount: shapeCount + 1
       },
       () => {
-        const { selectedShapeId } = this.state;
-        this.scrollShapeIntoView(selectedShapeId);
+        const { selectedShapeId: newSelectedShapeId } = this.state;
+        this.scrollShapeIntoView(newSelectedShapeId);
       }
     );
   };
@@ -878,8 +890,8 @@ export default class ShapeVideo extends React.Component {
     document.getElementById(`shape-list-item-${shapeId}`).scrollIntoView();
   };
 
-  handleSelectShape = (oldSelectedShapeId, newSelectedShapeId) => {
-    if (oldSelectedShapeId >= 0) {
+  handleSelectShape = (selectedShapeId, newSelectedShapeId) => {
+    if (selectedShapeId >= 0) {
       return;
     }
     this.handleListSelect(newSelectedShapeId);
