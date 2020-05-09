@@ -1224,6 +1224,7 @@ export default class ShapeVideo extends React.Component {
                       <div
                         alt="List Item"
                         className="px-2 py-1"
+                        key={shapeId}
                         role="presentation"
                       >
                         {shapeId}
@@ -1232,8 +1233,8 @@ export default class ShapeVideo extends React.Component {
                   }
                   return (
                     <ShapeListItem
-                      key={shape.id}
                       id={shape.id}
+                      key={shape.id}
                       onClick={newSelectedShapeId =>
                         this.handleListSelect(newSelectedShapeId)
                       }
