@@ -24,6 +24,12 @@ SpriteGroup::SpriteGroup(const std::string& ID, const int pImageWidth, const int
 	startOffset{ pStart - pOffset },
 	startScale{ lineHeight * scale / imageWidth },
 	endOffset{ pEnd + pOffset } {
+	const auto shapeVideo = ShapeVideo(ID);
+	if (!shapeVideo.isEmpty()) {
+		makeShapeVideo(shapeVideo);
+		return;
+	}
+
 	const auto shapeAnimation = ShapeAnimation(ID);
 	if (!shapeAnimation.isEmpty()) {
 		makeShapeAnimation(shapeAnimation);
@@ -108,6 +114,10 @@ void SpriteGroup::makeShapeAnimation(const ShapeAnimation& shapeAnimation) {
 		sprite->ScaleVector(startOffset, start, Vector2(startScale, startScale), endScale, Easing::EasingIn);
 		sprites.push_back(sprite);
 	}
+}
+
+void SpriteGroup::makeShapeVideo(const ShapeVideo& shapeVideo) {
+
 }
 
 void SpriteGroup::makeLine(const float x1, const float y1, const float x2, const float y2, const float scaleHeight) {

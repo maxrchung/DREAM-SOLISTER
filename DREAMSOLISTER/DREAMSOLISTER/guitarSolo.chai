@@ -1,0 +1,7 @@
+// Default camera values so that getCameraValuesAtMilliseconds() has no issues
+CameraRotate(0,0,	0,	0,0);
+CameraMove(0,0,	0,	0,0,	0,0);
+CameraZoom(0,0,	0,	100,100);
+
+SpriteBind("test");
+SpriteMove(180085, 201642, 0,	0,0,	0,0);

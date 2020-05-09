@@ -594,13 +594,24 @@ void processScript(const std::string& path, Sprite* const bg) {
 	auto spriteBindings = createSpriteBindings(elements.getSprites().getSprites(), elements.getCamera());
 	processS2VXSprites(elements.getCamera(), spriteBindings);
 	processCamera(elements.getCamera(), spriteBindings);
+
 	// Handle endings of sprite bindings
+	// For shape video sections we're gonna have some hacks so that the makeShapeVideo can just handle it directly
+	if (path == "guitarSolo.chai") {
+		return;
+	}
 	for (auto i = 0; i < spriteBindings.size(); ++i) {
-		if (i == spriteBindings.size() - 1) {
-			spriteBindings[i].spriteGroup.explode();
+		// Specially handle screenShots script so that it doesn't waste commands exploding under new screenshots
+		if (path == "screenShots.chai") {
+			if (i == spriteBindings.size() - 1) {
+				spriteBindings[i].spriteGroup.explode();
+			}
+			else {
+				spriteBindings[i].spriteGroup.clear();
+			}
 		}
 		else {
-			spriteBindings[i].spriteGroup.clear();
+			spriteBindings[i].spriteGroup.explode();
 		}
 	}
 }
@@ -617,8 +628,9 @@ int main() {
 		//processScript("lyrics.chai", bg);
 		//processScript("faces.chai", bg);
 		//processScript("instruments.chai", bg);
-		processScript("screenShots.chai", bg);
+		//processScript("screenShots.chai", bg);
 		//processScript("swing.chai", bg);
+		processScript("guitarSolo.chai", bg);
 		//processScript("musicSheet.chai", bg);
 
 		//MusicSheet("voice.MusicSheet", 122, imageWidth, Color(0, 169, 195), "lyric.MusicSheet", false);

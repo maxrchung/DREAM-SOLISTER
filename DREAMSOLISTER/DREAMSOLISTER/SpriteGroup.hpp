@@ -2,6 +2,7 @@
 #include "CameraValues.hpp"
 #include "LinePoints.hpp"
 #include "ShapeAnimation.hpp"
+#include "ShapeVideo.hpp"
 #include "S2RYBRUH/Sprite.hpp"
 #include "S2VX/SpriteMoveCommand.hpp"
 class SpriteGroup {
@@ -15,6 +16,7 @@ public:
 	Vector2 center;
 private:
 	void makeShapeAnimation(const ShapeAnimation& shapeAnimation);
+	void makeShapeVideo(const ShapeVideo& shapeVideo);
 	void makeLinePoints(const LinePoints& linePoints);
 	void makeMusicNote();
 	void makeLine(const float x1, const float y1, const float x2, const float y2, const float scaleHeight);
