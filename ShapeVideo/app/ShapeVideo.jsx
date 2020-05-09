@@ -169,7 +169,7 @@ export default class ShapeVideo extends React.Component {
         submenu: [
           {
             label: 'Create Next',
-            accelerator: 'CmdOrCtrl+Right',
+            accelerator: 'CmdOrCtrl+Shift+Right',
             click: () => {
               const {
                 frames,
@@ -219,6 +219,14 @@ export default class ShapeVideo extends React.Component {
                 framesStart,
                 framesDelta
               );
+            }
+          },
+          {
+            label: 'Delete',
+            accelerator: 'CmdOrCtrl+Shift+Delete',
+            click: () => {
+              const { currFrameIndex, frames } = this.state;
+              this.handleDeleteFrame(currFrameIndex, frames);
             }
           }
         ]
@@ -499,7 +507,10 @@ export default class ShapeVideo extends React.Component {
     }
 
     const serialized = fs.readFileSync(paths[0]);
-    const state = JSON.parse(serialized);
+    const state = {
+      ...JSON.parse(serialized),
+      selectedShapeId: -1 // Prevent accidentally moving a selected shape on open
+    };
     this.setState(state);
   };
 
@@ -724,6 +735,23 @@ export default class ShapeVideo extends React.Component {
     const start = Number.parseInt(framesStart, 10);
     const delta = Number.parseInt(framesDelta, 10);
     this.setFrameTime(start, delta, prevIndex);
+  };
+
+  handleDeleteFrame = (currFrameIndex, frames) => {
+    // Don't allow deletion of first frame
+    if (currFrameIndex === 0) {
+      return;
+    }
+
+    const newFrameIndex =
+      currFrameIndex === frames.length - 1
+        ? currFrameIndex - 1
+        : currFrameIndex;
+    const newFrames = frames.filter((_, index) => index !== currFrameIndex);
+    this.setState({
+      currFrameIndex: newFrameIndex,
+      frames: newFrames
+    });
   };
 
   handleAddShape = type => {
