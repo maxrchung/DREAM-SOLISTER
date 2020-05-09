@@ -143,6 +143,12 @@ void SpriteGroup::makeShapeVideo(const ShapeVideo& shapeVideo) {
 			const auto time = start + shape.timeOffset;
 
 			if (sprite->commands.empty()) {
+				// Fade in if it's the first frame
+				if (shape.timeOffset == 0) {
+					const auto timeOffset = time - offset;
+					sprite->Fade(timeOffset, time, 0, 1, Easing::EasingIn);
+				}
+
 				sprite->Color(time, time, shape.color, shape.color);
 				sprite->Rotate(time, time, shape.rotation, shape.rotation);
 				sprite->ScaleVector(time, time, scaleVector, scaleVector);
@@ -158,6 +164,12 @@ void SpriteGroup::makeShapeVideo(const ShapeVideo& shapeVideo) {
 		}
 
 		sprites.push_back(sprite);
+	}
+
+	for (auto sprite : sprites) {
+		if (sprite->endTime >= end - delta) {
+			sprite->Fade(end, endOffset, 1.0f, 0.0f, Easing::EasingOut);
+		}
 	}
 }
 
