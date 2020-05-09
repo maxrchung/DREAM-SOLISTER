@@ -1,5 +1,5 @@
 #include "ShapeVideo.hpp"
-#include <map>
+#include <unordered_map>
 
 const std::string& ShapeVideo::extension = ".sheo";
 
@@ -24,23 +24,55 @@ std::vector<std::vector<Shape>> ShapeVideo::loadShapes(const std::string& ID) {
 		return shapes;
 	}
 
-	std::map<int, Shape> idToShapes;
-
+	std::map<int, std::vector<Shape>> IDToShapes;
 	const auto frames = JSON["frames"];
+
+	std::vector<int> layers;
+	const auto JSONLayers = JSON["layers"];
+	layers.reserve(JSONLayers.size());
+	for (auto i = 0; i < JSONLayers.size(); ++i) {
+		layers.push_back(JSONLayers[i].get<int>());
+	}
+
+	auto timeOffset = 0;
+	const auto delta = std::stoi(JSON["framesDelta"].get<std::string>());
 	for (const auto& frame : frames) {
 		for (const auto& item : frame.items()) {
-			const auto id = item.key();
+			const auto ID = std::stoi(item.key());
 			const auto config = item.value();
-			const auto colorR = config["colorR"].get<int>();
-			const auto colorG = config["colorG"].get<int>();
-			const auto colorB = config["colorB"].get<int>();
-			const auto positionX = config["positionX"].get<float>();
-			const auto positionY = config["positionY"].get<float>();
+
+			const auto color = Color(config["colorR"].get<int>(), config["colorG"].get<int>(), config["colorB"].get<int>());
+			const auto position = Vector2(config["positionX"].get<float>(), config["positionY"].get<float>());
 			const auto rotation = config["rotation"].get<float>();
-			const auto scaleX = config["scaleX"].get<float>();
-			const auto scaleY = config["scaleY"].get<float>();
-			const auto type = config["type"].get<std::string>();
+			const auto scaleVector = Vector2(config["scaleX"].get<float>(), config["scaleY"].get<float>());
+			const auto JSONType = config["type"].get<std::string>();
+			ShapeType type;
+			if (JSONType == "Rectangle") {
+				type = ShapeType::Rectangle;
+			}
+			else if (JSONType == "Triangle") {
+				type = ShapeType::Triangle;
+			}
+			else if (JSONType == "Circle") {
+				type = ShapeType::Ellipse;
+			}
+			else if (JSONType == "Semicircle") {
+				type = ShapeType::Semicircle;
+			}
+
+			const auto shape = Shape(type, position, rotation, scaleVector, color, timeOffset);
+			if (IDToShapes.find(ID) == IDToShapes.end()) {
+				IDToShapes[ID] = { shape };
+			}
+			else {
+				IDToShapes[ID].push_back(shape);
+			}
 		}
+		timeOffset += delta;
+	}
+
+	for (const auto layer : layers) {
+		shapes.push_back(IDToShapes[layer]);
 	}
 
 	return shapes;

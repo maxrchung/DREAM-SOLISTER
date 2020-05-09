@@ -65,7 +65,7 @@ std::vector<Shape> ShapeAnimation::loadShapes(const std::string& ID) {
 		const auto _color = SAShape["_color"];
 		const auto color = Color(_color["R"].get<float>(), _color["G"].get<float>(), _color["B"].get<float>());
 
-		const auto shape = Shape(type, normalizedPosition, rotation, scaleVector, color);
+		const auto shape = Shape(type, normalizedPosition, rotation, scaleVector, color, 0);
 		shapes.push_back(shape);
 	}
 	cache[ID] = shapes;
