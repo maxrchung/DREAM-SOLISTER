@@ -12,5 +12,5 @@ struct Shape {
 	Vector2 position;
 	float rotation;
 	Vector2 scaleVector;
-	int timeOffset; // Used for shapeVideo to determine what time a shape/transition appears at
+	int timeOffset; // Used for ShapeVideo to determine what time a shape/transition appears at
 };

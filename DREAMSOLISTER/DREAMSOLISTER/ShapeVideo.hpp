@@ -11,8 +11,9 @@ public:
 	ShapeVideo(const std::string& ID);
 	std::vector<std::vector<Shape>> shapes;
 	bool isEmpty() const;
+	int delta;
 private:
-	static std::vector<std::vector<Shape>> loadShapes(const std::string& ID);
 	static std::string loadJSON(const std::string& path);
 	static const std::string& extension;
+	std::vector<std::vector<Shape>> loadShapes(const std::string& ID);
 };

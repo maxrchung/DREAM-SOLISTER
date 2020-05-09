@@ -31,7 +31,7 @@ SpriteGroup::SpriteGroup(const std::string& ID, const int pImageWidth, const int
 	}
 
 	const auto shapeAnimation = ShapeAnimation(ID);
-	if (!shapeAnimation.isEmpty()) {
+	if (!shapeAnimation.isEmpty()) { 
 		makeShapeAnimation(shapeAnimation);
 		return;
 	}
@@ -117,7 +117,48 @@ void SpriteGroup::makeShapeAnimation(const ShapeAnimation& shapeAnimation) {
 }
 
 void SpriteGroup::makeShapeVideo(const ShapeVideo& shapeVideo) {
+	const auto delta = shapeVideo.delta;
+	for (const auto& frames : shapeVideo.shapes) {
+		const auto first = frames[0];
+		std::string path;
+		switch (first.type) {
+			case ShapeType::Ellipse:
+				path = "circle.png";
+				break;
+			case ShapeType::Rectangle:
+				path = "square.png";
+				break;
+			case ShapeType::Semicircle:
+				path = "semicircle.png";
+				break;
+			case ShapeType::Triangle:
+				path = "triangle.png";
+				break;
+		}
+		auto const sprite = Storyboard::CreateSprite(path);
 
+		for (const auto& shape : frames) {
+			const auto scaleVector = Vector2(shape.scaleVector) * cameraScale * scale;
+			const auto position = shape.position * cameraScale * scale * Vector2::ScreenSize.y;
+			const auto time = start + shape.timeOffset;
+
+			if (sprite->commands.empty()) {
+				sprite->Color(time, time, shape.color, shape.color);
+				sprite->Rotate(time, time, shape.rotation, shape.rotation);
+				sprite->ScaleVector(time, time, scaleVector, scaleVector);
+				sprite->Move(time, time, position, position);
+			}
+			else {
+				const auto prevTime = time - delta;
+				sprite->Color(prevTime, time, sprite->color, shape.color);
+				sprite->Move(prevTime, time, sprite->position, position);
+				sprite->Rotate(prevTime, time, sprite->rotation, shape.rotation + rotation);
+				sprite->ScaleVector(prevTime, time, sprite->scaleVector, scaleVector);
+			}
+		}
+
+		sprites.push_back(sprite);
+	}
 }
 
 void SpriteGroup::makeLine(const float x1, const float y1, const float x2, const float y2, const float scaleHeight) {

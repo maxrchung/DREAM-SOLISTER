@@ -36,13 +36,14 @@ std::vector<std::vector<Shape>> ShapeVideo::loadShapes(const std::string& ID) {
 
 	auto timeOffset = 0;
 	const auto delta = std::stoi(JSON["framesDelta"].get<std::string>());
+	this->delta = delta;
 	for (const auto& frame : frames) {
 		for (const auto& item : frame.items()) {
 			const auto ID = std::stoi(item.key());
 			const auto config = item.value();
 
 			const auto color = Color(config["colorR"].get<int>(), config["colorG"].get<int>(), config["colorB"].get<int>());
-			const auto position = Vector2(config["positionX"].get<float>(), config["positionY"].get<float>());
+			const auto position = Vector2(config["positionX"].get<float>(), -config["positionY"].get<float>());
 			const auto rotation = config["rotation"].get<float>();
 			const auto scaleVector = Vector2(config["scaleX"].get<float>(), config["scaleY"].get<float>());
 			const auto JSONType = config["type"].get<std::string>();
