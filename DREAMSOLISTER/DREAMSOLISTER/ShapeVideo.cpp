@@ -73,7 +73,9 @@ std::vector<std::vector<Shape>> ShapeVideo::loadShapes(const std::string& ID) {
 	}
 
 	for (const auto layer : layers) {
-		shapes.push_back(IDToShapes[layer]);
+		if (IDToShapes.find(layer) != IDToShapes.end()) {
+			shapes.push_back(IDToShapes[layer]);
+		}
 	}
 
 	return shapes;
