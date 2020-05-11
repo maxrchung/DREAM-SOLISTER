@@ -900,9 +900,21 @@ export default class ShapeVideo extends React.Component {
       type: shape.type
     };
 
+    let newLayers;
+    if (selectedShapeId === -1) {
+      newLayers = [...layers, shapeCount];
+    } else {
+      const selectedIndex = layers.findIndex(id => id === selectedShapeId);
+      newLayers = [
+        ...layers.slice(0, selectedIndex + 1),
+        shapeCount,
+        ...layers.slice(selectedIndex + 1)
+      ];
+    }
+
     this.setState(
       {
-        layers: [...layers, shapeCount],
+        layers: newLayers,
         selectedShapeId: shapeCount,
         frames: newFrames,
         shapeCount: shapeCount + 1
