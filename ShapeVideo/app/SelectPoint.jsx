@@ -18,10 +18,11 @@ export default class SelectPoint extends React.Component {
       ].join(' '),
       width: `${width}px`,
       height: `${width}px`,
-      opacity: 0.25,
+      opacity: 0.1,
       backgroundColor: 'blue',
       borderRadius: '50%',
-      userSelect: 'none'
+      userSelect: 'none',
+      zIndex: 5000 // Show on top of everything
     };
     return styling;
   };
@@ -34,10 +35,11 @@ export default class SelectPoint extends React.Component {
       ].join(' '),
       width: `${width}px`,
       height: `${width}px`,
-      opacity: 0.5,
+      opacity: 0.2,
       backgroundColor: 'red',
       borderRadius: '50%',
-      userSelect: 'none'
+      userSelect: 'none',
+      zIndex: 5000
     };
     return styling;
   };
