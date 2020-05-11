@@ -139,7 +139,7 @@ void SpriteGroup::makeShapeVideo(const ShapeVideo& shapeVideo) {
 
 		for (const auto& shape : frames) {
 			const auto scaleVector = Vector2(shape.scaleVector) * cameraScale * scale;
-			const auto position = shape.position * cameraScale * scale * Vector2::ScreenSize.y;
+			const auto position = shape.position * Vector2::ScreenSize.x / 2 * cameraScale * scale;
 			const auto time = start + shape.timeOffset;
 
 			if (sprite->commands.empty()) {
