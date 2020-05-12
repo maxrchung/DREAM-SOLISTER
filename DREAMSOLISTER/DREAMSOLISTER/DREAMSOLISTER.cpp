@@ -629,7 +629,7 @@ int main() {
 		//processScript("faces.chai", bg);
 		//processScript("instruments.chai", bg);
 		//processScript("screenShots.chai", bg);
-		//processScript("swing.chai", bg);
+		processScript("swing.chai", bg);
 		processScript("guitarSolo.chai", bg);
 		//processScript("musicSheet.chai", bg);
 
