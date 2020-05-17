@@ -629,13 +629,15 @@ int main() {
 		//processScript("faces.chai", bg);
 		//processScript("instruments.chai", bg);
 		//processScript("screenShots.chai", bg);
-		processScript("swing.chai", bg);
-		processScript("guitarSolo.chai", bg);
+		//processScript("swing.chai", bg);
+		//processScript("guitarSolo.chai", bg);
 		//processScript("musicSheet.chai", bg);
 
 		//MusicSheet("voice.MusicSheet", 122, imageWidth, Color(0, 169, 195), "lyric.MusicSheet", false);
 		//MusicSheet("wind.MusicSheet", 0, imageWidth, Color(247, 255, 8), "", true);
 		//MusicSheet("drum.MusicSheet", -140, imageWidth, Color(255, 209, 219), "", false);
+
+		processScript("anime.chai", bg);
 
 		//setDotBackground();
 
