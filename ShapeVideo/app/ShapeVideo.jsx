@@ -328,6 +328,38 @@ export default class ShapeVideo extends React.Component {
               const { currFrameIndex, frames, selectedShapeId } = this.state;
               this.handleDeleteShape(selectedShapeId, frames, currFrameIndex);
             }
+          },
+          {
+            label: 'Move Shapes Up',
+            accelerator: 'CmdOrCtrl+Up',
+            click: () => {
+              const { currFrameIndex, frames } = this.state;
+              this.handleShapesMove(currFrameIndex, frames, 0, -1);
+            }
+          },
+          {
+            label: 'Move All Down',
+            accelerator: 'CmdOrCtrl+Down',
+            click: () => {
+              const { currFrameIndex, frames } = this.state;
+              this.handleShapesMove(currFrameIndex, frames, 0, 1);
+            }
+          },
+          {
+            label: 'Move All Left',
+            accelerator: 'CmdOrCtrl+Left',
+            click: () => {
+              const { currFrameIndex, frames } = this.state;
+              this.handleShapesMove(currFrameIndex, frames, -1, 0);
+            }
+          },
+          {
+            label: 'Move All Right',
+            accelerator: 'CmdOrCtrl+Right',
+            click: () => {
+              const { currFrameIndex, frames } = this.state;
+              this.handleShapesMove(currFrameIndex, frames, 1, 0);
+            }
           }
         ]
       },
@@ -962,6 +994,24 @@ export default class ShapeVideo extends React.Component {
       layers: prev.layers.filter(shapeId => shapeId !== selectedShapeId),
       selectedShapeId: -1
     }));
+  };
+
+  handleShapesMove = (currFrameIndex, frames, x, y) => {
+    const newFrames = [...frames];
+    const newFrame = newFrames[currFrameIndex];
+    const offset = 0.005;
+    const offsetX = offset * x;
+    const offsetY = offset * y;
+
+    Object.keys(newFrame).forEach(shapeId => {
+      const shape = newFrame[shapeId];
+      shape.positionX += offsetX;
+      shape.positionY += offsetY;
+    });
+
+    this.setState({
+      frames: newFrames
+    });
   };
 
   handleLayerUp = (selectedShapeId, layers) => {
