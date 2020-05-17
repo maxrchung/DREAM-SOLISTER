@@ -123,6 +123,7 @@
     <ClCompile Include="DREAMSOLISTER.cpp" />
     <ClCompile Include="LinePoints.cpp" />
     <ClCompile Include="MusicSheet.cpp" />
+    <None Include="anime.chai" />
     <None Include="faces.chai" />
     <None Include="instruments.chai" />
     <None Include="lyrics.chai" />
