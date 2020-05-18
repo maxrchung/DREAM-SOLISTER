@@ -863,44 +863,53 @@ export default class ShapeVideo extends React.Component {
     frames,
     currFrameIndex
   ) => {
-    if (canvas && video) {
-      const {
-        offsetLeft,
-        offsetTop,
-        clientWidth,
-        clientHeight,
-        videoWidth,
-        videoHeight
-      } = video;
-      this.canvas.width = videoWidth;
-      this.canvas.height = videoHeight;
-      this.canvas.style.width = `${videoWidth}px`;
-      this.canvas.style.height = `${videoHeight}px`;
-
-      const videoPos = this.mousePosToVideoPos(mousePos, offsetLeft, offsetTop);
-      // The video may be scaled differently to the displayed pixels so we need
-      // to convert the mouse position from display resolution to video
-      // resolution.
-      const scale = new Victor(
-        videoWidth / clientWidth,
-        videoHeight / clientHeight
-      );
-      videoPos.multiply(scale);
-
-      const ctx = canvas.getContext('2d');
-      ctx.drawImage(video, 0, 0);
-      const { data } = ctx.getImageData(videoPos.x, videoPos.y, 1, 1);
-      const [colorR, colorG, colorB] = data;
-
-      const newFrames = [...frames];
-      const newShape = newFrames[currFrameIndex][selectedShapeId];
-      newShape.colorR = colorR;
-      newShape.colorG = colorG;
-      newShape.colorB = colorB;
-      this.setState({
-        frames: newFrames
-      });
+    if (selectedShapeId < 0) {
+      return;
     }
+
+    if (!canvas || !video) {
+      return;
+    }
+
+    const {
+      offsetLeft,
+      offsetTop,
+      clientWidth,
+      clientHeight,
+      videoWidth,
+      videoHeight
+    } = video;
+    this.canvas.width = videoWidth;
+    this.canvas.height = videoHeight;
+    this.canvas.style.width = `${videoWidth}px`;
+    this.canvas.style.height = `${videoHeight}px`;
+
+    const videoPos = this.mousePosToVideoPos(mousePos, offsetLeft, offsetTop);
+
+    // The video may be scaled differently to the displayed pixels so we need
+    // to convert the mouse position from display resolution to video
+    // resolution.
+    videoPos.x *= videoWidth / clientWidth;
+
+    // y-position needs different calculations because clientWidth to
+    // clientHeight ratio does not equal videoWidth to videoHeight ratio
+    const videoRatio = videoWidth / videoHeight;
+    const actualHeight = clientWidth / videoRatio;
+    videoPos.y -= clientHeight / 2 - actualHeight / 2;
+
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(video, 0, 0);
+    const { data } = ctx.getImageData(videoPos.x, videoPos.y, 1, 1);
+    const [colorR, colorG, colorB] = data;
+
+    const newFrames = [...frames];
+    const newShape = newFrames[currFrameIndex][selectedShapeId];
+    newShape.colorR = colorR;
+    newShape.colorG = colorG;
+    newShape.colorB = colorB;
+    this.setState({
+      frames: newFrames
+    });
   };
 
   handlePasteShape = (
