@@ -3,6 +3,6 @@ CameraRotate(0,0,	0,	0,0);
 CameraMove(0,0,	0,	0,0,	0,0);
 CameraZoom(0,0,	0,	100,100);
 
-// Notes: First frame is on 02:46:160 in editor
+// Starts at "01:07:321" in editor
 SpriteBind("anime1");
 SpriteMove(261283, 262720, 0,	0,0,	0,0);
