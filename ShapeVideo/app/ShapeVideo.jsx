@@ -886,16 +886,20 @@ export default class ShapeVideo extends React.Component {
 
     const videoPos = this.mousePosToVideoPos(mousePos, offsetLeft, offsetTop);
 
-    // The video may be scaled differently to the displayed pixels so we need
-    // to convert the mouse position from display resolution to video
-    // resolution.
-    videoPos.x *= videoWidth / clientWidth;
-
-    // y-position needs different calculations because clientWidth to
+    // y-position needs special calculations because clientWidth to
     // clientHeight ratio does not equal videoWidth to videoHeight ratio
     const videoRatio = videoWidth / videoHeight;
     const actualHeight = clientWidth / videoRatio;
     videoPos.y -= clientHeight / 2 - actualHeight / 2;
+
+    // The video may be scaled differently to the displayed pixels so we need
+    // to convert the mouse position from display resolution to video
+    // resolution.
+    const scale = new Victor(
+      videoWidth / clientWidth,
+      videoHeight / actualHeight
+    );
+    videoPos.multiply(scale);
 
     const ctx = canvas.getContext('2d');
     ctx.drawImage(video, 0, 0);
