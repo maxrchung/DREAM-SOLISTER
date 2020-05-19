@@ -1,4 +1,4 @@
-import fs from 'fs';
+const fs = require('fs');
 
 const doubleFrameRate = path => {
   const input = fs.readFileSync(path);
@@ -6,7 +6,7 @@ const doubleFrameRate = path => {
   const state = { ...JSON.parse(input) };
 
   // Halve delta
-  state.frameDelta /= 2;
+  state.framesDelta /= 2;
 
   // Double frame rate
   const newFrames = [];
@@ -20,4 +20,6 @@ const doubleFrameRate = path => {
   fs.writeFileSync(path, output);
 };
 
-export default doubleFrameRate;
+const path =
+  'C:\\Users\\Wax Chug da Gwad\\Desktop\\DREAMSOLISTER\\DREAMSOLISTER\\DREAMSOLISTER\\guitarSolo.sheo';
+doubleFrameRate(path);
