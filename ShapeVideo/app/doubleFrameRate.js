@@ -6,7 +6,7 @@ const doubleFrameRate = path => {
   const state = { ...JSON.parse(input) };
 
   // Halve delta
-  state.framesDelta /= 2;
+  state.framesDelta = Number.toString(state.framesDelta / 2);
 
   // Double frame rate
   const newFrames = [];
