@@ -26,7 +26,12 @@ SpriteGroup::SpriteGroup(const std::string& ID, const int pImageWidth, const int
 	endOffset{ pEnd + pOffset } {
 	const auto shapeVideo = ShapeVideo(ID);
 	if (!shapeVideo.isEmpty()) {
-		makeShapeVideo(shapeVideo);
+		if (ID.find("anime") != std::string::npos) {
+			makeAnimeVideo(shapeVideo);
+		}
+		else {
+			makeGuitarVideo(shapeVideo);
+		}
 		return;
 	}
 
@@ -116,7 +121,7 @@ void SpriteGroup::makeShapeAnimation(const ShapeAnimation& shapeAnimation) {
 	}
 }
 
-void SpriteGroup::makeShapeVideo(const ShapeVideo& shapeVideo) {
+void SpriteGroup::makeGuitarVideo(const ShapeVideo& shapeVideo) {
 	const auto delta = shapeVideo.delta;
 	for (const auto& frames : shapeVideo.shapes) {
 		const auto first = frames[0];
@@ -140,6 +145,63 @@ void SpriteGroup::makeShapeVideo(const ShapeVideo& shapeVideo) {
 		for (const auto& shape : frames) {
 			const auto scaleVector = Vector2(shape.scaleVector) * cameraScale * scale;
 			const auto position = shape.position * Vector2::ScreenSize.x / 2 * cameraScale * scale;
+			const auto time = start + shape.timeOffset;
+
+			if (sprite->commands.empty()) {
+				// Fade in if it's the first frame
+				if (shape.timeOffset == 0) {
+					const auto timeOffset = time - offset;
+					sprite->Fade(timeOffset, time, 0, 1, Easing::EasingIn);
+				}
+
+				sprite->Color(time, time, shape.color, shape.color);
+				sprite->Rotate(time, time, shape.rotation, shape.rotation);
+				sprite->ScaleVector(time, time, scaleVector, scaleVector);
+				sprite->Move(time, time, position, position);
+			}
+			else {
+				const auto prevTime = time - delta;
+				sprite->Color(prevTime, time, sprite->color, shape.color);
+				sprite->Move(prevTime, time, sprite->position, position);
+				sprite->Rotate(prevTime, time, sprite->rotation, shape.rotation + rotation);
+				sprite->ScaleVector(prevTime, time, sprite->scaleVector, scaleVector);
+			}
+		}
+
+		sprites.push_back(sprite);
+	}
+
+	for (auto sprite : sprites) {
+		if (sprite->endTime >= end - delta) {
+			sprite->Fade(end, endOffset, 1.0f, 0.0f, Easing::EasingOut);
+		}
+	}
+}
+
+void SpriteGroup::makeAnimeVideo(const ShapeVideo& shapeVideo) {
+	const auto delta = shapeVideo.delta;
+	for (const auto& frames : shapeVideo.shapes) {
+		const auto first = frames[0];
+		std::string path;
+		switch (first.type) {
+			case ShapeType::Ellipse:
+				path = "circle.png";
+				break;
+			case ShapeType::Rectangle:
+				path = "square.png";
+				break;
+			case ShapeType::Semicircle:
+				path = "semicircle.png";
+				break;
+			case ShapeType::Triangle:
+				path = "triangle.png";
+				break;
+		}
+		auto const sprite = Storyboard::CreateSprite(path);
+
+		for (const auto& shape : frames) {
+			const auto scaleVector = Vector2(shape.scaleVector) * cameraScale;
+			const auto position = shape.position * Vector2::ScreenSize.x / 2 * cameraScale;
 			const auto time = start + shape.timeOffset;
 
 			if (sprite->commands.empty()) {

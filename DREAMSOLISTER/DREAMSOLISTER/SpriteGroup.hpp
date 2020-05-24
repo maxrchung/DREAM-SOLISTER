@@ -16,7 +16,11 @@ public:
 	Vector2 center;
 private:
 	void makeShapeAnimation(const ShapeAnimation& shapeAnimation);
-	void makeShapeVideo(const ShapeVideo& shapeVideo);
+
+	// Separating the shapeVideo functions into different part so if we want to apply any customizations, we have the freedom to do so
+	void makeGuitarVideo(const ShapeVideo& shapeVideo);
+	void makeAnimeVideo(const ShapeVideo& shapeVideo);
+
 	void makeLinePoints(const LinePoints& linePoints);
 	void makeMusicNote();
 	void makeLine(const float x1, const float y1, const float x2, const float y2, const float scaleHeight);
