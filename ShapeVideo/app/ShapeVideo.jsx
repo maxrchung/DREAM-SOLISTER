@@ -1011,7 +1011,9 @@ export default class ShapeVideo extends React.Component {
 
   handleShapesMove = (currFrameIndex, frames, x, y) => {
     const newFrames = [...frames];
-    const newFrame = newFrames[currFrameIndex];
+    // [...frames] doesn't actually deep copy the frames, we need to do
+    // { ...frames[currFrameIndex] } to ensure this occurs
+    const newFrame = { ...frames[currFrameIndex] };
     const offset = 0.005;
     const offsetX = offset * x;
     const offsetY = offset * y;
@@ -1021,6 +1023,8 @@ export default class ShapeVideo extends React.Component {
       shape.positionX += offsetX;
       shape.positionY += offsetY;
     });
+
+    newFrames[currFrameIndex] = newFrame;
 
     this.setState({
       frames: newFrames
