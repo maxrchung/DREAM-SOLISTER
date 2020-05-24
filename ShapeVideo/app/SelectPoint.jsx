@@ -22,7 +22,7 @@ export default class SelectPoint extends React.Component {
       backgroundColor: 'blue',
       borderRadius: '50%',
       userSelect: 'none',
-      zIndex: 5000 // Show on top of everything
+      zIndex: 10 // Show on top of everything
     };
     return styling;
   };
@@ -39,7 +39,7 @@ export default class SelectPoint extends React.Component {
       backgroundColor: 'red',
       borderRadius: '50%',
       userSelect: 'none',
-      zIndex: 5000
+      zIndex: 12
     };
     return styling;
   };

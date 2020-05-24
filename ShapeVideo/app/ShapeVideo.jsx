@@ -1123,7 +1123,7 @@ export default class ShapeVideo extends React.Component {
         />
 
         <div className="d-flex flex-grow-1 h-100">
-          <div className="d-flex col p-2" style={{ zIndex: 4000 }}>
+          <div className="d-flex col p-2" style={{ zIndex: 5 }}>
             <canvas
               className="d-none"
               ref={element => {
