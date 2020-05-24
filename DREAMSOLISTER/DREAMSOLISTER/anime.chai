@@ -6,3 +6,6 @@ CameraZoom(0,0,	0,	100,100);
 // Starts at "01:07:321" in editor
 SpriteBind("anime1");
 SpriteMove(261283, 262720, 0,	0,0,	0,0);
+
+SpriteBind("animeBorders");
+SpriteMove(261283, 276372, 0,	0,0,	0,0);

@@ -597,7 +597,7 @@ void processScript(const std::string& path, Sprite* const bg) {
 
 	// Handle endings of sprite bindings
 	// For shape video sections we're gonna have some hacks so that the makeShapeVideo can just handle it directly
-	if (path == "guitarSolo.chai") {
+	if (path == "guitarSolo.chai" || path == "anime.chai") {
 		return;
 	}
 	for (auto i = 0; i < spriteBindings.size(); ++i) {
@@ -630,14 +630,14 @@ int main() {
 		//processScript("instruments.chai", bg);
 		//processScript("screenShots.chai", bg);
 		//processScript("swing.chai", bg);
-		processScript("guitarSolo.chai", bg);
+		//processScript("guitarSolo.chai", bg);
 		//processScript("musicSheet.chai", bg);
 
 		//MusicSheet("voice.MusicSheet", 122, imageWidth, Color(0, 169, 195), "lyric.MusicSheet", false);
 		//MusicSheet("wind.MusicSheet", 0, imageWidth, Color(247, 255, 8), "", true);
 		//MusicSheet("drum.MusicSheet", -140, imageWidth, Color(255, 209, 219), "", false);
 
-		//processScript("anime.chai", bg);
+		processScript("anime.chai", bg);
 
 		//setDotBackground();
 
