@@ -179,6 +179,8 @@ void SpriteGroup::makeGuitarVideo(const ShapeVideo& shapeVideo) {
 }
 
 void SpriteGroup::makeAnimeVideo(const ShapeVideo& shapeVideo) {
+	const auto animeOffset = offset / 2;
+
 	const auto delta = shapeVideo.delta;
 	for (const auto& frames : shapeVideo.shapes) {
 		const auto first = frames[0];
@@ -207,7 +209,7 @@ void SpriteGroup::makeAnimeVideo(const ShapeVideo& shapeVideo) {
 			if (sprite->commands.empty()) {
 				// Fade in if it's the first frame
 				if (shape.timeOffset == 0) {
-					const auto timeOffset = time - offset;
+					const auto timeOffset = time - animeOffset;
 					sprite->Fade(timeOffset, time, 0, 1, Easing::EasingIn);
 				}
 
@@ -230,7 +232,7 @@ void SpriteGroup::makeAnimeVideo(const ShapeVideo& shapeVideo) {
 
 	for (auto sprite : sprites) {
 		if (sprite->endTime >= end - delta) {
-			sprite->Fade(end, endOffset, 1.0f, 0.0f, Easing::EasingOut);
+			sprite->Fade(end, end + animeOffset, 1.0f, 0.0f, Easing::EasingOut);
 		}
 	}
 }
