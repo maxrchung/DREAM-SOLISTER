@@ -817,9 +817,9 @@ export default class ShapeVideo extends React.Component {
 
     const newFrames = [...frames];
     newFrames[currFrameIndex][shapeCount] = {
-      colorR: 255,
-      colorG: 255,
-      colorB: 255,
+      colorR: 0,
+      colorG: 0,
+      colorB: 0,
       id: shapeCount,
       positionX: position.x,
       positionY: position.y,
