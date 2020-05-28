@@ -3,14 +3,15 @@ CameraRotate(0,0,	0,	0,0);
 CameraMove(0,0,	0,	0,0,	0,0);
 CameraZoom(0,0,	0,	100,100);
 
-// Show images backwards to ensure correct layering
-SpriteBind("anime2");
-SpriteMove(262720, 263438, 0,	0,0,	0,0);
-
 // Starts at "01:07:321" in editor
 SpriteBind("anime1");
 SpriteMove(261283, 262001, 0,	0,0,	0,0);
 
+SpriteBind("anime2");
+SpriteMove(262720, 263438, 0,	0,0,	0,0);
+
+SpriteBind("anime3");
+SpriteMove(264157, 266313, 0,	0,0,	0,0);
 
 SpriteBind("animeBorders");
 SpriteMove(261283, 276372, 0,	0,0,	0,0);
