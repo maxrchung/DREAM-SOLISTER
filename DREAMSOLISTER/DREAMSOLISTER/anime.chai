@@ -11,7 +11,10 @@ SpriteBind("anime2");
 SpriteMove(262720, 263438, 0,	0,0,	0,0);
 
 SpriteBind("anime3");
-SpriteMove(264157, 266313, 0,	0,0,	0,0);
+SpriteMove(264157, 265235, 0,	0,0,	0,0);
+
+SpriteBind("anime4");
+SpriteMove(265594, 266672, 0,	0,0,	0,0);
 
 SpriteBind("animeBorders");
 SpriteMove(261283, 276372, 0,	0,0,	0,0);
