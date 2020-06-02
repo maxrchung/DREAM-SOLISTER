@@ -18,6 +18,3 @@ SpriteMove(265594, 266672, 0,	0,0,	0,0);
 
 SpriteBind("anime5");
 SpriteMove(267031, 268109, 0,	0,0,	0,0);
-
-SpriteBind("animeBorders");
-SpriteMove(261283, 276372, 0,	0,0,	0,0);
