@@ -212,6 +212,11 @@ void SpriteGroup::makeAnimeVideo(const ShapeVideo& shapeVideo) {
 					const auto timeOffset = time - animeOffset;
 					sprite->Fade(timeOffset, time, 0, 1, Easing::EasingIn);
 				}
+				else {
+					// If it's in the middle of the animation, we'll fade in the shape quickly
+					const auto timeOffset = time - animeOffset / 2;
+					sprite->Fade(timeOffset, time, 0, 1, Easing::EasingIn);
+				}
 
 				sprite->Color(time, time, shape.color, shape.color);
 				sprite->Rotate(time, time, shape.rotation, shape.rotation);
