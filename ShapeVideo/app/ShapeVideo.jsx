@@ -330,7 +330,7 @@ export default class ShapeVideo extends React.Component {
             }
           },
           {
-            label: 'Move Shapes Up',
+            label: 'Move Up',
             accelerator: 'CmdOrCtrl+Up',
             click: () => {
               const { currFrameIndex, frames } = this.state;
@@ -338,7 +338,7 @@ export default class ShapeVideo extends React.Component {
             }
           },
           {
-            label: 'Move All Down',
+            label: 'Move Down',
             accelerator: 'CmdOrCtrl+Down',
             click: () => {
               const { currFrameIndex, frames } = this.state;
@@ -346,7 +346,7 @@ export default class ShapeVideo extends React.Component {
             }
           },
           {
-            label: 'Move All Left',
+            label: 'Move Left',
             accelerator: 'CmdOrCtrl+Left',
             click: () => {
               const { currFrameIndex, frames } = this.state;
@@ -354,11 +354,27 @@ export default class ShapeVideo extends React.Component {
             }
           },
           {
-            label: 'Move All Right',
+            label: 'Move Right',
             accelerator: 'CmdOrCtrl+Right',
             click: () => {
               const { currFrameIndex, frames } = this.state;
               this.handleShapesMove(currFrameIndex, frames, 1, 0);
+            }
+          },
+          {
+            label: 'Scale Down',
+            accelerator: 'CmdOrCtrl+[',
+            click: () => {
+              const { currFrameIndex, frames } = this.state;
+              this.handleShapesScale(currFrameIndex, frames, false);
+            }
+          },
+          {
+            label: 'Scale Up',
+            accelerator: 'CmdOrCtrl+]',
+            click: () => {
+              const { currFrameIndex, frames } = this.state;
+              this.handleShapesScale(currFrameIndex, frames, true);
             }
           }
         ]
@@ -1022,6 +1038,49 @@ export default class ShapeVideo extends React.Component {
       const shape = newFrame[shapeId];
       shape.positionX += offsetX;
       shape.positionY += offsetY;
+    });
+
+    this.setState({
+      frames: newFrames
+    });
+  };
+
+  handleShapesScale = (currFrameIndex, frames, scaleUp) => {
+    // Using JSON stringify/parse to deep copy since we can't easily use spread
+    // operator for nested objects
+    const newFrames = JSON.parse(JSON.stringify(frames));
+    const newFrame = newFrames[currFrameIndex];
+    const scale = 1 + 0.005 * (scaleUp ? 1 : -1);
+
+    // Get center of the frame
+    const oldCenter = new Victor(0, 0);
+    Object.keys(newFrame).forEach(shapeId => {
+      const shape = newFrame[shapeId];
+      oldCenter.x += shape.positionX;
+      oldCenter.y += shape.positionY;
+    });
+    const newCenter = oldCenter.clone().multiplyScalar(scale, scale);
+    console.log(oldCenter);
+    console.log(newCenter);
+
+    Object.keys(newFrame).forEach(shapeId => {
+      const shape = newFrame[shapeId];
+      const oldShapePosition = new Victor(
+        shape.positionX,
+        shape.positionY
+      ).subtract(oldCenter);
+
+      const newShapePosition = oldShapePosition
+        .clone()
+        .multiplyScalar(scale)
+        .add(newCenter);
+
+      console.log(newShapePosition);
+
+      shape.positionX = newShapePosition.x;
+      shape.positionY = newShapePosition.y;
+      shape.scaleX *= scale;
+      shape.scaleY *= scale;
     });
 
     this.setState({
