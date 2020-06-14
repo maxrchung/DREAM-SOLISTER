@@ -638,7 +638,7 @@ int main() {
 		//MusicSheet("drum.MusicSheet", -140, imageWidth, Color(255, 209, 219), "", false);
 
 		processScript("anime.chai", bg);
-		//processScript("animeBorders.chai", bg);
+		processScript("animeBorders.chai", bg);
 
 		//setDotBackground();
 
