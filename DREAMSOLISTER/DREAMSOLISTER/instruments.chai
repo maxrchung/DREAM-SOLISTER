@@ -86,7 +86,7 @@ SpriteMove(68708,end, 0, 7,3,	0,0);
 SpriteScale(68708,68708,	0,	scale,scale,	0,0);
 
 // 16
-SpriteBind("test");
+SpriteBind("tubaInstrument");
 SpriteMove(68887,end, 0, 8,3,	0,0);
 SpriteScale(68887,68887,	0,	scale,scale,	0,0);
 
