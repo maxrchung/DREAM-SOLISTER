@@ -96,6 +96,6 @@ SpriteMove(69247,end, 0, 9,3,	0,0);
 SpriteScale(69247,69247,	0,	scale,scale,	0,0);
 
 // 18
-SpriteBind("test");
+SpriteBind("euphonium");
 SpriteMove(69606,end, 0, 10,3,	0,0);
 SpriteScale(69606,69606,	0,	scale,scale,	0,0);
