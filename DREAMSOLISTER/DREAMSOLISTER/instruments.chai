@@ -91,7 +91,7 @@ SpriteMove(68887,end, 0, 8,3,	0,0);
 SpriteScale(68887,68887,	0,	scale,scale,	0,0);
 
 // 17
-SpriteBind("test");
+SpriteBind("trumpet");
 SpriteMove(69247,end, 0, 9,3,	0,0);
 SpriteScale(69247,69247,	0,	scale,scale,	0,0);
 
