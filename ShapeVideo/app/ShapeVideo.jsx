@@ -1018,11 +1018,10 @@ export default class ShapeVideo extends React.Component {
     }
     const newFrames = [...frames];
     delete newFrames[currFrameIndex][selectedShapeId];
-    this.setState(prev => ({
+    this.setState({
       frames: newFrames,
-      layers: prev.layers.filter(shapeId => shapeId !== selectedShapeId),
       selectedShapeId: -1
-    }));
+    });
   };
 
   handleShapesMove = (currFrameIndex, frames, x, y) => {
