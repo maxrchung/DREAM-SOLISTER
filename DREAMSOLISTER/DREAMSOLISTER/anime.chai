@@ -25,3 +25,6 @@ SpriteMove(268468, 269546, 0,	0,0,	0,0);
 // Has a fake last frame, don't worry about it
 SpriteBind("anime7");
 SpriteMove(269905, 270983, 0,	0,0,	0,0);
+
+SpriteBind("anime8");
+SpriteMove(271342, 276372, 0,	0,0,	0,0);
