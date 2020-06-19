@@ -6,6 +6,9 @@ CameraZoom(0,0,	0,	110,110);
 var start = 231103;
 var end = 259307;
 
+var saxEnd = 241850;
+var fluteStart = 242150;
+
 var x = -3;
 var y = 1.27;
 
@@ -14,11 +17,11 @@ SpriteMove(start,end, 0, x,y,	x,y);
 SpriteColor(start,start, 0, 0,0,0, 0,0,0);
 
 SpriteBind("X");
-SpriteMove(start,end, 0, x,0,	x,0);
+SpriteMove(start,saxEnd, 0, x,0,	x,0);
 SpriteColor(start,start, 0, 0,0,0, 0,0,0);
 SpriteBind("X");
-SpriteMove(start,end, 0, x,0,	x,0);
-SpriteColor(start,start, 0, 0,0,0, 0,0,0);
+SpriteMove(fluteStart,end, 0, x,0,	x,0);
+SpriteColor(fluteStart,fluteStart, 0, 0,0,0, 0,0,0);
 
 SpriteBind("X");
 SpriteMove(start,end, 0, x,-y,	x,-y);
