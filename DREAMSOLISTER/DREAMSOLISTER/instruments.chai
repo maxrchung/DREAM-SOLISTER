@@ -9,6 +9,7 @@ CameraZoom(0,0,	0,	120,120);
 
 var end = 69606;
 var scale = 1;
+var euphScale = 0.8;
 
 // 1
 SpriteBind("faggot");
@@ -79,6 +80,7 @@ SpriteScale(68348,68348,	0,	scale,scale,	0,0);
 SpriteBind("frenchHorn");
 SpriteMove(68528,end, 0, 6,3,	0,0);
 SpriteScale(68528,68528,	0,	scale,scale,	0,0);
+SpriteRotate(68887,68887,   0, -68,		0);
 
 // 15
 SpriteBind("trombone");
@@ -98,4 +100,4 @@ SpriteScale(69247,69247,	0,	scale,scale,	0,0);
 // 18
 SpriteBind("euphonium");
 SpriteMove(69606,end, 0, 10,3,	0,0);
-SpriteScale(69606,69606,	0,	scale,scale,	0,0);
+SpriteScale(69606,69606,	0,	euphScale,euphScale,	0,0);

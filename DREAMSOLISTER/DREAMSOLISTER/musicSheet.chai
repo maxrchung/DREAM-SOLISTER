@@ -16,12 +16,10 @@ SpriteBind("X");
 SpriteMove(start,end, 0, x,y,	x,y);
 SpriteColor(start,start, 0, 0,0,0, 0,0,0);
 
-SpriteBind("X");
+SpriteBind("euphonium");
 SpriteMove(start,saxEnd, 0, x,0,	x,0);
-SpriteColor(start,start, 0, 0,0,0, 0,0,0);
-SpriteBind("X");
+SpriteBind("flute");
 SpriteMove(fluteStart,end, 0, x,0,	x,0);
-SpriteColor(fluteStart,fluteStart, 0, 0,0,0, 0,0,0);
 
 SpriteBind("X");
 SpriteMove(start,end, 0, x,-y,	x,-y);
