@@ -148,6 +148,17 @@ LinePoints::LinePoints(const std::string& ID) {
 			1,-1
 		});
 	}
+	else if (ID == "L") {
+		lines = std::vector<float>({
+			-1,1,	-1,-1,
+			-1,-1,	1,-1
+		}); 
+		points = std::vector<float>({
+			-1,1,
+			-1,-1,
+			1,-1
+		});
+	}
 	else if (ID == "M") {
 		lines = std::vector<float>({
 			-1,1,	-1,-1,
