@@ -222,7 +222,7 @@ void eyeSparkle() {
 	const auto screenCenter = Vector2(-7, 15);
 	const auto startSection = 273500;
 	const auto fadeIn = 274500;
-	const auto endSection = 275500;
+	const auto endSection = 276372;
 	const auto fade = 1.0f;
 	const auto color = Color(255, 255, 255);
 
@@ -324,6 +324,7 @@ void eyeSparkle() {
 		baseLeft->Color(start, start, color, color);
 		baseLeft->ScaleVector(start, end, scaleBase, endScaleBase, Easing::QuintIn);
 		baseLeft->Fade(start, fadeIn, 0, fade, Easing::EasingIn);
+		baseLeft->Fade(275654, 276372, fade, 0, Easing::EasingOut);
 	}
 }
 
@@ -789,14 +790,14 @@ int main() {
 		//MusicSheet("drum.MusicSheet", -140, imageWidth, Color(255, 209, 219), "", false);
 
 		processScript("anime.chai", bg);
-		//processScript("animeBorders.chai", bg);
+		processScript("animeBorders.chai", bg);
 
 		eyeSparkle();
 
-		//setDotBackgrounds();
+		setDotBackgrounds();
 
-		//finalExplode();
-		//processScript("final.chai", bg);
+		finalExplode();
+		processScript("final.chai", bg);
 
 		// Blue line rectangle border
 		setBorder();
