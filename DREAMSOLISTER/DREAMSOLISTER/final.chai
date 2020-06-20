@@ -1,0 +1,68 @@
+// Default camera values so that getCameraValuesAtMilliseconds() has no issues
+CameraRotate(0,0,	0,	0,0);
+CameraZoom(0,0,	0,	100,100);
+CameraMove(0,0,	0,	0,0,	0,0);
+CameraMove(0,0,	0,	0,0,	3.5,0);
+
+CameraMove(0,0,	0,	0,0,	0,0);
+CameraZoom(0,0,	0,	60,60);
+
+var colorOffset = 30.0f;
+var blueR = 0;
+var blueG = 169.0f / 255;
+var blueB = 195.0f / 255;
+
+var yellowR = 247.0f / 255;
+var yellowG = 1;
+var yellowB = 8.0f / 255;
+
+var pinkR = 1;
+var pinkG = 0.82f;
+var pinkB = 0.86f;
+
+var greenR = 119.0f / 255;
+var greenG = 1;
+var greenB = 169.0f / 255;
+
+SpriteBind("D");
+SpriteMove(277091,279247, 0, -2,0.5,	0,0);
+SpriteColor(277091,277091, 0, blueR,blueG,blueB, blueR,blueG,blueB);
+SpriteBind("R");
+SpriteMove(277091,279247, 0, -1,0.5,	0,0);
+SpriteColor(277091,277091, 0, blueR,blueG,blueB, blueR,blueG,blueB);
+
+SpriteBind("E");
+SpriteMove(277091,279247, 0, 0,0.5,	0,0);
+SpriteColor(277091,277091, 0, yellowR,yellowG,yellowB, yellowR,yellowG,yellowB);
+SpriteBind("A");
+SpriteMove(277091,279247, 0, 1,0.5,	0,0);
+SpriteColor(277091,277091, 0, yellowR,yellowG,yellowB, yellowR,yellowG,yellowB);
+SpriteBind("M");
+SpriteMove(277091,279247, 0, 2,0.5,	0,0);
+SpriteColor(277091,277091, 0, yellowR,yellowG,yellowB, yellowR,yellowG,yellowB);
+
+SpriteBind("S");
+SpriteMove(277091,279247, 0, -3.5,-0.5,	0,0);
+SpriteColor(277091,277091, 0, pinkR,pinkG,pinkB, pinkR,pinkG,pinkB);
+SpriteBind("O");
+SpriteMove(277091,279247, 0, -2.5,-0.5,	0,0);
+SpriteColor(277091,277091, 0, pinkR,pinkG,pinkB, pinkR,pinkG,pinkB);
+SpriteBind("L");
+SpriteMove(277091,279247, 0, -1.5,-0.5,	0,0);
+SpriteColor(277091,277091, 0, pinkR,pinkG,pinkB, pinkR,pinkG,pinkB);
+SpriteBind("I");
+SpriteMove(277091,279247, 0, -0.5,-0.5,	0,0);
+SpriteColor(277091,277091, 0, pinkR,pinkG,pinkB, pinkR,pinkG,pinkB);
+
+SpriteBind("S");
+SpriteMove(277091,279247, 0, 0.5,-0.5,	0,0);
+SpriteColor(277091,277091, 0, greenR,greenG,greenB, greenR,greenG,greenB);
+SpriteBind("T");
+SpriteMove(277091,279247, 0, 1.5,-0.5,	0,0);
+SpriteColor(277091,277091, 0, greenR,greenG,greenB, greenR,greenG,greenB);
+SpriteBind("E");
+SpriteMove(277091,279247, 0, 2.5,-0.5,	0,0);
+SpriteColor(277091,277091, 0, greenR,greenG,greenB, greenR,greenG,greenB);
+SpriteBind("R");
+SpriteMove(277091,279247, 0, 3.5,-0.5,	0,0);
+SpriteColor(277091,277091, 0, greenR,greenG,greenB, greenR,greenG,greenB);
