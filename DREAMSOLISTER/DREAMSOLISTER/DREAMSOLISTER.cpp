@@ -768,26 +768,35 @@ void processScript(const std::string& path, Sprite* const bg) {
 	}
 }
 
+void collabPlaceholder() {
+	auto const bg = Storyboard::CreateSprite("p", Vector2::Zero);
+	const auto screenSquare = Vector2(Vector2::ScreenSize.x, Vector2::ScreenSize.x);
+	bg->ScaleVector(-1000, 400000, screenSquare, screenSquare);
+
+
+	processScript("collabPlaceholder.chai", bg);
+}
+
 int main() {
 		srand(time(NULL));
 
 		auto const hideBackground = Storyboard::CreateSprite("bg.jpg", Vector2::Zero, Layer::Background);
-		auto const bg = Storyboard::CreateSprite("p", Vector2::Zero, Layer::Background);
-		// For testing
-		//bg->ScaleVector(0, 300000, Vector2::ScreenSize, Vector2::ScreenSize);
 
+		collabPlaceholder();
+
+		auto const bg = Storyboard::CreateSprite("p", Vector2::Zero);
 		processBackground(bg);
-		//processScript("lyrics.chai", bg);
-		//processScript("faces.chai", bg);
-		//processScript("instruments.chai", bg);
-		//processScript("screenShots.chai", bg);
-		//processScript("swing.chai", bg);
-		//processScript("guitarSolo.chai", bg);
+		processScript("lyrics.chai", bg);
+		processScript("faces.chai", bg);
+		processScript("instruments.chai", bg);
+		processScript("screenShots.chai", bg);
+		processScript("swing.chai", bg);
+		processScript("guitarSolo.chai", bg);
 
-		//processScript("musicSheet.chai", bg);
-		//MusicSheet("voice.MusicSheet", 122, imageWidth, Color(0, 169, 195), "lyric.MusicSheet", false);
-		//MusicSheet("wind.MusicSheet", 0, imageWidth, Color(247, 255, 8), "", true);
-		//MusicSheet("drum.MusicSheet", -140, imageWidth, Color(255, 209, 219), "", false);
+		processScript("musicSheet.chai", bg);
+		MusicSheet("voice.MusicSheet", 122, imageWidth, Color(0, 169, 195), "lyric.MusicSheet", false);
+		MusicSheet("wind.MusicSheet", 0, imageWidth, Color(247, 255, 8), "", true);
+		MusicSheet("drum.MusicSheet", -140, imageWidth, Color(255, 209, 219), "", false);
 
 		processScript("anime.chai", bg);
 		processScript("animeBorders.chai", bg);

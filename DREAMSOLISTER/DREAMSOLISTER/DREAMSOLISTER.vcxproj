@@ -125,6 +125,7 @@
     <ClCompile Include="MusicSheet.cpp" />
     <None Include="anime.chai" />
     <None Include="animeBorders.chai" />
+    <None Include="collabPlaceholder.chai" />
     <None Include="faces.chai" />
     <None Include="final.chai" />
     <None Include="instruments.chai" />

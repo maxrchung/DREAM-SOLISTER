@@ -1,0 +1,44 @@
+// Default camera values so that getCameraValuesAtMilliseconds() has no issues
+CameraRotate(0,0,	0,	0,0);
+CameraMove(0,0,	0,	0,0,	0,0);
+CameraZoom(0,0,	0,	60,60);
+
+BackColor(0,0, 0, 1,1,1,	1,1,1)
+
+var blueR = 0;
+var blueG = 169.0f / 255;
+var blueB = 195.0f / 255;
+
+var yellowR = 247.0f / 255;
+var yellowG = 1;
+var yellowB = 8.0f / 255;
+
+var pinkR = 1;
+var pinkG = 0.82f;
+var pinkB = 0.86f;
+
+var greenR = 119.0f / 255;
+var greenG = 1;
+var greenB = 169.0f / 255;
+
+SpriteBind("C");
+SpriteMove(804,307091, 0, -2.5,0,	0,0);
+SpriteColor(804,804, 0, blueR,blueG,blueB, blueR,blueG,blueB);
+SpriteBind("O");
+SpriteMove(804,307091, 0, -1.5,0,	0,0);
+SpriteColor(804,804, 0, blueR,blueG,blueB, blueR,blueG,blueB);
+
+SpriteBind("L");
+SpriteMove(804,307091, 0, -0.5,0,	0,0);
+SpriteColor(804,804, 0, yellowR,yellowG,yellowB, yellowR,yellowG,yellowB);
+
+SpriteBind("L");
+SpriteMove(804,307091, 0, 0.5,0,	0,0);
+SpriteColor(804,804, 0, pinkR,pinkG,pinkB, pinkR,pinkG,pinkB);
+
+SpriteBind("A");
+SpriteMove(804,307091, 0, 1.5,0,	0,0);
+SpriteColor(804,804, 0, greenR,greenG,greenB, greenR,greenG,greenB);
+SpriteBind("B");
+SpriteMove(804,307091, 0, 2.5,0,	0,0);
+SpriteColor(804,804, 0, greenR,greenG,greenB, greenR,greenG,greenB);
