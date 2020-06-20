@@ -135,6 +135,9 @@
     <None Include="animeBorders.chai">
       <Filter>Resource Files\chai</Filter>
     </None>
+    <None Include="final.chai">
+      <Filter>Resource Files\chai</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DREAMSOLISTER.rc">
