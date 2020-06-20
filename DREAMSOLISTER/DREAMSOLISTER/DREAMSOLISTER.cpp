@@ -221,40 +221,39 @@ void setDotBackgrounds() {
 void eyeSparkle() {
 	const auto screenCenter = Vector2(-7, 15);
 	const auto startSection = 273500;
-	const auto endSection = 276000;
+	const auto fadeIn = 274500;
+	const auto endSection = 275500;
 	const auto fade = 1.0f;
 	const auto color = Color(255, 255, 255);
-	auto scale = .01;
-	auto scaleTips = Vector2(scale / 1.75, scale * 2.25);
-	auto scaleBase = Vector2(scale, scale / 1.3);
 
-	const auto position = Vector2(-7, 15);
+	const auto xDeltaRange = 7;
+	const auto yDeltaRange = 9;
 
-	auto endScale = 1.0;
-	auto endScaleTips = Vector2(endScale / 1.75, endScale * 2.25);
-	auto endScaleBase = Vector2(endScale, endScale / 1.3);
+	auto inc = 4;
+	auto scaleMulter = 3.0;
 
-	//250 x 200 y
-
-	const auto xDelta = 100;
-	const auto yDelta = 100;
-
-	auto xDeltaRange = 7;
-	auto yDeltaRange = 9;
-
-	for (auto start = startSection; start < endSection; start += 100) {
-		const auto end = start + 100;
+	for (auto start = startSection; start < endSection; start += inc) {
+		auto scale = 1.0 / (rand() % 91 + 10); // range .01 to .1
+		auto scaleTips = Vector2(scale / 1.75, scale * 2.25);
+		auto scaleBase = Vector2(scale, scale / 1.3);
+		auto endScale = scale * scaleMulter;
+		auto endScaleTips = Vector2(endScale / 1.75, endScale * 2.25);
+		auto endScaleBase = Vector2(endScale, endScale / 1.3);
+		const auto end = endSection;
 		const auto centerxDelta = rand() % (xDeltaRange * 2 + 1) - xDeltaRange;
-		const auto centeryDelta = rand() % 19 - 9;
-		const auto position = Vector2(screenCenter.x + centerxDelta, screenCenter.y + centeryDelta);
-		const auto xDelta = centerxDelta * 30;
-		const auto yDelta = centeryDelta * 20;
+		const auto centeryDelta = rand() % (yDeltaRange * 2 + 1) - yDeltaRange;
+		const auto position = Vector2(screenCenter.x, screenCenter.y);
+		const auto xDelta = centerxDelta * 50;
+		const auto yDelta = centeryDelta * 30;
+		inc += 1;
+		scaleMulter += .1;
 
 		const auto center = Storyboard::CreateSprite("circle");
 		Vector2 endPosition = Vector2(position.x + xDelta, position.y + yDelta);
 		center->Move(start, end, position, endPosition, Easing::QuintIn);
 		center->Color(start, start, color, color);
 		center->Scale(start, end, scale, endScale, Easing::QuintIn);
+		center->Fade(start, fadeIn, 0, fade, Easing::EasingIn);
 
 		const auto top = Storyboard::CreateSprite("triangle");
 		Vector2 positionTop = Vector2(position.x, position.y + 70 * scale);
@@ -262,6 +261,7 @@ void eyeSparkle() {
 		top->Move(start, end, positionTop, endPositionTop, Easing::QuintIn);
 		top->Color(start, start, color, color);
 		top->ScaleVector(start, end, scaleTips, endScaleTips, Easing::QuintIn);
+		top->Fade(start, fadeIn, 0, fade, Easing::EasingIn);
 
 		const auto baseTop = Storyboard::CreateSprite("triangle");
 		Vector2 posBaseTop = Vector2(position.x, position.y + 60 * scale);
@@ -269,6 +269,7 @@ void eyeSparkle() {
 		baseTop->Move(start, end, posBaseTop, endPosBaseTop, Easing::QuintIn);
 		baseTop->Color(start, start, color, color);
 		baseTop->ScaleVector(start, end, scaleBase, endScaleBase, Easing::QuintIn);
+		baseTop->Fade(start, fadeIn, 0, fade, Easing::EasingIn);
 
 		const auto bottom = Storyboard::CreateSprite("triangle");
 		Vector2 positionBot = Vector2(position.x, position.y - 70 * scale);
@@ -277,6 +278,7 @@ void eyeSparkle() {
 		bottom->Move(start, end, positionBot, endPositionBot, Easing::QuintIn);
 		bottom->Color(start, start, color, color);
 		bottom->ScaleVector(start, end, scaleTips, endScaleTips, Easing::QuintIn);
+		bottom->Fade(start, fadeIn, 0, fade, Easing::EasingIn);
 
 		const auto baseBottom = Storyboard::CreateSprite("triangle");
 		Vector2 posBaseBot = Vector2(position.x, position.y - 60 * scale);
@@ -285,6 +287,7 @@ void eyeSparkle() {
 		baseBottom->Move(start, end, posBaseBot, endPosBaseBot, Easing::QuintIn);
 		baseBottom->Color(start, start, color, color);
 		baseBottom->ScaleVector(start, end, scaleBase, endScaleBase, Easing::QuintIn);
+		baseBottom->Fade(start, fadeIn, 0, fade, Easing::EasingIn);
 
 		const auto right = Storyboard::CreateSprite("triangle");
 		Vector2 positionRight = Vector2(position.x + 70 * scale, position.y);
@@ -293,6 +296,7 @@ void eyeSparkle() {
 		right->Move(start, end, positionRight, endPositionRight, Easing::QuintIn);
 		right->Color(start, start, color, color);
 		right->ScaleVector(start, end, scaleTips, endScaleTips, Easing::QuintIn);
+		right->Fade(start, fadeIn, 0, fade, Easing::EasingIn);
 
 		const auto baseRight = Storyboard::CreateSprite("triangle");
 		Vector2 posBaseRight = Vector2(position.x + 60 * scale, position.y);
@@ -301,6 +305,7 @@ void eyeSparkle() {
 		baseRight->Move(start, end, posBaseRight, endPosBaseRight, Easing::QuintIn);
 		baseRight->Color(start, start, color, color);
 		baseRight->ScaleVector(start, end, scaleBase, endScaleBase, Easing::QuintIn);
+		baseRight->Fade(start, fadeIn, 0, fade, Easing::EasingIn);
 
 		const auto left = Storyboard::CreateSprite("triangle");
 		Vector2 positionLeft = Vector2(position.x - 70 * scale, position.y);
@@ -309,6 +314,7 @@ void eyeSparkle() {
 		left->Move(start, end, positionLeft, endPositionLeft, Easing::QuintIn);
 		left->Color(start, start, color, color);
 		left->ScaleVector(start, end, scaleTips, endScaleTips, Easing::QuintIn);
+		left->Fade(start, fadeIn, 0, fade, Easing::EasingIn);
 
 		const auto baseLeft = Storyboard::CreateSprite("triangle");
 		Vector2 posBaseLeft = Vector2(position.x - 60 * scale, position.y);
@@ -317,6 +323,7 @@ void eyeSparkle() {
 		baseLeft->Move(start, end, posBaseLeft, endPosBaseLeft, Easing::QuintIn);
 		baseLeft->Color(start, start, color, color);
 		baseLeft->ScaleVector(start, end, scaleBase, endScaleBase, Easing::QuintIn);
+		baseLeft->Fade(start, fadeIn, 0, fade, Easing::EasingIn);
 	}
 }
 
@@ -786,10 +793,10 @@ int main() {
 
 		eyeSparkle();
 
-		setDotBackgrounds();
+		//setDotBackgrounds();
 
-		finalExplode();
-		processScript("final.chai", bg);
+		//finalExplode();
+		//processScript("final.chai", bg);
 
 		// Blue line rectangle border
 		setBorder();
