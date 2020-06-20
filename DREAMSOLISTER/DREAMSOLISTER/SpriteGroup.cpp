@@ -90,16 +90,16 @@ void SpriteGroup::makeShapeAnimation(const ShapeAnimation& shapeAnimation) {
 		std::string path;
 		switch (shape.type) {
 			case ShapeType::Ellipse:
-				path = "circle.png";
+				path = "c";
 				break;
 			case ShapeType::Rectangle:
-				path = "square.png";
+				path = "r";
 				break;
 			case ShapeType::Semicircle:
-				path = "semicircle.png";
+				path = "s";
 				break;
 			case ShapeType::Triangle:
-				path = "triangle.png";
+				path = "t";
 				break;
 		}
 
@@ -128,16 +128,16 @@ void SpriteGroup::makeGuitarVideo(const ShapeVideo& shapeVideo) {
 		std::string path;
 		switch (first.type) {
 			case ShapeType::Ellipse:
-				path = "circle.png";
+				path = "c";
 				break;
 			case ShapeType::Rectangle:
-				path = "square.png";
+				path = "r";
 				break;
 			case ShapeType::Semicircle:
-				path = "semicircle.png";
+				path = "s";
 				break;
 			case ShapeType::Triangle:
-				path = "triangle.png";
+				path = "t";
 				break;
 		}
 		auto const sprite = Storyboard::CreateSprite(path);
@@ -187,16 +187,16 @@ void SpriteGroup::makeAnimeVideo(const ShapeVideo& shapeVideo) {
 		std::string path;
 		switch (first.type) {
 			case ShapeType::Ellipse:
-				path = "circle.png";
+				path = "c";
 				break;
 			case ShapeType::Rectangle:
-				path = "square.png";
+				path = "r";
 				break;
 			case ShapeType::Semicircle:
-				path = "semicircle.png";
+				path = "s";
 				break;
 			case ShapeType::Triangle:
-				path = "triangle.png";
+				path = "t";
 				break;
 		}
 		auto const sprite = Storyboard::CreateSprite(path);
@@ -254,7 +254,7 @@ void SpriteGroup::makeLine(const float x1, const float y1, const float x2, const
 	const auto direction = rand() % 360;
 	const auto startPosition = midPoint + Vector2(cameraScale * scale * imageWidth, 0.0f).Rotate(direction * 3.14159f / 180.0f);
 
-	auto const sprite = Storyboard::CreateSprite("square", midPoint);
+	auto const sprite = Storyboard::CreateSprite("r", midPoint);
 	sprite->Color(startOffset, startOffset, color, color);
 	sprite->Fade(startOffset, start, 0, 1.0f, Easing::EasingIn);
 	sprite->Move(startOffset, start, startPosition, midPoint, Easing::EasingIn);
@@ -269,7 +269,7 @@ void SpriteGroup::makePoint(const float x, const float y, const float pointWidth
 	const auto direction = rand() % 360;
 	const auto startPosition = position + Vector2(cameraScale * scale * imageWidth, 0.0f).Rotate(direction * 3.14159f / 180.0f);
 
-	auto const sprite = Storyboard::CreateSprite("circle", position);
+	auto const sprite = Storyboard::CreateSprite("c", position);
 	sprite->Color(startFade, startFade, color, color);
 	sprite->Fade(startFade, start, 0, 1.0f, Easing::EasingIn);
 	sprite->Move(startFade, start, startPosition, position, Easing::EasingIn);
@@ -303,7 +303,7 @@ void SpriteGroup::makeNote(const float x, const float y, const Vector2& noteScal
 	const auto direction = rand() % 360;
 	const auto startPosition = position + Vector2(cameraScale * scale * imageWidth, 0.0f).Rotate(direction * 3.14159f / 180.0f);
 
-	auto const note = Storyboard::CreateSprite("circle", position);
+	auto const note = Storyboard::CreateSprite("c", position);
 	note->Color(startOffset, startOffset, color, color);
 	note->Fade(startOffset, start, 0, 1.0f, Easing::EasingIn);;
 	note->Rotate(startOffset, start, 0, rotation + noteRotation, Easing::EasingIn);
