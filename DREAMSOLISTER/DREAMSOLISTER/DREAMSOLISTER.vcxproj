@@ -126,6 +126,7 @@
     <None Include="anime.chai" />
     <None Include="animeBorders.chai" />
     <None Include="faces.chai" />
+    <None Include="final.chai" />
     <None Include="instruments.chai" />
     <None Include="lyrics.chai" />
     <None Include="musicSheet.chai">

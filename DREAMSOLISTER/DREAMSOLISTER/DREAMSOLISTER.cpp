@@ -320,6 +320,47 @@ void eyeSparkle() {
 	}
 }
 
+void finalExplode() {
+	const auto numParticles = 400;
+	const auto start = 276732;
+	const auto fadeIn = 277810;
+	const auto end = 279247;
+	const auto fadeOut = 280684;
+
+	for (auto i = 0; i < numParticles; ++i) {
+		auto typeRand = "";
+		switch (rand() % 4) {
+			case 0: typeRand = "square"; break;
+			case 1: typeRand = "triangle"; break;
+			case 2: typeRand = "circle"; break;
+			case 3: typeRand = "semicircle"; break;
+		}
+
+		const auto startDistRand = rand() % 50 + 20;
+		const auto endDistRand = rand() % 500 + 100;
+		const auto scaleRand = (rand() % 10 + 5) / 100.0f;
+		const auto fadeRand = (rand() % 30 + 10) / 100.0f;
+
+		auto colorRand = Color();
+		switch (rand() % 4) {
+			case 0: colorRand = Color(0, 169, 195); break;
+			case 1: colorRand = Color(247, 255, 8); break;
+			case 2: colorRand = Color(255, 209, 219); break;
+			case 3: colorRand = Color(119, 255, 169); break;
+		}
+
+		Sprite* sprite = Storyboard::CreateSprite(typeRand);
+		const auto rotation = convertDegreesToRadians(rand() % 360);
+		const auto startPos = Vector2(startDistRand, 0).Rotate(rotation);
+		const auto endPos = Vector2(endDistRand, 0).Rotate(rotation);
+		sprite->Move(start, end, startPos, endPos, Easing::EasingOut);
+		sprite->Scale(start, start, scaleRand, scaleRand);
+		sprite->Color(start, start, colorRand, colorRand);
+		sprite->Fade(start, fadeIn, 0, fadeRand, Easing::EasingIn);
+		sprite->Fade(end, fadeOut, fadeRand, 0, Easing::EasingOut);
+	}
+}
+
 void setBorder() {
 	const auto borderOffset = 25.0f;
 	const auto halfSize = Vector2::ScreenSize / 2;
@@ -728,7 +769,7 @@ int main() {
 		//bg->ScaleVector(0, 300000, Vector2::ScreenSize, Vector2::ScreenSize);
 
 		processBackground(bg);
-		processScript("lyrics.chai", bg);
+		//processScript("lyrics.chai", bg);
 		//processScript("faces.chai", bg);
 		//processScript("instruments.chai", bg);
 		//processScript("screenShots.chai", bg);
@@ -743,9 +784,12 @@ int main() {
 		processScript("anime.chai", bg);
 		//processScript("animeBorders.chai", bg);
 
+		eyeSparkle();
+
 		setDotBackgrounds();
 
-		eyeSparkle();
+		finalExplode();
+		processScript("final.chai", bg);
 
 		// Blue line rectangle border
 		setBorder();

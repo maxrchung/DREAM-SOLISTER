@@ -27,4 +27,4 @@ SpriteBind("anime7");
 SpriteMove(269905, 270983, 0,	0,0,	0,0);
 
 SpriteBind("anime8");
-SpriteMove(271342, 276372, 0,	0,0,	0,0);
+SpriteMove(271342, 275654, 0,	0,0,	0,0);
