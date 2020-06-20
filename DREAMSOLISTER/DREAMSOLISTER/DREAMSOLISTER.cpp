@@ -217,6 +217,96 @@ void setDotBackground() {
 	}
 }
 
+void eyeSparkle() {
+	const auto screenCenter = Vector2(0, 0);
+	const auto start = 120000;
+	const auto end = 122000;
+	const auto fade = 1.0f;
+	const auto color = Color(119, 255, 169);
+	auto scale = .01;
+	auto scaleTips = Vector2(scale / 1.75, scale * 2.25);
+	auto scaleBase = Vector2(scale, scale / 1.3);
+
+	const auto position = Vector2(0, 0);
+
+	auto endScale = 1.0;
+	auto endScaleTips = Vector2(endScale / 1.75, endScale * 2.25);
+	auto endScaleBase = Vector2(endScale, endScale / 1.3);
+
+	const auto xDelta = 100;
+	const auto yDelta = 100;
+
+	//for (auto i = start; i < end; i += 50) {
+	const auto center = Storyboard::CreateSprite("circle");
+	Vector2 endPosition = Vector2(position.x + xDelta, position.y + yDelta);
+	center->Move(start, end, position, endPosition, Easing::QuintIn);
+	center->Color(start, start, color, color);
+	center->Scale(start, end, scale, endScale, Easing::QuintIn);
+
+	const auto top = Storyboard::CreateSprite("triangle");
+	Vector2 positionTop = Vector2(position.x, position.y + 70 * scale);
+	Vector2 endPositionTop = Vector2(position.x + xDelta, position.y + 70 * endScale + yDelta);
+	top->Move(start, end, positionTop, endPositionTop, Easing::QuintIn);
+	top->Color(start, start, color, color);
+	top->ScaleVector(start, end, scaleTips, endScaleTips, Easing::QuintIn);
+
+	const auto baseTop = Storyboard::CreateSprite("triangle");
+	Vector2 posBaseTop = Vector2(position.x, position.y + 60 * scale);
+	Vector2 endPosBaseTop = Vector2(position.x + xDelta, position.y + 60 * endScale + yDelta);
+	baseTop->Move(start, end, posBaseTop, endPosBaseTop, Easing::QuintIn);
+	baseTop->Color(start, start, color, color);
+	baseTop->ScaleVector(start, end, scaleBase, endScaleBase, Easing::QuintIn);
+
+	const auto bottom = Storyboard::CreateSprite("triangle");
+	Vector2 positionBot = Vector2(position.x, position.y - 70 * scale);
+	Vector2 endPositionBot = Vector2(position.x + xDelta, position.y - 70 * endScale + yDelta);
+	bottom->Rotate(start, start, convertDegreesToRadians(180), convertDegreesToRadians(180));
+	bottom->Move(start, end, positionBot, endPositionBot, Easing::QuintIn);
+	bottom->Color(start, start, color, color);
+	bottom->ScaleVector(start, end, scaleTips, endScaleTips, Easing::QuintIn);
+
+	const auto baseBottom = Storyboard::CreateSprite("triangle");
+	Vector2 posBaseBot = Vector2(position.x, position.y - 60 * scale);
+	Vector2 endPosBaseBot = Vector2(position.x + xDelta, position.y - 60 * endScale + yDelta);
+	baseBottom->Rotate(start, start, convertDegreesToRadians(180), convertDegreesToRadians(180));
+	baseBottom->Move(start, end, posBaseBot, endPosBaseBot, Easing::QuintIn);
+	baseBottom->Color(start, start, color, color);
+	baseBottom->ScaleVector(start, end, scaleBase, endScaleBase, Easing::QuintIn);
+
+	const auto right = Storyboard::CreateSprite("triangle");
+	Vector2 positionRight = Vector2(position.x + 70 * scale, position.y);
+	Vector2 endPositionRight = Vector2(position.x + 70 * endScale + xDelta, position.y + yDelta);
+	right->Rotate(start, start, convertDegreesToRadians(90), convertDegreesToRadians(90));
+	right->Move(start, end, positionRight, endPositionRight, Easing::QuintIn);
+	right->Color(start, start, color, color);
+	right->ScaleVector(start, end, scaleTips, endScaleTips, Easing::QuintIn);
+
+	const auto baseRight = Storyboard::CreateSprite("triangle");
+	Vector2 posBaseRight = Vector2(position.x + 60 * scale, position.y);
+	Vector2 endPosBaseRight = Vector2(position.x + 60 * endScale + xDelta, position.y + yDelta);
+	baseRight->Rotate(start, start, convertDegreesToRadians(90), convertDegreesToRadians(90));
+	baseRight->Move(start, end, posBaseRight, endPosBaseRight, Easing::QuintIn);
+	baseRight->Color(start, start, color, color);
+	baseRight->ScaleVector(start, end, scaleBase, endScaleBase, Easing::QuintIn);
+
+	const auto left = Storyboard::CreateSprite("triangle");
+	Vector2 positionLeft = Vector2(position.x - 70 * scale, position.y);
+	Vector2 endPositionLeft = Vector2(position.x - 70 * endScale + xDelta, position.y + yDelta);
+	left->Rotate(start, start, convertDegreesToRadians(-90), convertDegreesToRadians(-90));
+	left->Move(start, end, positionLeft, endPositionLeft, Easing::QuintIn);
+	left->Color(start, start, color, color);
+	left->ScaleVector(start, end, scaleTips, endScaleTips, Easing::QuintIn);
+
+	const auto baseLeft = Storyboard::CreateSprite("triangle");
+	Vector2 posBaseLeft = Vector2(position.x - 60 * scale, position.y);
+	Vector2 endPosBaseLeft = Vector2(position.x - 60 * endScale + xDelta, position.y + yDelta);
+	baseLeft->Rotate(start, start, convertDegreesToRadians(-90), convertDegreesToRadians(-90));
+	baseLeft->Move(start, end, posBaseLeft, endPosBaseLeft, Easing::QuintIn);
+	baseLeft->Color(start, start, color, color);
+	baseLeft->ScaleVector(start, end, scaleBase, endScaleBase, Easing::QuintIn);
+	
+}
+
 void setBorder() {
 	const auto borderOffset = 25.0f;
 	const auto halfSize = Vector2::ScreenSize / 2;
@@ -637,10 +727,12 @@ int main() {
 		//MusicSheet("wind.MusicSheet", 0, imageWidth, Color(247, 255, 8), "", true);
 		//MusicSheet("drum.MusicSheet", -140, imageWidth, Color(255, 209, 219), "", false);
 
-		processScript("anime.chai", bg);
-		processScript("animeBorders.chai", bg);
+		//processScript("anime.chai", bg);
+		//processScript("animeBorders.chai", bg);
 
 		//setDotBackground();
+
+		eyeSparkle();
 
 		// Blue line rectangle border
 		setBorder();
