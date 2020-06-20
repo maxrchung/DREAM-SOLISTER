@@ -153,15 +153,11 @@ void processScriptBackground(const S2VX::Back& back, Sprite* const bg) {
 	}
 }
 
-void setDotBackground() {
+void setDotBackground(const int startFadeIn, const int endFadeIn, const int startFadeOut, const int endFadeOut) {
 	const auto numDots = 50;
 	const auto dotDistance = 200;
 	const auto ellipseFactor = 1.7f;
 
-	const auto startFadeIn = 62241;
-	const auto endFadeIn = 65115;
-	const auto startFadeOut = 67989;
-	const auto endFadeOut = 69786;
 	const auto timeStep = quarter / 8;
 
 	const auto fade = 0.3f;
@@ -215,6 +211,11 @@ void setDotBackground() {
 			sprite->Scale(i, i, scale, scale);
 		}
 	}
+}
+
+void setDotBackgrounds() {
+	setDotBackground(62241, 65115, 67989, 69786);
+	setDotBackground(274935, 277091, 279247, 280684);
 }
 
 void setBorder() {
@@ -625,7 +626,7 @@ int main() {
 		//bg->ScaleVector(0, 300000, Vector2::ScreenSize, Vector2::ScreenSize);
 
 		processBackground(bg);
-		//processScript("lyrics.chai", bg);
+		processScript("lyrics.chai", bg);
 		//processScript("faces.chai", bg);
 		//processScript("instruments.chai", bg);
 		//processScript("screenShots.chai", bg);
@@ -640,7 +641,7 @@ int main() {
 		processScript("anime.chai", bg);
 		processScript("animeBorders.chai", bg);
 
-		//setDotBackground();
+		setDotBackgrounds();
 
 		// Blue line rectangle border
 		setBorder();
