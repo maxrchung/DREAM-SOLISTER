@@ -12,9 +12,8 @@ var fluteStart = 242150;
 var x = -3;
 var y = 1.27;
 
-SpriteBind("X");
+SpriteBind("microphone");
 SpriteMove(start,end, 0, x,y,	x,y);
-SpriteColor(start,start, 0, 0,0,0, 0,0,0);
 
 SpriteBind("euphonium");
 SpriteMove(start,saxEnd, 0, x,0,	x,0);
