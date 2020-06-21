@@ -15,7 +15,7 @@ var y = 1.27;
 SpriteBind("microphone");
 SpriteMove(start,end, 0, x,y,	x,y);
 
-SpriteBind("euphonium");
+SpriteBind("saxophone");
 SpriteMove(start,saxEnd, 0, x,0,	x,0);
 SpriteBind("flute");
 SpriteMove(fluteStart,end, 0, x,0,	x,0);
