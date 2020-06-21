@@ -186,7 +186,7 @@ void setDotBackground(const int startFadeIn, const int endFadeIn, const int star
 	});
 
 	for (auto i = 0; i < numDots; ++i) {
-		auto const sprite = Storyboard::CreateSprite("circle");
+		auto const sprite = Storyboard::CreateSprite("c");
 		sprite->Fade(startFadeIn, endFadeIn, 0.0f, fade, Easing::EasingIn);
 		sprite->Fade(startFadeOut, endFadeOut, fade, 0.0f, Easing::EasingOut);
 
@@ -222,7 +222,7 @@ void eyeSparkle() {
 	const auto screenCenter = Vector2(-7, 15);
 	const auto startSection = 273500;
 	const auto fadeIn = 274500;
-	const auto endSection = 275500;
+	const auto endSection = 276372;
 	const auto fade = 1.0f;
 	const auto color = Color(255, 255, 255);
 
@@ -248,14 +248,14 @@ void eyeSparkle() {
 		inc += 1;
 		scaleMulter += .1;
 
-		const auto center = Storyboard::CreateSprite("circle");
+		const auto center = Storyboard::CreateSprite("c");
 		Vector2 endPosition = Vector2(position.x + xDelta, position.y + yDelta);
 		center->Move(start, end, position, endPosition, Easing::QuintIn);
 		center->Color(start, start, color, color);
 		center->Scale(start, end, scale, endScale, Easing::QuintIn);
 		center->Fade(start, fadeIn, 0, fade, Easing::EasingIn);
 
-		const auto top = Storyboard::CreateSprite("triangle");
+		const auto top = Storyboard::CreateSprite("t");
 		Vector2 positionTop = Vector2(position.x, position.y + 70 * scale);
 		Vector2 endPositionTop = Vector2(position.x + xDelta, position.y + 70 * endScale + yDelta);
 		top->Move(start, end, positionTop, endPositionTop, Easing::QuintIn);
@@ -263,7 +263,7 @@ void eyeSparkle() {
 		top->ScaleVector(start, end, scaleTips, endScaleTips, Easing::QuintIn);
 		top->Fade(start, fadeIn, 0, fade, Easing::EasingIn);
 
-		const auto baseTop = Storyboard::CreateSprite("triangle");
+		const auto baseTop = Storyboard::CreateSprite("t");
 		Vector2 posBaseTop = Vector2(position.x, position.y + 60 * scale);
 		Vector2 endPosBaseTop = Vector2(position.x + xDelta, position.y + 60 * endScale + yDelta);
 		baseTop->Move(start, end, posBaseTop, endPosBaseTop, Easing::QuintIn);
@@ -271,7 +271,7 @@ void eyeSparkle() {
 		baseTop->ScaleVector(start, end, scaleBase, endScaleBase, Easing::QuintIn);
 		baseTop->Fade(start, fadeIn, 0, fade, Easing::EasingIn);
 
-		const auto bottom = Storyboard::CreateSprite("triangle");
+		const auto bottom = Storyboard::CreateSprite("t");
 		Vector2 positionBot = Vector2(position.x, position.y - 70 * scale);
 		Vector2 endPositionBot = Vector2(position.x + xDelta, position.y - 70 * endScale + yDelta);
 		bottom->Rotate(start, start, convertDegreesToRadians(180), convertDegreesToRadians(180));
@@ -280,7 +280,7 @@ void eyeSparkle() {
 		bottom->ScaleVector(start, end, scaleTips, endScaleTips, Easing::QuintIn);
 		bottom->Fade(start, fadeIn, 0, fade, Easing::EasingIn);
 
-		const auto baseBottom = Storyboard::CreateSprite("triangle");
+		const auto baseBottom = Storyboard::CreateSprite("t");
 		Vector2 posBaseBot = Vector2(position.x, position.y - 60 * scale);
 		Vector2 endPosBaseBot = Vector2(position.x + xDelta, position.y - 60 * endScale + yDelta);
 		baseBottom->Rotate(start, start, convertDegreesToRadians(180), convertDegreesToRadians(180));
@@ -289,7 +289,7 @@ void eyeSparkle() {
 		baseBottom->ScaleVector(start, end, scaleBase, endScaleBase, Easing::QuintIn);
 		baseBottom->Fade(start, fadeIn, 0, fade, Easing::EasingIn);
 
-		const auto right = Storyboard::CreateSprite("triangle");
+		const auto right = Storyboard::CreateSprite("t");
 		Vector2 positionRight = Vector2(position.x + 70 * scale, position.y);
 		Vector2 endPositionRight = Vector2(position.x + 70 * endScale + xDelta, position.y + yDelta);
 		right->Rotate(start, start, convertDegreesToRadians(90), convertDegreesToRadians(90));
@@ -298,7 +298,7 @@ void eyeSparkle() {
 		right->ScaleVector(start, end, scaleTips, endScaleTips, Easing::QuintIn);
 		right->Fade(start, fadeIn, 0, fade, Easing::EasingIn);
 
-		const auto baseRight = Storyboard::CreateSprite("triangle");
+		const auto baseRight = Storyboard::CreateSprite("t");
 		Vector2 posBaseRight = Vector2(position.x + 60 * scale, position.y);
 		Vector2 endPosBaseRight = Vector2(position.x + 60 * endScale + xDelta, position.y + yDelta);
 		baseRight->Rotate(start, start, convertDegreesToRadians(90), convertDegreesToRadians(90));
@@ -307,7 +307,7 @@ void eyeSparkle() {
 		baseRight->ScaleVector(start, end, scaleBase, endScaleBase, Easing::QuintIn);
 		baseRight->Fade(start, fadeIn, 0, fade, Easing::EasingIn);
 
-		const auto left = Storyboard::CreateSprite("triangle");
+		const auto left = Storyboard::CreateSprite("t");
 		Vector2 positionLeft = Vector2(position.x - 70 * scale, position.y);
 		Vector2 endPositionLeft = Vector2(position.x - 70 * endScale + xDelta, position.y + yDelta);
 		left->Rotate(start, start, convertDegreesToRadians(-90), convertDegreesToRadians(-90));
@@ -316,7 +316,7 @@ void eyeSparkle() {
 		left->ScaleVector(start, end, scaleTips, endScaleTips, Easing::QuintIn);
 		left->Fade(start, fadeIn, 0, fade, Easing::EasingIn);
 
-		const auto baseLeft = Storyboard::CreateSprite("triangle");
+		const auto baseLeft = Storyboard::CreateSprite("t");
 		Vector2 posBaseLeft = Vector2(position.x - 60 * scale, position.y);
 		Vector2 endPosBaseLeft = Vector2(position.x - 60 * endScale + xDelta, position.y + yDelta);
 		baseLeft->Rotate(start, start, convertDegreesToRadians(-90), convertDegreesToRadians(-90));
@@ -324,6 +324,7 @@ void eyeSparkle() {
 		baseLeft->Color(start, start, color, color);
 		baseLeft->ScaleVector(start, end, scaleBase, endScaleBase, Easing::QuintIn);
 		baseLeft->Fade(start, fadeIn, 0, fade, Easing::EasingIn);
+		baseLeft->Fade(275654, 276372, fade, 0, Easing::EasingOut);
 	}
 }
 
@@ -337,10 +338,10 @@ void finalExplode() {
 	for (auto i = 0; i < numParticles; ++i) {
 		auto typeRand = "";
 		switch (rand() % 4) {
-			case 0: typeRand = "square"; break;
-			case 1: typeRand = "triangle"; break;
-			case 2: typeRand = "circle"; break;
-			case 3: typeRand = "semicircle"; break;
+			case 0: typeRand = "r"; break;
+			case 1: typeRand = "t"; break;
+			case 2: typeRand = "c"; break;
+			case 3: typeRand = "s"; break;
 		}
 
 		const auto startDistRand = rand() % 50 + 20;
@@ -376,7 +377,7 @@ void setBorder() {
 	const auto horizontal = Vector2(Vector2::ScreenSize.x - 2 * borderOffset + width, width);
 	const auto vertical = Vector2(width, Vector2::ScreenSize.y - 2 * borderOffset + width);
 
-	auto const top = Storyboard::CreateSprite("pixel", Vector2(0.0f, halfSize.y - borderOffset));
+	auto const top = Storyboard::CreateSprite("p", Vector2(0.0f, halfSize.y - borderOffset));
 	top->Color(29187, 29187, color, color);
 	top->ScaleVector(29187, 30624, Vector2(width, width), horizontal, Easing::EasingIn);
 	top->ScaleVector(65115, 70145, horizontal, Vector2(width, width), Easing::EasingOut);
@@ -397,7 +398,7 @@ void setBorder() {
 	top->ScaleVector(279247, 280684, horizontal, Vector2(width, width), Easing::EasingOut);
 	top->Fade(279247, 280684, 1, 0, Easing::EasingOut);
 
-	auto const bottom = Storyboard::CreateSprite("pixel", Vector2(0.0f, -(halfSize.y - borderOffset)));
+	auto const bottom = Storyboard::CreateSprite("p", Vector2(0.0f, -(halfSize.y - borderOffset)));
 	bottom->Color(29187, 29187, color, color);
 	bottom->ScaleVector(29187, 30624, Vector2(width, width), horizontal, Easing::EasingIn);
 	bottom->ScaleVector(65115, 70145, horizontal, Vector2(width, width), Easing::EasingOut);
@@ -418,7 +419,7 @@ void setBorder() {
 	bottom->ScaleVector(279247, 280684, horizontal, Vector2(width, width), Easing::EasingOut);
 	bottom->Fade(279247, 280684, 1, 0, Easing::EasingOut);
 
-	auto const right = Storyboard::CreateSprite("pixel", Vector2(-(halfSize.x - borderOffset), 0.0f));
+	auto const right = Storyboard::CreateSprite("p", Vector2(-(halfSize.x - borderOffset), 0.0f));
 	right->Color(29187, 29187, color, color);
 	right->ScaleVector(29187, 30624, Vector2(width, width), vertical, Easing::EasingIn);
 	right->ScaleVector(65115, 70145, vertical, Vector2(width, width), Easing::EasingOut);
@@ -439,7 +440,7 @@ void setBorder() {
 	right->ScaleVector(279247, 280684, vertical, Vector2(width, width), Easing::EasingOut);
 	right->Fade(279247, 280684, 1, 0, Easing::EasingOut);
 
-	auto const left = Storyboard::CreateSprite("pixel", Vector2(halfSize.x - borderOffset, 0.0f));
+	auto const left = Storyboard::CreateSprite("p", Vector2(halfSize.x - borderOffset, 0.0f));
 	left->Color(29187, 29187, color, color);
 	left->ScaleVector(29187, 30624, Vector2(width, width), vertical, Easing::EasingIn);
 	left->ScaleVector(65115, 70145, vertical, Vector2(width, width), Easing::EasingOut);
@@ -474,34 +475,34 @@ void setS2VXBorder() {
 	const auto end = 1882;
 	const auto fadeEnd = end + quarter * 2;
 
-	auto const bg = Storyboard::CreateSprite("pixel", Vector2::Zero, Layer::Background);
+	auto const bg = Storyboard::CreateSprite("p", Vector2::Zero, Layer::Background);
 	bg->Scale(fadeStart, start, 0, horizontal.x, Easing::EasingIn);
 	bg->Fade(fadeStart, start, 0, 1, Easing::EasingIn);
 	bg->Scale(end, fadeEnd, horizontal.x, 0, Easing::EasingOut);
 	bg->Fade(end, fadeEnd, 1, 0, Easing::EasingOut);
 
-	auto const top = Storyboard::CreateSprite("pixel", Vector2(0.0f, halfSize.y - borderOffset));
+	auto const top = Storyboard::CreateSprite("p", Vector2(0.0f, halfSize.y - borderOffset));
 	top->Color(0, 0, color, color);
 	top->ScaleVector(fadeStart, start, Vector2(width, width), horizontal, Easing::EasingIn);
 	top->Fade(fadeStart, start, 0, 1, Easing::EasingIn);
 	top->ScaleVector(end, fadeEnd, horizontal, Vector2(width, width), Easing::EasingOut);
 	top->Fade(end, fadeEnd, 1, 0, Easing::EasingOut);
 
-	auto const bottom = Storyboard::CreateSprite("pixel", Vector2(0.0f, -(halfSize.y - borderOffset)));
+	auto const bottom = Storyboard::CreateSprite("p", Vector2(0.0f, -(halfSize.y - borderOffset)));
 	bottom->Color(0, 0, color, color);
 	bottom->ScaleVector(fadeStart, start, Vector2(width, width), horizontal, Easing::EasingIn);
 	bottom->Fade(fadeStart, start, 0, 1, Easing::EasingIn);
 	bottom->ScaleVector(end, fadeEnd, horizontal, Vector2(width, width), Easing::EasingOut);
 	bottom->Fade(end, fadeEnd, 1, 0, Easing::EasingOut);
 
-	auto const right = Storyboard::CreateSprite("pixel", Vector2(-(halfSize.x - borderOffset), 0.0f));
+	auto const right = Storyboard::CreateSprite("p", Vector2(-(halfSize.x - borderOffset), 0.0f));
 	right->Color(0, 0, color, color);
 	right->ScaleVector(fadeStart, start, Vector2(width, width), vertical, Easing::EasingIn);
 	right->Fade(fadeStart, start, 0, 1, Easing::EasingIn);
 	right->ScaleVector(end, fadeEnd, vertical, Vector2(width, width), Easing::EasingOut);
 	right->Fade(end, fadeEnd, 1, 0, Easing::EasingOut);
 
-	auto const left = Storyboard::CreateSprite("pixel", Vector2(halfSize.x - borderOffset, 0.0f));
+	auto const left = Storyboard::CreateSprite("p", Vector2(halfSize.x - borderOffset, 0.0f));
 	left->Color(0, 0, color, color);
 	left->ScaleVector(fadeStart, start, Vector2(width, width), vertical, Easing::EasingIn);
 	left->Fade(fadeStart, start, 0, 1, Easing::EasingIn);
@@ -767,36 +768,45 @@ void processScript(const std::string& path, Sprite* const bg) {
 	}
 }
 
+void collabPlaceholder() {
+	auto const bg = Storyboard::CreateSprite("p", Vector2::Zero);
+	const auto screenSquare = Vector2(Vector2::ScreenSize.x, Vector2::ScreenSize.x);
+	bg->ScaleVector(-1000, 400000, screenSquare, screenSquare);
+
+
+	processScript("collabPlaceholder.chai", bg);
+}
+
 int main() {
 		srand(time(NULL));
 
 		auto const hideBackground = Storyboard::CreateSprite("bg.jpg", Vector2::Zero, Layer::Background);
-		auto const bg = Storyboard::CreateSprite("pixel", Vector2::Zero, Layer::Background);
-		// For testing
-		//bg->ScaleVector(0, 300000, Vector2::ScreenSize, Vector2::ScreenSize);
 
+		collabPlaceholder();
+
+		auto const bg = Storyboard::CreateSprite("p", Vector2::Zero);
 		processBackground(bg);
-		//processScript("lyrics.chai", bg);
-		//processScript("faces.chai", bg);
-		//processScript("instruments.chai", bg);
-		//processScript("screenShots.chai", bg);
-		//processScript("swing.chai", bg);
-		//processScript("guitarSolo.chai", bg);
+		processScript("lyrics.chai", bg);
+		processScript("faces.chai", bg);
+		processScript("instruments.chai", bg);
+		processScript("screenShots.chai", bg);
+		processScript("swing.chai", bg);
+		processScript("guitarSolo.chai", bg);
 
-		//processScript("musicSheet.chai", bg);
-		//MusicSheet("voice.MusicSheet", 122, imageWidth, Color(0, 169, 195), "lyric.MusicSheet", false);
-		//MusicSheet("wind.MusicSheet", 0, imageWidth, Color(247, 255, 8), "", true);
-		//MusicSheet("drum.MusicSheet", -140, imageWidth, Color(255, 209, 219), "", false);
+		processScript("musicSheet.chai", bg);
+		MusicSheet("voice.MusicSheet", 122, imageWidth, Color(0, 169, 195), "lyric.MusicSheet", false);
+		MusicSheet("wind.MusicSheet", 0, imageWidth, Color(247, 255, 8), "", true);
+		MusicSheet("drum.MusicSheet", -140, imageWidth, Color(255, 209, 219), "", false);
 
 		processScript("anime.chai", bg);
-		//processScript("animeBorders.chai", bg);
+		processScript("animeBorders.chai", bg);
 
 		eyeSparkle();
 
-		//setDotBackgrounds();
+		setDotBackgrounds();
 
-		//finalExplode();
-		//processScript("final.chai", bg);
+		finalExplode();
+		processScript("final.chai", bg);
 
 		// Blue line rectangle border
 		setBorder();
